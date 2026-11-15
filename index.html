@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OSMOTEC - Sistema Integral</title>
+    <title>OSMOTEC - Sistema Consola Profesional</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Firebase SDKs -->
@@ -11,95 +11,104 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
     <!-- Librería para generar Códigos QR -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <!-- Librería para generar PDFs -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         @media print {
             body * { visibility: hidden; }
             #seccionImpresionQR, #seccionImpresionQR * { visibility: visible; }
             #seccionImpresionQR { 
                 position: absolute; left: 0; top: 0; width: 5cm; height: 5cm; 
-                border: 1px dashed #94a3b8 !important;
-                display: flex; flex-direction: column; align-items: center; justify-content: center; background: white;
+                border: 1px dashed #38bdf8 !important;
+                display: flex; flex-direction: column; align-items: center; justify-content: center; background: #020617; color: white;
             }
         }
+        /* Scrollbar estilo consola */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
     </style>
 </head>
-<body class="bg-slate-100 font-sans text-slate-800">
+<body class="bg-slate-950 font-sans text-slate-100 selection:bg-cyan-500 selection:text-slate-950">
 
-    <!-- ================= PANTALLA DE SELECCIÓN INICIAL (HOME) ================= -->
-    <div id="vistaSelector" class="flex flex-col items-center justify-center min-h-screen p-4 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white">
-        <div class="max-w-md w-full bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl text-center space-y-6">
+    <!-- ================= PANTALLA DE SELECCIÓN INICIAL (HOME CONSOLA) ================= -->
+    <div id="vistaSelector" class="flex flex-col items-center justify-center min-h-screen p-4 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 text-white relative overflow-hidden">
+        <!-- Efecto de brillo de fondo tipo terminal -->
+        <div class="absolute w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none -bottom-20 -right-20"></div>
+
+        <div class="max-w-md w-full bg-slate-900/80 backdrop-blur-2xl p-8 rounded-3xl border border-cyan-500/30 shadow-[0_0_30px_rgba(6,182,212,0.15)] text-center space-y-6 relative z-10">
             <div class="flex flex-col items-center gap-3">
-                <img src="osmo.jpg" alt="Osmo" class="w-20 h-20 rounded-full object-cover border-4 border-blue-400 shadow-lg" onerror="this.style.display='none'">
+                <img src="osmo.jpg" alt="Osmo" class="w-20 h-20 rounded-2xl object-cover border-2 border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.4)]" onerror="this.style.display='none'">
                 <div>
-                    <h1 class="text-2xl font-black tracking-tight text-white">🛠️ OSMOTEC</h1>
-                    <p class="text-xs text-blue-200 mt-1">Los Amates, Izabal • Sistema Profesional</p>
+                    <h1 class="text-2xl font-black tracking-tight text-white flex items-center justify-center gap-2">
+                        <span class="text-cyan-400">⚡</span> OSMOTEC <span class="text-xs font-mono text-cyan-400 px-2 py-0.5 bg-cyan-950 border border-cyan-800 rounded-md">v2.5</span>
+                    </h1>
+                    <p class="text-xs text-slate-400 mt-1 font-mono">Los Amates, Izabal • Consola de Operaciones</p>
                 </div>
             </div>
 
-            <p class="text-xs text-slate-300">Seleccione el módulo al que desea ingresar:</p>
+            <p class="text-xs text-slate-300 font-mono">Seleccione el subsistema operativo:</p>
 
             <div class="space-y-3">
-                <button onclick="abrirModulo('taller')" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 px-6 rounded-2xl text-sm shadow-lg transition transform active:scale-95 flex items-center justify-center gap-3 border border-blue-400/30">
-                    <span class="text-xl">📋</span>
-                    <div class="text-left">
-                        <div>Módulo de Taller</div>
-                        <div class="text-[10px] text-blue-200 font-normal">Órdenes, diagnósticos, garantías y técnicos</div>
+                <button onclick="abrirModulo('taller')" class="w-full bg-gradient-to-r from-blue-700 to-cyan-600 hover:from-blue-600 hover:to-cyan-500 text-white font-bold py-4 px-6 rounded-2xl text-sm shadow-[0_0_15px_rgba(37,99,235,0.4)] transition transform active:scale-95 flex items-center justify-center gap-3 border border-cyan-400/40">
+                    <span class="text-xl">🛠️</span>
+                    <div class="text-left font-mono">
+                        <div class="tracking-wide">MÓDULO DE TALLER</div>
+                        <div class="text-[10px] text-cyan-200 font-normal">Órdenes, diagnósticos, garantías y técnicos</div>
                     </div>
                 </button>
 
-                <button onclick="abrirModulo('tienda')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 px-6 rounded-2xl text-sm shadow-lg transition transform active:scale-95 flex items-center justify-center gap-3 border border-emerald-400/30">
+                <button onclick="abrirModulo('tienda')" class="w-full bg-gradient-to-r from-emerald-700 to-teal-600 hover:from-emerald-600 hover:to-teal-500 text-white font-bold py-4 px-6 rounded-2xl text-sm shadow-[0_0_15px_rgba(16,185,129,0.4)] transition transform active:scale-95 flex items-center justify-center gap-3 border border-emerald-400/40">
                     <span class="text-xl">🛒</span>
-                    <div class="text-left">
-                        <div>Módulo de Tienda / POS</div>
-                        <div class="text-[10px] text-emerald-200 font-normal">Inventario, POS, ventas y reportes</div>
+                    <div class="text-left font-mono">
+                        <div class="tracking-wide">MÓDULO TIENDA / POS</div>
+                        <div class="text-[10px] text-emerald-200 font-normal">Inventario, caja registradora y reportes</div>
                     </div>
                 </button>
             </div>
 
-            <div class="pt-2 border-t border-white/10">
-                <button onclick="cerrarAplicacion()" class="text-xs text-red-400 hover:text-red-300 font-semibold transition">
-                    ❌ Cerrar Aplicación
+            <div class="pt-2 border-t border-slate-800">
+                <button onclick="cerrarAplicacion()" class="text-xs text-red-400 hover:text-red-300 font-mono transition">
+                    [ ❌ Cerrar Sistema ]
                 </button>
             </div>
         </div>
     </div>
 
     <!-- ================= CONTENEDOR PRINCIPAL DE LA APLICACIÓN ================= -->
-    <div id="contenedorApp" class="hidden min-h-screen flex flex-col">
+    <div id="contenedorApp" class="hidden min-h-screen flex flex-col bg-slate-950">
         
-        <!-- Header Moderno -->
-        <header class="bg-gradient-to-r from-blue-700 to-blue-800 text-white shadow-lg p-4 sticky top-0 z-50">
+        <!-- Header Estilo Consola -->
+        <header class="bg-slate-900/90 backdrop-blur-xl border-b border-slate-800 text-white shadow-lg p-4 sticky top-0 z-50">
             <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
                 
                 <div class="flex items-center gap-3">
-                    <img src="osmo.jpg" alt="Osmo" class="w-10 h-10 rounded-full object-cover border-2 border-white/80 shadow-md" onerror="this.style.display='none'">
+                    <img src="osmo.jpg" alt="Osmo" class="w-10 h-10 rounded-xl object-cover border border-cyan-400/60 shadow-[0_0_10px_rgba(6,182,212,0.3)]" onerror="this.style.display='none'">
                     <div>
-                        <h1 class="text-lg font-extrabold tracking-tight flex items-center gap-2" id="tituloHeaderModulo">
-                            🛠️ Taller OSMOTEC
+                        <h1 class="text-base font-black tracking-tight flex items-center gap-2 font-mono text-cyan-400" id="tituloHeaderModulo">
+                            🛠️ OSMOTEC CONSOLA
                         </h1>
-                        <span class="text-xs text-blue-200">Los Amates, Izabal</span>
+                        <span class="text-[10px] text-slate-400 font-mono">Los Amates, Izabal • En línea</span>
                     </div>
                 </div>
                 
                 <!-- Pestañas de Taller -->
-                <nav id="navTaller" class="flex items-center gap-1.5 bg-blue-900/40 p-1.5 rounded-2xl border border-blue-500/30 shadow-inner flex-wrap justify-center">
-                    <button onclick="cambiarPestanaTaller('ordenes')" id="btnTabOrdenes" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white text-blue-800 shadow-md">📋 Órdenes</button>
-                    <button onclick="cambiarPestanaTaller('diagnostico')" id="btnTabDiagnostico" class="px-3 py-1.5 rounded-xl text-xs font-semibold text-blue-100 hover:bg-blue-800/60">🔍 Diagnóstico & Reporte</button>
-                    <button onclick="cambiarPestanaTaller('garantia')" id="btnTabGarantia" class="px-3 py-1.5 rounded-xl text-xs font-semibold text-blue-100 hover:bg-blue-800/60">🛡️ Garantía & QR</button>
-                    <button onclick="cambiarPestanaTaller('tecnicos')" id="btnTabTecnicos" class="px-3 py-1.5 rounded-xl text-xs font-semibold text-blue-100 hover:bg-blue-800/60">👨‍🔧 Técnicos</button>
+                <nav id="navTaller" class="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 shadow-inner flex-wrap justify-center">
+                    <button onclick="cambiarPestanaTaller('ordenes')" id="btnTabOrdenes" class="px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-cyan-600 text-slate-950 shadow-[0_0_10px_rgba(6,182,212,0.3)]">📋 Órdenes</button>
+                    <button onclick="cambiarPestanaTaller('diagnostico')" id="btnTabDiagnostico" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">🔍 Diagnóstico</button>
+                    <button onclick="cambiarPestanaTaller('garantia')" id="btnTabGarantia" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">🛡️ Garantías</button>
+                    <button onclick="cambiarPestanaTaller('tecnicos')" id="btnTabTecnicos" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">👨‍🔧 Técnicos</button>
                 </nav>
 
                 <!-- Pestañas de Tienda -->
-                <nav id="navTienda" class="hidden flex items-center gap-1.5 bg-emerald-900/40 p-1.5 rounded-2xl border border-emerald-500/30 shadow-inner flex-wrap justify-center">
-                    <button onclick="cambiarPestanaTienda('inventario')" id="btnTabInventario" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white text-emerald-800 shadow-md">📦 Inventario</button>
-                    <button onclick="cambiarPestanaTienda('ventas')" id="btnTabVentas" class="px-3 py-1.5 rounded-xl text-xs font-semibold text-emerald-100 hover:bg-emerald-800/60">💵 Ventas / POS</button>
-                    <button onclick="cambiarPestanaTienda('reportes')" id="btnTabReportes" class="px-3 py-1.5 rounded-xl text-xs font-semibold text-emerald-100 hover:bg-emerald-800/60">📊 Reportes</button>
+                <nav id="navTienda" class="hidden flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 shadow-inner flex-wrap justify-center">
+                    <button onclick="cambiarPestanaTienda('inventario')" id="btnTabInventario" class="px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-emerald-600 text-slate-950 shadow-[0_0_10px_rgba(16,185,129,0.3)]">📦 Inventario</button>
+                    <button onclick="cambiarPestanaTienda('ventas')" id="btnTabVentas" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">💵 POS / Caja</button>
+                    <button onclick="cambiarPestanaTienda('reportes')" id="btnTabReportes" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">📊 Reportes</button>
                 </nav>
 
                 <div>
-                    <button onclick="volverAlSelector()" class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 bg-slate-900 text-white hover:bg-slate-800 shadow-md border border-slate-700">
+                    <button onclick="volverAlSelector()" class="px-3.5 py-2 rounded-xl text-xs font-mono font-bold transition-all duration-200 flex items-center gap-1.5 bg-slate-950 text-cyan-400 hover:bg-slate-800 shadow-md border border-cyan-900">
                         🏠 Menú Principal
                     </button>
                 </div>
@@ -110,31 +119,31 @@
             
             <!-- ================= VISTAS DE TALLER ================= -->
             <div id="vistaOrdenes" class="hidden grid-cols-1 lg:grid-cols-3 gap-6">
-                <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 lg:col-span-1 h-fit">
-                    <h2 id="tituloFormOrden" class="text-base font-bold text-blue-700 mb-4 border-b pb-2 flex items-center gap-2">➕ Registrar Nuevo Equipo</h2>
+                <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-1 h-fit">
+                    <h2 id="tituloFormOrden" class="text-sm font-mono font-bold text-cyan-400 mb-4 border-b border-slate-800 pb-2 flex items-center gap-2">➕ Registrar Nuevo Equipo</h2>
                     <form id="ordenForm" class="space-y-3">
                         <input type="hidden" id="editOrdenId">
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Nombre del Cliente</label>
-                            <input type="text" id="cliente" required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:outline-none">
+                            <label class="block text-xs font-mono text-slate-400 mb-1">Nombre del Cliente</label>
+                            <input type="text" id="cliente" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200 focus:outline-none focus:border-cyan-500 font-mono">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">WhatsApp del Cliente</label>
-                            <input type="text" id="whatsapp" placeholder="Ej: 35650881" required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:outline-none">
+                            <label class="block text-xs font-mono text-slate-400 mb-1">WhatsApp del Cliente</label>
+                            <input type="text" id="whatsapp" placeholder="Ej: 35650881" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200 focus:outline-none focus:border-cyan-500 font-mono">
                         </div>
                         <div class="grid grid-cols-2 gap-2">
                             <div>
-                                <label class="block text-xs font-bold text-slate-600 mb-1">Marca</label>
-                                <input type="text" id="marca" placeholder="Epson..." required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:outline-none">
+                                <label class="block text-xs font-mono text-slate-400 mb-1">Marca</label>
+                                <input type="text" id="marca" placeholder="Epson..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200 focus:outline-none focus:border-cyan-500 font-mono">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-slate-600 mb-1">Modelo</label>
-                                <input type="text" id="modelo" placeholder="L3210..." required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:outline-none">
+                                <label class="block text-xs font-mono text-slate-400 mb-1">Modelo</label>
+                                <input type="text" id="modelo" placeholder="L3210..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200 focus:outline-none focus:border-cyan-500 font-mono">
                             </div>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Tipo de Equipo</label>
-                            <select id="tipoEquipo" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm bg-white">
+                            <label class="block text-xs font-mono text-slate-400 mb-1">Tipo de Equipo</label>
+                            <select id="tipoEquipo" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200 font-mono focus:outline-none focus:border-cyan-500">
                                 <option value="Impresora">Impresora</option>
                                 <option value="Laptop">Laptop</option>
                                 <option value="PC Escritorio">PC de Escritorio</option>
@@ -142,48 +151,48 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Falla / Error reportado</label>
-                            <textarea id="errorReportado" rows="2" required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm"></textarea>
+                            <label class="block text-xs font-mono text-slate-400 mb-1">Falla / Error reportado</label>
+                            <textarea id="errorReportado" rows="2" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200 font-mono focus:outline-none focus:border-cyan-500"></textarea>
                         </div>
                         <div class="grid grid-cols-2 gap-2">
                             <div>
-                                <label class="block text-xs font-bold text-slate-600 mb-1">Tiempo sin uso</label>
-                                <input type="text" id="tiempoSinUso" placeholder="Ej: 6 meses" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm">
+                                <label class="block text-xs font-mono text-slate-400 mb-1">Tiempo sin uso</label>
+                                <input type="text" id="tiempoSinUso" placeholder="Ej: 6 meses" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200 font-mono">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-slate-600 mb-1">Accesorios</label>
-                                <input type="text" id="accesorios" placeholder="Cargador..." class="w-full border border-slate-300 rounded-xl p-2.5 text-sm">
+                                <label class="block text-xs font-mono text-slate-400 mb-1">Accesorios</label>
+                                <input type="text" id="accesorios" placeholder="Cargador..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200 font-mono">
                             </div>
                         </div>
-                        <div class="flex gap-2">
-                            <button type="submit" id="btnGuardarOrden" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-sm shadow-md">
-                                Guardar Orden en Taller
+                        <div class="flex gap-2 pt-2">
+                            <button type="submit" id="btnGuardarOrden" class="w-full bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-mono font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(6,182,212,0.3)] transition">
+                                Guardar Orden en Consola
                             </button>
-                            <button type="button" id="btnCancelarEdicionOrden" onclick="cancelarEdicionOrden()" class="hidden bg-slate-400 hover:bg-slate-500 text-white font-bold py-3 px-4 rounded-xl text-sm shadow-md">
+                            <button type="button" id="btnCancelarEdicionOrden" onclick="cancelarEdicionOrden()" class="hidden bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono font-bold py-3 px-4 rounded-xl text-sm">
                                 Cancelar
                             </button>
                         </div>
                     </form>
                 </section>
 
-                <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 lg:col-span-2">
-                    <div class="flex flex-col sm:flex-row justify-between items-center mb-4 border-b pb-3 gap-2">
-                        <h2 class="text-base font-bold text-slate-700">📋 Listado de Órdenes Activas</h2>
-                        <input type="text" id="buscarOrden" placeholder="Buscar equipo o cliente..." class="border border-slate-300 rounded-xl p-2 text-sm w-full sm:w-64 focus:outline-none">
+                <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-2">
+                    <div class="flex flex-col sm:flex-row justify-between items-center mb-4 border-b border-slate-800 pb-3 gap-2">
+                        <h2 class="text-sm font-mono font-bold text-slate-200">📋 Órdenes Activas en Taller</h2>
+                        <input type="text" id="buscarOrden" placeholder="Buscar equipo o cliente..." class="bg-slate-950 border border-slate-800 rounded-xl p-2 text-sm text-slate-200 font-mono w-full sm:w-64 focus:outline-none focus:border-cyan-500">
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse text-sm">
                             <thead>
-                                <tr class="bg-slate-50 text-slate-700 border-b text-xs uppercase">
-                                    <th class="p-3">Equipo</th>
+                                <tr class="bg-slate-950 text-slate-400 border-b border-slate-800 text-[11px] font-mono uppercase">
+                                    <th class="p-3">ID / Equipo</th>
                                     <th class="p-3">Cliente / WA</th>
                                     <th class="p-3">Falla & Accesorios</th>
-                                    <th class="p-3">Técnico Asignado</th>
+                                    <th class="p-3">Técnico</th>
                                     <th class="p-3">Estado</th>
                                     <th class="p-3 text-center">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="tablaOrdenes" class="divide-y divide-slate-100"></tbody>
+                            <tbody id="tablaOrdenes" class="divide-y divide-slate-800/60 font-mono text-xs"></tbody>
                         </table>
                     </div>
                 </section>
@@ -192,117 +201,117 @@
             <!-- VISTA DIAGNÓSTICO Y REPORTE FINAL -->
             <div id="vistaDiagnostico" class="hidden space-y-6">
                 <!-- 1. Diagnóstico Inicial -->
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80">
-                    <div class="flex flex-col sm:flex-row justify-between items-center mb-4 border-b pb-3 gap-2">
-                        <h2 class="text-base font-bold text-blue-700">🔍 1. Diagnóstico Inicial</h2>
-                        <input type="text" id="buscarDiagnostico" placeholder="Filtrar por equipo o cliente..." class="border rounded-xl p-2 text-sm w-full sm:w-64 focus:outline-none">
+                <div class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800">
+                    <div class="flex flex-col sm:flex-row justify-between items-center mb-4 border-b border-slate-800 pb-3 gap-2">
+                        <h2 class="text-sm font-mono font-bold text-cyan-400">🔍 1. Diagnóstico Inicial</h2>
+                        <input type="text" id="buscarDiagnostico" placeholder="Filtrar..." class="bg-slate-950 border border-slate-800 rounded-xl p-2 text-sm text-slate-200 font-mono w-full sm:w-64 focus:outline-none focus:border-cyan-500">
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse text-sm">
+                        <table class="w-full text-left border-collapse text-sm font-mono">
                             <thead>
-                                <tr class="bg-slate-50 text-xs uppercase text-slate-700 border-b">
+                                <tr class="bg-slate-950 text-[11px] uppercase text-slate-400 border-b border-slate-800">
                                     <th class="p-3 w-1/5">Equipo</th>
                                     <th class="p-3 w-1/5">Cliente / WA</th>
                                     <th class="p-3 w-2/5">Diagnóstico Inicial</th>
                                     <th class="p-3 w-1/5 text-center">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="tablaDiagnosticoInicial" class="divide-y"></tbody>
+                            <tbody id="tablaDiagnosticoInicial" class="divide-y divide-slate-800/60 text-xs"></tbody>
                         </table>
                     </div>
                 </div>
 
                 <!-- 2. Reporte Final, Costo y Entrega -->
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80">
-                    <div class="flex flex-col sm:flex-row justify-between items-center mb-4 border-b pb-3 gap-2">
-                        <h2 class="text-base font-bold text-emerald-700">📌 2. Reporte Final, Costo y Entrega</h2>
-                        <input type="text" id="buscarReporteFinal" placeholder="Filtrar por equipo o cliente..." class="border rounded-xl p-2 text-sm w-full sm:w-64 focus:outline-none">
+                <div class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800">
+                    <div class="flex flex-col sm:flex-row justify-between items-center mb-4 border-b border-slate-800 pb-3 gap-2">
+                        <h2 class="text-sm font-mono font-bold text-emerald-400">📌 2. Reporte Final, Costo y Entrega</h2>
+                        <input type="text" id="buscarReporteFinal" placeholder="Filtrar..." class="bg-slate-950 border border-slate-800 rounded-xl p-2 text-sm text-slate-200 font-mono w-full sm:w-64 focus:outline-none focus:border-emerald-500">
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse text-sm">
+                        <table class="w-full text-left border-collapse text-sm font-mono">
                             <thead>
-                                <tr class="bg-slate-50 text-xs uppercase text-slate-700 border-b">
+                                <tr class="bg-slate-950 text-[11px] uppercase text-slate-400 border-b border-slate-800">
                                     <th class="p-3 w-1/5">Equipo</th>
-                                    <th class="p-3 w-2/5">Reporte Final / Sin arreglo amplio</th>
+                                    <th class="p-3 w-2/5">Reporte Final</th>
                                     <th class="p-3 w-1/5">Cobro (Q.) / Estado</th>
                                     <th class="p-3 w-1/5 text-center">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="tablaReporteFinal" class="divide-y"></tbody>
+                            <tbody id="tablaReporteFinal" class="divide-y divide-slate-800/60 text-xs"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
             <div id="vistaGarantia" class="hidden grid-cols-1 lg:grid-cols-3 gap-6">
-                <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 lg:col-span-1 h-fit">
-                    <h2 class="text-base font-bold text-blue-700 mb-4 border-b pb-2">🛡️ Asignar Garantía</h2>
-                    <div class="space-y-3">
+                <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-1 h-fit">
+                    <h2 class="text-sm font-mono font-bold text-cyan-400 mb-4 border-b border-slate-800 pb-2">🛡️ Asignar Garantía</h2>
+                    <div class="space-y-3 font-mono">
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Seleccionar Equipo</label>
-                            <select id="selectEquipoGarantia" onchange="cargarDatosGarantia()" class="w-full border rounded-xl p-2.5 text-sm bg-white">
+                            <label class="block text-xs text-slate-400 mb-1">Seleccionar Equipo</label>
+                            <select id="selectEquipoGarantia" onchange="cargarDatosGarantia()" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200">
                                 <option value="">-- Seleccione --</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Resumen del Trabajo</label>
-                            <textarea id="infoTrabajoGarantia" rows="3" readonly class="w-full border bg-slate-50 rounded-xl p-2.5 text-xs"></textarea>
+                            <label class="block text-xs text-slate-400 mb-1">Resumen del Trabajo</label>
+                            <textarea id="infoTrabajoGarantia" rows="3" readonly class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-400"></textarea>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-blue-700 mb-1">Días de Garantía (1-15)</label>
-                            <input type="number" id="diasGarantia" min="1" max="15" value="15" class="w-full border-2 border-blue-200 rounded-xl p-2.5 text-sm font-bold bg-blue-50">
+                            <label class="block text-xs text-cyan-400 mb-1">Días de Garantía (1-15)</label>
+                            <input type="number" id="diasGarantia" min="1" max="15" value="15" class="w-full bg-slate-950 border-2 border-cyan-500/50 rounded-xl p-2.5 text-sm font-bold text-cyan-300">
                         </div>
-                        <button onclick="generarQR()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-sm shadow-md">
+                        <button onclick="generarQR()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)] transition">
                             🖨️ Generar Etiqueta QR con Osmo
                         </button>
                     </div>
                 </section>
 
-                <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 lg:col-span-2 flex flex-col items-center justify-center text-center">
-                    <h2 class="text-base font-bold text-slate-700 mb-2 border-b pb-2 w-full text-left">📱 Etiqueta QR de Garantía</h2>
-                    <div id="seccionImpresionQR" class="p-1 border-2 border-dashed border-slate-400 rounded-xl bg-white flex flex-col items-center justify-between shadow-sm" style="width: 5cm; height: 5cm;">
+                <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-2 flex flex-col items-center justify-center text-center">
+                    <h2 class="text-sm font-mono font-bold text-slate-200 mb-2 border-b border-slate-800 pb-2 w-full text-left">📱 Etiqueta QR de Garantía</h2>
+                    <div id="seccionImpresionQR" class="p-2 border-2 border-dashed border-cyan-500/40 rounded-xl bg-slate-950 flex flex-col items-center justify-between shadow-lg" style="width: 5cm; height: 5cm;">
                         <div class="flex items-center justify-center gap-1">
                             <img src="osmo.jpg" class="w-3.5 h-3.5 rounded-full object-cover" onerror="this.style.display='none'">
-                            <span class="text-[8px] font-bold text-blue-700">OSMOTEC - GARANTÍA</span>
+                            <span class="text-[8px] font-mono font-bold text-cyan-400">OSMOTEC - GARANTÍA</span>
                         </div>
-                        <div id="qrcode" class="flex justify-center items-center my-auto"></div>
-                        <div id="qrInfoTexto" class="text-[7px] text-slate-600 font-medium leading-tight text-center">Seleccione un equipo</div>
+                        <div id="qrcode" class="flex justify-center items-center my-auto bg-white p-1 rounded"></div>
+                        <div id="qrInfoTexto" class="text-[7px] font-mono text-slate-300 font-medium leading-tight text-center">Seleccione un equipo</div>
                     </div>
-                    <button onclick="window.print()" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-2.5 rounded-xl text-xs shadow-md">
+                    <button onclick="window.print()" class="mt-4 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-mono font-bold px-6 py-2.5 rounded-xl text-xs shadow-md transition">
                         🖨️ Imprimir Etiqueta QR
                     </button>
                 </section>
             </div>
 
             <div id="vistaTecnicos" class="hidden grid-cols-1 md:grid-cols-3 gap-6">
-                <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 md:col-span-1 h-fit">
-                    <h2 class="text-base font-bold text-blue-700 mb-4 border-b pb-2">👨‍🔧 Agregar Técnico</h2>
-                    <form id="tecnicoForm" class="space-y-3">
+                <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 md:col-span-1 h-fit">
+                    <h2 class="text-sm font-mono font-bold text-cyan-400 mb-4 border-b border-slate-800 pb-2">👨‍🔧 Agregar Técnico</h2>
+                    <form id="tecnicoForm" class="space-y-3 font-mono">
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Nombre / Alias</label>
-                            <input type="text" id="nombreTecnico" required class="w-full border rounded-xl p-2.5 text-sm">
+                            <label class="block text-xs text-slate-400 mb-1">Nombre / Alias</label>
+                            <input type="text" id="nombreTecnico" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Especialidad</label>
-                            <input type="text" id="especialidad" placeholder="Ej: Impresoras" class="w-full border rounded-xl p-2.5 text-sm">
+                            <label class="block text-xs text-slate-400 mb-1">Especialidad</label>
+                            <input type="text" id="especialidad" placeholder="Ej: Impresoras" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200">
                         </div>
-                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-sm">
+                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3 rounded-xl text-sm transition">
                             Guardar Técnico
                         </button>
                     </form>
                 </section>
-                <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 md:col-span-2">
-                    <h2 class="text-base font-bold text-slate-700 mb-4 border-b pb-3">👥 Técnicos Activos</h2>
+                <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 md:col-span-2">
+                    <h2 class="text-sm font-mono font-bold text-slate-200 mb-4 border-b border-slate-800 pb-3">👥 Técnicos Activos</h2>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse text-sm">
+                        <table class="w-full text-left border-collapse text-sm font-mono">
                             <thead>
-                                <tr class="bg-slate-50 text-xs uppercase text-slate-700 border-b">
+                                <tr class="bg-slate-950 text-xs uppercase text-slate-400 border-b border-slate-800">
                                     <th class="p-3">Nombre</th>
                                     <th class="p-3">Especialidad</th>
                                     <th class="p-3 text-center">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="tablaTecnicos" class="divide-y"></tbody>
+                            <tbody id="tablaTecnicos" class="divide-y divide-slate-800/60 text-xs"></tbody>
                         </table>
                     </div>
                 </section>
@@ -310,55 +319,55 @@
 
             <!-- ================= VISTAS DE TIENDA ================= -->
             <div id="vistaTiendaInventario" class="hidden grid-cols-1 lg:grid-cols-3 gap-6">
-                <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 lg:col-span-1 h-fit">
-                    <h2 id="tituloFormProducto" class="text-base font-bold text-emerald-700 mb-4 border-b pb-2">📦 Nuevo Producto / Accesorio</h2>
-                    <form id="tiendaForm" class="space-y-3">
+                <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-1 h-fit">
+                    <h2 id="tituloFormProducto" class="text-sm font-mono font-bold text-emerald-400 mb-4 border-b border-slate-800 pb-2">📦 Nuevo Producto / Accesorio</h2>
+                    <form id="tiendaForm" class="space-y-3 font-mono">
                         <input type="hidden" id="editProductId">
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Nombre del Producto</label>
-                            <input type="text" id="nombreProducto" required placeholder="Ej: Mouse gamer..." class="w-full border rounded-xl p-2.5 text-sm">
+                            <label class="block text-xs text-slate-400 mb-1">Nombre del Producto</label>
+                            <input type="text" id="nombreProducto" required placeholder="Ej: Mouse gamer..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200">
                         </div>
                         <div class="grid grid-cols-2 gap-2">
                             <div>
-                                <label class="block text-xs font-bold text-slate-600 mb-1">Precio Costo (Q.)</label>
-                                <input type="number" step="0.01" id="costoProducto" required placeholder="0.00" class="w-full border rounded-xl p-2.5 text-sm">
+                                <label class="block text-xs text-slate-400 mb-1">Costo (Q.)</label>
+                                <input type="number" step="0.01" id="costoProducto" required placeholder="0.00" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-slate-600 mb-1">Precio Venta (Q.)</label>
-                                <input type="number" step="0.01" id="precioProducto" required placeholder="0.00" class="w-full border rounded-xl p-2.5 text-sm">
+                                <label class="block text-xs text-slate-400 mb-1">Venta (Q.)</label>
+                                <input type="number" step="0.01" id="precioProducto" required placeholder="0.00" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200">
                             </div>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Stock / Cantidad</label>
-                            <input type="number" id="stockProducto" required placeholder="10" class="w-full border rounded-xl p-2.5 text-sm">
+                            <label class="block text-xs text-slate-400 mb-1">Stock / Cantidad</label>
+                            <input type="number" id="stockProducto" required placeholder="10" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200">
                         </div>
-                        <div class="flex gap-2">
-                            <button type="submit" id="btnGuardarProducto" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-sm shadow-md">
+                        <div class="flex gap-2 pt-2">
+                            <button type="submit" id="btnGuardarProducto" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)] transition">
                                 Guardar en Inventario
                             </button>
-                            <button type="button" id="btnCancelarEdicion" onclick="cancelarEdicionProducto()" class="hidden bg-slate-400 hover:bg-slate-500 text-white font-bold py-3 px-4 rounded-xl text-sm shadow-md">
+                            <button type="button" id="btnCancelarEdicion" onclick="cancelarEdicionProducto()" class="hidden bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3 px-4 rounded-xl text-sm">
                                 Cancelar
                             </button>
                         </div>
                     </form>
                 </section>
 
-                <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 lg:col-span-2">
-                    <div class="flex justify-between items-center mb-4 border-b pb-3 gap-2">
-                        <h2 class="text-base font-bold text-slate-700">📋 Inventario y Alertas de Stock</h2>
-                        <input type="text" id="buscarTienda" placeholder="Buscar producto..." class="border rounded-xl p-2 text-sm w-64 focus:outline-none">
+                <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-2">
+                    <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3 gap-2">
+                        <h2 class="text-sm font-mono font-bold text-slate-200">📋 Inventario y Alertas de Stock</h2>
+                        <input type="text" id="buscarTienda" placeholder="Buscar producto..." class="bg-slate-950 border border-slate-800 rounded-xl p-2 text-sm text-slate-200 font-mono w-64 focus:outline-none focus:border-emerald-500">
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse text-sm">
+                        <table class="w-full text-left border-collapse text-sm font-mono">
                             <thead>
-                                <tr class="bg-slate-50 text-xs uppercase text-slate-700 border-b">
+                                <tr class="bg-slate-950 text-xs uppercase text-slate-400 border-b border-slate-800">
                                     <th class="p-3">Producto</th>
                                     <th class="p-3">Costo / Venta</th>
                                     <th class="p-3">Stock & Alerta</th>
                                     <th class="p-3 text-center">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="tablaTienda" class="divide-y"></tbody>
+                            <tbody id="tablaTienda" class="divide-y divide-slate-800/60 text-xs"></tbody>
                         </table>
                     </div>
                 </section>
@@ -366,15 +375,15 @@
 
             <!-- VISTA VENTAS / POS -->
             <div id="vistaTiendaVentas" class="hidden grid-cols-1 lg:grid-cols-2 gap-6">
-                <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 space-y-4">
+                <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 space-y-4">
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">🔍</span>
-                        <input type="text" id="buscarVentaInput" oninput="filtrarCatalogoVenta()" placeholder="Buscar medicamento para agregar..." class="w-full border border-slate-300 rounded-xl pl-10 pr-3 py-2.5 text-sm focus:outline-none">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">🔍</span>
+                        <input type="text" id="buscarVentaInput" oninput="filtrarCatalogoVenta()" placeholder="Buscar producto para agregar..." class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-3 py-2.5 text-sm text-slate-200 font-mono focus:outline-none focus:border-emerald-500">
                     </div>
 
-                    <div class="bg-blue-900 text-white text-xs font-bold rounded-xl p-3 flex justify-between items-center">
-                        <span>Producto / Ubicación</span>
-                        <span>Stock / Precio</span>
+                    <div class="bg-slate-950 text-emerald-400 text-xs font-mono font-bold rounded-xl p-3 flex justify-between items-center border border-slate-800">
+                        <span>PRODUCTO / UBICACIÓN</span>
+                        <span>STOCK / PRECIO</span>
                     </div>
 
                     <div id="listaProductosPOS" class="space-y-2 overflow-y-auto max-h-[450px]">
@@ -382,40 +391,40 @@
                     </div>
                 </section>
 
-                <section class="bg-emerald-50/50 p-5 rounded-2xl shadow-sm border border-emerald-200/80 space-y-4 h-fit">
-                    <h2 class="text-sm font-black text-center text-emerald-800 tracking-wide uppercase">🧾 Ticket de Venta Actual</h2>
+                <section class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-emerald-500/30 space-y-4 h-fit">
+                    <h2 class="text-sm font-mono font-black text-center text-emerald-400 tracking-wider uppercase">🧾 Ticket de Venta Actual</h2>
                     
-                    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
-                        <div class="bg-blue-900 text-white text-xs font-bold grid grid-cols-12 p-2.5">
+                    <div class="bg-slate-950 rounded-xl border border-slate-800 overflow-hidden shadow-inner">
+                        <div class="bg-slate-900 text-slate-300 text-xs font-mono font-bold grid grid-cols-12 p-2.5 border-b border-slate-800">
                             <span class="col-span-6">Producto</span>
                             <span class="col-span-2 text-center">Cant.</span>
                             <span class="col-span-3 text-right">Subtotal</span>
                             <span class="col-span-1 text-center">X</span>
                         </div>
-                        <div id="tablaTicketCarrito" class="divide-y divide-slate-100 min-h-[100px] max-h-[200px] overflow-y-auto text-xs">
-                            <div class="p-4 text-center text-slate-400 italic">El carrito está vacío</div>
+                        <div id="tablaTicketCarrito" class="divide-y divide-slate-800/60 min-h-[100px] max-h-[200px] overflow-y-auto text-xs font-mono">
+                            <div class="p-4 text-center text-slate-500 italic">El carrito está vacío</div>
                         </div>
                     </div>
 
-                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-3">
-                        <div class="flex justify-between items-center font-black text-base text-slate-800 border-b pb-2">
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 shadow-sm space-y-3 font-mono">
+                        <div class="flex justify-between items-center font-black text-base text-slate-100 border-b border-slate-800 pb-2">
                             <span>Total a Pagar:</span>
-                            <span id="totalCarrito" class="text-emerald-700 text-lg">Q0.00</span>
+                            <span id="totalCarrito" class="text-emerald-400 text-lg">Q0.00</span>
                         </div>
 
                         <div class="grid grid-cols-2 gap-3">
                             <div>
-                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Efectivo Recibido (Q):</label>
-                                <input type="number" step="0.01" id="efectivoRecibido" oninput="calcularVuelto()" placeholder="0.00" class="w-full border border-slate-300 rounded-xl p-2 text-sm font-bold focus:outline-none">
+                                <label class="block text-[11px] font-bold text-slate-400 mb-1">Efectivo Recibido (Q):</label>
+                                <input type="number" step="0.01" id="efectivoRecibido" oninput="calcularVuelto()" placeholder="0.00" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-2 text-sm text-slate-100 font-bold focus:outline-none focus:border-emerald-500">
                             </div>
                             <div>
-                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Su Vuelto (Cambio):</label>
-                                <div id="vueltoCambio" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2 text-sm font-black text-blue-700 flex items-center">Q0.00</div>
+                                <label class="block text-[11px] font-bold text-slate-400 mb-1">Su Vuelto (Cambio):</label>
+                                <div id="vueltoCambio" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-2 text-sm font-black text-cyan-400 flex items-center">Q0.00</div>
                             </div>
                         </div>
 
-                        <button onclick="procesarVentaEImprimir()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl text-sm shadow-md transition flex items-center justify-center gap-2">
-                            ✅ Cobrar e Imprimir / Guardar PDF
+                        <button onclick="procesarVentaEImprimir()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3.5 rounded-xl text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)] transition flex items-center justify-center gap-2">
+                            ✅ Cobrar e Imprimir / Guardar Factura
                         </button>
                     </div>
                 </section>
@@ -423,56 +432,56 @@
 
             <!-- VISTA REPORTES -->
             <div id="vistaTiendaReportes" class="hidden space-y-6">
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4">
                     <div>
-                        <h2 class="text-base font-bold text-slate-700">📊 Reportes Financieros de Tienda</h2>
-                        <p class="text-xs text-slate-500">Visualiza ingresos, ganancias netas y desglose por producto</p>
+                        <h2 class="text-sm font-mono font-bold text-slate-200">📊 Reportes Financieros de Tienda</h2>
+                        <p class="text-xs text-slate-400 font-mono">Visualiza ingresos, ganancias netas y métricas de caja</p>
                     </div>
-                    <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-                        <button onclick="enviarWhatsAppAgotadosReportes()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-md transition flex items-center gap-1.5">
-                            📱 Enviar Reporte de Agotados por WhatsApp
+                    <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto font-mono">
+                        <button onclick="enviarWhatsAppAgotadosReportes()" class="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs shadow-md transition flex items-center gap-1.5">
+                            📱 Enviar Reporte Agotados WSP
                         </button>
-                        <select id="filtroPeriodoReporte" onchange="aplicarFiltroReportes()" class="border border-slate-300 rounded-xl p-2.5 text-xs font-bold bg-slate-50 text-slate-700 focus:outline-none">
-                            <option value="dia">📅 Reporte de Hoy (Día)</option>
+                        <select id="filtroPeriodoReporte" onchange="aplicarFiltroReportes()" class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs font-bold text-slate-300 focus:outline-none">
+                            <option value="dia">📅 Reporte de Hoy</option>
                             <option value="mes">📆 Reporte de este Mes</option>
                             <option value="todos">📜 Histórico Completo</option>
                         </select>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono">
+                    <div class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 flex items-center justify-between">
                         <div>
-                            <p class="text-xs font-bold text-slate-500 uppercase">Ingresos Totales</p>
-                            <h3 class="text-2xl font-black text-emerald-700 mt-1" id="reporteTotalIngresos">Q. 0.00</h3>
+                            <p class="text-xs font-bold text-slate-400 uppercase">Ingresos Totales</p>
+                            <h3 class="text-2xl font-black text-emerald-400 mt-1" id="reporteTotalIngresos">Q. 0.00</h3>
                         </div>
-                        <div class="p-3 bg-emerald-50 text-emerald-600 rounded-2xl text-2xl">💰</div>
+                        <div class="p-3 bg-emerald-950/60 text-emerald-400 rounded-2xl text-2xl border border-emerald-800/50">💰</div>
                     </div>
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
+                    <div class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 flex items-center justify-between">
                         <div>
-                            <p class="text-xs font-bold text-slate-500 uppercase">Ganancia Neta</p>
-                            <h3 class="text-2xl font-black text-blue-700 mt-1" id="reporteTotalGanancia">Q. 0.00</h3>
+                            <p class="text-xs font-bold text-slate-400 uppercase">Ganancia Neta</p>
+                            <h3 class="text-2xl font-black text-cyan-400 mt-1" id="reporteTotalGanancia">Q. 0.00</h3>
                         </div>
-                        <div class="p-3 bg-blue-50 text-blue-600 rounded-2xl text-2xl">📈</div>
+                        <div class="p-3 bg-cyan-950/60 text-cyan-400 rounded-2xl text-2xl border border-cyan-800/50">📈</div>
                     </div>
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
+                    <div class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 flex items-center justify-between">
                         <div>
-                            <p class="text-xs font-bold text-slate-500 uppercase">Ventas Realizadas</p>
-                            <h3 class="text-2xl font-black text-slate-700 mt-1" id="reporteTotalVentas">0</h3>
+                            <p class="text-xs font-bold text-slate-400 uppercase">Ventas Realizadas</p>
+                            <h3 class="text-2xl font-black text-slate-200 mt-1" id="reporteTotalVentas">0</h3>
                         </div>
-                        <div class="p-3 bg-slate-100 text-slate-600 rounded-2xl text-2xl">🛒</div>
+                        <div class="p-3 bg-slate-950/60 text-slate-300 rounded-2xl text-2xl border border-slate-800">🛒</div>
                     </div>
                 </div>
 
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80">
-                    <div class="flex justify-between items-center mb-4 border-b pb-3 gap-2">
-                        <h2 class="text-base font-bold text-slate-700">📜 Detalle de Ventas y Ganancias</h2>
-                        <input type="text" id="buscarReporteVentas" placeholder="Buscar producto..." class="border rounded-xl p-2 text-sm w-64 focus:outline-none">
+                <div class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800">
+                    <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3 gap-2">
+                        <h2 class="text-sm font-mono font-bold text-slate-200">📜 Detalle de Ventas y Ganancias</h2>
+                        <input type="text" id="buscarReporteVentas" placeholder="Buscar producto..." class="bg-slate-950 border border-slate-800 rounded-xl p-2 text-sm text-slate-200 font-mono w-64 focus:outline-none">
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse text-sm">
+                        <table class="w-full text-left border-collapse text-sm font-mono">
                             <thead>
-                                <tr class="bg-slate-50 text-xs uppercase text-slate-700 border-b">
+                                <tr class="bg-slate-950 text-xs uppercase text-slate-400 border-b border-slate-800">
                                     <th class="p-3">Fecha / Hora</th>
                                     <th class="p-3">Productos Detalle</th>
                                     <th class="p-3">Venta Total</th>
@@ -480,7 +489,7 @@
                                     <th class="p-3 text-center">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="tablaReporteVentas" class="divide-y"></tbody>
+                            <tbody id="tablaReporteVentas" class="divide-y divide-slate-800/60 text-xs"></tbody>
                         </table>
                     </div>
                 </div>
@@ -524,12 +533,12 @@
             if (modulo === 'taller') {
                 navTaller.classList.remove('hidden');
                 navTienda.classList.add('hidden');
-                tituloHeader.innerHTML = "🛠️ Taller OSMOTEC";
+                tituloHeader.innerHTML = "🛠️ TALLER OSMOTEC";
                 cambiarPestanaTaller('ordenes');
             } else if (modulo === 'tienda') {
                 navTaller.classList.add('hidden');
                 navTienda.classList.remove('hidden');
-                tituloHeader.innerHTML = "🛒 Tienda OSMOTEC";
+                tituloHeader.innerHTML = "🛒 TIENDA OSMOTEC";
                 cambiarPestanaTienda('inventario');
             }
         }
@@ -553,8 +562,8 @@
             document.getElementById('vistaTiendaVentas').classList.add('hidden');
             document.getElementById('vistaTiendaReportes').classList.add('hidden');
 
-            const estiloInactivo = "px-3 py-1.5 rounded-xl text-xs font-semibold text-blue-100 hover:bg-blue-800/60";
-            const estiloActivo = "px-3 py-1.5 rounded-xl text-xs font-bold bg-white text-blue-800 shadow-md";
+            const estiloInactivo = "px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800";
+            const estiloActivo = "px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-cyan-600 text-slate-950 shadow-[0_0_10px_rgba(6,182,212,0.3)]";
 
             document.getElementById('btnTabOrdenes').className = estiloInactivo;
             document.getElementById('btnTabDiagnostico').className = estiloInactivo;
@@ -594,8 +603,8 @@
             document.getElementById('vistaGarantia').classList.add('hidden');
             document.getElementById('vistaTecnicos').classList.add('hidden');
 
-            const estiloInactivo = "px-3 py-1.5 rounded-xl text-xs font-semibold text-emerald-100 hover:bg-emerald-800/60";
-            const estiloActivo = "px-3 py-1.5 rounded-xl text-xs font-bold bg-white text-emerald-800 shadow-md";
+            const estiloInactivo = "px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800";
+            const estiloActivo = "px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-emerald-600 text-slate-950 shadow-[0_0_10px_rgba(16,185,129,0.3)]";
 
             document.getElementById('btnTabInventario').className = estiloInactivo;
             document.getElementById('btnTabVentas').className = estiloInactivo;
@@ -618,10 +627,10 @@
         }
 
         function cerrarAplicacion() {
-            if (confirm('¿Desea salir de la aplicación?')) {
+            if (confirm('¿Desea salir de la consola?')) {
                 window.close();
                 setTimeout(() => {
-                    document.body.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: #f1f5f9; font-family: Arial;"><h1>🔒 Aplicación Cerrada</h1></div>`;
+                    document.body.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: #020617; color: #38bdf8; font-family: monospace;"><h1>[ 🔒 CONSOLA CERRADA ]</h1></div>`;
                 }, 200);
             }
         }
@@ -645,7 +654,7 @@
             snapshot.forEach((doc) => {
                 const t = doc.data();
                 listaTecnicosGlobal.push(t.nombre);
-                tabla.innerHTML += `<tr class="hover:bg-slate-50"><td class="p-3 font-bold">👨‍🔧 ${t.nombre}</td><td class="p-3 text-xs">${t.especialidad}</td><td class="p-3 text-center"><button onclick="db.collection('tecnicos_taller').doc('${doc.id}').delete()" class="text-red-500 text-xs px-2 py-1 bg-red-50 rounded-lg">Eliminar</button></td></tr>`;
+                tabla.innerHTML += `<tr class="hover:bg-slate-900"><td class="p-3 font-bold text-cyan-400">👨‍🔧 ${t.nombre}</td><td class="p-3 text-xs text-slate-300">${t.especialidad}</td><td class="p-3 text-center"><button onclick="db.collection('tecnicos_taller').doc('${doc.id}').delete()" class="text-red-400 text-xs px-2 py-1 bg-red-950/50 border border-red-900 rounded-lg">Eliminar</button></td></tr>`;
             });
             renderizarTodoTaller(todasLasOrdenesGlobal);
         });
@@ -676,10 +685,11 @@
                 datosOrden.costoReparacion = '0.00';
                 datosOrden.estadoPago = 'Pendiente pago';
                 datosOrden.estado = 'Pendiente';
+                datosOrden.rawTimestamp = Date.now();
                 datosOrden.fecha = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                 
                 await db.collection('ordenes_taller').add(datosOrden);
-                alert('¡Equipo registrado en taller!');
+                alert('¡Equipo registrado en consola!');
                 ordenForm.reset();
             }
         });
@@ -695,9 +705,9 @@
             document.getElementById('tiempoSinUso').value = tiempoSinUso;
             document.getElementById('accesorios').value = accesorios;
 
-            document.getElementById('tituloFormOrden').textContent = "✏️ Modificar Orden de Taller";
+            document.getElementById('tituloFormOrden').textContent = "✏️ Modificar Orden";
             document.getElementById('btnGuardarOrden').textContent = "Actualizar Orden";
-            document.getElementById('btnGuardarOrden').className = "w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-sm shadow-md";
+            document.getElementById('btnGuardarOrden').className = "w-full bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-mono font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(6,182,212,0.3)] transition";
             document.getElementById('btnCancelarEdicionOrden').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -706,14 +716,17 @@
             ordenForm.reset();
             document.getElementById('editOrdenId').value = '';
             document.getElementById('tituloFormOrden').textContent = "➕ Registrar Nuevo Equipo";
-            document.getElementById('btnGuardarOrden').textContent = "Guardar Orden en Taller";
-            document.getElementById('btnGuardarOrden').className = "w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-sm shadow-md";
+            document.getElementById('btnGuardarOrden').textContent = "Guardar Orden en Consola";
+            document.getElementById('btnGuardarOrden').className = "w-full bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-mono font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(6,182,212,0.3)] transition";
             document.getElementById('btnCancelarEdicionOrden').classList.add('hidden');
         }
 
-        db.collection('ordenes_taller').orderBy('fecha', 'desc').onSnapshot((snapshot) => {
+        db.collection('ordenes_taller').orderBy('rawTimestamp', 'asc').onSnapshot((snapshot) => {
             todasLasOrdenesGlobal = [];
-            snapshot.forEach((doc) => todasLasOrdenesGlobal.push({ id: doc.id, ...doc.data() }));
+            let contadorID = 1;
+            snapshot.forEach((doc) => {
+                todasLasOrdenesGlobal.push({ id: doc.id, numeroOrden: contadorID++, ...doc.data() });
+            });
             renderizarTodoTaller(todasLasOrdenesGlobal);
             renderizarDiagnosticoYReportes(todasLasOrdenesGlobal);
         });
@@ -722,7 +735,7 @@
             const t1 = document.getElementById('tablaOrdenes');
             t1.innerHTML = '';
             if (ordenes.length === 0) {
-                t1.innerHTML = `<tr><td colspan="6" class="text-center p-4 text-slate-400">Sin órdenes registradas.</td></tr>`;
+                t1.innerHTML = `<tr><td colspan="6" class="text-center p-4 text-slate-500">Sin órdenes registradas.</td></tr>`;
                 return;
             }
 
@@ -734,20 +747,24 @@
                 });
 
                 t1.innerHTML += `
-                    <tr class="hover:bg-slate-50 text-xs align-top">
-                        <td class="p-3 font-bold">${o.marca} ${o.modelo}<br><span class="text-[10px] text-slate-400">${o.fecha}</span></td>
-                        <td class="p-3">${o.cliente}<br><a href="https://wa.me/502${o.whatsapp}" target="_blank" class="text-emerald-600 font-bold">📱 ${o.whatsapp}</a></td>
-                        <td class="p-3"><span class="text-red-600 font-bold">Falla:</span> ${o.errorReportado}<br><span class="text-slate-500">Accesorios: ${o.accesorios || 'Ninguno'}</span></td>
+                    <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
                         <td class="p-3">
-                            <select id="tec_${o.id}" onchange="asignarTecnicoOrden('${o.id}')" class="w-full border rounded-xl p-2 text-xs bg-white font-bold text-blue-700">
+                            <span class="bg-cyan-950 border border-cyan-800 text-cyan-400 font-black px-2 py-0.5 rounded text-xs">#${o.numeroOrden || 1}</span><br>
+                            <span class="font-bold text-slate-200 mt-1 block">${o.marca} ${o.modelo}</span>
+                            <span class="text-[10px] text-slate-500">${o.fecha}</span>
+                        </td>
+                        <td class="p-3 text-slate-300">${o.cliente}<br><a href="https://wa.me/502${o.whatsapp}" target="_blank" class="text-emerald-400 font-bold hover:underline">📱 ${o.whatsapp}</a></td>
+                        <td class="p-3 text-slate-300"><span class="text-red-400 font-bold">Falla:</span> ${o.errorReportado}<br><span class="text-slate-500">Accesorios: ${o.accesorios || 'Ninguno'}</span></td>
+                        <td class="p-3">
+                            <select id="tec_${o.id}" onchange="asignarTecnicoOrden('${o.id}')" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-xs text-cyan-300 font-bold focus:outline-none">
                                 ${opcionesTecnicos}
                             </select>
                         </td>
-                        <td class="p-3"><span class="px-2 py-1 rounded-full font-bold bg-amber-100 text-amber-800">${o.estado}</span></td>
+                        <td class="p-3"><span class="px-2.5 py-1 rounded-full font-bold bg-amber-950/60 text-amber-400 border border-amber-800/50 text-[10px]">${o.estado}</span></td>
                         <td class="p-3 text-center space-y-1">
-                            <button onclick="descargarTicketPDF('${o.cliente}', '${o.whatsapp}', '${o.tipoEquipo}', '${o.marca}', '${o.modelo}', '${o.errorReportado}', '${o.accesorios}', '${o.fecha}')" class="w-full bg-amber-600 text-white px-2 py-1 rounded-xl text-xs font-bold shadow-sm">📄 Ticket</button>
-                            <button onclick="prepararEdicionOrden('${o.id}', '${o.cliente}', '${o.whatsapp}', '${o.marca}', '${o.modelo}', '${o.tipoEquipo}', '${o.errorReportado}', '${o.tiempoSinUso || ''}', '${o.accesorios || ''}')" class="w-full bg-blue-50 text-blue-600 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-blue-100 transition">✏️ Modificar</button>
-                            <button onclick="if(confirm('¿Desea eliminar esta orden de taller?')) { db.collection('ordenes_taller').doc('${o.id}').delete(); }" class="w-full bg-red-50 text-red-500 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-red-100 transition">🗑️ Eliminar</button>
+                            <button onclick="descargarTicketPDF('${o.cliente}', '${o.whatsapp}', '${o.tipoEquipo}', '${o.marca}', '${o.modelo}', '${o.errorReportado}', '${o.accesorios}', '${o.fecha}', '${o.numeroOrden || 1}')" class="w-full bg-amber-600 hover:bg-amber-500 text-slate-950 px-2 py-1 rounded-lg text-xs font-bold shadow">📄 Ficha</button>
+                            <button onclick="prepararEdicionOrden('${o.id}', '${o.cliente}', '${o.whatsapp}', '${o.marca}', '${o.modelo}', '${o.tipoEquipo}', '${o.errorReportado}', '${o.tiempoSinUso || ''}', '${o.accesorios || ''}')" class="w-full bg-slate-800 text-cyan-400 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-slate-700">✏️ Modificar</button>
+                            <button onclick="if(confirm('¿Desea eliminar esta orden?')) { db.collection('ordenes_taller').doc('${o.id}').delete(); }" class="w-full bg-red-950/60 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-red-900 border border-red-900/50">🗑️ Eliminar</button>
                         </td>
                     </tr>
                 `;
@@ -759,10 +776,9 @@
             await db.collection('ordenes_taller').doc(id).update({
                 recibidoPor: tecSeleccionado
             });
-            alert('¡Técnico asignado a la orden con éxito!');
+            alert('¡Técnico asignado con éxito!');
         }
 
-        // Buscador de Órdenes
         document.getElementById('buscarOrden').addEventListener('input', (e) => {
             const txt = e.target.value.toLowerCase();
             const filtradas = todasLasOrdenesGlobal.filter(o => o.marca.toLowerCase().includes(txt) || o.modelo.toLowerCase().includes(txt) || o.cliente.toLowerCase().includes(txt));
@@ -779,53 +795,51 @@
             tablaFinal.innerHTML = '';
 
             if (ordenes.length === 0) {
-                tablaDiag.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-400">Sin órdenes registradas.</td></tr>`;
-                tablaFinal.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-400">Sin órdenes registradas.</td></tr>`;
+                tablaDiag.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-500">Sin órdenes registradas.</td></tr>`;
+                tablaFinal.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-500">Sin órdenes registradas.</td></tr>`;
                 return;
             }
 
             ordenes.forEach(o => {
-                // 1. Diagnóstico Inicial
                 tablaDiag.innerHTML += `
-                    <tr class="hover:bg-slate-50 text-xs align-top">
-                        <td class="p-3 font-bold text-slate-700">${o.marca} ${o.modelo}<br><span class="text-[10px] text-slate-400">${o.tipoEquipo}</span></td>
-                        <td class="p-3">${o.cliente}<br><a href="https://wa.me/502${o.whatsapp}" target="_blank" class="text-emerald-600 font-bold">📱 ${o.whatsapp}</a></td>
+                    <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
+                        <td class="p-3 font-bold text-slate-200">#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}<br><span class="text-[10px] text-slate-500">${o.tipoEquipo}</span></td>
+                        <td class="p-3 text-slate-300">${o.cliente}<br><a href="https://wa.me/502${o.whatsapp}" target="_blank" class="text-emerald-400 font-bold hover:underline">📱 ${o.whatsapp}</a></td>
                         <td class="p-3">
-                            <div class="font-bold text-red-600 mb-1">Falla: ${o.errorReportado}</div>
-                            <textarea id="diag_${o.id}" rows="2" class="w-full border rounded-xl p-2 text-xs focus:outline-none" placeholder="Escribir diagnóstico...">${o.diagnosticoInicial || ''}</textarea>
+                            <div class="font-bold text-red-400 mb-1">Falla: ${o.errorReportado}</div>
+                            <textarea id="diag_${o.id}" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500" placeholder="Escribir diagnóstico...">${o.diagnosticoInicial || ''}</textarea>
                         </td>
                         <td class="p-3 text-center space-y-1">
-                            <button onclick="guardarDiagnostico('${o.id}')" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm">✏️ Modificar / Guardar</button>
-                            <a href="https://wa.me/502${o.whatsapp}?text=${encodeURIComponent(`Hola *${o.cliente}*, sobre su equipo *${o.marca} ${o.modelo}* en OSMOTEC Taller:\nDiagnóstico inicial: ${o.diagnosticoInicial || 'En revisión'}`)}" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm">📱 WSP Diagnóstico</a>
-                            <button onclick="eliminarDiagnostico('${o.id}')" class="w-full bg-red-50 text-red-500 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-red-100 transition">🗑️ Eliminar</button>
+                            <button onclick="guardarDiagnostico('${o.id}')" class="w-full bg-cyan-600 hover:bg-cyan-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">💾 Guardar</button>
+                            <a href="https://wa.me/502${o.whatsapp}?text=${encodeURIComponent(`Hola *${o.cliente}*, sobre su equipo *#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}* en OSMOTEC Taller:\nDiagnóstico inicial: ${o.diagnosticoInicial || 'En revisión'}`)}" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">📱 WSP Diagnóstico</a>
+                            <button onclick="eliminarDiagnostico('${o.id}')" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Limpiar</button>
                         </td>
                     </tr>
                 `;
 
-                // 2. Reporte Final, Costo y Entrega
-                let mensajeWspFinal = `Hola *${o.cliente}*, le saludamos de *OSMOTEC Taller*.\n\nInformación sobre su equipo (*${o.marca} ${o.modelo}*):\n\n🛠️ *Reporte Final:* ${o.reporteFinal || 'En proceso'}\n💰 *Total a Cobrar:* Q. ${o.costoReparacion || '0.00'}\n📌 *Estado:* ${o.estado}\n\n¡Gracias por su preferencia!`;
+                let mensajeWspFinal = `Hola *${o.cliente}*, le saludamos de *OSMOTEC Taller*.\n\nInformación sobre su equipo (*#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}*):\n\n🛠️ *Reporte Final:* ${o.reporteFinal || 'En proceso'}\n💰 *Total a Cobrar:* Q. ${o.costoReparacion || '0.00'}\n📌 *Estado:* ${o.estado}\n\n¡Gracias por su preferencia!`;
 
                 tablaFinal.innerHTML += `
-                    <tr class="hover:bg-slate-50 text-xs align-top">
-                        <td class="p-3 font-bold text-slate-700">${o.marca} ${o.modelo}<br><span class="text-[10px] text-slate-400">${o.cliente}</span></td>
+                    <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
+                        <td class="p-3 font-bold text-slate-200">#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}<br><span class="text-[10px] text-slate-500">${o.cliente}</span></td>
                         <td class="p-3">
-                            <textarea id="rep_${o.id}" rows="2" class="w-full border rounded-xl p-2 text-xs focus:outline-none" placeholder="Reporte final o reparación...">${o.reporteFinal || ''}</textarea>
+                            <textarea id="rep_${o.id}" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500" placeholder="Reporte final o reparación...">${o.reporteFinal || ''}</textarea>
                         </td>
                         <td class="p-3">
                             <div class="flex items-center gap-1 mb-1">
-                                <span class="font-bold text-slate-600">Q.</span>
-                                <input type="number" step="0.01" id="costo_${o.id}" value="${o.costoReparacion || '0.00'}" class="w-24 border rounded-xl p-1.5 text-xs font-bold text-emerald-700">
+                                <span class="font-bold text-slate-400">Q.</span>
+                                <input type="number" step="0.01" id="costo_${o.id}" value="${o.costoReparacion || '0.00'}" class="w-24 bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-xs font-bold text-emerald-400">
                             </div>
-                            <select id="estado_${o.id}" class="w-full border rounded-xl p-1.5 text-xs bg-white font-bold">
+                            <select id="estado_${o.id}" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-xs text-slate-200 font-bold">
                                 <option value="Pendiente" ${o.estado === 'Pendiente' ? 'selected' : ''}>Pendiente</option>
                                 <option value="Reparado" ${o.estado === 'Reparado' ? 'selected' : ''}>Reparado</option>
                                 <option value="Entregado" ${o.estado === 'Entregado' ? 'selected' : ''}>Entregado</option>
                             </select>
                         </td>
                         <td class="p-3 text-center space-y-1">
-                            <button onclick="guardarReporteFinal('${o.id}')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm">✏️ Modificar / Actualizar</button>
-                            <a href="https://wa.me/502${o.whatsapp}?text=${encodeURIComponent(mensajeWspFinal)}" target="_blank" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm">📱 Enviar WhatsApp</a>
-                            <button onclick="eliminarReporteFinal('${o.id}')" class="w-full bg-red-50 text-red-500 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-red-100 transition">🗑️ Eliminar</button>
+                            <button onclick="guardarReporteFinal('${o.id}')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">💾 Actualizar</button>
+                            <a href="https://wa.me/502${o.whatsapp}?text=${encodeURIComponent(mensajeWspFinal)}" target="_blank" class="block w-full text-center bg-cyan-600 hover:bg-cyan-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">📱 Enviar WhatsApp</a>
+                            <button onclick="eliminarReporteFinal('${o.id}')" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Restablecer</button>
                         </td>
                     </tr>
                 `;
@@ -834,18 +848,14 @@
 
         async function guardarDiagnostico(id) {
             const diag = document.getElementById(`diag_${id}`).value;
-            await db.collection('ordenes_taller').doc(id).update({
-                diagnosticoInicial: diag
-            });
-            alert('¡Diagnóstico actualizado con éxito!');
+            await db.collection('ordenes_taller').doc(id).update({ diagnosticoInicial: diag });
+            alert('¡Diagnóstico actualizado!');
         }
 
         async function eliminarDiagnostico(id) {
-            if(confirm('¿Desea limpiar el diagnóstico inicial de este equipo?')) {
-                await db.collection('ordenes_taller').doc(id).update({
-                    diagnosticoInicial: 'Pendiente...'
-                });
-                alert('¡Diagnóstico eliminado/restablecido!');
+            if(confirm('¿Limpiar diagnóstico?')) {
+                await db.collection('ordenes_taller').doc(id).update({ diagnosticoInicial: 'Pendiente...' });
+                alert('¡Restablecido!');
             }
         }
 
@@ -853,26 +863,17 @@
             const reporte = document.getElementById(`rep_${id}`).value;
             const costo = document.getElementById(`costo_${id}`).value;
             const estado = document.getElementById(`estado_${id}`).value;
-            await db.collection('ordenes_taller').doc(id).update({
-                reporteFinal: reporte,
-                costoReparacion: costo,
-                estado: estado
-            });
-            alert('¡Reporte final y cobro actualizados con éxito!');
+            await db.collection('ordenes_taller').doc(id).update({ reporteFinal: reporte, costoReparacion: costo, estado: estado });
+            alert('¡Reporte final actualizado!');
         }
 
         async function eliminarReporteFinal(id) {
-            if(confirm('¿Desea restablecer/eliminar el reporte final de este equipo?')) {
-                await db.collection('ordenes_taller').doc(id).update({
-                    reporteFinal: 'Pendiente...',
-                    costoReparacion: '0.00',
-                    estado: 'Pendiente'
-                });
-                alert('¡Reporte final restablecido!');
+            if(confirm('¿Restablecer reporte final?')) {
+                await db.collection('ordenes_taller').doc(id).update({ reporteFinal: 'Pendiente...', costoReparacion: '0.00', estado: 'Pendiente' });
+                alert('¡Restablecido!');
             }
         }
 
-        // Buscadores de Diagnóstico
         document.getElementById('buscarDiagnostico').addEventListener('input', (e) => {
             const txt = e.target.value.toLowerCase();
             const filtradas = todasLasOrdenesGlobal.filter(o => o.marca.toLowerCase().includes(txt) || o.modelo.toLowerCase().includes(txt) || o.cliente.toLowerCase().includes(txt));
@@ -885,7 +886,7 @@
             renderizarDiagnosticoYReportes(filtradas);
         });
 
-        // ================= TIENDA: INVENTARIO & EDICIÓN DE PRODUCTOS =================
+        // ================= TIENDA: INVENTARIO =================
         const tiendaForm = document.getElementById('tiendaForm');
         tiendaForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -899,12 +900,12 @@
 
             if (editId) {
                 await db.collection('productos_tienda').doc(editId).update(datosProducto);
-                alert('¡Producto actualizado con éxito!');
+                alert('¡Producto actualizado!');
                 cancelarEdicionProducto();
             } else {
                 datosProducto.fecha = new Date().toLocaleDateString();
                 await db.collection('productos_tienda').add(datosProducto);
-                alert('¡Producto agregado con éxito!');
+                alert('¡Producto agregado al inventario!');
                 tiendaForm.reset();
             }
         });
@@ -918,7 +919,7 @@
 
             document.getElementById('tituloFormProducto').textContent = "✏️ Editar Producto";
             document.getElementById('btnGuardarProducto').textContent = "Actualizar Producto";
-            document.getElementById('btnGuardarProducto').className = "w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-sm shadow-md";
+            document.getElementById('btnGuardarProducto').className = "w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)] transition";
             document.getElementById('btnCancelarEdicion').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -928,7 +929,7 @@
             document.getElementById('editProductId').value = '';
             document.getElementById('tituloFormProducto').textContent = "📦 Nuevo Producto / Accesorio";
             document.getElementById('btnGuardarProducto').textContent = "Guardar en Inventario";
-            document.getElementById('btnGuardarProducto').className = "w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-sm shadow-md";
+            document.getElementById('btnGuardarProducto').className = "w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)] transition";
             document.getElementById('btnCancelarEdicion').classList.add('hidden');
         }
 
@@ -942,7 +943,7 @@
         function renderizarInventario(productos) {
             const tabla = document.getElementById('tablaTienda');
             tabla.innerHTML = '';
-            if(productos.length === 0) { tabla.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-400">Sin productos en inventario.</td></tr>`; return; }
+            if(productos.length === 0) { tabla.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-500">Sin productos.</td></tr>`; return; }
             
             productos.forEach(p => {
                 let costo = p.costo || 0;
@@ -954,61 +955,53 @@
                 let botonWhatsAppAlerta = "";
 
                 if (p.stock === 0) {
-                    stockBadge = `<span class="bg-red-100 text-red-800 px-2 py-0.5 rounded-full font-bold text-[11px] inline-flex items-center gap-1">❌ 0 unids (Agotado)</span>`;
-                    let msgWsp = `⚠️ *ALERTA DE STOCK - OSMOTEC*\n\nEl producto *${p.nombre}* se encuentra completamente *AGOTADO* (0 unidades disponibles). Se requiere reabastecimiento urgente.`;
-                    botonWhatsAppAlerta = `<a href="https://wa.me/?text=${encodeURIComponent(msgWsp)}" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-1 px-2 rounded-lg text-[10px] shadow-sm transition mt-1">📱 Alerta WSP Agotado</a>`;
-                } else if (p.stock === 1) {
-                    stockBadge = `<span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-bold text-[11px] inline-flex items-center gap-1">⚠️ 1 unid (Stock Bajo)</span>`;
-                    let msgWsp = `⚠️ *ALERTA DE STOCK - OSMOTEC*\n\nEl producto *${p.nombre}* tiene *STOCK BAJO* (Queda solo 1 unidad disponible). Se sugiere reabastecer pronto.`;
-                    botonWhatsAppAlerta = `<a href="https://wa.me/?text=${encodeURIComponent(msgWsp)}" target="_blank" class="block w-full text-center bg-amber-600 hover:bg-amber-700 text-white font-bold py-1 px-2 rounded-lg text-[10px] shadow-sm transition mt-1">📱 Alerta WSP Stock Bajo</a>`;
-                } else if (p.stock === 2) {
-                    stockBadge = `<span class="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-full font-bold text-[11px] inline-flex items-center gap-1">⚠️ 2 unids (Stock en 2)</span>`;
-                    let msgWsp = `⚠️ *ALERTA DE STOCK - OSMOTEC*\n\nEl producto *${p.nombre}* cuenta con solo *2 unidades* disponibles. Se sugiere revisar inventario.`;
-                    botonWhatsAppAlerta = `<a href="https://wa.me/?text=${encodeURIComponent(msgWsp)}" target="_blank" class="block w-full text-center bg-amber-500 hover:bg-amber-600 text-white font-bold py-1 px-2 rounded-lg text-[10px] shadow-sm transition mt-1">📱 Alerta WSP Stock 2</a>`;
+                    stockBadge = `<span class="bg-red-950/60 text-red-400 border border-red-900 px-2 py-0.5 rounded-full font-bold text-[11px]">❌ Agotado</span>`;
+                    let msgWsp = `⚠️ *ALERTA DE STOCK - OSMOTEC*\n\nEl producto *${p.nombre}* se encuentra *AGOTADO* (0 unidades). Se requiere reabastecimiento urgente.`;
+                    botonWhatsAppAlerta = `<a href="https://wa.me/?text=${encodeURIComponent(msgWsp)}" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-1 px-2 rounded-lg text-[10px] shadow mt-1">📱 Alerta WSP</a>`;
+                } else if (p.stock <= 2) {
+                    stockBadge = `<span class="bg-amber-950/60 text-amber-400 border border-amber-900 px-2 py-0.5 rounded-full font-bold text-[11px]">⚠️ ${p.stock} unids (Bajo)</span>`;
+                    let msgWsp = `⚠️ *ALERTA DE STOCK - OSMOTEC*\n\nEl producto *${p.nombre}* tiene stock bajo (${p.stock} unidades).`;
+                    botonWhatsAppAlerta = `<a href="https://wa.me/?text=${encodeURIComponent(msgWsp)}" target="_blank" class="block w-full text-center bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold py-1 px-2 rounded-lg text-[10px] shadow mt-1">📱 Alerta WSP</a>`;
                 } else {
-                    stockBadge = `<span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold text-[11px]">${p.stock} unids</span>`;
+                    stockBadge = `<span class="bg-emerald-950/60 text-emerald-400 border border-emerald-900 px-2 py-0.5 rounded-full font-bold text-[11px]">${p.stock} unids</span>`;
                 }
 
                 tabla.innerHTML += `
-                    <tr class="hover:bg-slate-50 text-xs align-top">
-                        <td class="p-3 font-bold text-slate-700">🛒 ${p.nombre}</td>
-                        <td class="p-3">
-                            <span class="text-slate-500">Costo: <b>Q. ${costo.toFixed(2)}</b></span><br>
-                            <span class="text-blue-600">Venta: <b>Q. ${precio.toFixed(2)}</b></span><br>
-                            <span class="text-emerald-600 font-semibold">Ganancia: Q. ${ganancia.toFixed(2)} (${margen}%)</span>
+                    <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
+                        <td class="p-3 font-bold text-slate-200">🛒 ${p.nombre}</td>
+                        <td class="p-3 text-slate-300">
+                            Costo: <b>Q. ${costo.toFixed(2)}</b><br>
+                            Venta: <b class="text-emerald-400">Q. ${precio.toFixed(2)}</b><br>
+                            <span class="text-cyan-400">Ganancia: Q. ${ganancia.toFixed(2)} (${margen}%)</span>
                         </td>
-                        <td class="p-3">
-                            ${stockBadge}
-                            ${botonWhatsAppAlerta}
-                        </td>
+                        <td class="p-3">${stockBadge}${botonWhatsAppAlerta}</td>
                         <td class="p-3 text-center space-y-1">
-                            <button onclick="prepararEdicionProducto('${p.id}', '${p.nombre}', ${costo}, ${precio}, ${p.stock})" class="w-full bg-blue-50 text-blue-600 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-blue-100 transition">✏️ Editar</button>
-                            <button onclick="db.collection('productos_tienda').doc('${p.id}').delete()" class="w-full bg-red-50 text-red-500 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-red-100 transition">🗑️ Eliminar</button>
+                            <button onclick="prepararEdicionProducto('${p.id}', '${p.nombre}', ${costo}, ${precio}, ${p.stock})" class="w-full bg-slate-800 text-cyan-400 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-slate-700">✏️ Editar</button>
+                            <button onclick="db.collection('productos_tienda').doc('${p.id}').delete()" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Eliminar</button>
                         </td>
                     </tr>
                 `;
             });
         }
 
-        // ================= TIENDA: VENTAS / POS & FACTURA CARTA =================
+        // ================= TIENDA: POS & VENTAS =================
         function renderizarCatalogoPOS(productos) {
             const catalogo = document.getElementById('listaProductosPOS');
             catalogo.innerHTML = '';
             if (productos.length === 0) {
-                catalogo.innerHTML = `<div class="p-4 text-center text-slate-400 text-xs">No hay productos disponibles.</div>`;
+                catalogo.innerHTML = `<div class="p-4 text-center text-slate-500 text-xs">Sin productos en catálogo.</div>`;
                 return;
             }
 
             productos.forEach(p => {
                 catalogo.innerHTML += `
-                    <div onclick="agregarAlCarritoDesdePOS('${p.id}')" class="p-3 bg-white border border-slate-200 rounded-xl hover:bg-emerald-50/50 cursor-pointer transition flex justify-between items-center shadow-sm">
+                    <div onclick="agregarAlCarritoDesdePOS('${p.id}')" class="p-3 bg-slate-950 border border-slate-800/80 rounded-xl hover:border-emerald-500/50 cursor-pointer transition flex justify-between items-center shadow">
                         <div>
-                            <div class="font-bold text-xs text-slate-800">${p.nombre}</div>
+                            <div class="font-bold text-xs text-slate-200">${p.nombre}</div>
                             <div class="text-[10px] text-slate-500">Stock: ${p.stock} u.</div>
                         </div>
                         <div class="text-right">
-                            <div class="font-extrabold text-sm text-emerald-700">Q${p.precio.toFixed(2)}</div>
-                            <div class="text-[9px] text-slate-400">(u.)</div>
+                            <div class="font-extrabold text-sm text-emerald-400">Q${p.precio.toFixed(2)}</div>
                         </div>
                     </div>
                 `;
@@ -1024,7 +1017,7 @@
         function agregarAlCarritoDesdePOS(id) {
             const prod = todosLosProductosGlobal.find(p => p.id === id);
             if (!prod || prod.stock <= 0) {
-                alert('Producto agotado o sin stock');
+                alert('Producto agotado');
                 return;
             }
             const existe = carritoVenta.find(item => item.id === id);
@@ -1048,7 +1041,7 @@
             if (nuevaCantidad <= 0) {
                 carritoVenta.splice(index, 1);
             } else if (prod && nuevaCantidad > prod.stock) {
-                alert('No hay suficiente stock disponible');
+                alert('Stock insuficiente');
                 return;
             } else {
                 item.cantidad = nuevaCantidad;
@@ -1063,7 +1056,7 @@
             let total = 0;
 
             if (carritoVenta.length === 0) {
-                contenedor.innerHTML = `<div class="p-4 text-center text-slate-400 italic">El carrito está vacío</div>`;
+                contenedor.innerHTML = `<div class="p-4 text-center text-slate-500 italic">El carrito está vacío</div>`;
                 totalSpan.textContent = "Q0.00";
                 document.getElementById('vueltoCambio').textContent = "Q0.00";
                 return;
@@ -1073,15 +1066,15 @@
                 let sub = item.precio * item.cantidad;
                 total += sub;
                 contenedor.innerHTML += `
-                    <div class="grid grid-cols-12 p-2.5 items-center bg-white">
-                        <span class="col-span-6 font-bold text-slate-700">${item.nombre}</span>
+                    <div class="grid grid-cols-12 p-2.5 items-center bg-slate-900/50">
+                        <span class="col-span-6 font-bold text-slate-200">${item.nombre}</span>
                         <div class="col-span-2 flex items-center justify-center gap-1">
-                            <button onclick="cambiarCantidadCarrito(${index}, -1)" class="w-5 h-5 bg-slate-200 hover:bg-slate-300 rounded font-bold text-xs">-</button>
-                            <span class="font-bold">${item.cantidad}</span>
-                            <button onclick="cambiarCantidadCarrito(${index}, 1)" class="w-5 h-5 bg-slate-200 hover:bg-slate-300 rounded font-bold text-xs">+</button>
+                            <button onclick="cambiarCantidadCarrito(${index}, -1)" class="w-5 h-5 bg-slate-800 hover:bg-slate-700 rounded font-bold text-xs text-slate-200">-</button>
+                            <span class="font-bold text-cyan-400">${item.cantidad}</span>
+                            <button onclick="cambiarCantidadCarrito(${index}, 1)" class="w-5 h-5 bg-slate-800 hover:bg-slate-700 rounded font-bold text-xs text-slate-200">+</button>
                         </div>
-                        <span class="col-span-3 text-right font-bold text-emerald-700">Q${sub.toFixed(2)}</span>
-                        <button onclick="carritoVenta.splice(${index},1);actualizarCarritoUI()" class="col-span-1 text-center text-red-500 font-bold hover:text-red-700">✕</button>
+                        <span class="col-span-3 text-right font-bold text-emerald-400">Q${sub.toFixed(2)}</span>
+                        <button onclick="carritoVenta.splice(${index},1);actualizarCarritoUI()" class="col-span-1 text-center text-red-400 font-bold hover:text-red-300">✕</button>
                     </div>
                 `;
             });
@@ -1105,7 +1098,7 @@
 
             let totalVentaCalculado = carritoVenta.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
             if (efectivo < totalVentaCalculado) {
-                if(!confirm('El efectivo recibido es menor al total a pagar. ¿Desea continuar de todos modos?')) return;
+                if(!confirm('El efectivo recibido es menor al total. ¿Continuar?')) return;
             }
 
             for(let item of carritoVenta) {
@@ -1158,13 +1151,24 @@
                 `;
             });
 
-            const elementoFactura = document.createElement('div');
-            elementoFactura.innerHTML = `
-                <div style="padding: 40px; font-family: Arial, sans-serif; width: 210mm; background: #ffffff; color: #1e293b; box-sizing: border-box;">
+            const ventanaFactura = window.open('', '_blank', 'width=800,height=600');
+            ventanaFactura.document.write(`
+                <!DOCTYPE html>
+                <html lang="es">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Factura OSMOTEC</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 40px; color: #1e293b; }
+                        .no-print { text-align: center; margin-top: 30px; }
+                        @media print { .no-print { display: none; } }
+                    </style>
+                </head>
+                <body>
                     <div style="display: flex; justify-content: space-between; border-bottom: 3px solid #2563eb; padding-bottom: 20px; margin-bottom: 25px;">
                         <div>
                             <h1 style="margin: 0; color: #1d4ed8; font-size: 26px; font-weight: 900;">🛒 OSMOTEC TIENDA</h1>
-                            <p style="margin: 4px 0; font-size: 13px; color: #64748b;">Los Amates, Izabal • Servicios Tecnológicos y Comerciales</p>
+                            <p style="margin: 4px 0; font-size: 13px; color: #64748b;">Los Amates, Izabal • Servicios Tecnológicos</p>
                             <p style="margin: 4px 0; font-size: 13px; color: #64748b;">WhatsApp: 4501 1153</p>
                         </div>
                         <div style="text-align: right;">
@@ -1173,12 +1177,6 @@
                             <p style="margin: 4px 0; font-size: 13px; color: #64748b;">Fecha: ${fecha}</p>
                         </div>
                     </div>
-
-                    <div style="margin-bottom: 25px; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                        <p style="margin: 0; font-size: 14px;"><b>Cliente:</b> Cliente General</p>
-                        <p style="margin: 5px 0 0 0; font-size: 14px;"><b>Tipo de Pago:</b> Efectivo</p>
-                    </div>
-
                     <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 13px;">
                         <thead>
                             <tr style="background: #1e293b; color: white;">
@@ -1189,45 +1187,25 @@
                                 <th style="padding: 10px; text-align: right; width: 18%;">Subtotal</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            ${filasProductos}
-                        </tbody>
+                        <tbody>${filasProductos}</tbody>
                     </table>
-
                     <div style="display: flex; justify-content: flex-end; margin-bottom: 40px;">
                         <div style="width: 300px; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 14px;">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                <span>Total a Pagar:</span>
-                                <span style="font-weight: bold; font-size: 16px; color: #16a34a;">Q${total.toFixed(2)}</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                <span>Efectivo Recibido:</span>
-                                <span>Q${efectivo.toFixed(2)}</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; border-top: 1px solid #cbd5e1; paddingTop: 8px;">
-                                <span style="font-weight: bold;">Su Vuelto:</span>
-                                <span style="font-weight: bold; color: #2563eb;">Q${vuelto >= 0 ? vuelto.toFixed(2) : "0.00"}</span>
-                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>Total a Pagar:</span><span style="font-weight: bold; font-size: 16px; color: #16a34a;">Q${total.toFixed(2)}</span></div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>Efectivo Recibido:</span><span>Q${efectivo.toFixed(2)}</span></div>
+                            <div style="display: flex; justify-content: space-between; border-top: 1px solid #cbd5e1; paddingTop: 8px;"><span style="font-weight: bold;">Su Vuelto:</span><span style="font-weight: bold; color: #2563eb;">Q${vuelto >= 0 ? vuelto.toFixed(2) : "0.00"}</span></div>
                         </div>
                     </div>
-
-                    <div style="text-align: center; border-top: 2px dashed #cbd5e1; paddingTop: 20px; color: #64748b; font-size: 12px;">
-                        <p style="margin: 0;">¡Gracias por su compra en OSMOTEC!</p>
-                        <p style="margin: 4px 0;">Conserve este comprobante para cualquier cambio o garantía.</p>
+                    <div class="no-print">
+                        <button onclick="window.print()" style="background: #2563eb; color: white; border: none; padding: 12px 24px; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 14px;">🖨️ Imprimir / Guardar</button>
                     </div>
-                </div>
-            `;
-
-            html2pdf().from(elementoFactura).set({
-                margin: 0,
-                filename: `Factura_OSMOTEC_${Date.now()}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' }
-            }).save();
+                </body>
+                </html>
+            `);
+            ventanaFactura.document.close();
         }
 
-        // ================= TIENDA: REPORTES FINANCIEROS Y WHATSAPP AGOTADOS =================
+        // ================= TIENDA: REPORTES =================
         db.collection('ventas_tienda').orderBy('rawDate', 'desc').onSnapshot((snapshot) => {
             todasLasVentasGlobal = [];
             snapshot.forEach((doc) => {
@@ -1239,12 +1217,11 @@
         function enviarWhatsAppAgotadosReportes() {
             let productosAgotados = todosLosProductosGlobal.filter(p => p.stock === 0);
             if (productosAgotados.length === 0) {
-                alert('¡Excelente! No hay productos agotados en este momento.');
+                alert('¡Excelente! No hay productos agotados.');
                 return;
             }
 
             let mensaje = `🚨 *REPORTE DE PRODUCTOS AGOTADOS - OSMOTEC*\n\n`;
-            mensaje += `Los siguientes productos se encuentran con 0 unidades:\n\n`;
             productosAgotados.forEach((p, index) => {
                 mensaje += `${index + 1}. *${p.nombre}* (Agotado)\n`;
             });
@@ -1260,11 +1237,8 @@
             const mesActualStr = new Date().toISOString().slice(0, 7);
 
             let ventasFiltradas = todasLasVentasGlobal.filter(v => {
-                if (filtro === 'dia') {
-                    return v.fecha && v.fecha.includes(hoyStr);
-                } else if (filtro === 'mes') {
-                    return v.rawDate && v.rawDate.startsWith(mesActualStr);
-                }
+                if (filtro === 'dia') return v.fecha && v.fecha.includes(hoyStr);
+                if (filtro === 'mes') return v.rawDate && v.rawDate.startsWith(mesActualStr);
                 return true;
             });
 
@@ -1294,26 +1268,26 @@
             const tabla = document.getElementById('tablaReporteVentas');
             tabla.innerHTML = '';
             if(ventas.length === 0) { 
-                tabla.innerHTML = `<tr><td colspan="5" class="text-center p-4 text-slate-400">Sin ventas registradas para este período.</td></tr>`; 
+                tabla.innerHTML = `<tr><td colspan="5" class="text-center p-4 text-slate-500">Sin ventas en este período.</td></tr>`; 
                 return; 
             }
 
             ventas.forEach(v => {
                 let detalleStr = v.productos.map(p => {
                     let gananciaItem = (p.precio - (p.costo || 0)) * p.cantidad;
-                    return `<b>${p.cantidad}x</b> ${p.nombre} <span class="text-slate-400">(Ganancia: Q.${gananciaItem.toFixed(2)})</span>`;
+                    return `<b>${p.cantidad}x</b> ${p.nombre} <span class="text-slate-500">(Ganancia: Q.${gananciaItem.toFixed(2)})</span>`;
                 }).join('<br>');
 
                 let gananciaVenta = v.gananciaTotal !== undefined ? v.gananciaTotal : v.productos.reduce((acc, p) => acc + ((p.precio - (p.costo || 0)) * p.cantidad), 0);
 
                 tabla.innerHTML += `
-                    <tr class="hover:bg-slate-50 text-xs">
-                        <td class="p-3 text-slate-500">${v.fecha}</td>
-                        <td class="p-3 font-medium leading-relaxed">${detalleStr}</td>
-                        <td class="p-3 font-bold text-emerald-700">Q. ${(v.total || 0).toFixed(2)}</td>
-                        <td class="p-3 font-bold text-blue-700">Q. ${gananciaVenta.toFixed(2)}</td>
+                    <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40 text-xs">
+                        <td class="p-3 text-slate-400">${v.fecha}</td>
+                        <td class="p-3 font-medium text-slate-200 leading-relaxed">${detalleStr}</td>
+                        <td class="p-3 font-bold text-emerald-400">Q. ${(v.total || 0).toFixed(2)}</td>
+                        <td class="p-3 font-bold text-cyan-400">Q. ${gananciaVenta.toFixed(2)}</td>
                         <td class="p-3 text-center">
-                            <button onclick="db.collection('ventas_tienda').doc('${v.id}').delete()" class="text-red-500 text-xs px-2.5 py-1 bg-red-50 rounded-lg font-semibold hover:bg-red-100">Eliminar</button>
+                            <button onclick="db.collection('ventas_tienda').doc('${v.id}').delete()" class="text-red-400 text-xs px-2.5 py-1 bg-red-950/50 rounded-lg font-semibold border border-red-900/50">Eliminar</button>
                         </td>
                     </tr>
                 `;
@@ -1340,63 +1314,66 @@
             renderizarReporteVentas(ventasFiltradas);
         });
 
-        // ================= TICKET PDF TALLER & QR (CORREGIDO PARA CHROME) =================
-        function descargarTicketPDF(cliente, whatsapp, tipo, marca, modelo, falla, accesorios, fecha) {
-            const elemento = document.createElement('div');
-            elemento.style.position = "absolute";
-            elemento.style.left = "-9999px";
-            elemento.style.top = "0";
+        // ================= FICHA / TICKET VISUAL DE TALLER =================
+        function descargarTicketPDF(cliente, whatsapp, tipo, marca, modelo, falla, accesorios, fecha, numeroOrden) {
+            const ventanaImpresion = window.open('', '_blank', 'width=400,height=600');
             
-            elemento.innerHTML = `
-                <div style="padding: 25px; font-family: Arial, sans-serif; width: 350px; background: #ffffff; color: #1e293b; border: 2px solid #2563eb; border-radius: 12px; box-sizing: border-box;">
-                    <div style="text-align: center; border-bottom: 2px dashed #2563eb; padding-bottom: 12px; margin-bottom: 15px;">
-                        <h1 style="margin: 0; color: #1d4ed8; font-size: 20px; font-weight: 900;">OSMOTEC TALLER</h1>
-                        <p style="margin: 3px 0; font-size: 11px; color: #64748b;">Los Amates, Izabal • WhatsApp: 4501 1153</p>
+            ventanaImpresion.document.write(`
+                <!DOCTYPE html>
+                <html lang="es">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Orden #${numeroOrden} - ${cliente}</title>
+                    <style>
+                        body { font-family: monospace; margin: 0; padding: 20px; background: #ffffff; color: #1e293b; }
+                        .ticket { width: 100%; max-width: 320px; margin: 0 auto; padding: 20px; border: 2px solid #0284c7; border-radius: 12px; box-sizing: border-box; }
+                        .header { text-align: center; border-bottom: 2px dashed #0284c7; padding-bottom: 12px; margin-bottom: 15px; }
+                        .header h1 { margin: 0; color: #0369a1; font-size: 18px; font-weight: 900; }
+                        .header p { margin: 3px 0; font-size: 11px; color: #64748b; }
+                        .content { font-size: 12px; line-height: 1.6; }
+                        .content p { margin: 6px 0; }
+                        .footer { text-align: center; margin-top: 20px; border-top: 1px dashed #cbd5e1; padding-top: 10px; font-size: 10px; color: #64748b; }
+                        @media print { body { padding: 0; } .no-print { display: none; } }
+                    </style>
+                </head>
+                <body>
+                    <div class="ticket">
+                        <div class="header">
+                            <h1>OSMOTEC TALLER</h1>
+                            <p style="font-size: 14px; font-weight: bold; color: #0369a1; margin-top: 5px;">ORDEN DE TALLER #${numeroOrden}</p>
+                            <p>Los Amates, Izabal • WhatsApp: 4501 1153</p>
+                        </div>
+                        <div class="content">
+                            <p><b>Fecha:</b> ${fecha}</p>
+                            <p><b>Cliente:</b> ${cliente}</p>
+                            <p><b>WhatsApp:</b> ${whatsapp}</p>
+                            <p><b>Equipo:</b> ${tipo} - ${marca} ${modelo}</p>
+                            <p><b>Falla/Reporte:</b> ${falla}</p>
+                            <p><b>Accesorios:</b> ${accesorios}</p>
+                        </div>
+                        <div class="footer">Comprobante Oficial OSMOTEC</div>
                     </div>
-                    <div style="font-size: 12px; line-height: 1.6;">
-                        <p style="margin: 4px 0;"><b>Fecha:</b> ${fecha}</p>
-                        <p style="margin: 4px 0;"><b>Cliente:</b> ${cliente}</p>
-                        <p style="margin: 4px 0;"><b>WhatsApp:</b> ${whatsapp}</p>
-                        <p style="margin: 4px 0;"><b>Equipo:</b> ${tipo} - ${marca} ${modelo}</p>
-                        <p style="margin: 4px 0;"><b>Falla/Reporte:</b> ${falla}</p>
-                        <p style="margin: 4px 0;"><b>Accesorios:</b> ${accesorios}</p>
+                    <div class="no-print" style="text-align: center; margin-top: 20px;">
+                        <button onclick="window.print()" style="background: #0284c7; color: white; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; font-family: monospace;">🖨️ Imprimir / Guardar</button>
                     </div>
-                    <div style="text-align: center; margin-top: 15px; border-top: 1px dashed #cbd5e1; paddingTop: 10px; font-size: 10px; color: #64748b;">
-                        Comprobante Oficial OSMOTEC
-                    </div>
-                </div>
-            `;
-
-            document.body.appendChild(elemento);
-
-            html2pdf().from(elemento).set({ 
-                margin: 0.1, 
-                filename: `Ticket_${cliente.replace(/\s+/g, '_')}.pdf`, 
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: 'in', format: [4.2, 5.2] } 
-            }).save().then(() => {
-                document.body.removeChild(elemento);
-            }).catch((err) => {
-                console.error("Error al generar PDF del ticket:", err);
-                if (document.body.contains(elemento)) {
-                    document.body.removeChild(elemento);
-                }
-                alert("Ocurrió un error al generar el PDF del ticket.");
-            });
+                    <script>window.onload = function() { setTimeout(() => { window.print(); }, 300); };<\/script>
+                </body>
+                </html>
+            `);
+            ventanaImpresion.document.close();
         }
 
         function poblarSelectGarantia() {
             const sel = document.getElementById('selectEquipoGarantia');
             sel.innerHTML = '<option value="">-- Seleccione --</option>';
-            todasLasOrdenesGlobal.forEach(o => sel.innerHTML += `<option value="${o.id}">${o.marca} ${o.modelo} - ${o.cliente}</option>`);
+            todasLasOrdenesGlobal.forEach(o => sel.innerHTML += `<option value="${o.id}">#${o.numeroOrden || 1} - ${o.marca} ${o.modelo} (${o.cliente})</option>`);
         }
 
         function cargarDatosGarantia() {
             const id = document.getElementById('selectEquipoGarantia').value;
             const t = document.getElementById('infoTrabajoGarantia');
             const eq = todasLasOrdenesGlobal.find(o => o.id === id);
-            t.value = eq ? `Cliente: ${eq.cliente}\nEquipo: ${eq.marca} ${eq.modelo}\nReporte: ${eq.reporteFinal}` : '';
+            t.value = eq ? `Orden: #${eq.numeroOrden || 1}\nCliente: ${eq.cliente}\nEquipo: ${eq.marca} ${eq.modelo}\nReporte: ${eq.reporteFinal}` : '';
         }
 
         function generarQR() {
@@ -1406,13 +1383,13 @@
             
             const contenedorQR = document.getElementById('qrcode');
             contenedorQR.innerHTML = '';
-            document.getElementById('qrInfoTexto').innerHTML = `<b>${eq.marca} ${eq.modelo}</b><br>Cliente: ${eq.cliente}`;
+            document.getElementById('qrInfoTexto').innerHTML = `<b>Orden #${eq.numeroOrden || 1}</b><br><b>${eq.marca} ${eq.modelo}</b><br>Cliente: ${eq.cliente}`;
             
             try {
                 new QRCode(contenedorQR, { 
-                    text: `OSMOTEC GARANTIA\nCliente: ${eq.cliente}\nEquipo: ${eq.marca} ${eq.modelo}\nFecha: ${eq.fecha}`, 
-                    width: 100, 
-                    height: 100,
+                    text: `OSMOTEC GARANTIA - Orden #${eq.numeroOrden || 1}\nCliente: ${eq.cliente}\nEquipo: ${eq.marca} ${eq.modelo}\nFecha: ${eq.fecha}`, 
+                    width: 90, 
+                    height: 90,
                     colorDark: "#000000",
                     colorLight: "#ffffff",
                     correctLevel: QRCode.CorrectLevel.H
