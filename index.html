@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OSMOTEC - Taller Profesional</title>
+    <title>OSMOTEC - Sistema Integral</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Firebase SDKs -->
@@ -27,256 +27,469 @@
 </head>
 <body class="bg-slate-100 font-sans text-slate-800">
 
-    <!-- Header Moderno con Pestañas y Botón de Salir a la Derecha -->
-    <header class="bg-gradient-to-r from-blue-700 to-blue-800 text-white shadow-lg p-4 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-            
-            <!-- Logo e Identidad con Osmo -->
-            <div class="flex items-center gap-3">
-                <img src="osmo.jpg" id="osmoHeaderImg" alt="Osmo" class="w-11 h-11 rounded-full object-cover border-2 border-white/80 shadow-md" onerror="this.style.display='none'">
+    <!-- ================= PANTALLA DE SELECCIÓN INICIAL (HOME) ================= -->
+    <div id="vistaSelector" class="flex flex-col items-center justify-center min-h-screen p-4 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white">
+        <div class="max-w-md w-full bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl text-center space-y-6">
+            <div class="flex flex-col items-center gap-3">
+                <img src="osmo.jpg" alt="Osmo" class="w-20 h-20 rounded-full object-cover border-4 border-blue-400 shadow-lg" onerror="this.style.display='none'">
                 <div>
-                    <h1 class="text-xl font-extrabold tracking-tight flex items-center gap-2">
-                        🛠️ OSMOTEC <span class="text-xs font-medium px-2 py-0.5 bg-blue-900/60 rounded-full border border-blue-400/30">Sistema de Taller</span>
-                    </h1>
-                    <span class="text-xs text-blue-200">Los Amates, Izabal</span>
+                    <h1 class="text-2xl font-black tracking-tight text-white">🛠️ OSMOTEC</h1>
+                    <p class="text-xs text-blue-200 mt-1">Los Amates, Izabal • Sistema Profesional</p>
                 </div>
             </div>
-            
-            <!-- Contenedor central de Pestañas -->
-            <nav class="flex items-center gap-2 bg-blue-900/40 p-1.5 rounded-2xl border border-blue-500/30 shadow-inner flex-wrap justify-center">
-                <button onclick="cambiarPestana('ordenes')" id="btnTabOrdenes" class="px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 bg-white text-blue-800 shadow-md transform scale-[1.02]">
-                    📋 <span>1. Órdenes</span>
-                </button>
-                <button onclick="cambiarPestana('diagnostico')" id="btnTabDiagnostico" class="px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center gap-2 text-blue-100 hover:bg-blue-800/60 hover:text-white">
-                    🔍 <span>2. Diagnóstico & Reporte</span>
-                </button>
-                <button onclick="cambiarPestana('garantia')" id="btnTabGarantia" class="px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center gap-2 text-blue-100 hover:bg-blue-800/60 hover:text-white">
-                    🛡️ <span>3. Garantía & QR</span>
-                </button>
-                <button onclick="cambiarPestana('tecnicos')" id="btnTabTecnicos" class="px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center gap-2 text-blue-100 hover:bg-blue-800/60 hover:text-white">
-                    👨‍🔧 <span>4. Técnicos</span>
-                </button>
-            </nav>
 
-            <!-- Botón de Cerrar Aplicación en la esquina Superior Derecha -->
-            <div>
-                <button onclick="cerrarAplicacion()" class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 bg-red-600 text-white hover:bg-red-700 shadow-md hover:shadow-lg">
-                    ❌ Cerrar App
+            <p class="text-xs text-slate-300">Seleccione el módulo al que desea ingresar:</p>
+
+            <div class="space-y-3">
+                <button onclick="abrirModulo('taller')" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 px-6 rounded-2xl text-sm shadow-lg transition transform active:scale-95 flex items-center justify-center gap-3 border border-blue-400/30">
+                    <span class="text-xl">📋</span>
+                    <div class="text-left">
+                        <div>Módulo de Taller</div>
+                        <div class="text-[10px] text-blue-200 font-normal">Órdenes, diagnósticos, garantías y técnicos</div>
+                    </div>
+                </button>
+
+                <button onclick="abrirModulo('tienda')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 px-6 rounded-2xl text-sm shadow-lg transition transform active:scale-95 flex items-center justify-center gap-3 border border-emerald-400/30">
+                    <span class="text-xl">🛒</span>
+                    <div class="text-left">
+                        <div>Módulo de Tienda / POS</div>
+                        <div class="text-[10px] text-emerald-200 font-normal">Inventario, POS, ventas y reportes</div>
+                    </div>
+                </button>
+            </div>
+
+            <div class="pt-2 border-t border-white/10">
+                <button onclick="cerrarAplicacion()" class="text-xs text-red-400 hover:text-red-300 font-semibold transition">
+                    ❌ Cerrar Aplicación
                 </button>
             </div>
         </div>
-    </header>
+    </div>
 
-    <main class="max-w-7xl mx-auto p-4 md:p-6">
+    <!-- ================= CONTENEDOR PRINCIPAL DE LA APLICACIÓN ================= -->
+    <div id="contenedorApp" class="hidden min-h-screen flex flex-col">
         
-        <!-- ================= VISTA 1: ÓRDENES CON TICKET DE RECEPCIÓN ================= -->
-        <div id="vistaOrdenes" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 lg:col-span-1 h-fit">
-                <h2 class="text-base font-bold text-blue-700 mb-4 border-b pb-2 flex items-center gap-2">➕ Registrar Nuevo Equipo</h2>
-                <form id="ordenForm" class="space-y-3">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Nombre del Cliente</label>
-                        <input type="text" id="cliente" required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">WhatsApp del Cliente</label>
-                        <input type="text" id="whatsapp" placeholder="Ej: 35650881" required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                    </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Marca</label>
-                            <input type="text" id="marca" placeholder="Epson, Dell..." required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Modelo</label>
-                            <input type="text" id="modelo" placeholder="L3210, Inspiron..." required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Tipo de Equipo</label>
-                        <select id="tipoEquipo" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
-                            <option value="Impresora">Impresora</option>
-                            <option value="Laptop">Laptop</option>
-                            <option value="PC Escritorio">PC de Escritorio</option>
-                            <option value="Otro">Otro</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Falla / Error reportado</label>
-                        <textarea id="errorReportado" rows="2" placeholder="Ej: No enciende..." required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Tiempo sin uso</label>
-                            <input type="text" id="tiempoSinUso" placeholder="Ej: 6 meses" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Accesorios</label>
-                            <input type="text" id="accesorios" placeholder="Cargador..." class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                        </div>
-                    </div>
-                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-sm shadow-md transition transform active:scale-95">
-                        Guardar Orden en Taller
-                    </button>
-                </form>
-            </section>
-
-            <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 lg:col-span-2">
-                <div class="flex flex-col sm:flex-row justify-between items-center mb-4 border-b pb-3 gap-2">
-                    <h2 class="text-base font-bold text-slate-700">📋 Listado de Órdenes Activas</h2>
-                    <input type="text" id="buscarOrden" placeholder="Buscar equipo o cliente..." class="border border-slate-300 rounded-xl p-2 text-sm w-full sm:w-64 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse text-sm">
-                        <thead>
-                            <tr class="bg-slate-50 text-slate-700 border-b border-slate-200 text-xs uppercase tracking-wider">
-                                <th class="p-3">Equipo</th>
-                                <th class="p-3">Cliente / WA</th>
-                                <th class="p-3">Falla & Accesorios</th>
-                                <th class="p-3">Estado</th>
-                                <th class="p-3 text-center">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tablaOrdenes" class="divide-y divide-slate-100"></tbody>
-                    </table>
-                </div>
-            </section>
-        </div>
-
-        <!-- ================= VISTA 2: DIAGNÓSTICO Y REPORTE FINAL ================= -->
-        <div id="vistaDiagnostico" class="hidden space-y-6">
-            
-            <!-- SECCIÓN 1: DIAGNÓSTICO INICIAL -->
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80">
-                <div class="flex flex-col sm:flex-row justify-between items-center mb-4 border-b pb-3 gap-2">
-                    <h2 class="text-base font-bold text-blue-700">🔍 1. Diagnóstico Inicial (Recepción)</h2>
-                    <input type="text" id="buscarDiagnostico" placeholder="Filtrar por equipo o cliente..." class="border border-slate-300 rounded-xl p-2 text-sm w-full sm:w-64 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse text-sm">
-                        <thead>
-                            <tr class="bg-slate-50 text-slate-700 border-b border-slate-200 text-xs uppercase tracking-wider">
-                                <th class="p-3 w-1/5">Equipo / Técnico</th>
-                                <th class="p-3 w-1/5">Cliente</th>
-                                <th class="p-3 w-2/5">Diagnóstico Inicial Amplio</th>
-                                <th class="p-3 w-1/5 text-center">Acciones (WSP / PDF)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tablaDiagnosticoInicial" class="divide-y divide-slate-100"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- SECCIÓN 2: REPORTE FINAL -->
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80">
-                <div class="flex flex-col sm:flex-row justify-between items-center mb-4 border-b pb-3 gap-2">
-                    <h2 class="text-base font-bold text-emerald-700">📌 2. Reporte Final, Costo y Entrega</h2>
-                    <input type="text" id="buscarReporteFinal" placeholder="Filtrar por equipo o cliente..." class="border border-slate-300 rounded-xl p-2 text-sm w-full sm:w-64 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse text-sm">
-                        <thead>
-                            <tr class="bg-slate-50 text-slate-700 border-b border-slate-200 text-xs uppercase tracking-wider">
-                                <th class="p-3 w-1/5">Equipo</th>
-                                <th class="p-3 w-1/5">Cliente</th>
-                                <th class="p-3 w-2/5">Reporte Final / Sin Arreglo Amplio</th>
-                                <th class="p-3 w-1/5">Cobro (Q.) & Estado</th>
-                                <th class="p-3 w-1/5 text-center">Acciones (WSP / PDF)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tablaReporteFinal" class="divide-y divide-slate-100"></tbody>
-                    </table>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- ================= VISTA 3: GARANTÍA & QR ================= -->
-        <div id="vistaGarantia" class="hidden grid-cols-1 lg:grid-cols-3 gap-6">
-            <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 lg:col-span-1 h-fit">
-                <h2 class="text-base font-bold text-blue-700 mb-4 border-b pb-2">🛡️ 3. Asignar Garantía (Máx. 15 días)</h2>
-                <div class="space-y-3">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Seleccionar Equipo Reparado</label>
-                        <select id="selectEquipoGarantia" onchange="cargarDatosGarantia()" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
-                            <option value="">-- Seleccione un equipo --</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Resumen del Trabajo Realizado</label>
-                        <textarea id="infoTrabajoGarantia" rows="3" readonly class="w-full border border-slate-200 bg-slate-50 rounded-xl p-2.5 text-xs text-slate-600"></textarea>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-blue-700 mb-1">Días de Garantía (1 a 15 días)</label>
-                        <input type="number" id="diasGarantia" min="1" max="15" value="15" class="w-full border-2 border-blue-200 rounded-xl p-2.5 text-sm font-bold text-blue-900 bg-blue-50 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                    </div>
-
-                    <button onclick="generarQR()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-sm shadow-md transition">
-                        🖨️ Generar Etiqueta QR con Osmo
-                    </button>
-                </div>
-            </section>
-
-            <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 lg:col-span-2 flex flex-col items-center justify-center text-center">
-                <h2 class="text-base font-bold text-slate-700 mb-2 border-b pb-2 w-full text-left">📱 Etiqueta QR de Garantía OSMOTEC</h2>
-                <p class="text-xs text-slate-500 mb-4">Código QR de 4.5 x 4.5 cm dentro de un área de recorte de 5 x 5 cm con Osmo[span_0](start_span)[span_0](end_span)</p>
+        <!-- Header Moderno -->
+        <header class="bg-gradient-to-r from-blue-700 to-blue-800 text-white shadow-lg p-4 sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
                 
-                <div id="seccionImpresionQR" class="p-1 border-2 border-dashed border-slate-400 rounded-xl bg-white flex flex-col items-center justify-between shadow-sm" style="width: 5cm; height: 5cm;">
-                    <div class="flex items-center justify-center gap-1">
-                        <img src="osmo.jpg" class="osmoQrImg w-3.5 h-3.5 rounded-full object-cover" onerror="this.style.display='none'">
-                        <span class="text-[8px] font-bold text-blue-700">OSMOTEC - GARANTÍA</span>
+                <div class="flex items-center gap-3">
+                    <img src="osmo.jpg" alt="Osmo" class="w-10 h-10 rounded-full object-cover border-2 border-white/80 shadow-md" onerror="this.style.display='none'">
+                    <div>
+                        <h1 class="text-lg font-extrabold tracking-tight flex items-center gap-2" id="tituloHeaderModulo">
+                            🛠️ Taller OSMOTEC
+                        </h1>
+                        <span class="text-xs text-blue-200">Los Amates, Izabal</span>
                     </div>
-                    <div id="qrcode" class="flex justify-center my-auto"></div>
-                    <div id="qrInfoTexto" class="text-[7px] text-slate-600 font-medium leading-tight text-center">Seleccione un equipo</div>
                 </div>
+                
+                <!-- Pestañas de Taller -->
+                <nav id="navTaller" class="flex items-center gap-1.5 bg-blue-900/40 p-1.5 rounded-2xl border border-blue-500/30 shadow-inner flex-wrap justify-center">
+                    <button onclick="cambiarPestanaTaller('ordenes')" id="btnTabOrdenes" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white text-blue-800 shadow-md">📋 Órdenes</button>
+                    <button onclick="cambiarPestanaTaller('diagnostico')" id="btnTabDiagnostico" class="px-3 py-1.5 rounded-xl text-xs font-semibold text-blue-100 hover:bg-blue-800/60">🔍 Diagnóstico & Reporte</button>
+                    <button onclick="cambiarPestanaTaller('garantia')" id="btnTabGarantia" class="px-3 py-1.5 rounded-xl text-xs font-semibold text-blue-100 hover:bg-blue-800/60">🛡️ Garantía & QR</button>
+                    <button onclick="cambiarPestanaTaller('tecnicos')" id="btnTabTecnicos" class="px-3 py-1.5 rounded-xl text-xs font-semibold text-blue-100 hover:bg-blue-800/60">👨‍🔧 Técnicos</button>
+                </nav>
 
-                <button onclick="window.print()" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-2.5 rounded-xl text-xs shadow-md transition">
-                    🖨️ Imprimir Etiqueta QR
-                </button>
-            </section>
-        </div>
+                <!-- Pestañas de Tienda -->
+                <nav id="navTienda" class="hidden flex items-center gap-1.5 bg-emerald-900/40 p-1.5 rounded-2xl border border-emerald-500/30 shadow-inner flex-wrap justify-center">
+                    <button onclick="cambiarPestanaTienda('inventario')" id="btnTabInventario" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white text-emerald-800 shadow-md">📦 Inventario</button>
+                    <button onclick="cambiarPestanaTienda('ventas')" id="btnTabVentas" class="px-3 py-1.5 rounded-xl text-xs font-semibold text-emerald-100 hover:bg-emerald-800/60">💵 Ventas / POS</button>
+                    <button onclick="cambiarPestanaTienda('reportes')" id="btnTabReportes" class="px-3 py-1.5 rounded-xl text-xs font-semibold text-emerald-100 hover:bg-emerald-800/60">📊 Reportes</button>
+                </nav>
 
-        <!-- ================= VISTA 4: TÉCNICOS ================= -->
-        <div id="vistaTecnicos" class="hidden grid-cols-1 md:grid-cols-3 gap-6">
-            <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 md:col-span-1 h-fit">
-                <h2 class="text-base font-bold text-blue-700 mb-4 border-b pb-2">👨‍🔧 4. Agregar Nuevo Técnico</h2>
-                <form id="tecnicoForm" class="space-y-3">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Nombre Completo o Alias</label>
-                        <input type="text" id="nombreTecnico" placeholder="Ej: Carlos Pérez" required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Especialidad / Cargo</label>
-                        <input type="text" id="especialidad" placeholder="Ej: Impresoras y Laptops" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                    </div>
-                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-sm shadow-md transition">
-                        Guardar Técnico
+                <div>
+                    <button onclick="volverAlSelector()" class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 bg-slate-900 text-white hover:bg-slate-800 shadow-md border border-slate-700">
+                        🏠 Menú Principal
                     </button>
-                </form>
-            </section>
-
-            <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 md:col-span-2">
-                <h2 class="text-base font-bold text-slate-700 mb-4 border-b pb-3">👥 Técnicos Activos en OSMOTEC</h2>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse text-sm">
-                        <thead>
-                            <tr class="bg-slate-50 text-slate-700 border-b border-slate-200 text-xs uppercase tracking-wider">
-                                <th class="p-3">Nombre</th>
-                                <th class="p-3">Especialidad</th>
-                                <th class="p-3 text-center">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tablaTecnicos" class="divide-y divide-slate-100"></tbody>
-                    </table>
                 </div>
-            </section>
-        </div>
+            </div>
+        </header>
 
-    </main>
+        <main class="max-w-7xl mx-auto p-4 md:p-6 flex-grow w-full">
+            
+            <!-- ================= VISTAS DE TALLER ================= -->
+            <div id="vistaOrdenes" class="hidden grid-cols-1 lg:grid-cols-3 gap-6">
+                <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 lg:col-span-1 h-fit">
+                    <h2 id="tituloFormOrden" class="text-base font-bold text-blue-700 mb-4 border-b pb-2 flex items-center gap-2">➕ Registrar Nuevo Equipo</h2>
+                    <form id="ordenForm" class="space-y-3">
+                        <input type="hidden" id="editOrdenId">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">Nombre del Cliente</label>
+                            <input type="text" id="cliente" required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">WhatsApp del Cliente</label>
+                            <input type="text" id="whatsapp" placeholder="Ej: 35650881" required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:outline-none">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-1">Marca</label>
+                                <input type="text" id="marca" placeholder="Epson..." required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-1">Modelo</label>
+                                <input type="text" id="modelo" placeholder="L3210..." required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">Tipo de Equipo</label>
+                            <select id="tipoEquipo" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm bg-white">
+                                <option value="Impresora">Impresora</option>
+                                <option value="Laptop">Laptop</option>
+                                <option value="PC Escritorio">PC de Escritorio</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">Falla / Error reportado</label>
+                            <textarea id="errorReportado" rows="2" required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm"></textarea>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-1">Tiempo sin uso</label>
+                                <input type="text" id="tiempoSinUso" placeholder="Ej: 6 meses" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-1">Accesorios</label>
+                                <input type="text" id="accesorios" placeholder="Cargador..." class="w-full border border-slate-300 rounded-xl p-2.5 text-sm">
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button type="submit" id="btnGuardarOrden" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-sm shadow-md">
+                                Guardar Orden en Taller
+                            </button>
+                            <button type="button" id="btnCancelarEdicionOrden" onclick="cancelarEdicionOrden()" class="hidden bg-slate-400 hover:bg-slate-500 text-white font-bold py-3 px-4 rounded-xl text-sm shadow-md">
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </section>
 
-    <!-- Script de Configuración y Lógica -->
+                <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 lg:col-span-2">
+                    <div class="flex flex-col sm:flex-row justify-between items-center mb-4 border-b pb-3 gap-2">
+                        <h2 class="text-base font-bold text-slate-700">📋 Listado de Órdenes Activas</h2>
+                        <input type="text" id="buscarOrden" placeholder="Buscar equipo o cliente..." class="border border-slate-300 rounded-xl p-2 text-sm w-full sm:w-64 focus:outline-none">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="bg-slate-50 text-slate-700 border-b text-xs uppercase">
+                                    <th class="p-3">Equipo</th>
+                                    <th class="p-3">Cliente / WA</th>
+                                    <th class="p-3">Falla & Accesorios</th>
+                                    <th class="p-3">Técnico Asignado</th>
+                                    <th class="p-3">Estado</th>
+                                    <th class="p-3 text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaOrdenes" class="divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- VISTA DIAGNÓSTICO Y REPORTE FINAL -->
+            <div id="vistaDiagnostico" class="hidden space-y-6">
+                <!-- 1. Diagnóstico Inicial -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80">
+                    <div class="flex flex-col sm:flex-row justify-between items-center mb-4 border-b pb-3 gap-2">
+                        <h2 class="text-base font-bold text-blue-700">🔍 1. Diagnóstico Inicial</h2>
+                        <input type="text" id="buscarDiagnostico" placeholder="Filtrar por equipo o cliente..." class="border rounded-xl p-2 text-sm w-full sm:w-64 focus:outline-none">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="bg-slate-50 text-xs uppercase text-slate-700 border-b">
+                                    <th class="p-3 w-1/5">Equipo</th>
+                                    <th class="p-3 w-1/5">Cliente / WA</th>
+                                    <th class="p-3 w-2/5">Diagnóstico Inicial</th>
+                                    <th class="p-3 w-1/5 text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaDiagnosticoInicial" class="divide-y"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 2. Reporte Final, Costo y Entrega -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80">
+                    <div class="flex flex-col sm:flex-row justify-between items-center mb-4 border-b pb-3 gap-2">
+                        <h2 class="text-base font-bold text-emerald-700">📌 2. Reporte Final, Costo y Entrega</h2>
+                        <input type="text" id="buscarReporteFinal" placeholder="Filtrar por equipo o cliente..." class="border rounded-xl p-2 text-sm w-full sm:w-64 focus:outline-none">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="bg-slate-50 text-xs uppercase text-slate-700 border-b">
+                                    <th class="p-3 w-1/5">Equipo</th>
+                                    <th class="p-3 w-2/5">Reporte Final / Sin arreglo amplio</th>
+                                    <th class="p-3 w-1/5">Cobro (Q.) / Estado</th>
+                                    <th class="p-3 w-1/5 text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaReporteFinal" class="divide-y"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="vistaGarantia" class="hidden grid-cols-1 lg:grid-cols-3 gap-6">
+                <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 lg:col-span-1 h-fit">
+                    <h2 class="text-base font-bold text-blue-700 mb-4 border-b pb-2">🛡️ Asignar Garantía</h2>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">Seleccionar Equipo</label>
+                            <select id="selectEquipoGarantia" onchange="cargarDatosGarantia()" class="w-full border rounded-xl p-2.5 text-sm bg-white">
+                                <option value="">-- Seleccione --</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">Resumen del Trabajo</label>
+                            <textarea id="infoTrabajoGarantia" rows="3" readonly class="w-full border bg-slate-50 rounded-xl p-2.5 text-xs"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-blue-700 mb-1">Días de Garantía (1-15)</label>
+                            <input type="number" id="diasGarantia" min="1" max="15" value="15" class="w-full border-2 border-blue-200 rounded-xl p-2.5 text-sm font-bold bg-blue-50">
+                        </div>
+                        <button onclick="generarQR()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-sm shadow-md">
+                            🖨️ Generar Etiqueta QR con Osmo
+                        </button>
+                    </div>
+                </section>
+
+                <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 lg:col-span-2 flex flex-col items-center justify-center text-center">
+                    <h2 class="text-base font-bold text-slate-700 mb-2 border-b pb-2 w-full text-left">📱 Etiqueta QR de Garantía</h2>
+                    <div id="seccionImpresionQR" class="p-1 border-2 border-dashed border-slate-400 rounded-xl bg-white flex flex-col items-center justify-between shadow-sm" style="width: 5cm; height: 5cm;">
+                        <div class="flex items-center justify-center gap-1">
+                            <img src="osmo.jpg" class="w-3.5 h-3.5 rounded-full object-cover" onerror="this.style.display='none'">
+                            <span class="text-[8px] font-bold text-blue-700">OSMOTEC - GARANTÍA</span>
+                        </div>
+                        <div id="qrcode" class="flex justify-center items-center my-auto"></div>
+                        <div id="qrInfoTexto" class="text-[7px] text-slate-600 font-medium leading-tight text-center">Seleccione un equipo</div>
+                    </div>
+                    <button onclick="window.print()" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-2.5 rounded-xl text-xs shadow-md">
+                        🖨️ Imprimir Etiqueta QR
+                    </button>
+                </section>
+            </div>
+
+            <div id="vistaTecnicos" class="hidden grid-cols-1 md:grid-cols-3 gap-6">
+                <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 md:col-span-1 h-fit">
+                    <h2 class="text-base font-bold text-blue-700 mb-4 border-b pb-2">👨‍🔧 Agregar Técnico</h2>
+                    <form id="tecnicoForm" class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">Nombre / Alias</label>
+                            <input type="text" id="nombreTecnico" required class="w-full border rounded-xl p-2.5 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">Especialidad</label>
+                            <input type="text" id="especialidad" placeholder="Ej: Impresoras" class="w-full border rounded-xl p-2.5 text-sm">
+                        </div>
+                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-sm">
+                            Guardar Técnico
+                        </button>
+                    </form>
+                </section>
+                <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 md:col-span-2">
+                    <h2 class="text-base font-bold text-slate-700 mb-4 border-b pb-3">👥 Técnicos Activos</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="bg-slate-50 text-xs uppercase text-slate-700 border-b">
+                                    <th class="p-3">Nombre</th>
+                                    <th class="p-3">Especialidad</th>
+                                    <th class="p-3 text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaTecnicos" class="divide-y"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ================= VISTAS DE TIENDA ================= -->
+            <div id="vistaTiendaInventario" class="hidden grid-cols-1 lg:grid-cols-3 gap-6">
+                <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 lg:col-span-1 h-fit">
+                    <h2 id="tituloFormProducto" class="text-base font-bold text-emerald-700 mb-4 border-b pb-2">📦 Nuevo Producto / Accesorio</h2>
+                    <form id="tiendaForm" class="space-y-3">
+                        <input type="hidden" id="editProductId">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">Nombre del Producto</label>
+                            <input type="text" id="nombreProducto" required placeholder="Ej: Mouse gamer..." class="w-full border rounded-xl p-2.5 text-sm">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-1">Precio Costo (Q.)</label>
+                                <input type="number" step="0.01" id="costoProducto" required placeholder="0.00" class="w-full border rounded-xl p-2.5 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-1">Precio Venta (Q.)</label>
+                                <input type="number" step="0.01" id="precioProducto" required placeholder="0.00" class="w-full border rounded-xl p-2.5 text-sm">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">Stock / Cantidad</label>
+                            <input type="number" id="stockProducto" required placeholder="10" class="w-full border rounded-xl p-2.5 text-sm">
+                        </div>
+                        <div class="flex gap-2">
+                            <button type="submit" id="btnGuardarProducto" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-sm shadow-md">
+                                Guardar en Inventario
+                            </button>
+                            <button type="button" id="btnCancelarEdicion" onclick="cancelarEdicionProducto()" class="hidden bg-slate-400 hover:bg-slate-500 text-white font-bold py-3 px-4 rounded-xl text-sm shadow-md">
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </section>
+
+                <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 lg:col-span-2">
+                    <div class="flex justify-between items-center mb-4 border-b pb-3 gap-2">
+                        <h2 class="text-base font-bold text-slate-700">📋 Inventario y Alertas de Stock</h2>
+                        <input type="text" id="buscarTienda" placeholder="Buscar producto..." class="border rounded-xl p-2 text-sm w-64 focus:outline-none">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="bg-slate-50 text-xs uppercase text-slate-700 border-b">
+                                    <th class="p-3">Producto</th>
+                                    <th class="p-3">Costo / Venta</th>
+                                    <th class="p-3">Stock & Alerta</th>
+                                    <th class="p-3 text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaTienda" class="divide-y"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- VISTA VENTAS / POS -->
+            <div id="vistaTiendaVentas" class="hidden grid-cols-1 lg:grid-cols-2 gap-6">
+                <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 space-y-4">
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">🔍</span>
+                        <input type="text" id="buscarVentaInput" oninput="filtrarCatalogoVenta()" placeholder="Buscar medicamento para agregar..." class="w-full border border-slate-300 rounded-xl pl-10 pr-3 py-2.5 text-sm focus:outline-none">
+                    </div>
+
+                    <div class="bg-blue-900 text-white text-xs font-bold rounded-xl p-3 flex justify-between items-center">
+                        <span>Producto / Ubicación</span>
+                        <span>Stock / Precio</span>
+                    </div>
+
+                    <div id="listaProductosPOS" class="space-y-2 overflow-y-auto max-h-[450px]">
+                        <!-- Se llena dinámicamente -->
+                    </div>
+                </section>
+
+                <section class="bg-emerald-50/50 p-5 rounded-2xl shadow-sm border border-emerald-200/80 space-y-4 h-fit">
+                    <h2 class="text-sm font-black text-center text-emerald-800 tracking-wide uppercase">🧾 Ticket de Venta Actual</h2>
+                    
+                    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+                        <div class="bg-blue-900 text-white text-xs font-bold grid grid-cols-12 p-2.5">
+                            <span class="col-span-6">Producto</span>
+                            <span class="col-span-2 text-center">Cant.</span>
+                            <span class="col-span-3 text-right">Subtotal</span>
+                            <span class="col-span-1 text-center">X</span>
+                        </div>
+                        <div id="tablaTicketCarrito" class="divide-y divide-slate-100 min-h-[100px] max-h-[200px] overflow-y-auto text-xs">
+                            <div class="p-4 text-center text-slate-400 italic">El carrito está vacío</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-3">
+                        <div class="flex justify-between items-center font-black text-base text-slate-800 border-b pb-2">
+                            <span>Total a Pagar:</span>
+                            <span id="totalCarrito" class="text-emerald-700 text-lg">Q0.00</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Efectivo Recibido (Q):</label>
+                                <input type="number" step="0.01" id="efectivoRecibido" oninput="calcularVuelto()" placeholder="0.00" class="w-full border border-slate-300 rounded-xl p-2 text-sm font-bold focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Su Vuelto (Cambio):</label>
+                                <div id="vueltoCambio" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2 text-sm font-black text-blue-700 flex items-center">Q0.00</div>
+                            </div>
+                        </div>
+
+                        <button onclick="procesarVentaEImprimir()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl text-sm shadow-md transition flex items-center justify-center gap-2">
+                            ✅ Cobrar e Imprimir / Guardar PDF
+                        </button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- VISTA REPORTES -->
+            <div id="vistaTiendaReportes" class="hidden space-y-6">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-700">📊 Reportes Financieros de Tienda</h2>
+                        <p class="text-xs text-slate-500">Visualiza ingresos, ganancias netas y desglose por producto</p>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                        <button onclick="enviarWhatsAppAgotadosReportes()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-md transition flex items-center gap-1.5">
+                            📱 Enviar Reporte de Agotados por WhatsApp
+                        </button>
+                        <select id="filtroPeriodoReporte" onchange="aplicarFiltroReportes()" class="border border-slate-300 rounded-xl p-2.5 text-xs font-bold bg-slate-50 text-slate-700 focus:outline-none">
+                            <option value="dia">📅 Reporte de Hoy (Día)</option>
+                            <option value="mes">📆 Reporte de este Mes</option>
+                            <option value="todos">📜 Histórico Completo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-bold text-slate-500 uppercase">Ingresos Totales</p>
+                            <h3 class="text-2xl font-black text-emerald-700 mt-1" id="reporteTotalIngresos">Q. 0.00</h3>
+                        </div>
+                        <div class="p-3 bg-emerald-50 text-emerald-600 rounded-2xl text-2xl">💰</div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-bold text-slate-500 uppercase">Ganancia Neta</p>
+                            <h3 class="text-2xl font-black text-blue-700 mt-1" id="reporteTotalGanancia">Q. 0.00</h3>
+                        </div>
+                        <div class="p-3 bg-blue-50 text-blue-600 rounded-2xl text-2xl">📈</div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-bold text-slate-500 uppercase">Ventas Realizadas</p>
+                            <h3 class="text-2xl font-black text-slate-700 mt-1" id="reporteTotalVentas">0</h3>
+                        </div>
+                        <div class="p-3 bg-slate-100 text-slate-600 rounded-2xl text-2xl">🛒</div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80">
+                    <div class="flex justify-between items-center mb-4 border-b pb-3 gap-2">
+                        <h2 class="text-base font-bold text-slate-700">📜 Detalle de Ventas y Ganancias</h2>
+                        <input type="text" id="buscarReporteVentas" placeholder="Buscar producto..." class="border rounded-xl p-2 text-sm w-64 focus:outline-none">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="bg-slate-50 text-xs uppercase text-slate-700 border-b">
+                                    <th class="p-3">Fecha / Hora</th>
+                                    <th class="p-3">Productos Detalle</th>
+                                    <th class="p-3">Venta Total</th>
+                                    <th class="p-3">Ganancia Neta</th>
+                                    <th class="p-3 text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaReporteVentas" class="divide-y"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ================= SCRIPT DE CONFIGURACIÓN Y LÓGICA ================= -->
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyATGjGkxxqGZe8D60ibfamK_E656fxL-p8",
@@ -295,117 +508,153 @@
 
         let listaTecnicosGlobal = [];
         let todasLasOrdenesGlobal = [];
+        let todosLosProductosGlobal = [];
+        let carritoVenta = [];
+        let todasLasVentasGlobal = [];
 
-        function cambiarPestana(vista) {
-            const vOrdenes = document.getElementById('vistaOrdenes');
-            const vDiagnostico = document.getElementById('vistaDiagnostico');
-            const vGarantia = document.getElementById('vistaGarantia');
-            const vTecnicos = document.getElementById('vistaTecnicos');
-            
-            const bOrdenes = document.getElementById('btnTabOrdenes');
-            const bDiagnostico = document.getElementById('btnTabDiagnostico');
-            const bGarantia = document.getElementById('btnTabGarantia');
-            const bTecnicos = document.getElementById('btnTabTecnicos');
+        // ================= CONTROL DE MÓDULOS PRINCIPALES =================
+        function abrirModulo(modulo) {
+            document.getElementById('vistaSelector').classList.add('hidden');
+            document.getElementById('contenedorApp').classList.remove('hidden');
 
-            vOrdenes.classList.add('hidden'); vOrdenes.classList.remove('grid');
-            vDiagnostico.classList.add('hidden');
-            vGarantia.classList.add('hidden'); vGarantia.classList.remove('grid');
-            vTecnicos.classList.add('hidden'); vTecnicos.classList.remove('grid');
+            const navTaller = document.getElementById('navTaller');
+            const navTienda = document.getElementById('navTienda');
+            const tituloHeader = document.getElementById('tituloHeaderModulo');
 
-            const estiloInactivo = "px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center gap-2 text-blue-100 hover:bg-blue-800/60 hover:text-white";
-            const estiloActivo = "px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 bg-white text-blue-800 shadow-md transform scale-[1.02]";
+            if (modulo === 'taller') {
+                navTaller.classList.remove('hidden');
+                navTienda.classList.add('hidden');
+                tituloHeader.innerHTML = "🛠️ Taller OSMOTEC";
+                cambiarPestanaTaller('ordenes');
+            } else if (modulo === 'tienda') {
+                navTaller.classList.add('hidden');
+                navTienda.classList.remove('hidden');
+                tituloHeader.innerHTML = "🛒 Tienda OSMOTEC";
+                cambiarPestanaTienda('inventario');
+            }
+        }
 
-            bOrdenes.className = estiloInactivo;
-            bDiagnostico.className = estiloInactivo;
-            bGarantia.className = estiloInactivo;
-            bTecnicos.className = estiloInactivo;
+        function volverAlSelector() {
+            document.getElementById('contenedorApp').classList.add('hidden');
+            document.getElementById('vistaSelector').classList.remove('hidden');
+        }
+
+        // ================= CONTROL AISLADO DE PESTAÑAS DE TALLER =================
+        function cambiarPestanaTaller(vista) {
+            document.getElementById('vistaOrdenes').classList.add('hidden');
+            document.getElementById('vistaOrdenes').classList.remove('grid');
+            document.getElementById('vistaDiagnostico').classList.add('hidden');
+            document.getElementById('vistaGarantia').classList.add('hidden');
+            document.getElementById('vistaGarantia').classList.remove('grid');
+            document.getElementById('vistaTecnicos').classList.add('hidden');
+            document.getElementById('vistaTecnicos').classList.remove('grid');
+
+            document.getElementById('vistaTiendaInventario').classList.add('hidden');
+            document.getElementById('vistaTiendaVentas').classList.add('hidden');
+            document.getElementById('vistaTiendaReportes').classList.add('hidden');
+
+            const estiloInactivo = "px-3 py-1.5 rounded-xl text-xs font-semibold text-blue-100 hover:bg-blue-800/60";
+            const estiloActivo = "px-3 py-1.5 rounded-xl text-xs font-bold bg-white text-blue-800 shadow-md";
+
+            document.getElementById('btnTabOrdenes').className = estiloInactivo;
+            document.getElementById('btnTabDiagnostico').className = estiloInactivo;
+            document.getElementById('btnTabGarantia').className = estiloInactivo;
+            document.getElementById('btnTabTecnicos').className = estiloInactivo;
 
             if (vista === 'ordenes') {
-                vOrdenes.classList.remove('hidden'); vOrdenes.classList.add('grid');
-                bOrdenes.className = estiloActivo;
+                document.getElementById('vistaOrdenes').classList.remove('hidden');
+                document.getElementById('vistaOrdenes').classList.add('grid');
+                document.getElementById('btnTabOrdenes').className = estiloActivo;
             } else if (vista === 'diagnostico') {
-                vDiagnostico.classList.remove('hidden');
-                bDiagnostico.className = estiloActivo;
+                document.getElementById('vistaDiagnostico').classList.remove('hidden');
+                document.getElementById('btnTabDiagnostico').className = estiloActivo;
+                renderizarDiagnosticoYReportes(todasLasOrdenesGlobal);
             } else if (vista === 'garantia') {
-                vGarantia.classList.remove('hidden'); vGarantia.classList.add('grid');
-                bGarantia.className = estiloActivo;
+                document.getElementById('vistaGarantia').classList.remove('hidden');
+                document.getElementById('vistaGarantia').classList.add('grid');
+                document.getElementById('btnTabGarantia').className = estiloActivo;
                 poblarSelectGarantia();
-            } else {
-                vTecnicos.classList.remove('hidden'); vTecnicos.classList.add('grid');
-                bTecnicos.className = estiloActivo;
+            } else if (vista === 'tecnicos') {
+                document.getElementById('vistaTecnicos').classList.remove('hidden');
+                document.getElementById('vistaTecnicos').classList.add('grid');
+                document.getElementById('btnTabTecnicos').className = estiloActivo;
+            }
+        }
+
+        // ================= CONTROL AISLADO DE PESTAÑAS DE TIENDA =================
+        function cambiarPestanaTienda(vista) {
+            document.getElementById('vistaTiendaInventario').classList.add('hidden');
+            document.getElementById('vistaTiendaInventario').classList.remove('grid');
+            document.getElementById('vistaTiendaVentas').classList.add('hidden');
+            document.getElementById('vistaTiendaVentas').classList.remove('grid');
+            document.getElementById('vistaTiendaReportes').classList.add('hidden');
+
+            document.getElementById('vistaOrdenes').classList.add('hidden');
+            document.getElementById('vistaDiagnostico').classList.add('hidden');
+            document.getElementById('vistaGarantia').classList.add('hidden');
+            document.getElementById('vistaTecnicos').classList.add('hidden');
+
+            const estiloInactivo = "px-3 py-1.5 rounded-xl text-xs font-semibold text-emerald-100 hover:bg-emerald-800/60";
+            const estiloActivo = "px-3 py-1.5 rounded-xl text-xs font-bold bg-white text-emerald-800 shadow-md";
+
+            document.getElementById('btnTabInventario').className = estiloInactivo;
+            document.getElementById('btnTabVentas').className = estiloInactivo;
+            document.getElementById('btnTabReportes').className = estiloInactivo;
+
+            if (vista === 'inventario') {
+                document.getElementById('vistaTiendaInventario').classList.remove('hidden');
+                document.getElementById('vistaTiendaInventario').classList.add('grid');
+                document.getElementById('btnTabInventario').className = estiloActivo;
+            } else if (vista === 'ventas') {
+                document.getElementById('vistaTiendaVentas').classList.remove('hidden');
+                document.getElementById('vistaTiendaVentas').classList.add('grid');
+                document.getElementById('btnTabVentas').className = estiloActivo;
+                renderizarCatalogoPOS(todosLosProductosGlobal);
+            } else if (vista === 'reportes') {
+                document.getElementById('vistaTiendaReportes').classList.remove('hidden');
+                document.getElementById('btnTabReportes').className = estiloActivo;
+                aplicarFiltroReportes();
             }
         }
 
         function cerrarAplicacion() {
-            if (confirm('¿Desea cerrar o salir de la aplicación de OSMOTEC?')) {
+            if (confirm('¿Desea salir de la aplicación?')) {
                 window.close();
                 setTimeout(() => {
-                    document.body.innerHTML = `
-                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: Arial, sans-serif; background: #f1f5f9; color: #334155;">
-                            <h1 style="font-size: 24px; margin-bottom: 10px;">🔒 Aplicación OSMOTEC Cerrada</h1>
-                            <p style="font-size: 14px; color: #64748b;">Puede cerrar esta pestaña de manera segura o recargar la página para volver a ingresar.</p>
-                        </div>
-                    `;
+                    document.body.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: #f1f5f9; font-family: Arial;"><h1>🔒 Aplicación Cerrada</h1></div>`;
                 }, 200);
             }
         }
 
-        // ================= GESTIÓN DE TÉCNICOS =================
+        // ================= TALLER & TÉCNICOS =================
         const tecnicoForm = document.getElementById('tecnicoForm');
-        const tablaTecnicos = document.getElementById('tablaTecnicos');
-
         tecnicoForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const nuevoTecnico = {
+            await db.collection('tecnicos_taller').add({
                 nombre: document.getElementById('nombreTecnico').value,
                 especialidad: document.getElementById('especialidad').value || 'General'
-            };
-            try {
-                await db.collection('tecnicos_taller').add(nuevoTecnico);
-                alert('¡Técnico registrado con éxito!');
-                tecnicoForm.reset();
-            } catch (error) {
-                console.error("Error al guardar técnico:", error);
-            }
+            });
+            alert('¡Técnico registrado!');
+            tecnicoForm.reset();
         });
 
         db.collection('tecnicos_taller').onSnapshot((snapshot) => {
-            tablaTecnicos.innerHTML = '';
+            const tabla = document.getElementById('tablaTecnicos');
+            tabla.innerHTML = '';
             listaTecnicosGlobal = [];
             snapshot.forEach((doc) => {
                 const t = doc.data();
                 listaTecnicosGlobal.push(t.nombre);
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50 transition";
-                tr.innerHTML = `
-                    <td class="p-3 font-bold text-slate-700">👨‍🔧 ${t.nombre}</td>
-                    <td class="p-3 text-xs text-slate-600">${t.especialidad}</td>
-                    <td class="p-3 text-center">
-                        <button onclick="eliminarTecnico('${doc.id}')" class="text-red-500 hover:text-red-700 text-xs font-semibold px-2.5 py-1.5 bg-red-50 hover:bg-red-100 rounded-lg transition">Eliminar</button>
-                    </td>
-                `;
-                tablaTecnicos.appendChild(tr);
+                tabla.innerHTML += `<tr class="hover:bg-slate-50"><td class="p-3 font-bold">👨‍🔧 ${t.nombre}</td><td class="p-3 text-xs">${t.especialidad}</td><td class="p-3 text-center"><button onclick="db.collection('tecnicos_taller').doc('${doc.id}').delete()" class="text-red-500 text-xs px-2 py-1 bg-red-50 rounded-lg">Eliminar</button></td></tr>`;
             });
-            if(todasLasOrdenesGlobal.length > 0) renderizarTodo(todasLasOrdenesGlobal);
+            renderizarTodoTaller(todasLasOrdenesGlobal);
         });
 
-        window.eliminarTecnico = async function(id) {
-            if(confirm('¿Eliminar técnico?')) await db.collection('tecnicos_taller').doc(id).delete();
-        }
-
-        // ================= GESTIÓN DE ÓRDENES =================
         const ordenForm = document.getElementById('ordenForm');
-        const tablaOrdenes = document.getElementById('tablaOrdenes');
-        const tablaDiagnosticoInicial = document.getElementById('tablaDiagnosticoInicial');
-        const tablaReporteFinal = document.getElementById('tablaReporteFinal');
-        const buscarOrden = document.getElementById('buscarOrden');
-        const buscarDiagnostico = document.getElementById('buscarDiagnostico');
-        const buscarReporteFinal = document.getElementById('buscarReporteFinal');
-
         ordenForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const nuevaOrden = {
-                recibidoPor: 'Sin asignar',
+            const editOrdenId = document.getElementById('editOrdenId').value;
+            const datosOrden = {
                 cliente: document.getElementById('cliente').value,
                 whatsapp: document.getElementById('whatsapp').value,
                 marca: document.getElementById('marca').value,
@@ -413,364 +662,766 @@
                 tipoEquipo: document.getElementById('tipoEquipo').value,
                 errorReportado: document.getElementById('errorReportado').value,
                 tiempoSinUso: document.getElementById('tiempoSinUso').value,
-                accesorios: document.getElementById('accesorios').value || 'Ninguno',
-                diagnosticoInicial: 'Pendiente de diagnóstico inicial...',
-                reporteFinal: 'Pendiente de reporte final...',
-                costoReparacion: '0.00',
-                estadoPago: 'Pendiente pago',
-                estado: 'Pendiente',
-                fecha: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+                accesorios: document.getElementById('accesorios').value || 'Ninguno'
             };
-            try {
-                await db.collection('ordenes_taller').add(nuevaOrden);
-                alert('¡Equipo registrado con éxito!');
+
+            if (editOrdenId) {
+                await db.collection('ordenes_taller').doc(editOrdenId).update(datosOrden);
+                alert('¡Orden de taller actualizada con éxito!');
+                cancelarEdicionOrden();
+            } else {
+                datosOrden.recibidoPor = 'Sin asignar';
+                datosOrden.diagnosticoInicial = 'Pendiente...';
+                datosOrden.reporteFinal = 'Pendiente...';
+                datosOrden.costoReparacion = '0.00';
+                datosOrden.estadoPago = 'Pendiente pago';
+                datosOrden.estado = 'Pendiente';
+                datosOrden.fecha = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                
+                await db.collection('ordenes_taller').add(datosOrden);
+                alert('¡Equipo registrado en taller!');
                 ordenForm.reset();
-            } catch (error) {
-                console.error("Error al guardar orden: ", error);
             }
         });
+
+        function prepararEdicionOrden(id, cliente, whatsapp, marca, modelo, tipoEquipo, errorReportado, tiempoSinUso, accesorios) {
+            document.getElementById('editOrdenId').value = id;
+            document.getElementById('cliente').value = cliente;
+            document.getElementById('whatsapp').value = whatsapp;
+            document.getElementById('marca').value = marca;
+            document.getElementById('modelo').value = modelo;
+            document.getElementById('tipoEquipo').value = tipoEquipo;
+            document.getElementById('errorReportado').value = errorReportado;
+            document.getElementById('tiempoSinUso').value = tiempoSinUso;
+            document.getElementById('accesorios').value = accesorios;
+
+            document.getElementById('tituloFormOrden').textContent = "✏️ Modificar Orden de Taller";
+            document.getElementById('btnGuardarOrden').textContent = "Actualizar Orden";
+            document.getElementById('btnGuardarOrden').className = "w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-sm shadow-md";
+            document.getElementById('btnCancelarEdicionOrden').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function cancelarEdicionOrden() {
+            ordenForm.reset();
+            document.getElementById('editOrdenId').value = '';
+            document.getElementById('tituloFormOrden').textContent = "➕ Registrar Nuevo Equipo";
+            document.getElementById('btnGuardarOrden').textContent = "Guardar Orden en Taller";
+            document.getElementById('btnGuardarOrden').className = "w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-sm shadow-md";
+            document.getElementById('btnCancelarEdicionOrden').classList.add('hidden');
+        }
 
         db.collection('ordenes_taller').orderBy('fecha', 'desc').onSnapshot((snapshot) => {
             todasLasOrdenesGlobal = [];
-            snapshot.forEach((doc) => {
-                todasLasOrdenesGlobal.push({ id: doc.id, ...doc.data() });
+            snapshot.forEach((doc) => todasLasOrdenesGlobal.push({ id: doc.id, ...doc.data() }));
+            renderizarTodoTaller(todasLasOrdenesGlobal);
+            renderizarDiagnosticoYReportes(todasLasOrdenesGlobal);
+        });
+
+        function renderizarTodoTaller(ordenes) {
+            const t1 = document.getElementById('tablaOrdenes');
+            t1.innerHTML = '';
+            if (ordenes.length === 0) {
+                t1.innerHTML = `<tr><td colspan="6" class="text-center p-4 text-slate-400">Sin órdenes registradas.</td></tr>`;
+                return;
+            }
+
+            ordenes.forEach(o => {
+                let opcionesTecnicos = `<option value="Sin asignar">-- Sin asignar --</option>`;
+                listaTecnicosGlobal.forEach(tec => {
+                    let seleccionado = (o.recibidoPor === tec) ? 'selected' : '';
+                    opcionesTecnicos += `<option value="${tec}" ${seleccionado}>👨‍🔧 ${tec}</option>`;
+                });
+
+                t1.innerHTML += `
+                    <tr class="hover:bg-slate-50 text-xs align-top">
+                        <td class="p-3 font-bold">${o.marca} ${o.modelo}<br><span class="text-[10px] text-slate-400">${o.fecha}</span></td>
+                        <td class="p-3">${o.cliente}<br><a href="https://wa.me/502${o.whatsapp}" target="_blank" class="text-emerald-600 font-bold">📱 ${o.whatsapp}</a></td>
+                        <td class="p-3"><span class="text-red-600 font-bold">Falla:</span> ${o.errorReportado}<br><span class="text-slate-500">Accesorios: ${o.accesorios || 'Ninguno'}</span></td>
+                        <td class="p-3">
+                            <select id="tec_${o.id}" onchange="asignarTecnicoOrden('${o.id}')" class="w-full border rounded-xl p-2 text-xs bg-white font-bold text-blue-700">
+                                ${opcionesTecnicos}
+                            </select>
+                        </td>
+                        <td class="p-3"><span class="px-2 py-1 rounded-full font-bold bg-amber-100 text-amber-800">${o.estado}</span></td>
+                        <td class="p-3 text-center space-y-1">
+                            <button onclick="descargarTicketPDF('${o.cliente}', '${o.whatsapp}', '${o.tipoEquipo}', '${o.marca}', '${o.modelo}', '${o.errorReportado}', '${o.accesorios}', '${o.fecha}')" class="w-full bg-amber-600 text-white px-2 py-1 rounded-xl text-xs font-bold shadow-sm">📄 Ticket</button>
+                            <button onclick="prepararEdicionOrden('${o.id}', '${o.cliente}', '${o.whatsapp}', '${o.marca}', '${o.modelo}', '${o.tipoEquipo}', '${o.errorReportado}', '${o.tiempoSinUso || ''}', '${o.accesorios || ''}')" class="w-full bg-blue-50 text-blue-600 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-blue-100 transition">✏️ Modificar</button>
+                            <button onclick="if(confirm('¿Desea eliminar esta orden de taller?')) { db.collection('ordenes_taller').doc('${o.id}').delete(); }" class="w-full bg-red-50 text-red-500 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-red-100 transition">🗑️ Eliminar</button>
+                        </td>
+                    </tr>
+                `;
             });
-            renderizarTodo(todasLasOrdenesGlobal);
-            if(document.getElementById('vistaGarantia').classList.contains('grid')) {
-                poblarSelectGarantia();
+        }
+
+        async function asignarTecnicoOrden(id) {
+            const tecSeleccionado = document.getElementById(`tec_${id}`).value;
+            await db.collection('ordenes_taller').doc(id).update({
+                recibidoPor: tecSeleccionado
+            });
+            alert('¡Técnico asignado a la orden con éxito!');
+        }
+
+        // Buscador de Órdenes
+        document.getElementById('buscarOrden').addEventListener('input', (e) => {
+            const txt = e.target.value.toLowerCase();
+            const filtradas = todasLasOrdenesGlobal.filter(o => o.marca.toLowerCase().includes(txt) || o.modelo.toLowerCase().includes(txt) || o.cliente.toLowerCase().includes(txt));
+            renderizarTodoTaller(filtradas);
+        });
+
+        // ================= RENDERIZAR DIAGNÓSTICO Y REPORTE FINAL =================
+        function renderizarDiagnosticoYReportes(ordenes) {
+            const tablaDiag = document.getElementById('tablaDiagnosticoInicial');
+            const tablaFinal = document.getElementById('tablaReporteFinal');
+            if (!tablaDiag || !tablaFinal) return;
+
+            tablaDiag.innerHTML = '';
+            tablaFinal.innerHTML = '';
+
+            if (ordenes.length === 0) {
+                tablaDiag.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-400">Sin órdenes registradas.</td></tr>`;
+                tablaFinal.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-400">Sin órdenes registradas.</td></tr>`;
+                return;
+            }
+
+            ordenes.forEach(o => {
+                // 1. Diagnóstico Inicial
+                tablaDiag.innerHTML += `
+                    <tr class="hover:bg-slate-50 text-xs align-top">
+                        <td class="p-3 font-bold text-slate-700">${o.marca} ${o.modelo}<br><span class="text-[10px] text-slate-400">${o.tipoEquipo}</span></td>
+                        <td class="p-3">${o.cliente}<br><a href="https://wa.me/502${o.whatsapp}" target="_blank" class="text-emerald-600 font-bold">📱 ${o.whatsapp}</a></td>
+                        <td class="p-3">
+                            <div class="font-bold text-red-600 mb-1">Falla: ${o.errorReportado}</div>
+                            <textarea id="diag_${o.id}" rows="2" class="w-full border rounded-xl p-2 text-xs focus:outline-none" placeholder="Escribir diagnóstico...">${o.diagnosticoInicial || ''}</textarea>
+                        </td>
+                        <td class="p-3 text-center space-y-1">
+                            <button onclick="guardarDiagnostico('${o.id}')" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm">✏️ Modificar / Guardar</button>
+                            <a href="https://wa.me/502${o.whatsapp}?text=${encodeURIComponent(`Hola *${o.cliente}*, sobre su equipo *${o.marca} ${o.modelo}* en OSMOTEC Taller:\nDiagnóstico inicial: ${o.diagnosticoInicial || 'En revisión'}`)}" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm">📱 WSP Diagnóstico</a>
+                            <button onclick="eliminarDiagnostico('${o.id}')" class="w-full bg-red-50 text-red-500 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-red-100 transition">🗑️ Eliminar</button>
+                        </td>
+                    </tr>
+                `;
+
+                // 2. Reporte Final, Costo y Entrega
+                let mensajeWspFinal = `Hola *${o.cliente}*, le saludamos de *OSMOTEC Taller*.\n\nInformación sobre su equipo (*${o.marca} ${o.modelo}*):\n\n🛠️ *Reporte Final:* ${o.reporteFinal || 'En proceso'}\n💰 *Total a Cobrar:* Q. ${o.costoReparacion || '0.00'}\n📌 *Estado:* ${o.estado}\n\n¡Gracias por su preferencia!`;
+
+                tablaFinal.innerHTML += `
+                    <tr class="hover:bg-slate-50 text-xs align-top">
+                        <td class="p-3 font-bold text-slate-700">${o.marca} ${o.modelo}<br><span class="text-[10px] text-slate-400">${o.cliente}</span></td>
+                        <td class="p-3">
+                            <textarea id="rep_${o.id}" rows="2" class="w-full border rounded-xl p-2 text-xs focus:outline-none" placeholder="Reporte final o reparación...">${o.reporteFinal || ''}</textarea>
+                        </td>
+                        <td class="p-3">
+                            <div class="flex items-center gap-1 mb-1">
+                                <span class="font-bold text-slate-600">Q.</span>
+                                <input type="number" step="0.01" id="costo_${o.id}" value="${o.costoReparacion || '0.00'}" class="w-24 border rounded-xl p-1.5 text-xs font-bold text-emerald-700">
+                            </div>
+                            <select id="estado_${o.id}" class="w-full border rounded-xl p-1.5 text-xs bg-white font-bold">
+                                <option value="Pendiente" ${o.estado === 'Pendiente' ? 'selected' : ''}>Pendiente</option>
+                                <option value="Reparado" ${o.estado === 'Reparado' ? 'selected' : ''}>Reparado</option>
+                                <option value="Entregado" ${o.estado === 'Entregado' ? 'selected' : ''}>Entregado</option>
+                            </select>
+                        </td>
+                        <td class="p-3 text-center space-y-1">
+                            <button onclick="guardarReporteFinal('${o.id}')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm">✏️ Modificar / Actualizar</button>
+                            <a href="https://wa.me/502${o.whatsapp}?text=${encodeURIComponent(mensajeWspFinal)}" target="_blank" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm">📱 Enviar WhatsApp</a>
+                            <button onclick="eliminarReporteFinal('${o.id}')" class="w-full bg-red-50 text-red-500 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-red-100 transition">🗑️ Eliminar</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        async function guardarDiagnostico(id) {
+            const diag = document.getElementById(`diag_${id}`).value;
+            await db.collection('ordenes_taller').doc(id).update({
+                diagnosticoInicial: diag
+            });
+            alert('¡Diagnóstico actualizado con éxito!');
+        }
+
+        async function eliminarDiagnostico(id) {
+            if(confirm('¿Desea limpiar el diagnóstico inicial de este equipo?')) {
+                await db.collection('ordenes_taller').doc(id).update({
+                    diagnosticoInicial: 'Pendiente...'
+                });
+                alert('¡Diagnóstico eliminado/restablecido!');
+            }
+        }
+
+        async function guardarReporteFinal(id) {
+            const reporte = document.getElementById(`rep_${id}`).value;
+            const costo = document.getElementById(`costo_${id}`).value;
+            const estado = document.getElementById(`estado_${id}`).value;
+            await db.collection('ordenes_taller').doc(id).update({
+                reporteFinal: reporte,
+                costoReparacion: costo,
+                estado: estado
+            });
+            alert('¡Reporte final y cobro actualizados con éxito!');
+        }
+
+        async function eliminarReporteFinal(id) {
+            if(confirm('¿Desea restablecer/eliminar el reporte final de este equipo?')) {
+                await db.collection('ordenes_taller').doc(id).update({
+                    reporteFinal: 'Pendiente...',
+                    costoReparacion: '0.00',
+                    estado: 'Pendiente'
+                });
+                alert('¡Reporte final restablecido!');
+            }
+        }
+
+        // Buscadores de Diagnóstico
+        document.getElementById('buscarDiagnostico').addEventListener('input', (e) => {
+            const txt = e.target.value.toLowerCase();
+            const filtradas = todasLasOrdenesGlobal.filter(o => o.marca.toLowerCase().includes(txt) || o.modelo.toLowerCase().includes(txt) || o.cliente.toLowerCase().includes(txt));
+            renderizarDiagnosticoYReportes(filtradas);
+        });
+
+        document.getElementById('buscarReporteFinal').addEventListener('input', (e) => {
+            const txt = e.target.value.toLowerCase();
+            const filtradas = todasLasOrdenesGlobal.filter(o => o.marca.toLowerCase().includes(txt) || o.modelo.toLowerCase().includes(txt) || o.cliente.toLowerCase().includes(txt));
+            renderizarDiagnosticoYReportes(filtradas);
+        });
+
+        // ================= TIENDA: INVENTARIO & EDICIÓN DE PRODUCTOS =================
+        const tiendaForm = document.getElementById('tiendaForm');
+        tiendaForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const editId = document.getElementById('editProductId').value;
+            const datosProducto = {
+                nombre: document.getElementById('nombreProducto').value,
+                costo: parseFloat(document.getElementById('costoProducto').value),
+                precio: parseFloat(document.getElementById('precioProducto').value),
+                stock: parseInt(document.getElementById('stockProducto').value)
+            };
+
+            if (editId) {
+                await db.collection('productos_tienda').doc(editId).update(datosProducto);
+                alert('¡Producto actualizado con éxito!');
+                cancelarEdicionProducto();
+            } else {
+                datosProducto.fecha = new Date().toLocaleDateString();
+                await db.collection('productos_tienda').add(datosProducto);
+                alert('¡Producto agregado con éxito!');
+                tiendaForm.reset();
             }
         });
 
-        function renderizarTodo(ordenes) {
-            renderizarTablaOrdenes(ordenes);
-            renderizarTablaDiagnosticoInicial(ordenes);
-            renderizarTablaReporteFinal(ordenes);
+        function prepararEdicionProducto(id, nombre, costo, precio, stock) {
+            document.getElementById('editProductId').value = id;
+            document.getElementById('nombreProducto').value = nombre;
+            document.getElementById('costoProducto').value = costo;
+            document.getElementById('precioProducto').value = precio;
+            document.getElementById('stockProducto').value = stock;
+
+            document.getElementById('tituloFormProducto').textContent = "✏️ Editar Producto";
+            document.getElementById('btnGuardarProducto').textContent = "Actualizar Producto";
+            document.getElementById('btnGuardarProducto').className = "w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-sm shadow-md";
+            document.getElementById('btnCancelarEdicion').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // TABLA 1: ÓRDENES
-        function renderizarTablaOrdenes(ordenes) {
-            tablaOrdenes.innerHTML = '';
-            if (ordenes.length === 0) {
-                tablaOrdenes.innerHTML = `<tr><td colspan="5" class="text-center p-4 text-slate-400">No hay órdenes registradas.</td></tr>`;
-                return;
-            }
+        function cancelarEdicionProducto() {
+            tiendaForm.reset();
+            document.getElementById('editProductId').value = '';
+            document.getElementById('tituloFormProducto').textContent = "📦 Nuevo Producto / Accesorio";
+            document.getElementById('btnGuardarProducto').textContent = "Guardar en Inventario";
+            document.getElementById('btnGuardarProducto').className = "w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-sm shadow-md";
+            document.getElementById('btnCancelarEdicion').classList.add('hidden');
+        }
 
-            ordenes.forEach(o => {
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50 align-top transition";
-                
-                let estadoColor = "bg-amber-100 text-amber-800";
-                if(o.estado === 'En reparación') estadoColor = "bg-blue-100 text-blue-800";
-                if(o.estado === 'Listo / Reparado') estadoColor = "bg-emerald-100 text-emerald-800";
-                if(o.estado === 'Sin arreglo') estadoColor = "bg-red-100 text-red-800";
-                if(o.estado === 'Entregado') estadoColor = "bg-slate-200 text-slate-700";
+        db.collection('productos_tienda').orderBy('nombre').onSnapshot((snapshot) => {
+            todosLosProductosGlobal = [];
+            snapshot.forEach((doc) => todosLosProductosGlobal.push({ id: doc.id, ...doc.data() }));
+            renderizarInventario(todosLosProductosGlobal);
+            renderizarCatalogoPOS(todosLosProductosGlobal);
+        });
 
-                tr.innerHTML = `
-                    <td class="p-3 text-xs">
-                        <span class="font-bold text-slate-700">${o.marca} ${o.modelo}</span><br>
-                        <span class="bg-slate-100 px-1.5 py-0.5 rounded text-[10px] font-semibold">${o.tipoEquipo}</span><br>
-                        <span class="text-slate-400 text-[11px]">${o.fecha}</span>
-                    </td>
-                    <td class="p-3 text-xs">
-                        <span class="font-semibold text-slate-800">${o.cliente}</span><br>
-                        <a href="https://wa.me/502${o.whatsapp}" target="_blank" class="text-emerald-600 font-medium hover:underline inline-flex items-center gap-1 mt-0.5">📱 ${o.whatsapp}</a>
-                    </td>
-                    <td class="p-3 text-xs">
-                        <span class="font-medium text-red-600">Falla:</span> ${o.errorReportado}<br>
-                        <span class="text-slate-500">Accesorios: ${o.accesorios}</span>
-                    </td>
-                    <td class="p-3">
-                        <span class="text-xs px-2.5 py-1 rounded-full font-bold ${estadoColor}">${o.estado}</span>
-                    </td>
-                    <td class="p-3 text-center space-y-1.5">
-                        <button onclick="descargarTicketPDF('${o.cliente}', '${o.whatsapp}', '${o.tipoEquipo}', '${o.marca}', '${o.modelo}', '${o.errorReportado}', '${o.accesorios}', '${o.fecha}')" class="block w-full bg-amber-600 hover:bg-amber-700 text-white font-bold px-2 py-1.5 rounded-xl text-xs shadow-sm transition">📄 Descargar Ticket PDF</button>
-                        <button onclick="eliminarOrden('${o.id}')" class="block w-full text-red-500 hover:text-red-700 text-xs font-semibold px-2 py-1 bg-red-50 hover:bg-red-100 rounded-lg transition">Eliminar</button>
-                    </td>
+        function renderizarInventario(productos) {
+            const tabla = document.getElementById('tablaTienda');
+            tabla.innerHTML = '';
+            if(productos.length === 0) { tabla.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-400">Sin productos en inventario.</td></tr>`; return; }
+            
+            productos.forEach(p => {
+                let costo = p.costo || 0;
+                let precio = p.precio || 0;
+                let ganancia = precio - costo;
+                let margen = costo > 0 ? ((ganancia / costo) * 100).toFixed(0) : 100;
+
+                let stockBadge = "";
+                let botonWhatsAppAlerta = "";
+
+                if (p.stock === 0) {
+                    stockBadge = `<span class="bg-red-100 text-red-800 px-2 py-0.5 rounded-full font-bold text-[11px] inline-flex items-center gap-1">❌ 0 unids (Agotado)</span>`;
+                    let msgWsp = `⚠️ *ALERTA DE STOCK - OSMOTEC*\n\nEl producto *${p.nombre}* se encuentra completamente *AGOTADO* (0 unidades disponibles). Se requiere reabastecimiento urgente.`;
+                    botonWhatsAppAlerta = `<a href="https://wa.me/?text=${encodeURIComponent(msgWsp)}" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-1 px-2 rounded-lg text-[10px] shadow-sm transition mt-1">📱 Alerta WSP Agotado</a>`;
+                } else if (p.stock === 1) {
+                    stockBadge = `<span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-bold text-[11px] inline-flex items-center gap-1">⚠️ 1 unid (Stock Bajo)</span>`;
+                    let msgWsp = `⚠️ *ALERTA DE STOCK - OSMOTEC*\n\nEl producto *${p.nombre}* tiene *STOCK BAJO* (Queda solo 1 unidad disponible). Se sugiere reabastecer pronto.`;
+                    botonWhatsAppAlerta = `<a href="https://wa.me/?text=${encodeURIComponent(msgWsp)}" target="_blank" class="block w-full text-center bg-amber-600 hover:bg-amber-700 text-white font-bold py-1 px-2 rounded-lg text-[10px] shadow-sm transition mt-1">📱 Alerta WSP Stock Bajo</a>`;
+                } else if (p.stock === 2) {
+                    stockBadge = `<span class="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-full font-bold text-[11px] inline-flex items-center gap-1">⚠️ 2 unids (Stock en 2)</span>`;
+                    let msgWsp = `⚠️ *ALERTA DE STOCK - OSMOTEC*\n\nEl producto *${p.nombre}* cuenta con solo *2 unidades* disponibles. Se sugiere revisar inventario.`;
+                    botonWhatsAppAlerta = `<a href="https://wa.me/?text=${encodeURIComponent(msgWsp)}" target="_blank" class="block w-full text-center bg-amber-500 hover:bg-amber-600 text-white font-bold py-1 px-2 rounded-lg text-[10px] shadow-sm transition mt-1">📱 Alerta WSP Stock 2</a>`;
+                } else {
+                    stockBadge = `<span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold text-[11px]">${p.stock} unids</span>`;
+                }
+
+                tabla.innerHTML += `
+                    <tr class="hover:bg-slate-50 text-xs align-top">
+                        <td class="p-3 font-bold text-slate-700">🛒 ${p.nombre}</td>
+                        <td class="p-3">
+                            <span class="text-slate-500">Costo: <b>Q. ${costo.toFixed(2)}</b></span><br>
+                            <span class="text-blue-600">Venta: <b>Q. ${precio.toFixed(2)}</b></span><br>
+                            <span class="text-emerald-600 font-semibold">Ganancia: Q. ${ganancia.toFixed(2)} (${margen}%)</span>
+                        </td>
+                        <td class="p-3">
+                            ${stockBadge}
+                            ${botonWhatsAppAlerta}
+                        </td>
+                        <td class="p-3 text-center space-y-1">
+                            <button onclick="prepararEdicionProducto('${p.id}', '${p.nombre}', ${costo}, ${precio}, ${p.stock})" class="w-full bg-blue-50 text-blue-600 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-blue-100 transition">✏️ Editar</button>
+                            <button onclick="db.collection('productos_tienda').doc('${p.id}').delete()" class="w-full bg-red-50 text-red-500 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-red-100 transition">🗑️ Eliminar</button>
+                        </td>
+                    </tr>
                 `;
-                tablaOrdenes.appendChild(tr);
             });
         }
 
-        // TABLA 2: DIAGNÓSTICO INICIAL
-        function renderizarTablaDiagnosticoInicial(ordenes) {
-            tablaDiagnosticoInicial.innerHTML = '';
-            if (ordenes.length === 0) {
-                tablaDiagnosticoInicial.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-400">No hay equipos registrados.</td></tr>`;
+        // ================= TIENDA: VENTAS / POS & FACTURA CARTA =================
+        function renderizarCatalogoPOS(productos) {
+            const catalogo = document.getElementById('listaProductosPOS');
+            catalogo.innerHTML = '';
+            if (productos.length === 0) {
+                catalogo.innerHTML = `<div class="p-4 text-center text-slate-400 text-xs">No hay productos disponibles.</div>`;
                 return;
             }
 
-            ordenes.forEach(o => {
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50 align-top transition";
-
-                let opcionesTecnicos = `<option value="Sin asignar">-- Asignar --</option>`;
-                listaTecnicosGlobal.forEach(tec => {
-                    const selected = (o.recibidoPor === tec) ? 'selected' : '';
-                    opcionesTecnicos += `<option value="${tec}" ${selected}>${tec}</option>`;
-                });
-
-                const msgDiag = `Hola *${o.cliente}*, le escribimos de *OSMOTEC* 🛠️.\n\nInforme de *Diagnóstico Inicial* para su *${o.tipoEquipo} ${o.marca} ${o.modelo}*:\n\n🔍 ${o.diagnosticoInicial || 'En proceso'}\n👨‍🔧 *Técnico Asignado:* ${o.recibidoPor}\n\n¡Gracias por confiar en nosotros!`;
-                const linkWspDiag = `https://wa.me/502${o.whatsapp}?text=${encodeURIComponent(msgDiag)}`;
-
-                tr.innerHTML = `
-                    <td class="p-3 text-xs">
-                        <span class="font-bold text-slate-700">${o.marca} ${o.modelo}</span><br>
-                        <select onchange="asignarTecnico('${o.id}', this.value)" class="mt-1.5 text-xs p-1.5 rounded-xl border border-blue-200 bg-blue-50 font-bold text-blue-900 w-full focus:outline-none">
-                            ${opcionesTecnicos}
-                        </select>
-                    </td>
-                    <td class="p-3 text-xs">
-                        <span class="font-semibold text-slate-800">${o.cliente}</span><br>
-                        <span class="text-slate-500">📱 ${o.whatsapp}</span>
-                    </td>
-                    <td class="p-3 text-xs">
-                        <textarea onblur="guardarCampo('${o.id}', 'diagnosticoInicial', this.value)" rows="4" class="w-full border border-slate-300 rounded-xl p-2.5 text-xs focus:ring-2 focus:ring-blue-500 focus:outline-none font-medium shadow-inner" placeholder="Escriba el diagnóstico inicial detallado...">${o.diagnosticoInicial || ''}</textarea>
-                    </td>
-                    <td class="p-3 text-center space-y-2">
-                        <a href="${linkWspDiag}" target="_blank" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-xl font-bold text-xs shadow-sm transition">📱 WSP Diagnóstico</a>
-                        <button onclick="descargarPDF('${o.cliente}', '${o.marca} ${o.modelo}', 'Diagnóstico Inicial de Ingreso', '${o.diagnosticoInicial}', '${o.recibidoPor}')" class="block w-full text-center bg-slate-700 hover:bg-slate-800 text-white px-3 py-2 rounded-xl font-bold text-xs shadow-sm transition">📄 PDF Ancho</button>
-                    </td>
-                `;
-                tablaDiagnosticoInicial.appendChild(tr);
-            });
-        }
-
-        // TABLA 3: REPORTE FINAL
-        function renderizarTablaReporteFinal(ordenes) {
-            tablaReporteFinal.innerHTML = '';
-            if (ordenes.length === 0) {
-                tablaReporteFinal.innerHTML = `<tr><td colspan="5" class="text-center p-4 text-slate-400">No hay equipos registrados.</td></tr>`;
-                return;
-            }
-
-            ordenes.forEach(o => {
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50 align-top transition";
-
-                let estadoColor = "bg-amber-100 text-amber-800";
-                if(o.estado === 'En reparación') estadoColor = "bg-blue-100 text-blue-800";
-                if(o.estado === 'Listo / Reparado') estadoColor = "bg-emerald-100 text-emerald-800";
-                if(o.estado === 'Sin arreglo') estadoColor = "bg-red-100 text-red-800";
-                if(o.estado === 'Entregado') estadoColor = "bg-slate-200 text-slate-700";
-
-                let pagoColor = "bg-rose-100 text-rose-800";
-                if(o.estadoPago === 'Pagado') pagoColor = "bg-emerald-100 text-emerald-800";
-
-                const msgRep = `Hola *${o.cliente}*, le escribimos de *OSMOTEC* 🛠️.\n\nInforme de *Reporte Final* para su *${o.tipoEquipo} ${o.marca} ${o.modelo}*:\n\n📌 *Estado:* ${o.estado}\n🔧 ${o.reporteFinal || 'Pendiente'}\n💰 *Total a pagar:* Q. ${o.costoReparacion || '0.00'} (${o.estadoPago})\n\n¡Gracias por confiar en nosotros!`;
-                const linkWspRep = `https://wa.me/502${o.whatsapp}?text=${encodeURIComponent(msgRep)}`;
-
-                tr.innerHTML = `
-                    <td class="p-3 text-xs">
-                        <span class="font-bold text-slate-700">${o.marca} ${o.modelo}</span><br>
-                        <span class="bg-slate-100 px-1.5 py-0.5 rounded text-[10px] font-semibold">${o.tipoEquipo}</span>
-                    </td>
-                    <td class="p-3 text-xs">
-                        <span class="font-semibold text-slate-800">${o.cliente}</span><br>
-                        <span class="text-slate-500">📱 ${o.whatsapp}</span>
-                    </td>
-                    <td class="p-3 text-xs">
-                        <textarea onblur="guardarCampo('${o.id}', 'reporteFinal', this.value)" rows="4" class="w-full border border-slate-300 rounded-xl p-2.5 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none font-medium shadow-inner" placeholder="Escriba el reporte final o motivo si no tiene arreglo...">${o.reporteFinal || ''}</textarea>
-                    </td>
-                    <td class="p-3 text-xs space-y-2">
-                        <div class="flex items-center gap-1">
-                            <span class="font-bold text-slate-600">Q.</span>
-                            <input type="text" value="${o.costoReparacion || '0.00'}" onblur="guardarCosto('${o.id}', this.value)" class="w-24 border border-slate-300 rounded-xl p-1.5 text-xs font-bold text-blue-700 text-center focus:outline-none">
+            productos.forEach(p => {
+                catalogo.innerHTML += `
+                    <div onclick="agregarAlCarritoDesdePOS('${p.id}')" class="p-3 bg-white border border-slate-200 rounded-xl hover:bg-emerald-50/50 cursor-pointer transition flex justify-between items-center shadow-sm">
+                        <div>
+                            <div class="font-bold text-xs text-slate-800">${p.nombre}</div>
+                            <div class="text-[10px] text-slate-500">Stock: ${p.stock} u.</div>
                         </div>
-                        <select onchange="cambiarEstadoPago('${o.id}', this.value)" class="text-xs p-1.5 rounded-xl font-bold ${pagoColor} w-full focus:outline-none shadow-sm">
-                            <option value="Pendiente pago" ${o.estadoPago === 'Pendiente pago' ? 'selected' : ''}>Pendiente pago</option>
-                            <option value="Pagado" ${o.estadoPago === 'Pagado' ? 'selected' : ''}>Pagado</option>
-                        </select>
-                        <select onchange="cambiarEstado('${o.id}', this.value)" class="text-xs p-1.5 rounded-xl font-bold ${estadoColor} w-full focus:outline-none shadow-sm">
-                            <option value="Pendiente" ${o.estado === 'Pendiente' ? 'selected' : ''}>Pendiente</option>
-                            <option value="En reparación" ${o.estado === 'En reparación' ? 'selected' : ''}>En reparación</option>
-                            <option value="Listo / Reparado" ${o.estado === 'Listo / Reparado' ? 'selected' : ''}>Listo / Reparado</option>
-                            <option value="Sin arreglo" ${o.estado === 'Sin arreglo' ? 'selected' : ''}>Sin arreglo</option>
-                            <option value="Entregado" ${o.estado === 'Entregado' ? 'selected' : ''}>Entregado</option>
-                        </select>
-                    </td>
-                    <td class="p-3 text-center space-y-2">
-                        <a href="${linkWspRep}" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-xl font-bold text-xs shadow-sm transition">📱 WSP Reporte</a>
-                        <button onclick="descargarPDF('${o.cliente}', '${o.marca} ${o.modelo}', 'Reporte Final de Taller', '${o.reporteFinal} (Total: Q. ${o.costoReparacion})', '${o.recibidoPor}')" class="block w-full text-center bg-slate-700 hover:bg-slate-800 text-white px-3 py-2 rounded-xl font-bold text-xs shadow-sm transition">📄 PDF Ancho</button>
-                    </td>
+                        <div class="text-right">
+                            <div class="font-extrabold text-sm text-emerald-700">Q${p.precio.toFixed(2)}</div>
+                            <div class="text-[9px] text-slate-400">(u.)</div>
+                        </div>
+                    </div>
                 `;
-                tablaReporteFinal.appendChild(tr);
             });
         }
 
-        // ================= FUNCIÓN PARA CREAR Y DESCARGAR TICKET EN PDF =================
+        function filtrarCatalogoVenta() {
+            const txt = document.getElementById('buscarVentaInput').value.toLowerCase();
+            const filtrados = todosLosProductosGlobal.filter(p => p.nombre.toLowerCase().includes(txt));
+            renderizarCatalogoPOS(filtrados);
+        }
+
+        function agregarAlCarritoDesdePOS(id) {
+            const prod = todosLosProductosGlobal.find(p => p.id === id);
+            if (!prod || prod.stock <= 0) {
+                alert('Producto agotado o sin stock');
+                return;
+            }
+            const existe = carritoVenta.find(item => item.id === id);
+            if (existe) {
+                if (existe.cantidad < prod.stock) {
+                    existe.cantidad++;
+                } else {
+                    alert('Stock insuficiente');
+                }
+            } else {
+                carritoVenta.push({ id: prod.id, nombre: prod.nombre, costo: prod.costo || 0, precio: prod.precio, cantidad: 1 });
+            }
+            actualizarCarritoUI();
+        }
+
+        function cambiarCantidadCarrito(index, cambio) {
+            const item = carritoVenta[index];
+            const prod = todosLosProductosGlobal.find(p => p.id === item.id);
+            const nuevaCantidad = item.cantidad + cambio;
+
+            if (nuevaCantidad <= 0) {
+                carritoVenta.splice(index, 1);
+            } else if (prod && nuevaCantidad > prod.stock) {
+                alert('No hay suficiente stock disponible');
+                return;
+            } else {
+                item.cantidad = nuevaCantidad;
+            }
+            actualizarCarritoUI();
+        }
+
+        function actualizarCarritoUI() {
+            const contenedor = document.getElementById('tablaTicketCarrito');
+            const totalSpan = document.getElementById('totalCarrito');
+            contenedor.innerHTML = '';
+            let total = 0;
+
+            if (carritoVenta.length === 0) {
+                contenedor.innerHTML = `<div class="p-4 text-center text-slate-400 italic">El carrito está vacío</div>`;
+                totalSpan.textContent = "Q0.00";
+                document.getElementById('vueltoCambio').textContent = "Q0.00";
+                return;
+            }
+
+            carritoVenta.forEach((item, index) => {
+                let sub = item.precio * item.cantidad;
+                total += sub;
+                contenedor.innerHTML += `
+                    <div class="grid grid-cols-12 p-2.5 items-center bg-white">
+                        <span class="col-span-6 font-bold text-slate-700">${item.nombre}</span>
+                        <div class="col-span-2 flex items-center justify-center gap-1">
+                            <button onclick="cambiarCantidadCarrito(${index}, -1)" class="w-5 h-5 bg-slate-200 hover:bg-slate-300 rounded font-bold text-xs">-</button>
+                            <span class="font-bold">${item.cantidad}</span>
+                            <button onclick="cambiarCantidadCarrito(${index}, 1)" class="w-5 h-5 bg-slate-200 hover:bg-slate-300 rounded font-bold text-xs">+</button>
+                        </div>
+                        <span class="col-span-3 text-right font-bold text-emerald-700">Q${sub.toFixed(2)}</span>
+                        <button onclick="carritoVenta.splice(${index},1);actualizarCarritoUI()" class="col-span-1 text-center text-red-500 font-bold hover:text-red-700">✕</button>
+                    </div>
+                `;
+            });
+            totalSpan.textContent = `Q${total.toFixed(2)}`;
+            calcularVuelto();
+        }
+
+        function calcularVuelto() {
+            let totalVenta = carritoVenta.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+            let efectivo = parseFloat(document.getElementById('efectivoRecibido').value) || 0;
+            let vuelto = efectivo - totalVenta;
+            document.getElementById('vueltoCambio').textContent = vuelto >= 0 ? `Q${vuelto.toFixed(2)}` : "Q0.00";
+        }
+
+        async function procesarVentaEImprimir() {
+            if (carritoVenta.length === 0) { alert('El carrito está vacío'); return; }
+
+            let totalVenta = 0;
+            let totalGanancia = 0;
+            let efectivo = parseFloat(document.getElementById('efectivoRecibido').value) || 0;
+
+            let totalVentaCalculado = carritoVenta.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+            if (efectivo < totalVentaCalculado) {
+                if(!confirm('El efectivo recibido es menor al total a pagar. ¿Desea continuar de todos modos?')) return;
+            }
+
+            for(let item of carritoVenta) {
+                let subVenta = item.precio * item.cantidad;
+                let subCosto = item.costo * item.cantidad;
+                totalVenta += subVenta;
+                totalGanancia += (subVenta - subCosto);
+
+                const prodRef = db.collection('productos_tienda').doc(item.id);
+                const prodDoc = await prodRef.get();
+                if(prodDoc.exists) {
+                    let nuevoStock = prodDoc.data().stock - item.cantidad;
+                    await prodRef.update({ stock: nuevoStock >= 0 ? nuevoStock : 0 });
+                }
+            }
+
+            let fechaActual = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+            await db.collection('ventas_tienda').add({
+                productos: [...carritoVenta],
+                total: totalVenta,
+                gananciaTotal: totalGanancia,
+                fecha: fechaActual,
+                rawDate: new Date().toISOString()
+            });
+
+            generarFacturaCartaPDF(fechaActual, efectivo, totalVenta);
+
+            alert('¡Venta cobrada con éxito!');
+            carritoVenta = [];
+            document.getElementById('efectivoRecibido').value = '';
+            actualizarCarritoUI();
+            renderizarCatalogoPOS(todosLosProductosGlobal);
+        }
+
+        function generarFacturaCartaPDF(fecha, efectivo, total) {
+            let vuelto = efectivo - total;
+            let filasProductos = '';
+            
+            carritoVenta.forEach((item, idx) => {
+                let sub = item.precio * item.cantidad;
+                filasProductos += `
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 10px; text-align: center;">${idx + 1}</td>
+                        <td style="padding: 10px;">${item.nombre}</td>
+                        <td style="padding: 10px; text-align: center;">${item.cantidad}</td>
+                        <td style="padding: 10px; text-align: right;">Q${item.precio.toFixed(2)}</td>
+                        <td style="padding: 10px; text-align: right; font-weight: bold;">Q${sub.toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+
+            const elementoFactura = document.createElement('div');
+            elementoFactura.innerHTML = `
+                <div style="padding: 40px; font-family: Arial, sans-serif; width: 210mm; background: #ffffff; color: #1e293b; box-sizing: border-box;">
+                    <div style="display: flex; justify-content: space-between; border-bottom: 3px solid #2563eb; padding-bottom: 20px; margin-bottom: 25px;">
+                        <div>
+                            <h1 style="margin: 0; color: #1d4ed8; font-size: 26px; font-weight: 900;">🛒 OSMOTEC TIENDA</h1>
+                            <p style="margin: 4px 0; font-size: 13px; color: #64748b;">Los Amates, Izabal • Servicios Tecnológicos y Comerciales</p>
+                            <p style="margin: 4px 0; font-size: 13px; color: #64748b;">WhatsApp: 4501 1153</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <h2 style="margin: 0; color: #0f172a; font-size: 22px;">COMPROBANTE DE VENTA</h2>
+                            <p style="margin: 4px 0; font-size: 13px; font-weight: bold; color: #2563eb;">No. FACTURA: #${Math.floor(100000 + Math.random() * 900000)}</p>
+                            <p style="margin: 4px 0; font-size: 13px; color: #64748b;">Fecha: ${fecha}</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 25px; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                        <p style="margin: 0; font-size: 14px;"><b>Cliente:</b> Cliente General</p>
+                        <p style="margin: 5px 0 0 0; font-size: 14px;"><b>Tipo de Pago:</b> Efectivo</p>
+                    </div>
+
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 13px;">
+                        <thead>
+                            <tr style="background: #1e293b; color: white;">
+                                <th style="padding: 10px; text-align: center; width: 8%;">No.</th>
+                                <th style="padding: 10px; text-align: left; width: 45%;">Descripción del Producto</th>
+                                <th style="padding: 10px; text-align: center; width: 12%;">Cant.</th>
+                                <th style="padding: 10px; text-align: right; width: 17%;">Precio Unit.</th>
+                                <th style="padding: 10px; text-align: right; width: 18%;">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${filasProductos}
+                        </tbody>
+                    </table>
+
+                    <div style="display: flex; justify-content: flex-end; margin-bottom: 40px;">
+                        <div style="width: 300px; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 14px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span>Total a Pagar:</span>
+                                <span style="font-weight: bold; font-size: 16px; color: #16a34a;">Q${total.toFixed(2)}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span>Efectivo Recibido:</span>
+                                <span>Q${efectivo.toFixed(2)}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; border-top: 1px solid #cbd5e1; paddingTop: 8px;">
+                                <span style="font-weight: bold;">Su Vuelto:</span>
+                                <span style="font-weight: bold; color: #2563eb;">Q${vuelto >= 0 ? vuelto.toFixed(2) : "0.00"}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; border-top: 2px dashed #cbd5e1; paddingTop: 20px; color: #64748b; font-size: 12px;">
+                        <p style="margin: 0;">¡Gracias por su compra en OSMOTEC!</p>
+                        <p style="margin: 4px 0;">Conserve este comprobante para cualquier cambio o garantía.</p>
+                    </div>
+                </div>
+            `;
+
+            html2pdf().from(elementoFactura).set({
+                margin: 0,
+                filename: `Factura_OSMOTEC_${Date.now()}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' }
+            }).save();
+        }
+
+        // ================= TIENDA: REPORTES FINANCIEROS Y WHATSAPP AGOTADOS =================
+        db.collection('ventas_tienda').orderBy('rawDate', 'desc').onSnapshot((snapshot) => {
+            todasLasVentasGlobal = [];
+            snapshot.forEach((doc) => {
+                todasLasVentasGlobal.push({ id: doc.id, ...doc.data() });
+            });
+            aplicarFiltroReportes();
+        });
+
+        function enviarWhatsAppAgotadosReportes() {
+            let productosAgotados = todosLosProductosGlobal.filter(p => p.stock === 0);
+            if (productosAgotados.length === 0) {
+                alert('¡Excelente! No hay productos agotados en este momento.');
+                return;
+            }
+
+            let mensaje = `🚨 *REPORTE DE PRODUCTOS AGOTADOS - OSMOTEC*\n\n`;
+            mensaje += `Los siguientes productos se encuentran con 0 unidades:\n\n`;
+            productosAgotados.forEach((p, index) => {
+                mensaje += `${index + 1}. *${p.nombre}* (Agotado)\n`;
+            });
+            mensaje += `\nSe requiere reabastecimiento urgente.`;
+
+            let urlWsp = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
+            window.open(urlWsp, '_blank');
+        }
+
+        function aplicarFiltroReportes() {
+            const filtro = document.getElementById('filtroPeriodoReporte').value;
+            const hoyStr = new Date().toLocaleDateString();
+            const mesActualStr = new Date().toISOString().slice(0, 7);
+
+            let ventasFiltradas = todasLasVentasGlobal.filter(v => {
+                if (filtro === 'dia') {
+                    return v.fecha && v.fecha.includes(hoyStr);
+                } else if (filtro === 'mes') {
+                    return v.rawDate && v.rawDate.startsWith(mesActualStr);
+                }
+                return true;
+            });
+
+            let totalIngresos = 0;
+            let totalGanancias = 0;
+
+            ventasFiltradas.forEach(v => {
+                totalIngresos += v.total || 0;
+                if (v.gananciaTotal !== undefined) {
+                    totalGanancias += v.gananciaTotal;
+                } else {
+                    v.productos.forEach(p => {
+                        let costoItem = p.costo || 0;
+                        totalGanancias += (p.precio - costoItem) * p.cantidad;
+                    });
+                }
+            });
+
+            document.getElementById('reporteTotalIngresos').textContent = `Q. ${totalIngresos.toFixed(2)}`;
+            document.getElementById('reporteTotalGanancia').textContent = `Q. ${totalGanancias.toFixed(2)}`;
+            document.getElementById('reporteTotalVentas').textContent = ventasFiltradas.length;
+
+            renderizarReporteVentas(ventasFiltradas);
+        }
+
+        function renderizarReporteVentas(ventas) {
+            const tabla = document.getElementById('tablaReporteVentas');
+            tabla.innerHTML = '';
+            if(ventas.length === 0) { 
+                tabla.innerHTML = `<tr><td colspan="5" class="text-center p-4 text-slate-400">Sin ventas registradas para este período.</td></tr>`; 
+                return; 
+            }
+
+            ventas.forEach(v => {
+                let detalleStr = v.productos.map(p => {
+                    let gananciaItem = (p.precio - (p.costo || 0)) * p.cantidad;
+                    return `<b>${p.cantidad}x</b> ${p.nombre} <span class="text-slate-400">(Ganancia: Q.${gananciaItem.toFixed(2)})</span>`;
+                }).join('<br>');
+
+                let gananciaVenta = v.gananciaTotal !== undefined ? v.gananciaTotal : v.productos.reduce((acc, p) => acc + ((p.precio - (p.costo || 0)) * p.cantidad), 0);
+
+                tabla.innerHTML += `
+                    <tr class="hover:bg-slate-50 text-xs">
+                        <td class="p-3 text-slate-500">${v.fecha}</td>
+                        <td class="p-3 font-medium leading-relaxed">${detalleStr}</td>
+                        <td class="p-3 font-bold text-emerald-700">Q. ${(v.total || 0).toFixed(2)}</td>
+                        <td class="p-3 font-bold text-blue-700">Q. ${gananciaVenta.toFixed(2)}</td>
+                        <td class="p-3 text-center">
+                            <button onclick="db.collection('ventas_tienda').doc('${v.id}').delete()" class="text-red-500 text-xs px-2.5 py-1 bg-red-50 rounded-lg font-semibold hover:bg-red-100">Eliminar</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        document.getElementById('buscarTienda').addEventListener('input', (e) => {
+            const txt = e.target.value.toLowerCase();
+            renderizarInventario(todosLosProductosGlobal.filter(p => p.nombre.toLowerCase().includes(txt)));
+        });
+
+        document.getElementById('buscarReporteVentas').addEventListener('input', (e) => {
+            const txt = e.target.value.toLowerCase();
+            const filtro = document.getElementById('filtroPeriodoReporte').value;
+            const hoyStr = new Date().toLocaleDateString();
+            const mesActualStr = new Date().toISOString().slice(0, 7);
+
+            let ventasFiltradas = todasLasVentasGlobal.filter(v => {
+                if (filtro === 'dia') return v.fecha && v.fecha.includes(hoyStr);
+                if (filtro === 'mes') return v.rawDate && v.rawDate.startsWith(mesActualStr);
+                return true;
+            }).filter(v => v.productos.some(p => p.nombre.toLowerCase().includes(txt)));
+
+            renderizarReporteVentas(ventasFiltradas);
+        });
+
+        // ================= TICKET PDF TALLER & QR (CORREGIDO PARA CHROME) =================
         function descargarTicketPDF(cliente, whatsapp, tipo, marca, modelo, falla, accesorios, fecha) {
             const elemento = document.createElement('div');
+            elemento.style.position = "absolute";
+            elemento.style.left = "-9999px";
+            elemento.style.top = "0";
+            
             elemento.innerHTML = `
-                <div style="padding: 25px; font-family: Arial, sans-serif; color: #1e293b; width: 100%; max-width: 400px; background: white; margin: 0 auto; border: 2px solid #2563eb; border-radius: 12px;">
+                <div style="padding: 25px; font-family: Arial, sans-serif; width: 350px; background: #ffffff; color: #1e293b; border: 2px solid #2563eb; border-radius: 12px; box-sizing: border-box;">
                     <div style="text-align: center; border-bottom: 2px dashed #2563eb; padding-bottom: 12px; margin-bottom: 15px;">
-                        <h1 style="margin: 0; color: #1d4ed8; font-size: 22px; font-weight: bold;">OSMOTEC TALLER</h1>
-                        <p style="margin: 4px 0 0 0; font-size: 12px; color: #64748b;">Servicios Técnicos • Los Amates, Izabal</p>
+                        <h1 style="margin: 0; color: #1d4ed8; font-size: 20px; font-weight: 900;">OSMOTEC TALLER</h1>
+                        <p style="margin: 3px 0; font-size: 11px; color: #64748b;">Los Amates, Izabal • WhatsApp: 4501 1153</p>
                     </div>
-                    
-                    <div style="background: #e0f2fe; padding: 8px 12px; border-radius: 6px; margin-bottom: 15px; text-align: center;">
-                        <h3 style="margin: 0; color: #0369a1; font-size: 14px; font-weight: bold;">TICKET DE RECEPCIÓN</h3>
+                    <div style="font-size: 12px; line-height: 1.6;">
+                        <p style="margin: 4px 0;"><b>Fecha:</b> ${fecha}</p>
+                        <p style="margin: 4px 0;"><b>Cliente:</b> ${cliente}</p>
+                        <p style="margin: 4px 0;"><b>WhatsApp:</b> ${whatsapp}</p>
+                        <p style="margin: 4px 0;"><b>Equipo:</b> ${tipo} - ${marca} ${modelo}</p>
+                        <p style="margin: 4px 0;"><b>Falla/Reporte:</b> ${falla}</p>
+                        <p style="margin: 4px 0;"><b>Accesorios:</b> ${accesorios}</p>
                     </div>
-
-                    <div style="font-size: 13px; line-height: 1.6; margin-bottom: 15px;">
-                        <p style="margin: 4px 0;"><b>📅 Fecha:</b> ${fecha}</p>
-                        <p style="margin: 4px 0;"><b>👤 Cliente:</b> ${cliente}</p>
-                        <p style="margin: 4px 0;"><b>📱 WhatsApp:</b> ${whatsapp}</p>
-                        <p style="margin: 4px 0;"><b>💻 Equipo:</b> ${tipo} - ${marca} ${modelo}</p>
-                        <p style="margin: 4px 0;"><b>⚠️ Falla:</b> ${falla}</p>
-                        <p style="margin: 4px 0;"><b>🔌 Accesorios:</b> ${accesorios}</p>
-                    </div>
-
-                    <div style="text-align: center; border-top: 1px dashed #cbd5e1; padding-top: 12px; font-size: 11px; color: #64748b;">
-                        <p style="margin: 0;">¡Gracias por confiar en OSMOTEC!</p>
-                        <p style="margin: 2px 0 0 0;">Conserve este ticket para retirar su equipo.</p>
+                    <div style="text-align: center; margin-top: 15px; border-top: 1px dashed #cbd5e1; paddingTop: 10px; font-size: 10px; color: #64748b;">
+                        Comprobante Oficial OSMOTEC
                     </div>
                 </div>
             `;
 
-            const opt = {
-                margin:       0.3,
-                filename:     `Ticket_Recepcion_${cliente.replace(/ /g, '_')}.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2 },
-                jsPDF:        { unit: 'in', format: [4.2, 5.5], orientation: 'portrait' } // Formato tamaño ticket / medio recibo
-            };
+            document.body.appendChild(elemento);
 
-            html2pdf().from(elemento).set(opt).save();
-        }
-
-        // ================= FUNCIÓN PARA GENERAR PDF ANCHO DE REPORTE =================
-        function descargarPDF(cliente, equipo, tipoTitulo, contenidoTexto, tecnico) {
-            const elemento = document.createElement('div');
-            elemento.innerHTML = `
-                <div style="padding: 40px; font-family: Arial, sans-serif; color: #1e293b; width: 100%; max-width: 700px; background: white; margin: 0 auto;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #2563eb; padding-bottom: 15px; margin-bottom: 25px;">
-                        <div>
-                            <h1 style="margin: 0; color: #1d4ed8; font-size: 26px; font-weight: bold;">OSMOTEC Taller</h1>
-                            <p style="margin: 5px 0 0 0; font-size: 14px; color: #64748b;">Servicios Técnicos y Profesionales • Los Amates, Izabal</p>
-                        </div>
-                        <div style="text-align: right; font-size: 14px; color: #475569;">
-                            <b>Fecha:</b> ${new Date().toLocaleDateString()}
-                        </div>
-                    </div>
-                    
-                    <div style="background: #e0f2fe; padding: 12px 20px; border-radius: 8px; margin-bottom: 20px;">
-                        <h2 style="margin: 0; color: #0369a1; font-size: 20px;">${tipoTitulo}</h2>
-                    </div>
-
-                    <div style="font-size: 16px; margin-bottom: 20px; line-height: 1.6;">
-                        <p style="margin: 8px 0;"><b>👤 Cliente:</b> ${cliente}</p>
-                        <p style="margin: 8px 0;"><b>💻 Equipo:</b> ${equipo}</p>
-                        <p style="margin: 8px 0;"><b>👨‍🔧 Técnico Responsable:</b> ${tecnico || 'Sin asignar'}</p>
-                    </div>
-
-                    <div style="margin-top: 20px; padding: 20px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 10px;">
-                        <h4 style="margin: 0 0 10px 0; font-size: 16px; color: #334155; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px;">Detalle de Observaciones:</h4>
-                        <p style="margin: 0; font-size: 16px; line-height: 1.6; white-space: pre-wrap; color: #0f172a;">${contenidoTexto || 'Sin observaciones registradas.'}</p>
-                    </div>
-
-                    <div style="margin-top: 50px; text-align: center; border-top: 1px solid #cbd5e1; padding-top: 15px;">
-                        <p style="margin: 0; font-size: 12px; color: #94a3b8;">Documento oficial generado por OSMOTEC - Gracias por su preferencia</p>
-                    </div>
-                </div>
-            `;
-
-            const opt = {
-                margin:       0.4,
-                filename:     `${tipoTitulo.replace(/ /g, '_')}_${cliente}.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2 },
-                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-            };
-
-            html2pdf().from(elemento).set(opt).save();
-        }
-
-        // ================= MÓDULO DE GARANTÍA Y QR =================
-        function poblarSelectGarantia() {
-            const select = document.getElementById('selectEquipoGarantia');
-            select.innerHTML = '<option value="">-- Seleccione un equipo --</option>';
-            todasLasOrdenesGlobal.forEach(o => {
-                const opt = document.createElement('option');
-                opt.value = o.id;
-                opt.textContent = `${o.marca} ${o.modelo} - Cliente: ${o.cliente}`;
-                select.appendChild(opt);
+            html2pdf().from(elemento).set({ 
+                margin: 0.1, 
+                filename: `Ticket_${cliente.replace(/\s+/g, '_')}.pdf`, 
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'in', format: [4.2, 5.2] } 
+            }).save().then(() => {
+                document.body.removeChild(elemento);
+            }).catch((err) => {
+                console.error("Error al generar PDF del ticket:", err);
+                if (document.body.contains(elemento)) {
+                    document.body.removeChild(elemento);
+                }
+                alert("Ocurrió un error al generar el PDF del ticket.");
             });
+        }
+
+        function poblarSelectGarantia() {
+            const sel = document.getElementById('selectEquipoGarantia');
+            sel.innerHTML = '<option value="">-- Seleccione --</option>';
+            todasLasOrdenesGlobal.forEach(o => sel.innerHTML += `<option value="${o.id}">${o.marca} ${o.modelo} - ${o.cliente}</option>`);
         }
 
         function cargarDatosGarantia() {
             const id = document.getElementById('selectEquipoGarantia').value;
-            const textarea = document.getElementById('infoTrabajoGarantia');
-            if(!id) {
-                textarea.value = '';
-                return;
-            }
-            const equipo = todasLasOrdenesGlobal.find(o => o.id === id);
-            if(equipo) {
-                textarea.value = `Cliente: ${equipo.cliente}\nEquipo: ${equipo.tipoEquipo} ${equipo.marca} ${equipo.modelo}\nDiagnóstico: ${equipo.diagnosticoInicial}\nReporte Final: ${equipo.reporteFinal}\nEstado: ${equipo.estado}`;
-            }
+            const t = document.getElementById('infoTrabajoGarantia');
+            const eq = todasLasOrdenesGlobal.find(o => o.id === id);
+            t.value = eq ? `Cliente: ${eq.cliente}\nEquipo: ${eq.marca} ${eq.modelo}\nReporte: ${eq.reporteFinal}` : '';
         }
 
         function generarQR() {
             const id = document.getElementById('selectEquipoGarantia').value;
-            let dias = parseInt(document.getElementById('diasGarantia').value) || 15;
-            if(dias > 15) dias = 15;
-            if(dias < 1) dias = 1;
-
-            if(!id) {
-                alert('Por favor seleccione un equipo de la lista.');
-                return;
+            const eq = todasLasOrdenesGlobal.find(o => o.id === id);
+            if(!eq) { alert('Seleccione un equipo primero'); return; }
+            
+            const contenedorQR = document.getElementById('qrcode');
+            contenedorQR.innerHTML = '';
+            document.getElementById('qrInfoTexto').innerHTML = `<b>${eq.marca} ${eq.modelo}</b><br>Cliente: ${eq.cliente}`;
+            
+            try {
+                new QRCode(contenedorQR, { 
+                    text: `OSMOTEC GARANTIA\nCliente: ${eq.cliente}\nEquipo: ${eq.marca} ${eq.modelo}\nFecha: ${eq.fecha}`, 
+                    width: 100, 
+                    height: 100,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            } catch(e) {
+                console.error(e);
+                alert('Error al generar el código QR');
             }
-
-            const equipo = todasLasOrdenesGlobal.find(o => o.id === id);
-            if(!equipo) return;
-
-            const contenidoQR = `OSMOTEC GARANTIA\nCliente: ${equipo.cliente}\nEquipo: ${equipo.marca} ${equipo.modelo}\nReporte: ${equipo.reporteFinal}\nGarantia: ${dias} Dias\nTecnico: ${equipo.recibidoPor}`;
-
-            document.getElementById('qrcode').innerHTML = '';
-            document.getElementById('qrInfoTexto').innerHTML = `<b>${equipo.marca} ${equipo.modelo}</b> | Garantía: <b>${dias} Días</b>`;
-
-            new QRCode(document.getElementById("qrcode"), {
-                text: contenidoQR,
-                width: 110,
-                height: 110,
-                colorDark : "#000000",
-                colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.H
-            });
         }
-
-        // Buscadores
-        buscarOrden.addEventListener('input', (e) => {
-            const texto = e.target.value.toLowerCase();
-            const filtradas = todasLasOrdenesGlobal.filter(o => 
-                o.cliente.toLowerCase().includes(texto) || o.marca.toLowerCase().includes(texto) || o.modelo.toLowerCase().includes(texto)
-            );
-            renderizarTablaOrdenes(filtradas);
-        });
-
-        buscarDiagnostico.addEventListener('input', (e) => {
-            const texto = e.target.value.toLowerCase();
-            const filtradas = todasLasOrdenesGlobal.filter(o => 
-                o.cliente.toLowerCase().includes(texto) || o.marca.toLowerCase().includes(texto) || o.modelo.toLowerCase().includes(texto) || o.recibidoPor.toLowerCase().includes(texto)
-            );
-            renderizarTablaDiagnosticoInicial(filtradas);
-        });
-
-        buscarReporteFinal.addEventListener('input', (e) => {
-            const texto = e.target.value.toLowerCase();
-            const filtradas = todasLasOrdenesGlobal.filter(o => 
-                o.cliente.toLowerCase().includes(texto) || o.marca.toLowerCase().includes(texto) || o.modelo.toLowerCase().includes(texto)
-            );
-            renderizarTablaReporteFinal(filtradas);
-        });
-
-        // Funciones de actualización Firebase
-        window.asignarTecnico = async (id, tec) => await db.collection('ordenes_taller').doc(id).update({ recibidoPor: tec });
-        window.guardarCampo = async (id, campo, valor) => await db.collection('ordenes_taller').doc(id).update({ [campo]: valor });
-        window.guardarCosto = async (id, cos) => await db.collection('ordenes_taller').doc(id).update({ costoReparacion: cos });
-        window.cambiarEstado = async (id, est) => await db.collection('ordenes_taller').doc(id).update({ estado: est });
-        window.cambiarEstadoPago = async (id, pag) => await db.collection('ordenes_taller').doc(id).update({ estadoPago: pag });
-        window.eliminarOrden = async (id) => { if(confirm('¿Eliminar orden?')) await db.collection('ordenes_taller').doc(id).delete(); };
     </script>
 </body>
 </html>
