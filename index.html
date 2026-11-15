@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSMOTEC - Taller Profesional</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <!-- Librería para generar Códigos QR -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Librería para generar PDFs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        @media print {
+            body * { visibility: hidden; }
+            #seccionImpresionQR, #seccionImpresionQR * { visibility: visible; }
+            #seccionImpresionQR { 
+                position: absolute; left: 0; top: 0; width: 5cm; height: 5cm; 
+                border: 1px dashed #94a3b8 !important;
+                display: flex; flex-direction: column; align-items: center; justify-content: center; background: white;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 font-sans text-slate-800">
+
+    <!-- Header Moderno con Pestañas y Botón de Salir a la Derecha -->
+    <header class="bg-gradient-to-r from-blue-700 to-blue-800 text-white shadow-lg p-4 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            
+            <!-- Logo e Identidad con Osmo -->
+            <div class="flex items-center gap-3">
+                <img src="osmo.jpg" id="osmoHeaderImg" alt="Osmo" class="w-11 h-11 rounded-full object-cover border-2 border-white/80 shadow-md" onerror="this.style.display='none'">
+                <div>
+                    <h1 class="text-xl font-extrabold tracking-tight flex items-center gap-2">
+                        🛠️ OSMOTEC <span class="text-xs font-medium px-2 py-0.5 bg-blue-900/60 rounded-full border border-blue-400/30">Sistema de Taller</span>
+                    </h1>
+                    <span class="text-xs text-blue-200">Los Amates, Izabal</span>
+                </div>
+            </div>
+            
+            <!-- Contenedor central de Pestañas -->
+            <nav class="flex items-center gap-2 bg-blue-900/40 p-1.5 rounded-2xl border border-blue-500/30 shadow-inner flex-wrap justify-center">
+                <button onclick="cambiarPestana('ordenes')" id="btnTabOrdenes" class="px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 bg-white text-blue-800 shadow-md transform scale-[1.02]">
+                    📋 <span>1. Órdenes</span>
+                </button>
+                <button onclick="cambiarPestana('diagnostico')" id="btnTabDiagnostico" class="px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center gap-2 text-blue-100 hover:bg-blue-800/60 hover:text-white">
+                    🔍 <span>2. Diagnóstico & Reporte</span>
+                </button>
+                <button onclick="cambiarPestana('garantia')" id="btnTabGarantia" class="px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center gap-2 text-blue-100 hover:bg-blue-800/60 hover:text-white">
+                    🛡️ <span>3. Garantía & QR</span>
+                </button>
+                <button onclick="cambiarPestana('tecnicos')" id="btnTabTecnicos" class="px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center gap-2 text-blue-100 hover:bg-blue-800/60 hover:text-white">
+                    👨‍🔧 <span>4. Técnicos</span>
+                </button>
+            </nav>
+
+            <!-- Botón de Cerrar Aplicación en la esquina Superior Derecha -->
+            <div>
+                <button onclick="cerrarAplicacion()" class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 bg-red-600 text-white hover:bg-red-700 shadow-md hover:shadow-lg">
+                    ❌ Cerrar App
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-4 md:p-6">
+        
+        <!-- ================= VISTA 1: ÓRDENES CON TICKET DE RECEPCIÓN ================= -->
+        <div id="vistaOrdenes" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 lg:col-span-1 h-fit">
+                <h2 class="text-base font-bold text-blue-700 mb-4 border-b pb-2 flex items-center gap-2">➕ Registrar Nuevo Equipo</h2>
+                <form id="ordenForm" class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Nombre del Cliente</label>
+                        <input type="text" id="cliente" required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">WhatsApp del Cliente</label>
+                        <input type="text" id="whatsapp" placeholder="Ej: 35650881" required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">Marca</label>
+                            <input type="text" id="marca" placeholder="Epson, Dell..." required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">Modelo</label>
+                            <input type="text" id="modelo" placeholder="L3210, Inspiron..." required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Tipo de Equipo</label>
+                        <select id="tipoEquipo" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
+                            <option value="Impresora">Impresora</option>
+                            <option value="Laptop">Laptop</option>
+                            <option value="PC Escritorio">PC de Escritorio</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Falla / Error reportado</label>
+                        <textarea id="errorReportado" rows="2" placeholder="Ej: No enciende..." required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">Tiempo sin uso</label>
+                            <input type="text" id="tiempoSinUso" placeholder="Ej: 6 meses" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">Accesorios</label>
+                            <input type="text" id="accesorios" placeholder="Cargador..." class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-sm shadow-md transition transform active:scale-95">
+                        Guardar Orden en Taller
+                    </button>
+                </form>
+            </section>
+
+            <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 lg:col-span-2">
+                <div class="flex flex-col sm:flex-row justify-between items-center mb-4 border-b pb-3 gap-2">
+                    <h2 class="text-base font-bold text-slate-700">📋 Listado de Órdenes Activas</h2>
+                    <input type="text" id="buscarOrden" placeholder="Buscar equipo o cliente..." class="border border-slate-300 rounded-xl p-2 text-sm w-full sm:w-64 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="bg-slate-50 text-slate-700 border-b border-slate-200 text-xs uppercase tracking-wider">
+                                <th class="p-3">Equipo</th>
+                                <th class="p-3">Cliente / WA</th>
+                                <th class="p-3">Falla & Accesorios</th>
+                                <th class="p-3">Estado</th>
+                                <th class="p-3 text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaOrdenes" class="divide-y divide-slate-100"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= VISTA 2: DIAGNÓSTICO Y REPORTE FINAL ================= -->
+        <div id="vistaDiagnostico" class="hidden space-y-6">
+            
+            <!-- SECCIÓN 1: DIAGNÓSTICO INICIAL -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80">
+                <div class="flex flex-col sm:flex-row justify-between items-center mb-4 border-b pb-3 gap-2">
+                    <h2 class="text-base font-bold text-blue-700">🔍 1. Diagnóstico Inicial (Recepción)</h2>
+                    <input type="text" id="buscarDiagnostico" placeholder="Filtrar por equipo o cliente..." class="border border-slate-300 rounded-xl p-2 text-sm w-full sm:w-64 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="bg-slate-50 text-slate-700 border-b border-slate-200 text-xs uppercase tracking-wider">
+                                <th class="p-3 w-1/5">Equipo / Técnico</th>
+                                <th class="p-3 w-1/5">Cliente</th>
+                                <th class="p-3 w-2/5">Diagnóstico Inicial Amplio</th>
+                                <th class="p-3 w-1/5 text-center">Acciones (WSP / PDF)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaDiagnosticoInicial" class="divide-y divide-slate-100"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 2: REPORTE FINAL -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80">
+                <div class="flex flex-col sm:flex-row justify-between items-center mb-4 border-b pb-3 gap-2">
+                    <h2 class="text-base font-bold text-emerald-700">📌 2. Reporte Final, Costo y Entrega</h2>
+                    <input type="text" id="buscarReporteFinal" placeholder="Filtrar por equipo o cliente..." class="border border-slate-300 rounded-xl p-2 text-sm w-full sm:w-64 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="bg-slate-50 text-slate-700 border-b border-slate-200 text-xs uppercase tracking-wider">
+                                <th class="p-3 w-1/5">Equipo</th>
+                                <th class="p-3 w-1/5">Cliente</th>
+                                <th class="p-3 w-2/5">Reporte Final / Sin Arreglo Amplio</th>
+                                <th class="p-3 w-1/5">Cobro (Q.) & Estado</th>
+                                <th class="p-3 w-1/5 text-center">Acciones (WSP / PDF)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaReporteFinal" class="divide-y divide-slate-100"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================= VISTA 3: GARANTÍA & QR ================= -->
+        <div id="vistaGarantia" class="hidden grid-cols-1 lg:grid-cols-3 gap-6">
+            <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 lg:col-span-1 h-fit">
+                <h2 class="text-base font-bold text-blue-700 mb-4 border-b pb-2">🛡️ 3. Asignar Garantía (Máx. 15 días)</h2>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Seleccionar Equipo Reparado</label>
+                        <select id="selectEquipoGarantia" onchange="cargarDatosGarantia()" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
+                            <option value="">-- Seleccione un equipo --</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Resumen del Trabajo Realizado</label>
+                        <textarea id="infoTrabajoGarantia" rows="3" readonly class="w-full border border-slate-200 bg-slate-50 rounded-xl p-2.5 text-xs text-slate-600"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-blue-700 mb-1">Días de Garantía (1 a 15 días)</label>
+                        <input type="number" id="diasGarantia" min="1" max="15" value="15" class="w-full border-2 border-blue-200 rounded-xl p-2.5 text-sm font-bold text-blue-900 bg-blue-50 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    </div>
+
+                    <button onclick="generarQR()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-sm shadow-md transition">
+                        🖨️ Generar Etiqueta QR con Osmo
+                    </button>
+                </div>
+            </section>
+
+            <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 lg:col-span-2 flex flex-col items-center justify-center text-center">
+                <h2 class="text-base font-bold text-slate-700 mb-2 border-b pb-2 w-full text-left">📱 Etiqueta QR de Garantía OSMOTEC</h2>
+                <p class="text-xs text-slate-500 mb-4">Código QR de 4.5 x 4.5 cm dentro de un área de recorte de 5 x 5 cm con Osmo[span_0](start_span)[span_0](end_span)</p>
+                
+                <div id="seccionImpresionQR" class="p-1 border-2 border-dashed border-slate-400 rounded-xl bg-white flex flex-col items-center justify-between shadow-sm" style="width: 5cm; height: 5cm;">
+                    <div class="flex items-center justify-center gap-1">
+                        <img src="osmo.jpg" class="osmoQrImg w-3.5 h-3.5 rounded-full object-cover" onerror="this.style.display='none'">
+                        <span class="text-[8px] font-bold text-blue-700">OSMOTEC - GARANTÍA</span>
+                    </div>
+                    <div id="qrcode" class="flex justify-center my-auto"></div>
+                    <div id="qrInfoTexto" class="text-[7px] text-slate-600 font-medium leading-tight text-center">Seleccione un equipo</div>
+                </div>
+
+                <button onclick="window.print()" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-2.5 rounded-xl text-xs shadow-md transition">
+                    🖨️ Imprimir Etiqueta QR
+                </button>
+            </section>
+        </div>
+
+        <!-- ================= VISTA 4: TÉCNICOS ================= -->
+        <div id="vistaTecnicos" class="hidden grid-cols-1 md:grid-cols-3 gap-6">
+            <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 md:col-span-1 h-fit">
+                <h2 class="text-base font-bold text-blue-700 mb-4 border-b pb-2">👨‍🔧 4. Agregar Nuevo Técnico</h2>
+                <form id="tecnicoForm" class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Nombre Completo o Alias</label>
+                        <input type="text" id="nombreTecnico" placeholder="Ej: Carlos Pérez" required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Especialidad / Cargo</label>
+                        <input type="text" id="especialidad" placeholder="Ej: Impresoras y Laptops" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    </div>
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-sm shadow-md transition">
+                        Guardar Técnico
+                    </button>
+                </form>
+            </section>
+
+            <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 md:col-span-2">
+                <h2 class="text-base font-bold text-slate-700 mb-4 border-b pb-3">👥 Técnicos Activos en OSMOTEC</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="bg-slate-50 text-slate-700 border-b border-slate-200 text-xs uppercase tracking-wider">
+                                <th class="p-3">Nombre</th>
+                                <th class="p-3">Especialidad</th>
+                                <th class="p-3 text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaTecnicos" class="divide-y divide-slate-100"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Script de Configuración y Lógica -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyATGjGkxxqGZe8D60ibfamK_E656fxL-p8",
+            authDomain: "osmoapp-edf62.firebaseapp.com",
+            projectId: "osmoapp-edf62",
+            storageBucket: "osmoapp-edf62.firebasestorage.app",
+            messagingSenderId: "284391481821",
+            appId: "1:284391481821:web:a535979aeb41e648169634",
+            measurementId: "G-5R8NVQ4649"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
+
+        let listaTecnicosGlobal = [];
+        let todasLasOrdenesGlobal = [];
+
+        function cambiarPestana(vista) {
+            const vOrdenes = document.getElementById('vistaOrdenes');
+            const vDiagnostico = document.getElementById('vistaDiagnostico');
+            const vGarantia = document.getElementById('vistaGarantia');
+            const vTecnicos = document.getElementById('vistaTecnicos');
+            
+            const bOrdenes = document.getElementById('btnTabOrdenes');
+            const bDiagnostico = document.getElementById('btnTabDiagnostico');
+            const bGarantia = document.getElementById('btnTabGarantia');
+            const bTecnicos = document.getElementById('btnTabTecnicos');
+
+            vOrdenes.classList.add('hidden'); vOrdenes.classList.remove('grid');
+            vDiagnostico.classList.add('hidden');
+            vGarantia.classList.add('hidden'); vGarantia.classList.remove('grid');
+            vTecnicos.classList.add('hidden'); vTecnicos.classList.remove('grid');
+
+            const estiloInactivo = "px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center gap-2 text-blue-100 hover:bg-blue-800/60 hover:text-white";
+            const estiloActivo = "px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 bg-white text-blue-800 shadow-md transform scale-[1.02]";
+
+            bOrdenes.className = estiloInactivo;
+            bDiagnostico.className = estiloInactivo;
+            bGarantia.className = estiloInactivo;
+            bTecnicos.className = estiloInactivo;
+
+            if (vista === 'ordenes') {
+                vOrdenes.classList.remove('hidden'); vOrdenes.classList.add('grid');
+                bOrdenes.className = estiloActivo;
+            } else if (vista === 'diagnostico') {
+                vDiagnostico.classList.remove('hidden');
+                bDiagnostico.className = estiloActivo;
+            } else if (vista === 'garantia') {
+                vGarantia.classList.remove('hidden'); vGarantia.classList.add('grid');
+                bGarantia.className = estiloActivo;
+                poblarSelectGarantia();
+            } else {
+                vTecnicos.classList.remove('hidden'); vTecnicos.classList.add('grid');
+                bTecnicos.className = estiloActivo;
+            }
+        }
+
+        function cerrarAplicacion() {
+            if (confirm('¿Desea cerrar o salir de la aplicación de OSMOTEC?')) {
+                window.close();
+                setTimeout(() => {
+                    document.body.innerHTML = `
+                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: Arial, sans-serif; background: #f1f5f9; color: #334155;">
+                            <h1 style="font-size: 24px; margin-bottom: 10px;">🔒 Aplicación OSMOTEC Cerrada</h1>
+                            <p style="font-size: 14px; color: #64748b;">Puede cerrar esta pestaña de manera segura o recargar la página para volver a ingresar.</p>
+                        </div>
+                    `;
+                }, 200);
+            }
+        }
+
+        // ================= GESTIÓN DE TÉCNICOS =================
+        const tecnicoForm = document.getElementById('tecnicoForm');
+        const tablaTecnicos = document.getElementById('tablaTecnicos');
+
+        tecnicoForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const nuevoTecnico = {
+                nombre: document.getElementById('nombreTecnico').value,
+                especialidad: document.getElementById('especialidad').value || 'General'
+            };
+            try {
+                await db.collection('tecnicos_taller').add(nuevoTecnico);
+                alert('¡Técnico registrado con éxito!');
+                tecnicoForm.reset();
+            } catch (error) {
+                console.error("Error al guardar técnico:", error);
+            }
+        });
+
+        db.collection('tecnicos_taller').onSnapshot((snapshot) => {
+            tablaTecnicos.innerHTML = '';
+            listaTecnicosGlobal = [];
+            snapshot.forEach((doc) => {
+                const t = doc.data();
+                listaTecnicosGlobal.push(t.nombre);
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition";
+                tr.innerHTML = `
+                    <td class="p-3 font-bold text-slate-700">👨‍🔧 ${t.nombre}</td>
+                    <td class="p-3 text-xs text-slate-600">${t.especialidad}</td>
+                    <td class="p-3 text-center">
+                        <button onclick="eliminarTecnico('${doc.id}')" class="text-red-500 hover:text-red-700 text-xs font-semibold px-2.5 py-1.5 bg-red-50 hover:bg-red-100 rounded-lg transition">Eliminar</button>
+                    </td>
+                `;
+                tablaTecnicos.appendChild(tr);
+            });
+            if(todasLasOrdenesGlobal.length > 0) renderizarTodo(todasLasOrdenesGlobal);
+        });
+
+        window.eliminarTecnico = async function(id) {
+            if(confirm('¿Eliminar técnico?')) await db.collection('tecnicos_taller').doc(id).delete();
+        }
+
+        // ================= GESTIÓN DE ÓRDENES =================
+        const ordenForm = document.getElementById('ordenForm');
+        const tablaOrdenes = document.getElementById('tablaOrdenes');
+        const tablaDiagnosticoInicial = document.getElementById('tablaDiagnosticoInicial');
+        const tablaReporteFinal = document.getElementById('tablaReporteFinal');
+        const buscarOrden = document.getElementById('buscarOrden');
+        const buscarDiagnostico = document.getElementById('buscarDiagnostico');
+        const buscarReporteFinal = document.getElementById('buscarReporteFinal');
+
+        ordenForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const nuevaOrden = {
+                recibidoPor: 'Sin asignar',
+                cliente: document.getElementById('cliente').value,
+                whatsapp: document.getElementById('whatsapp').value,
+                marca: document.getElementById('marca').value,
+                modelo: document.getElementById('modelo').value,
+                tipoEquipo: document.getElementById('tipoEquipo').value,
+                errorReportado: document.getElementById('errorReportado').value,
+                tiempoSinUso: document.getElementById('tiempoSinUso').value,
+                accesorios: document.getElementById('accesorios').value || 'Ninguno',
+                diagnosticoInicial: 'Pendiente de diagnóstico inicial...',
+                reporteFinal: 'Pendiente de reporte final...',
+                costoReparacion: '0.00',
+                estadoPago: 'Pendiente pago',
+                estado: 'Pendiente',
+                fecha: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+            };
+            try {
+                await db.collection('ordenes_taller').add(nuevaOrden);
+                alert('¡Equipo registrado con éxito!');
+                ordenForm.reset();
+            } catch (error) {
+                console.error("Error al guardar orden: ", error);
+            }
+        });
+
+        db.collection('ordenes_taller').orderBy('fecha', 'desc').onSnapshot((snapshot) => {
+            todasLasOrdenesGlobal = [];
+            snapshot.forEach((doc) => {
+                todasLasOrdenesGlobal.push({ id: doc.id, ...doc.data() });
+            });
+            renderizarTodo(todasLasOrdenesGlobal);
+            if(document.getElementById('vistaGarantia').classList.contains('grid')) {
+                poblarSelectGarantia();
+            }
+        });
+
+        function renderizarTodo(ordenes) {
+            renderizarTablaOrdenes(ordenes);
+            renderizarTablaDiagnosticoInicial(ordenes);
+            renderizarTablaReporteFinal(ordenes);
+        }
+
+        // TABLA 1: ÓRDENES
+        function renderizarTablaOrdenes(ordenes) {
+            tablaOrdenes.innerHTML = '';
+            if (ordenes.length === 0) {
+                tablaOrdenes.innerHTML = `<tr><td colspan="5" class="text-center p-4 text-slate-400">No hay órdenes registradas.</td></tr>`;
+                return;
+            }
+
+            ordenes.forEach(o => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 align-top transition";
+                
+                let estadoColor = "bg-amber-100 text-amber-800";
+                if(o.estado === 'En reparación') estadoColor = "bg-blue-100 text-blue-800";
+                if(o.estado === 'Listo / Reparado') estadoColor = "bg-emerald-100 text-emerald-800";
+                if(o.estado === 'Sin arreglo') estadoColor = "bg-red-100 text-red-800";
+                if(o.estado === 'Entregado') estadoColor = "bg-slate-200 text-slate-700";
+
+                tr.innerHTML = `
+                    <td class="p-3 text-xs">
+                        <span class="font-bold text-slate-700">${o.marca} ${o.modelo}</span><br>
+                        <span class="bg-slate-100 px-1.5 py-0.5 rounded text-[10px] font-semibold">${o.tipoEquipo}</span><br>
+                        <span class="text-slate-400 text-[11px]">${o.fecha}</span>
+                    </td>
+                    <td class="p-3 text-xs">
+                        <span class="font-semibold text-slate-800">${o.cliente}</span><br>
+                        <a href="https://wa.me/502${o.whatsapp}" target="_blank" class="text-emerald-600 font-medium hover:underline inline-flex items-center gap-1 mt-0.5">📱 ${o.whatsapp}</a>
+                    </td>
+                    <td class="p-3 text-xs">
+                        <span class="font-medium text-red-600">Falla:</span> ${o.errorReportado}<br>
+                        <span class="text-slate-500">Accesorios: ${o.accesorios}</span>
+                    </td>
+                    <td class="p-3">
+                        <span class="text-xs px-2.5 py-1 rounded-full font-bold ${estadoColor}">${o.estado}</span>
+                    </td>
+                    <td class="p-3 text-center space-y-1.5">
+                        <button onclick="descargarTicketPDF('${o.cliente}', '${o.whatsapp}', '${o.tipoEquipo}', '${o.marca}', '${o.modelo}', '${o.errorReportado}', '${o.accesorios}', '${o.fecha}')" class="block w-full bg-amber-600 hover:bg-amber-700 text-white font-bold px-2 py-1.5 rounded-xl text-xs shadow-sm transition">📄 Descargar Ticket PDF</button>
+                        <button onclick="eliminarOrden('${o.id}')" class="block w-full text-red-500 hover:text-red-700 text-xs font-semibold px-2 py-1 bg-red-50 hover:bg-red-100 rounded-lg transition">Eliminar</button>
+                    </td>
+                `;
+                tablaOrdenes.appendChild(tr);
+            });
+        }
+
+        // TABLA 2: DIAGNÓSTICO INICIAL
+        function renderizarTablaDiagnosticoInicial(ordenes) {
+            tablaDiagnosticoInicial.innerHTML = '';
+            if (ordenes.length === 0) {
+                tablaDiagnosticoInicial.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-400">No hay equipos registrados.</td></tr>`;
+                return;
+            }
+
+            ordenes.forEach(o => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 align-top transition";
+
+                let opcionesTecnicos = `<option value="Sin asignar">-- Asignar --</option>`;
+                listaTecnicosGlobal.forEach(tec => {
+                    const selected = (o.recibidoPor === tec) ? 'selected' : '';
+                    opcionesTecnicos += `<option value="${tec}" ${selected}>${tec}</option>`;
+                });
+
+                const msgDiag = `Hola *${o.cliente}*, le escribimos de *OSMOTEC* 🛠️.\n\nInforme de *Diagnóstico Inicial* para su *${o.tipoEquipo} ${o.marca} ${o.modelo}*:\n\n🔍 ${o.diagnosticoInicial || 'En proceso'}\n👨‍🔧 *Técnico Asignado:* ${o.recibidoPor}\n\n¡Gracias por confiar en nosotros!`;
+                const linkWspDiag = `https://wa.me/502${o.whatsapp}?text=${encodeURIComponent(msgDiag)}`;
+
+                tr.innerHTML = `
+                    <td class="p-3 text-xs">
+                        <span class="font-bold text-slate-700">${o.marca} ${o.modelo}</span><br>
+                        <select onchange="asignarTecnico('${o.id}', this.value)" class="mt-1.5 text-xs p-1.5 rounded-xl border border-blue-200 bg-blue-50 font-bold text-blue-900 w-full focus:outline-none">
+                            ${opcionesTecnicos}
+                        </select>
+                    </td>
+                    <td class="p-3 text-xs">
+                        <span class="font-semibold text-slate-800">${o.cliente}</span><br>
+                        <span class="text-slate-500">📱 ${o.whatsapp}</span>
+                    </td>
+                    <td class="p-3 text-xs">
+                        <textarea onblur="guardarCampo('${o.id}', 'diagnosticoInicial', this.value)" rows="4" class="w-full border border-slate-300 rounded-xl p-2.5 text-xs focus:ring-2 focus:ring-blue-500 focus:outline-none font-medium shadow-inner" placeholder="Escriba el diagnóstico inicial detallado...">${o.diagnosticoInicial || ''}</textarea>
+                    </td>
+                    <td class="p-3 text-center space-y-2">
+                        <a href="${linkWspDiag}" target="_blank" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-xl font-bold text-xs shadow-sm transition">📱 WSP Diagnóstico</a>
+                        <button onclick="descargarPDF('${o.cliente}', '${o.marca} ${o.modelo}', 'Diagnóstico Inicial de Ingreso', '${o.diagnosticoInicial}', '${o.recibidoPor}')" class="block w-full text-center bg-slate-700 hover:bg-slate-800 text-white px-3 py-2 rounded-xl font-bold text-xs shadow-sm transition">📄 PDF Ancho</button>
+                    </td>
+                `;
+                tablaDiagnosticoInicial.appendChild(tr);
+            });
+        }
+
+        // TABLA 3: REPORTE FINAL
+        function renderizarTablaReporteFinal(ordenes) {
+            tablaReporteFinal.innerHTML = '';
+            if (ordenes.length === 0) {
+                tablaReporteFinal.innerHTML = `<tr><td colspan="5" class="text-center p-4 text-slate-400">No hay equipos registrados.</td></tr>`;
+                return;
+            }
+
+            ordenes.forEach(o => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 align-top transition";
+
+                let estadoColor = "bg-amber-100 text-amber-800";
+                if(o.estado === 'En reparación') estadoColor = "bg-blue-100 text-blue-800";
+                if(o.estado === 'Listo / Reparado') estadoColor = "bg-emerald-100 text-emerald-800";
+                if(o.estado === 'Sin arreglo') estadoColor = "bg-red-100 text-red-800";
+                if(o.estado === 'Entregado') estadoColor = "bg-slate-200 text-slate-700";
+
+                let pagoColor = "bg-rose-100 text-rose-800";
+                if(o.estadoPago === 'Pagado') pagoColor = "bg-emerald-100 text-emerald-800";
+
+                const msgRep = `Hola *${o.cliente}*, le escribimos de *OSMOTEC* 🛠️.\n\nInforme de *Reporte Final* para su *${o.tipoEquipo} ${o.marca} ${o.modelo}*:\n\n📌 *Estado:* ${o.estado}\n🔧 ${o.reporteFinal || 'Pendiente'}\n💰 *Total a pagar:* Q. ${o.costoReparacion || '0.00'} (${o.estadoPago})\n\n¡Gracias por confiar en nosotros!`;
+                const linkWspRep = `https://wa.me/502${o.whatsapp}?text=${encodeURIComponent(msgRep)}`;
+
+                tr.innerHTML = `
+                    <td class="p-3 text-xs">
+                        <span class="font-bold text-slate-700">${o.marca} ${o.modelo}</span><br>
+                        <span class="bg-slate-100 px-1.5 py-0.5 rounded text-[10px] font-semibold">${o.tipoEquipo}</span>
+                    </td>
+                    <td class="p-3 text-xs">
+                        <span class="font-semibold text-slate-800">${o.cliente}</span><br>
+                        <span class="text-slate-500">📱 ${o.whatsapp}</span>
+                    </td>
+                    <td class="p-3 text-xs">
+                        <textarea onblur="guardarCampo('${o.id}', 'reporteFinal', this.value)" rows="4" class="w-full border border-slate-300 rounded-xl p-2.5 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none font-medium shadow-inner" placeholder="Escriba el reporte final o motivo si no tiene arreglo...">${o.reporteFinal || ''}</textarea>
+                    </td>
+                    <td class="p-3 text-xs space-y-2">
+                        <div class="flex items-center gap-1">
+                            <span class="font-bold text-slate-600">Q.</span>
+                            <input type="text" value="${o.costoReparacion || '0.00'}" onblur="guardarCosto('${o.id}', this.value)" class="w-24 border border-slate-300 rounded-xl p-1.5 text-xs font-bold text-blue-700 text-center focus:outline-none">
+                        </div>
+                        <select onchange="cambiarEstadoPago('${o.id}', this.value)" class="text-xs p-1.5 rounded-xl font-bold ${pagoColor} w-full focus:outline-none shadow-sm">
+                            <option value="Pendiente pago" ${o.estadoPago === 'Pendiente pago' ? 'selected' : ''}>Pendiente pago</option>
+                            <option value="Pagado" ${o.estadoPago === 'Pagado' ? 'selected' : ''}>Pagado</option>
+                        </select>
+                        <select onchange="cambiarEstado('${o.id}', this.value)" class="text-xs p-1.5 rounded-xl font-bold ${estadoColor} w-full focus:outline-none shadow-sm">
+                            <option value="Pendiente" ${o.estado === 'Pendiente' ? 'selected' : ''}>Pendiente</option>
+                            <option value="En reparación" ${o.estado === 'En reparación' ? 'selected' : ''}>En reparación</option>
+                            <option value="Listo / Reparado" ${o.estado === 'Listo / Reparado' ? 'selected' : ''}>Listo / Reparado</option>
+                            <option value="Sin arreglo" ${o.estado === 'Sin arreglo' ? 'selected' : ''}>Sin arreglo</option>
+                            <option value="Entregado" ${o.estado === 'Entregado' ? 'selected' : ''}>Entregado</option>
+                        </select>
+                    </td>
+                    <td class="p-3 text-center space-y-2">
+                        <a href="${linkWspRep}" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-xl font-bold text-xs shadow-sm transition">📱 WSP Reporte</a>
+                        <button onclick="descargarPDF('${o.cliente}', '${o.marca} ${o.modelo}', 'Reporte Final de Taller', '${o.reporteFinal} (Total: Q. ${o.costoReparacion})', '${o.recibidoPor}')" class="block w-full text-center bg-slate-700 hover:bg-slate-800 text-white px-3 py-2 rounded-xl font-bold text-xs shadow-sm transition">📄 PDF Ancho</button>
+                    </td>
+                `;
+                tablaReporteFinal.appendChild(tr);
+            });
+        }
+
+        // ================= FUNCIÓN PARA CREAR Y DESCARGAR TICKET EN PDF =================
+        function descargarTicketPDF(cliente, whatsapp, tipo, marca, modelo, falla, accesorios, fecha) {
+            const elemento = document.createElement('div');
+            elemento.innerHTML = `
+                <div style="padding: 25px; font-family: Arial, sans-serif; color: #1e293b; width: 100%; max-width: 400px; background: white; margin: 0 auto; border: 2px solid #2563eb; border-radius: 12px;">
+                    <div style="text-align: center; border-bottom: 2px dashed #2563eb; padding-bottom: 12px; margin-bottom: 15px;">
+                        <h1 style="margin: 0; color: #1d4ed8; font-size: 22px; font-weight: bold;">OSMOTEC TALLER</h1>
+                        <p style="margin: 4px 0 0 0; font-size: 12px; color: #64748b;">Servicios Técnicos • Los Amates, Izabal</p>
+                    </div>
+                    
+                    <div style="background: #e0f2fe; padding: 8px 12px; border-radius: 6px; margin-bottom: 15px; text-align: center;">
+                        <h3 style="margin: 0; color: #0369a1; font-size: 14px; font-weight: bold;">TICKET DE RECEPCIÓN</h3>
+                    </div>
+
+                    <div style="font-size: 13px; line-height: 1.6; margin-bottom: 15px;">
+                        <p style="margin: 4px 0;"><b>📅 Fecha:</b> ${fecha}</p>
+                        <p style="margin: 4px 0;"><b>👤 Cliente:</b> ${cliente}</p>
+                        <p style="margin: 4px 0;"><b>📱 WhatsApp:</b> ${whatsapp}</p>
+                        <p style="margin: 4px 0;"><b>💻 Equipo:</b> ${tipo} - ${marca} ${modelo}</p>
+                        <p style="margin: 4px 0;"><b>⚠️ Falla:</b> ${falla}</p>
+                        <p style="margin: 4px 0;"><b>🔌 Accesorios:</b> ${accesorios}</p>
+                    </div>
+
+                    <div style="text-align: center; border-top: 1px dashed #cbd5e1; padding-top: 12px; font-size: 11px; color: #64748b;">
+                        <p style="margin: 0;">¡Gracias por confiar en OSMOTEC!</p>
+                        <p style="margin: 2px 0 0 0;">Conserve este ticket para retirar su equipo.</p>
+                    </div>
+                </div>
+            `;
+
+            const opt = {
+                margin:       0.3,
+                filename:     `Ticket_Recepcion_${cliente.replace(/ /g, '_')}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'in', format: [4.2, 5.5], orientation: 'portrait' } // Formato tamaño ticket / medio recibo
+            };
+
+            html2pdf().from(elemento).set(opt).save();
+        }
+
+        // ================= FUNCIÓN PARA GENERAR PDF ANCHO DE REPORTE =================
+        function descargarPDF(cliente, equipo, tipoTitulo, contenidoTexto, tecnico) {
+            const elemento = document.createElement('div');
+            elemento.innerHTML = `
+                <div style="padding: 40px; font-family: Arial, sans-serif; color: #1e293b; width: 100%; max-width: 700px; background: white; margin: 0 auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #2563eb; padding-bottom: 15px; margin-bottom: 25px;">
+                        <div>
+                            <h1 style="margin: 0; color: #1d4ed8; font-size: 26px; font-weight: bold;">OSMOTEC Taller</h1>
+                            <p style="margin: 5px 0 0 0; font-size: 14px; color: #64748b;">Servicios Técnicos y Profesionales • Los Amates, Izabal</p>
+                        </div>
+                        <div style="text-align: right; font-size: 14px; color: #475569;">
+                            <b>Fecha:</b> ${new Date().toLocaleDateString()}
+                        </div>
+                    </div>
+                    
+                    <div style="background: #e0f2fe; padding: 12px 20px; border-radius: 8px; margin-bottom: 20px;">
+                        <h2 style="margin: 0; color: #0369a1; font-size: 20px;">${tipoTitulo}</h2>
+                    </div>
+
+                    <div style="font-size: 16px; margin-bottom: 20px; line-height: 1.6;">
+                        <p style="margin: 8px 0;"><b>👤 Cliente:</b> ${cliente}</p>
+                        <p style="margin: 8px 0;"><b>💻 Equipo:</b> ${equipo}</p>
+                        <p style="margin: 8px 0;"><b>👨‍🔧 Técnico Responsable:</b> ${tecnico || 'Sin asignar'}</p>
+                    </div>
+
+                    <div style="margin-top: 20px; padding: 20px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 10px;">
+                        <h4 style="margin: 0 0 10px 0; font-size: 16px; color: #334155; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px;">Detalle de Observaciones:</h4>
+                        <p style="margin: 0; font-size: 16px; line-height: 1.6; white-space: pre-wrap; color: #0f172a;">${contenidoTexto || 'Sin observaciones registradas.'}</p>
+                    </div>
+
+                    <div style="margin-top: 50px; text-align: center; border-top: 1px solid #cbd5e1; padding-top: 15px;">
+                        <p style="margin: 0; font-size: 12px; color: #94a3b8;">Documento oficial generado por OSMOTEC - Gracias por su preferencia</p>
+                    </div>
+                </div>
+            `;
+
+            const opt = {
+                margin:       0.4,
+                filename:     `${tipoTitulo.replace(/ /g, '_')}_${cliente}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            html2pdf().from(elemento).set(opt).save();
+        }
+
+        // ================= MÓDULO DE GARANTÍA Y QR =================
+        function poblarSelectGarantia() {
+            const select = document.getElementById('selectEquipoGarantia');
+            select.innerHTML = '<option value="">-- Seleccione un equipo --</option>';
+            todasLasOrdenesGlobal.forEach(o => {
+                const opt = document.createElement('option');
+                opt.value = o.id;
+                opt.textContent = `${o.marca} ${o.modelo} - Cliente: ${o.cliente}`;
+                select.appendChild(opt);
+            });
+        }
+
+        function cargarDatosGarantia() {
+            const id = document.getElementById('selectEquipoGarantia').value;
+            const textarea = document.getElementById('infoTrabajoGarantia');
+            if(!id) {
+                textarea.value = '';
+                return;
+            }
+            const equipo = todasLasOrdenesGlobal.find(o => o.id === id);
+            if(equipo) {
+                textarea.value = `Cliente: ${equipo.cliente}\nEquipo: ${equipo.tipoEquipo} ${equipo.marca} ${equipo.modelo}\nDiagnóstico: ${equipo.diagnosticoInicial}\nReporte Final: ${equipo.reporteFinal}\nEstado: ${equipo.estado}`;
+            }
+        }
+
+        function generarQR() {
+            const id = document.getElementById('selectEquipoGarantia').value;
+            let dias = parseInt(document.getElementById('diasGarantia').value) || 15;
+            if(dias > 15) dias = 15;
+            if(dias < 1) dias = 1;
+
+            if(!id) {
+                alert('Por favor seleccione un equipo de la lista.');
+                return;
+            }
+
+            const equipo = todasLasOrdenesGlobal.find(o => o.id === id);
+            if(!equipo) return;
+
+            const contenidoQR = `OSMOTEC GARANTIA\nCliente: ${equipo.cliente}\nEquipo: ${equipo.marca} ${equipo.modelo}\nReporte: ${equipo.reporteFinal}\nGarantia: ${dias} Dias\nTecnico: ${equipo.recibidoPor}`;
+
+            document.getElementById('qrcode').innerHTML = '';
+            document.getElementById('qrInfoTexto').innerHTML = `<b>${equipo.marca} ${equipo.modelo}</b> | Garantía: <b>${dias} Días</b>`;
+
+            new QRCode(document.getElementById("qrcode"), {
+                text: contenidoQR,
+                width: 110,
+                height: 110,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        }
+
+        // Buscadores
+        buscarOrden.addEventListener('input', (e) => {
+            const texto = e.target.value.toLowerCase();
+            const filtradas = todasLasOrdenesGlobal.filter(o => 
+                o.cliente.toLowerCase().includes(texto) || o.marca.toLowerCase().includes(texto) || o.modelo.toLowerCase().includes(texto)
+            );
+            renderizarTablaOrdenes(filtradas);
+        });
+
+        buscarDiagnostico.addEventListener('input', (e) => {
+            const texto = e.target.value.toLowerCase();
+            const filtradas = todasLasOrdenesGlobal.filter(o => 
+                o.cliente.toLowerCase().includes(texto) || o.marca.toLowerCase().includes(texto) || o.modelo.toLowerCase().includes(texto) || o.recibidoPor.toLowerCase().includes(texto)
+            );
+            renderizarTablaDiagnosticoInicial(filtradas);
+        });
+
+        buscarReporteFinal.addEventListener('input', (e) => {
+            const texto = e.target.value.toLowerCase();
+            const filtradas = todasLasOrdenesGlobal.filter(o => 
+                o.cliente.toLowerCase().includes(texto) || o.marca.toLowerCase().includes(texto) || o.modelo.toLowerCase().includes(texto)
+            );
+            renderizarTablaReporteFinal(filtradas);
+        });
+
+        // Funciones de actualización Firebase
+        window.asignarTecnico = async (id, tec) => await db.collection('ordenes_taller').doc(id).update({ recibidoPor: tec });
+        window.guardarCampo = async (id, campo, valor) => await db.collection('ordenes_taller').doc(id).update({ [campo]: valor });
+        window.guardarCosto = async (id, cos) => await db.collection('ordenes_taller').doc(id).update({ costoReparacion: cos });
+        window.cambiarEstado = async (id, est) => await db.collection('ordenes_taller').doc(id).update({ estado: est });
+        window.cambiarEstadoPago = async (id, pag) => await db.collection('ordenes_taller').doc(id).update({ estadoPago: pag });
+        window.eliminarOrden = async (id) => { if(confirm('¿Eliminar orden?')) await db.collection('ordenes_taller').doc(id).delete(); };
+    </script>
+</body>
+</html>
