@@ -268,7 +268,7 @@
                         <div id="qrInfoTexto" class="text-[7px] font-mono text-slate-300 font-medium leading-tight text-center">Seleccione un equipo</div>
                     </div>
                     <button onclick="imprimirEtiquetaQRModal()" class="mt-4 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-mono font-bold px-6 py-2.5 rounded-xl text-xs shadow-md transition">
-                        🖨️ Imprimir Etiqueta Limpia (Fondo Blanco)
+                        🖨️ Imprimir en la Esquina Superior Izquierda
                     </button>
                 </section>
             </div>
@@ -532,7 +532,7 @@
         let todosLosProductosGlobal = [];
         let carritoVenta = [];
         let todasLasVentasGlobal = [];
-        let eqSeleccionadoGarantia = null; // Guardar el equipo actual para el QR
+        let eqSeleccionadoGarantia = null;
 
         // ================= CONTROL DE MÓDULOS PRINCIPALES =================
         function abrirModulo(modulo) {
@@ -1431,7 +1431,7 @@
             }
         }
 
-        // Nueva función para abrir una ventana emergente 100% blanca para imprimir la etiqueta QR sin errores de fondo oscuro
+        // Función modificada para alinear la etiqueta en la ESQUINA SUPERIOR IZQUIERDA de la hoja
         function imprimirEtiquetaQRModal() {
             if(!eqSeleccionadoGarantia) { 
                 alert('Por favor seleccione y genere primero un equipo en garantía'); 
@@ -1451,12 +1451,11 @@
                             background: #ffffff !important; 
                             color: #000000 !important; 
                             margin: 0; 
-                            padding: 20px; 
+                            padding: 0; 
+                            /* Alinea la etiqueta exactamente en la esquina superior izquierda */
                             display: flex; 
-                            flex-direction: column; 
-                            align-items: center; 
-                            justify-content: center; 
-                            height: 100vh;
+                            align-items: flex-start; 
+                            justify-content: flex-start; 
                         }
                         .etiqueta {
                             width: 5cm; 
@@ -1489,7 +1488,7 @@
                         }
                         @media print { 
                             .no-print { display: none; } 
-                            body { padding: 0; }
+                            body { padding: 0; margin: 0; }
                         }
                     </style>
                     <!-- Librería QR para la ventana de impresión -->
