@@ -1431,7 +1431,7 @@
             }
         }
 
-        // Función modificada para alinear la etiqueta en la ESQUINA SUPERIOR IZQUIERDA de la hoja
+        // Función con posición absoluta en la esquina superior izquierda
         function imprimirEtiquetaQRModal() {
             if(!eqSeleccionadoGarantia) { 
                 alert('Por favor seleccione y genere primero un equipo en garantía'); 
@@ -1446,16 +1446,17 @@
                     <meta charset="UTF-8">
                     <title>Etiqueta QR - Orden #${eqSeleccionadoGarantia.numeroOrden || 1}</title>
                     <style>
+                        @page {
+                            size: auto;
+                            margin: 0mm;
+                        }
                         body { 
                             font-family: monospace; 
                             background: #ffffff !important; 
                             color: #000000 !important; 
                             margin: 0; 
                             padding: 0; 
-                            /* Alinea la etiqueta exactamente en la esquina superior izquierda */
-                            display: flex; 
-                            align-items: flex-start; 
-                            justify-content: flex-start; 
+                            display: block;
                         }
                         .etiqueta {
                             width: 5cm; 
@@ -1469,6 +1470,9 @@
                             padding: 6px;
                             box-sizing: border-box;
                             text-align: center;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
                         }
                         .header-etiqueta {
                             font-size: 8px;
@@ -1483,7 +1487,7 @@
                             font-weight: bold;
                         }
                         .no-print { 
-                            margin-top: 20px; 
+                            margin-top: 180px; 
                             text-align: center; 
                         }
                         @media print { 
