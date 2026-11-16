@@ -1384,7 +1384,7 @@
                         <div class="footer">Comprobante Oficial OSMOTEC</div>
                     </div>
                     <div class="no-print" style="text-align: center; margin-top: 20px;">
-                        <button onclick="window.print()" style="background: #0284c7; color: white; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; font-family: monospace;">🖨️ Imprimir / Guardار</button>
+                        <button onclick="window.print()" style="background: #0284c7; color: white; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; font-family: monospace;">🖨️ Imprimir / Guardar</button>
                     </div>
                     <script>window.onload = function() { setTimeout(() => { window.print(); }, 300); };<\/script>
                 </body>
@@ -1409,23 +1409,29 @@
         function generarQR() {
             const id = document.getElementById('selectEquipoGarantia').value;
             eqSeleccionadoGarantia = todasLasOrdenesGlobal.find(o => o.id === id);
-            if(!eqSeleccionadoGarantia) { alert('Seleccione un equipo primero'); return; }
+            
+            if(!eqSeleccionadoGarantia) { 
+                alert('Por favor seleccione un equipo primero'); 
+                return; 
+            }
             
             const diasGarantia = document.getElementById('diasGarantia').value || '15';
             const fechaCreacionQR = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            const reporteFinalTexto = eqSeleccionadoGarantia.reporteFinal || 'Sin reporte final';
+            
+            // Limpieza de saltos de línea para evitar errores de sintaxis en el QR
+            const reporteLimpio = (eqSeleccionadoGarantia.reporteFinal || 'Sin reporte final').replace(/(\r\n|\n|\r)/gm, " ");
 
             const contenedorQR = document.getElementById('qrcode');
             contenedorQR.innerHTML = '';
+            
             document.getElementById('qrInfoTexto').innerHTML = `<b>Garantía: ${diasGarantia} días</b><br><b>${eqSeleccionadoGarantia.marca} ${eqSeleccionadoGarantia.modelo}</b><br>Cliente: ${eqSeleccionadoGarantia.cliente}`;
             
-            // Texto completo codificado en el QR
-            const textoQR = `OSMOTEC GARANTIA\n` +
-                            `Garantía: ${diasGarantia} días\n` +
-                            `Cliente: ${eqSeleccionadoGarantia.cliente}\n` +
-                            `Equipo: ${eqSeleccionadoGarantia.marca} ${eqSeleccionadoGarantia.modelo}\n` +
-                            `Fecha QR: ${fechaCreacionQR}\n` +
-                            `Reporte: ${reporteFinalTexto}`;
+            const textoQR = "OSMOTEC GARANTIA\n" +
+                            "Garantia: " + diasGarantia + " dias\n" +
+                            "Cliente: " + eqSeleccionadoGarantia.cliente + "\n" +
+                            "Equipo: " + eqSeleccionadoGarantia.marca + " " + eqSeleccionadoGarantia.modelo + "\n" +
+                            "Fecha QR: " + fechaCreacionQR + "\n" +
+                            "Reporte: " + reporteLimpio;
 
             try {
                 new QRCode(contenedorQR, { 
@@ -1436,14 +1442,14 @@
                     colorLight: "#ffffff",
                     correctLevel: QRCode.CorrectLevel.H
                 });
-                alert('¡Código QR generado con la nueva información de garantía!');
+                alert('¡Código QR generado correctamente!');
             } catch(e) {
-                console.error(e);
-                alert('Error al generar el código QR');
+                console.error("Error detallado QR:", e);
+                alert('Error al generar el código QR.');
             }
         }
 
-        // Función de impresión actualizada con la nueva información en el QR y alineada en la esquina superior izquierda
+        // Función de impresión actualizada y optimizada para la esquina superior izquierda
         function imprimirEtiquetaQRModal() {
             if(!eqSeleccionadoGarantia) { 
                 alert('Por favor seleccione y genere primero un equipo en garantía'); 
@@ -1452,7 +1458,7 @@
 
             const diasGarantia = document.getElementById('diasGarantia').value || '15';
             const fechaCreacionQR = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            const reporteFinalTexto = eqSeleccionadoGarantia.reporteFinal || 'Sin reporte final';
+            const reporteLimpio = (eqSeleccionadoGarantia.reporteFinal || 'Sin reporte final').replace(/(\r\n|\n|\r)/gm, " ");
 
             const ventanaQR = window.open('', '_blank', 'width=400,height=500');
             ventanaQR.document.write(`
@@ -1532,11 +1538,11 @@
                     <script>
                         window.onload = function() {
                             const contenidoQR = "OSMOTEC GARANTIA\\n" +
-                                                "Garantía: ${diasGarantia} días\\n" +
-                                                "Cliente: ${eqSeleccionadoGarantia.cliente}\\n" +
-                                                "Equipo: ${eqSeleccionadoGarantia.marca} ${eqSeleccionadoGarantia.modelo}\\n" +
-                                                "Fecha QR: ${fechaCreacionQR}\\n" +
-                                                "Reporte: ${reporteFinalTexto}";
+                                                "Garantia: " + ${diasGarantia} + " dias\\n" +
+                                                "Cliente: " + "${eqSeleccionadoGarantia.cliente}" + "\\n" +
+                                                "Equipo: " + "${eqSeleccionadoGarantia.marca} ${eqSeleccionadoGarantia.modelo}" + "\\n" +
+                                                "Fecha QR: " + "${fechaCreacionQR}" + "\\n" +
+                                                "Reporte: " + "${reporteLimpio}";
 
                             new QRCode(document.getElementById("qrImpresionModal"), { 
                                 text: contenidoQR, 
