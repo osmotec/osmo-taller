@@ -1422,8 +1422,8 @@
             
             document.getElementById('qrInfoTexto').innerHTML = `<b>Garantía: ${diasGarantia} días</b><br><b>${eqSeleccionadoGarantia.marca} ${eqSeleccionadoGarantia.modelo}</b><br>Cliente: ${eqSeleccionadoGarantia.cliente}`;
             
-            // Contenido exacto solicitado: Cliente, Modelo y nombre del equipo, Fecha, Días de garantía
-            const textoQR = `OSMOTEC GARANTIA | Cliente: ${eqSeleccionadoGarantia.cliente} | Equipo: ${eqSeleccionadoGarantia.tipoEquipo} ${eqSeleccionadoGarantia.marca} ${eqSeleccionadoGarantia.modelo} | Fecha QR: ${fechaCreacionQR} | Garantia: ${diasGarantia} Dias`;
+            // Contenido exacto optimizado: Fecha de creación del QR y días de garantía
+            const textoQR = `OSMOTEC GARANTIA | Fecha: ${fechaCreacionQR} | Garantia: ${diasGarantia} Dias`;
 
             try {
                 new QRCode(contenedorQR, { 
@@ -1490,7 +1490,7 @@
                     </div>
                     <script>
                         window.onload = function() {
-                            const contenidoQR = "OSMOTEC GARANTIA | Cliente: " + "${clienteSeguro}" + " | Equipo: " + "${equipoSeguro}" + " | Fecha QR: " + "${fechaCreacionQR}" + " | Garantia: " + "${diasGarantia}" + " Dias";
+                            const contenidoQR = "OSMOTEC GARANTIA | Fecha: " + "${fechaCreacionQR}" + " | Garantia: " + "${diasGarantia}" + " Dias";
                             new QRCode(document.getElementById("qrImpresionModal"), { 
                                 text: contenidoQR, 
                                 width: 78, 
