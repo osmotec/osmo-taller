@@ -1416,29 +1416,22 @@
             }
             
             const diasGarantia = document.getElementById('diasGarantia').value || '15';
-            const fechaCreacionQR = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            const reporteLimpio = (eqSeleccionadoGarantia.reporteFinal || 'Sin reporte final').replace(/(\r\n|\n|\r)/gm, " ");
-
             const contenedorQR = document.getElementById('qrcode');
             contenedorQR.innerHTML = '';
             
             document.getElementById('qrInfoTexto').innerHTML = `<b>Garantía: ${diasGarantia} días</b><br><b>${eqSeleccionadoGarantia.marca} ${eqSeleccionadoGarantia.modelo}</b><br>Cliente: ${eqSeleccionadoGarantia.cliente}`;
             
-            const textoQR = "OSMOTEC GARANTIA\n" +
-                            "Garantia: " + diasGarantia + " dias\n" +
-                            "Cliente: " + eqSeleccionadoGarantia.cliente + "\n" +
-                            "Equipo: " + eqSeleccionadoGarantia.marca + " " + eqSeleccionadoGarantia.modelo + "\n" +
-                            "Fecha QR: " + fechaCreacionQR + "\n" +
-                            "Reporte: " + reporteLimpio;
+            // Texto optimizado y limpio
+            const textoQR = `OSMOTEC-GARANTIA | Orden #${eqSeleccionadoGarantia.numeroOrden || 1} | ${eqSeleccionadoGarantia.cliente} | ${eqSeleccionadoGarantia.marca} ${eqSeleccionadoGarantia.modelo} | ${diasGarantia} Dias`;
 
             try {
                 new QRCode(contenedorQR, { 
                     text: textoQR, 
-                    width: 90, 
-                    height: 90,
+                    width: 78, 
+                    height: 78,
                     colorDark: "#000000",
                     colorLight: "#ffffff",
-                    correctLevel: QRCode.CorrectLevel.H
+                    correctLevel: QRCode.CorrectLevel.M
                 });
                 alert('¡Código QR generado correctamente!');
             } catch(e) {
@@ -1447,7 +1440,7 @@
             }
         }
 
-        // Función de impresión con esquina superior izquierda absoluta y textos seguros
+        // Función de impresión con esquina superior izquierda absoluta y QR optimizado
         function imprimirEtiquetaQRModal() {
             if(!eqSeleccionadoGarantia) { 
                 alert('Por favor seleccione y genere primero un equipo en garantía'); 
@@ -1455,12 +1448,10 @@
             }
 
             const diasGarantia = document.getElementById('diasGarantia').value || '15';
-            const fechaCreacionQR = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            const reporteLimpio = (eqSeleccionadoGarantia.reporteFinal || 'Sin reporte final').replace(/(\r\n|\n|\r)/gm, " ");
-
-            // Variables seguras para inyectar en el HTML secundario de la ventana de impresión
+            const fechaCreacionQR = new Date().toLocaleDateString();
             const clienteSeguro = eqSeleccionadoGarantia.cliente;
             const equipoSeguro = eqSeleccionadoGarantia.marca + " " + eqSeleccionadoGarantia.modelo;
+            const numOrden = eqSeleccionadoGarantia.numeroOrden || 1;
 
             const ventanaQR = window.open('', '_blank', 'width=400,height=500');
             ventanaQR.document.write(`
@@ -1468,68 +1459,28 @@
                 <html lang="es">
                 <head>
                     <meta charset="UTF-8">
-                    <title>Etiqueta QR - Orden #${eqSeleccionadoGarantia.numeroOrden || 1}</title>
+                    <title>Etiqueta QR - Orden #${numOrden}</title>
                     <style>
-                        @page {
-                            size: auto;
-                            margin: 0mm;
-                        }
-                        body { 
-                            font-family: monospace; 
-                            background: #ffffff !important; 
-                            color: #000000 !important; 
-                            margin: 0; 
-                            padding: 0; 
-                            display: block;
-                        }
+                        @page { size: auto; margin: 0mm; }
+                        body { font-family: monospace; background: #ffffff !important; color: #000000 !important; margin: 0; padding: 0; }
                         .etiqueta {
-                            width: 5cm; 
-                            height: 5cm; 
-                            border: 1px dashed #000000; 
-                            background: #ffffff;
-                            display: flex; 
-                            flex-direction: column; 
-                            align-items: center; 
-                            justify-content: space-between; 
-                            padding: 5px;
-                            box-sizing: border-box;
-                            text-align: center;
-                            position: absolute;
-                            top: 0;
-                            left: 0;
+                            width: 5cm; height: 5cm; border: 1px dashed #000000; background: #ffffff;
+                            display: flex; flex-direction: column; align-items: center; justify-content: space-between; 
+                            padding: 6px; box-sizing: border-box; text-align: center; position: absolute; top: 0; left: 0;
                         }
-                        .header-etiqueta {
-                            font-size: 8px;
-                            font-weight: bold;
-                            display: flex;
-                            align-items: center;
-                            gap: 3px;
-                        }
-                        .info-texto {
-                            font-size: 6.5px;
-                            line-height: 1.1;
-                            font-weight: bold;
-                        }
-                        .no-print { 
-                            margin-top: 180px; 
-                            text-align: center; 
-                        }
-                        @media print { 
-                            .no-print { display: none; } 
-                            body { padding: 0; margin: 0; }
-                        }
+                        .header-etiqueta { font-size: 8.5px; font-weight: bold; }
+                        .info-texto { font-size: 7px; line-height: 1.2; font-weight: bold; }
+                        .no-print { margin-top: 180px; text-align: center; }
+                        @media print { .no-print { display: none; } body { padding: 0; margin: 0; } }
                     </style>
-                    <!-- Librería QR para la ventana de impresión -->
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script>
                 </head>
                 <body>
                     <div class="etiqueta">
-                        <div class="header-etiqueta">
-                            <span>OSMOTEC - GARANTÍA (${diasGarantia} DÍAS)</span>
-                        </div>
+                        <div class="header-etiqueta">OSMOTEC - GARANTÍA (${diasGarantia} DÍAS)</div>
                         <div id="qrImpresionModal"></div>
                         <div class="info-texto">
-                            Cliente: ${clienteSeguro}<br>
+                            Orden #${numOrden} - ${clienteSeguro}<br>
                             Equipo: ${equipoSeguro}<br>
                             Fecha: ${fechaCreacionQR}
                         </div>
@@ -1539,20 +1490,14 @@
                     </div>
                     <script>
                         window.onload = function() {
-                            const contenidoQR = "OSMOTEC GARANTIA\\n" +
-                                                "Garantia: " + "${diasGarantia}" + " dias\\n" +
-                                                "Cliente: " + "${clienteSeguro}" + "\\n" +
-                                                "Equipo: " + "${equipoSeguro}" + "\\n" +
-                                                "Fecha QR: " + "${fechaCreacionQR}" + "\\n" +
-                                                "Reporte: " + "${reporteLimpio}";
-
+                            const contenidoQR = "OSMOTEC-GARANTIA | Orden #" + "${numOrden}" + " | " + "${clienteSeguro}" + " | " + "${equipoSeguro}" + " | " + "${diasGarantia}" + " Dias";
                             new QRCode(document.getElementById("qrImpresionModal"), { 
                                 text: contenidoQR, 
-                                width: 85, 
-                                height: 85,
+                                width: 78, 
+                                height: 78,
                                 colorDark: "#000000",
                                 colorLight: "#ffffff",
-                                correctLevel: QRCode.CorrectLevel.H
+                                correctLevel: QRCode.CorrectLevel.M
                             });
                             setTimeout(() => { window.print(); }, 400);
                         };
