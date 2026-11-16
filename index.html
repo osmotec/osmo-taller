@@ -12,17 +12,6 @@
     <!-- Librería para generar Códigos QR -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
-        @media print {
-            body * { visibility: hidden; }
-            #seccionImpresionQR, #seccionImpresionQR * { visibility: visible; }
-            #seccionImpresionQR { 
-                position: absolute; left: 0; top: 0; width: 5cm; height: 5cm; 
-                border: 1px dashed #000000 !important;
-                display: flex; flex-direction: column; align-items: center; justify-content: center; 
-                background: #ffffff !important; 
-                color: #000000 !important;
-            }
-        }
         /* Scrollbar estilo consola */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #020617; }
@@ -42,7 +31,7 @@
                 <img src="osmo.jpg" alt="Osmo" class="w-20 h-20 rounded-2xl object-cover border-2 border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.4)]" onerror="this.style.display='none'">
                 <div>
                     <h1 class="text-2xl font-black tracking-tight text-white flex items-center justify-center gap-2">
-                        <span class="text-cyan-400">⚡</span> OSMOTEC <span class="text-xs font-mono text-cyan-400 px-2 py-0.5 bg-cyan-950 border border-cyan-800 rounded-md">v2.8</span>
+                        <span class="text-cyan-400">⚡</span> OSMOTEC <span class="text-xs font-mono text-cyan-400 px-2 py-0.5 bg-cyan-950 border border-cyan-800 rounded-md">v2.9</span>
                     </h1>
                     <p class="text-xs text-slate-400 mt-1 font-mono">Los Amates, Izabal • Consola de Operaciones</p>
                 </div>
@@ -263,13 +252,13 @@
                             <input type="number" id="diasGarantia" min="1" max="15" value="15" class="w-full bg-slate-950 border-2 border-cyan-500/50 rounded-xl p-2.5 text-sm font-bold text-cyan-300">
                         </div>
                         <button onclick="generarQR()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)] transition">
-                            🖨️ Generar Etiqueta QR con Osmo
+                            🖨️ Generar y Vista Previa QR
                         </button>
                     </div>
                 </section>
 
                 <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-2 flex flex-col items-center justify-center text-center">
-                    <h2 class="text-sm font-mono font-bold text-slate-200 mb-2 border-b border-slate-800 pb-2 w-full text-left">📱 Etiqueta QR de Garantía</h2>
+                    <h2 class="text-sm font-mono font-bold text-slate-200 mb-2 border-b border-slate-800 pb-2 w-full text-left">📱 Vista Previa Etiqueta QR</h2>
                     <div id="seccionImpresionQR" class="p-2 border-2 border-dashed border-cyan-500/40 rounded-xl bg-slate-950 flex flex-col items-center justify-between shadow-lg" style="width: 5cm; height: 5cm;">
                         <div class="flex items-center justify-center gap-1">
                             <img src="osmo.jpg" class="w-3.5 h-3.5 rounded-full object-cover" onerror="this.style.display='none'">
@@ -278,8 +267,8 @@
                         <div id="qrcode" class="flex justify-center items-center my-auto bg-white p-1 rounded"></div>
                         <div id="qrInfoTexto" class="text-[7px] font-mono text-slate-300 font-medium leading-tight text-center">Seleccione un equipo</div>
                     </div>
-                    <button onclick="window.print()" class="mt-4 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-mono font-bold px-6 py-2.5 rounded-xl text-xs shadow-md transition">
-                        🖨️ Imprimir Etiqueta QR
+                    <button onclick="imprimirEtiquetaQRModal()" class="mt-4 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-mono font-bold px-6 py-2.5 rounded-xl text-xs shadow-md transition">
+                        🖨️ Imprimir Etiqueta Limpia (Fondo Blanco)
                     </button>
                 </section>
             </div>
@@ -543,6 +532,7 @@
         let todosLosProductosGlobal = [];
         let carritoVenta = [];
         let todasLasVentasGlobal = [];
+        let eqSeleccionadoGarantia = null; // Guardar el equipo actual para el QR
 
         // ================= CONTROL DE MÓDULOS PRINCIPALES =================
         function abrirModulo(modulo) {
@@ -787,7 +777,7 @@
                         <td class="p-3 text-center space-y-1">
                             <button onclick="descargarTicketPDF('${o.cliente}', '${o.whatsapp}', '${o.tipoEquipo}', '${o.marca}', '${o.modelo}', '${o.errorReportado}', '${o.accesorios}', '${o.fecha}', '${o.numeroOrden || 1}')" class="w-full bg-amber-600 hover:bg-amber-500 text-slate-950 px-2 py-1 rounded-lg text-xs font-bold shadow">📄 Ficha</button>
                             <button onclick="prepararEdicionOrden('${o.id}', '${o.cliente}', '${o.whatsapp}', '${o.marca}', '${o.modelo}', '${o.tipoEquipo}', '${o.errorReportado}', '${o.tiempoSinUso || ''}', '${o.accesorios || ''}')" class="w-full bg-slate-800 text-cyan-400 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-slate-700">✏️ Modificar</button>
-                            <button onclick="if(confirm('¿Desea eliminar esta orden?')) { db.collection('ordenes_taller').doc('${o.id}').delete(); }" class="w-full bg-red-950/60 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-red-900 border border-red-900/50">🗑️ Eliminar</button>
+                            <button onclick="if(confirm('¿Desea eliminar esta orden?')) { db.collection('ordenes_taller').doc('${o.id}').delete(); }" class="w-full bg-red-950/60 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Eliminar</button>
                         </td>
                     </tr>
                 `;
@@ -1412,32 +1402,131 @@
         function cargarDatosGarantia() {
             const id = document.getElementById('selectEquipoGarantia').value;
             const t = document.getElementById('infoTrabajoGarantia');
-            const eq = todasLasOrdenesGlobal.find(o => o.id === id);
-            t.value = eq ? `Orden: #${eq.numeroOrden || 1}\nCliente: ${eq.cliente}\nEquipo: ${eq.marca} ${eq.modelo}\nReporte: ${eq.reporteFinal}` : '';
+            eqSeleccionadoGarantia = todasLasOrdenesGlobal.find(o => o.id === id);
+            t.value = eqSeleccionadoGarantia ? `Orden: #${eqSeleccionadoGarantia.numeroOrden || 1}\nCliente: ${eqSeleccionadoGarantia.cliente}\nEquipo: ${eqSeleccionadoGarantia.marca} ${eqSeleccionadoGarantia.modelo}\nReporte: ${eqSeleccionadoGarantia.reporteFinal}` : '';
         }
 
         function generarQR() {
             const id = document.getElementById('selectEquipoGarantia').value;
-            const eq = todasLasOrdenesGlobal.find(o => o.id === id);
-            if(!eq) { alert('Seleccione un equipo primero'); return; }
+            eqSeleccionadoGarantia = todasLasOrdenesGlobal.find(o => o.id === id);
+            if(!eqSeleccionadoGarantia) { alert('Seleccione un equipo primero'); return; }
             
             const contenedorQR = document.getElementById('qrcode');
             contenedorQR.innerHTML = '';
-            document.getElementById('qrInfoTexto').innerHTML = `<b>Orden #${eq.numeroOrden || 1}</b><br><b>${eq.marca} ${eq.modelo}</b><br>Cliente: ${eq.cliente}`;
+            document.getElementById('qrInfoTexto').innerHTML = `<b>Orden #${eqSeleccionadoGarantia.numeroOrden || 1}</b><br><b>${eqSeleccionadoGarantia.marca} ${eqSeleccionadoGarantia.modelo}</b><br>Cliente: ${eqSeleccionadoGarantia.cliente}`;
             
             try {
                 new QRCode(contenedorQR, { 
-                    text: `OSMOTEC GARANTIA - Orden #${eq.numeroOrden || 1}\nCliente: ${eq.cliente}\nEquipo: ${eq.marca} ${eq.modelo}\nFecha: ${eq.fecha}`, 
+                    text: `OSMOTEC GARANTIA - Orden #${eqSeleccionadoGarantia.numeroOrden || 1}\nCliente: ${eqSeleccionadoGarantia.cliente}\nEquipo: ${eqSeleccionadoGarantia.marca} ${eqSeleccionadoGarantia.modelo}\nFecha: ${eqSeleccionadoGarantia.fecha}`, 
                     width: 90, 
                     height: 90,
                     colorDark: "#000000",
                     colorLight: "#ffffff",
                     correctLevel: QRCode.CorrectLevel.H
                 });
+                alert('¡Código QR generado correctamente en la vista previa!');
             } catch(e) {
                 console.error(e);
                 alert('Error al generar el código QR');
             }
+        }
+
+        // Nueva función para abrir una ventana emergente 100% blanca para imprimir la etiqueta QR sin errores de fondo oscuro
+        function imprimirEtiquetaQRModal() {
+            if(!eqSeleccionadoGarantia) { 
+                alert('Por favor seleccione y genere primero un equipo en garantía'); 
+                return; 
+            }
+
+            const ventanaQR = window.open('', '_blank', 'width=400,height=500');
+            ventanaQR.document.write(`
+                <!DOCTYPE html>
+                <html lang="es">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Etiqueta QR - Orden #${eqSeleccionadoGarantia.numeroOrden || 1}</title>
+                    <style>
+                        body { 
+                            font-family: monospace; 
+                            background: #ffffff !important; 
+                            color: #000000 !important; 
+                            margin: 0; 
+                            padding: 20px; 
+                            display: flex; 
+                            flex-direction: column; 
+                            align-items: center; 
+                            justify-content: center; 
+                            height: 100vh;
+                        }
+                        .etiqueta {
+                            width: 5cm; 
+                            height: 5cm; 
+                            border: 1px dashed #000000; 
+                            background: #ffffff;
+                            display: flex; 
+                            flex-direction: column; 
+                            align-items: center; 
+                            justify-content: space-between; 
+                            padding: 6px;
+                            box-sizing: border-box;
+                            text-align: center;
+                        }
+                        .header-etiqueta {
+                            font-size: 8px;
+                            font-weight: bold;
+                            display: flex;
+                            align-items: center;
+                            gap: 3px;
+                        }
+                        .info-texto {
+                            font-size: 7px;
+                            line-height: 1.2;
+                            font-weight: bold;
+                        }
+                        .no-print { 
+                            margin-top: 20px; 
+                            text-align: center; 
+                        }
+                        @media print { 
+                            .no-print { display: none; } 
+                            body { padding: 0; }
+                        }
+                    </style>
+                    <!-- Librería QR para la ventana de impresión -->
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script>
+                </head>
+                <body>
+                    <div class="etiqueta">
+                        <div class="header-etiqueta">
+                            <span>OSMOTEC - GARANTÍA</span>
+                        </div>
+                        <div id="qrImpresionModal"></div>
+                        <div class="info-texto">
+                            Orden #${eqSeleccionadoGarantia.numeroOrden || 1}<br>
+                            ${eqSeleccionadoGarantia.marca} ${eqSeleccionadoGarantia.modelo}<br>
+                            Cliente: ${eqSeleccionadoGarantia.cliente}
+                        </div>
+                    </div>
+                    <div class="no-print">
+                        <button onclick="window.print()" style="background: #0284c7; color: white; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; font-family: monospace;">🖨️ Imprimir Etiqueta</button>
+                    </div>
+                    <script>
+                        window.onload = function() {
+                            new QRCode(document.getElementById("qrImpresionModal"), { 
+                                text: "OSMOTEC GARANTIA - Orden #${eqSeleccionadoGarantia.numeroOrden || 1}\\nCliente: ${eqSeleccionadoGarantia.cliente}\\nEquipo: ${eqSeleccionadoGarantia.marca} ${eqSeleccionadoGarantia.modelo}\\nFecha: ${eqSeleccionadoGarantia.fecha}", 
+                                width: 95, 
+                                height: 95,
+                                colorDark: "#000000",
+                                colorLight: "#ffffff",
+                                correctLevel: QRCode.CorrectLevel.H
+                            });
+                            setTimeout(() => { window.print(); }, 400);
+                        };
+                    <\/script>
+                </body>
+                </html>
+            `);
+            ventanaQR.document.close();
         }
     </script>
 </body>
