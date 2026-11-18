@@ -31,7 +31,7 @@
                 <img src="osmo.jpg" alt="Osmo" class="w-20 h-20 rounded-2xl object-cover border-2 border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.4)]" onerror="this.style.display='none'">
                 <div>
                     <h1 class="text-2xl font-black tracking-tight text-white flex items-center justify-center gap-2">
-                        <span class="text-cyan-400">⚡</span> OSMOTEC <span class="text-xs font-mono text-cyan-400 px-2 py-0.5 bg-cyan-950 border border-cyan-800 rounded-md">v2.9</span>
+                        <span class="text-cyan-400">⚡</span> OSMOTEC <span class="text-xs font-mono text-cyan-400 px-2 py-0.5 bg-cyan-950 border border-cyan-800 rounded-md">v3.1</span>
                     </h1>
                     <p class="text-xs text-slate-400 mt-1 font-mono">Los Amates, Izabal • Consola de Operaciones</p>
                 </div>
@@ -52,7 +52,7 @@
                     <span class="text-xl">🛒</span>
                     <div class="text-left font-mono">
                         <div class="tracking-wide">MÓDULO TIENDA / POS</div>
-                        <div class="text-[10px] text-emerald-200 font-normal">Inventario, caja registradora y reportes</div>
+                        <div class="text-[10px] text-emerald-200 font-normal">Inventario, caja, gastos, cierre y reportes</div>
                     </div>
                 </button>
             </div>
@@ -94,6 +94,7 @@
                 <nav id="navTienda" class="hidden flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 shadow-inner flex-wrap justify-center">
                     <button onclick="cambiarPestanaTienda('inventario')" id="btnTabInventario" class="px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-emerald-600 text-slate-950 shadow-[0_0_10px_rgba(16,185,129,0.3)]">📦 Inventario</button>
                     <button onclick="cambiarPestanaTienda('ventas')" id="btnTabVentas" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">💵 POS / Caja</button>
+                    <button onclick="cambiarPestanaTienda('caja')" id="btnTabCaja" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">💸 Cierre / Gastos</button>
                     <button onclick="cambiarPestanaTienda('reportes')" id="btnTabReportes" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">📊 Reportes</button>
                 </nav>
 
@@ -165,11 +166,31 @@
                     </form>
                 </section>
 
-                <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-2">
-                    <div class="flex flex-col sm:flex-row justify-between items-center mb-4 border-b border-slate-800 pb-3 gap-2">
-                        <h2 class="text-sm font-mono font-bold text-slate-200">📋 Órdenes Activas en Taller</h2>
+                <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-2 space-y-3">
+                    <div class="flex flex-col sm:flex-row justify-between items-center border-b border-slate-800 pb-3 gap-2">
+                        <h2 class="text-sm font-mono font-bold text-slate-200">📋 Órdenes en Taller</h2>
                         <input type="text" id="buscarOrden" placeholder="Buscar equipo o cliente..." class="bg-slate-950 border border-slate-800 rounded-xl p-2 text-sm text-slate-200 font-mono w-full sm:w-64 focus:outline-none focus:border-cyan-500">
                     </div>
+
+                    <!-- Filtro Rápido por Estado en Taller -->
+                    <div class="flex flex-wrap items-center gap-2 font-mono text-xs pb-1">
+                        <button onclick="cambiarFiltroEstadoOrden('Todos')" id="filtroEst_Todos" class="px-3 py-1.5 rounded-xl font-bold bg-cyan-600 text-slate-950 transition">
+                            Todos (<span id="countEst_Todos">0</span>)
+                        </button>
+                        <button onclick="cambiarFiltroEstadoOrden('Pendiente')" id="filtroEst_Pendiente" class="px-3 py-1.5 rounded-xl font-semibold bg-slate-950 text-amber-400 border border-slate-800 hover:border-amber-500/50 transition">
+                            ⏳ Pendiente (<span id="countEst_Pendiente">0</span>)
+                        </button>
+                        <button onclick="cambiarFiltroEstadoOrden('Reparado')" id="filtroEst_Reparado" class="px-3 py-1.5 rounded-xl font-semibold bg-slate-950 text-cyan-400 border border-slate-800 hover:border-cyan-500/50 transition">
+                            ✅ Reparado (<span id="countEst_Reparado">0</span>)
+                        </button>
+                        <button onclick="cambiarFiltroEstadoOrden('No reparado')" id="filtroEst_No reparado" class="px-3 py-1.5 rounded-xl font-semibold bg-slate-950 text-rose-400 border border-slate-800 hover:border-rose-500/50 transition">
+                            ❌ No reparado (<span id="countEst_No reparado">0</span>)
+                        </button>
+                        <button onclick="cambiarFiltroEstadoOrden('Entregado')" id="filtroEst_Entregado" class="px-3 py-1.5 rounded-xl font-semibold bg-slate-950 text-emerald-400 border border-slate-800 hover:border-emerald-500/50 transition">
+                            📦 Entregado (<span id="countEst_Entregado">0</span>)
+                        </button>
+                    </div>
+
                     <div class="overflow-x-auto max-h-[480px] overflow-y-auto">
                         <table class="w-full text-left border-collapse text-sm">
                             <thead>
@@ -440,12 +461,111 @@
                 </section>
             </div>
 
+            <!-- VISTA: CIERRE DE CAJA DIARIO Y GASTOS OPERATIVOS -->
+            <div id="vistaTiendaCaja" class="hidden space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Formulario de Registro de Gasto / Salida -->
+                    <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-1 h-fit">
+                        <h2 class="text-sm font-mono font-bold text-rose-400 mb-4 border-b border-slate-800 pb-2">💸 Registrar Gasto / Salida de Caja</h2>
+                        <form id="gastoForm" class="space-y-3 font-mono">
+                            <div>
+                                <label class="block text-xs text-slate-400 mb-1">Categoría</label>
+                                <select id="categoriaGasto" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200">
+                                    <option value="Compra Insumos / Repuestos">Compra Insumos / Repuestos</option>
+                                    <option value="Gasto Operativo Diario">Gasto Operativo Diario</option>
+                                    <option value="Pago de Servicios">Pago de Servicios (Luz/Internet)</option>
+                                    <option value="Viáticos / Envíos">Viáticos / Envíos</option>
+                                    <option value="Retiro de Efectivo">Retiro de Efectivo</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-slate-400 mb-1">Descripción / Detalle</label>
+                                <input type="text" id="descripcionGasto" required placeholder="Ej: Compra de tinta, flete..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-slate-400 mb-1">Monto (Q.)</label>
+                                <input type="number" step="0.01" id="montoGasto" required placeholder="0.00" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-rose-300 font-bold">
+                            </div>
+                            <button type="submit" class="w-full bg-rose-600 hover:bg-rose-500 text-white font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(225,29,72,0.3)] transition">
+                                ➖ Registrar Salida de Efectivo
+                            </button>
+                        </form>
+                    </section>
+
+                    <!-- Panel de Arqueo y Cierre Diario -->
+                    <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-2 space-y-4 font-mono">
+                        <div class="flex flex-col sm:flex-row justify-between items-center border-b border-slate-800 pb-3 gap-2">
+                            <div>
+                                <h2 class="text-sm font-bold text-cyan-400">🔐 Arqueo y Cierre de Caja (Hoy: <span id="fechaHoyCaja"></span>)</h2>
+                                <p class="text-[11px] text-slate-400">Cuadre automático entre ingresos por ventas y salidas de efectivo</p>
+                            </div>
+                            <button onclick="imprimirCierreCajaPDF()" class="bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs shadow transition">
+                                🖨️ Imprimir Cierre del Día
+                            </button>
+                        </div>
+
+                        <!-- Tarjetas de Resumen de Caja Hoy -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div class="bg-slate-950 border border-slate-800 p-3.5 rounded-xl">
+                                <p class="text-[10px] text-slate-400 uppercase font-bold">Ventas Hoy (+)</p>
+                                <h3 class="text-lg font-black text-emerald-400 mt-1" id="cajaVentasHoy">Q. 0.00</h3>
+                            </div>
+                            <div class="bg-slate-950 border border-slate-800 p-3.5 rounded-xl">
+                                <p class="text-[10px] text-slate-400 uppercase font-bold">Gastos / Salidas Hoy (-)</p>
+                                <h3 class="text-lg font-black text-rose-400 mt-1" id="cajaGastosHoy">Q. 0.00</h3>
+                            </div>
+                            <div class="bg-slate-950 border border-cyan-800/60 p-3.5 rounded-xl">
+                                <p class="text-[10px] text-cyan-300 uppercase font-bold">Efectivo Esperado (=)</p>
+                                <h3 class="text-lg font-black text-cyan-400 mt-1" id="cajaEsperadoHoy">Q. 0.00</h3>
+                            </div>
+                        </div>
+
+                        <!-- Calculadora de Arqueo Físico -->
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
+                            <div>
+                                <label class="block text-[11px] text-slate-400 mb-1">Fondo Inicial en Caja (Q.):</label>
+                                <input type="number" step="0.01" id="cajaFondoInicial" oninput="recalcularArqueoCaja()" value="0.00" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-2 text-sm text-slate-200 font-bold">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-400 mb-1">Efectivo Físico Contado (Q.):</label>
+                                <input type="number" step="0.01" id="cajaEfectivoContado" oninput="recalcularArqueoCaja()" placeholder="0.00" class="w-full bg-slate-900 border border-cyan-500/40 rounded-xl p-2 text-sm text-cyan-300 font-bold">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-400 mb-1">Estado del Cuadre:</label>
+                                <div id="cajaEstadoCuadre" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-2 text-xs font-bold text-slate-400 text-center">
+                                    Ingrese conteo físico
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tabla de Gastos Registrados -->
+                        <div>
+                            <h3 class="text-xs font-bold text-slate-300 mb-2">📋 Historial de Gastos y Salidas de Efectivo</h3>
+                            <div class="overflow-x-auto max-h-[260px] overflow-y-auto border border-slate-800/80 rounded-xl">
+                                <table class="w-full text-left border-collapse text-xs">
+                                    <thead>
+                                        <tr class="bg-slate-950 text-slate-400 border-b border-slate-800 sticky top-0 z-10">
+                                            <th class="p-2.5 bg-slate-950">Fecha / Hora</th>
+                                            <th class="p-2.5 bg-slate-950">Categoría</th>
+                                            <th class="p-2.5 bg-slate-950">Descripción</th>
+                                            <th class="p-2.5 bg-slate-950">Monto</th>
+                                            <th class="p-2.5 bg-slate-950 text-center">Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tablaGastosCaja" class="divide-y divide-slate-800/60"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
             <!-- VISTA REPORTES -->
             <div id="vistaTiendaReportes" class="hidden space-y-6">
                 <div class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4">
                     <div>
                         <h2 class="text-sm font-mono font-bold text-slate-200">📊 Reportes Financieros de Tienda</h2>
-                        <p class="text-xs text-slate-400 font-mono">Visualiza ingresos, ganancias netas y métricas de caja</p>
+                        <p class="text-xs text-slate-400 font-mono">Visualiza ingresos, ganancias netas, gastos operativos y utilidad real</p>
                     </div>
                     <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto font-mono">
                         <button onclick="enviarWhatsAppAgotadosReportes()" class="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs shadow-md transition flex items-center gap-1.5">
@@ -459,27 +579,35 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono">
                     <div class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 flex items-center justify-between">
                         <div>
-                            <p class="text-xs font-bold text-slate-400 uppercase">Ingresos Totales</p>
-                            <h3 class="text-2xl font-black text-emerald-400 mt-1" id="reporteTotalIngresos">Q. 0.00</h3>
+                            <p class="text-[11px] font-bold text-slate-400 uppercase">Ingresos Totales</p>
+                            <h3 class="text-xl font-black text-emerald-400 mt-1" id="reporteTotalIngresos">Q. 0.00</h3>
                         </div>
-                        <div class="p-3 bg-emerald-950/60 text-emerald-400 rounded-2xl text-2xl border border-emerald-800/50">💰</div>
+                        <div class="p-2.5 bg-emerald-950/60 text-emerald-400 rounded-2xl text-xl border border-emerald-800/50">💰</div>
                     </div>
                     <div class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 flex items-center justify-between">
                         <div>
-                            <p class="text-xs font-bold text-slate-400 uppercase">Ganancia Neta</p>
-                            <h3 class="text-2xl font-black text-cyan-400 mt-1" id="reporteTotalGanancia">Q. 0.00</h3>
+                            <p class="text-[11px] font-bold text-slate-400 uppercase">Ganancia Bruta</p>
+                            <h3 class="text-xl font-black text-cyan-400 mt-1" id="reporteTotalGanancia">Q. 0.00</h3>
                         </div>
-                        <div class="p-3 bg-cyan-950/60 text-cyan-400 rounded-2xl text-2xl border border-cyan-800/50">📈</div>
+                        <div class="p-2.5 bg-cyan-950/60 text-cyan-400 rounded-2xl text-xl border border-cyan-800/50">📈</div>
                     </div>
                     <div class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 flex items-center justify-between">
                         <div>
-                            <p class="text-xs font-bold text-slate-400 uppercase">Ventas Realizadas</p>
-                            <h3 class="text-2xl font-black text-slate-200 mt-1" id="reporteTotalVentas">0</h3>
+                            <p class="text-[11px] font-bold text-slate-400 uppercase">Gastos Operativos</p>
+                            <h3 class="text-xl font-black text-rose-400 mt-1" id="reporteTotalGastos">Q. 0.00</h3>
                         </div>
-                        <div class="p-3 bg-slate-950/60 text-slate-300 rounded-2xl text-2xl border border-slate-800">🛒</div>
+                        <div class="p-2.5 bg-rose-950/60 text-rose-400 rounded-2xl text-xl border border-rose-800/50">💸</div>
+                    </div>
+                    <div class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-emerald-500/30 flex items-center justify-between">
+                        <div>
+                            <p class="text-[11px] font-bold text-slate-300 uppercase">Utilidad Real Neta</p>
+                            <h3 class="text-xl font-black text-amber-400 mt-1" id="reporteUtilidadReal">Q. 0.00</h3>
+                            <span class="text-[10px] text-slate-500">Ventas: <b id="reporteTotalVentas">0</b></span>
+                        </div>
+                        <div class="p-2.5 bg-amber-950/60 text-amber-400 rounded-2xl text-xl border border-amber-800/50">🏆</div>
                     </div>
                 </div>
 
@@ -532,7 +660,9 @@
         let todosLosProductosGlobal = [];
         let carritoVenta = [];
         let todasLasVentasGlobal = [];
+        let todosLosGastosGlobal = [];
         let eqSeleccionadoGarantia = null;
+        let filtroEstadoOrdenActual = 'Todos';
 
         // ================= CONTROL DE MÓDULOS PRINCIPALES =================
         function abrirModulo(modulo) {
@@ -573,6 +703,7 @@
 
             document.getElementById('vistaTiendaInventario').classList.add('hidden');
             document.getElementById('vistaTiendaVentas').classList.add('hidden');
+            document.getElementById('vistaTiendaCaja').classList.add('hidden');
             document.getElementById('vistaTiendaReportes').classList.add('hidden');
 
             const estiloInactivo = "px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800";
@@ -587,6 +718,7 @@
                 document.getElementById('vistaOrdenes').classList.remove('hidden');
                 document.getElementById('vistaOrdenes').classList.add('grid');
                 document.getElementById('btnTabOrdenes').className = estiloActivo;
+                aplicarFiltrosOrdenes();
             } else if (vista === 'diagnostico') {
                 document.getElementById('vistaDiagnostico').classList.remove('hidden');
                 document.getElementById('btnTabDiagnostico').className = estiloActivo;
@@ -609,6 +741,7 @@
             document.getElementById('vistaTiendaInventario').classList.remove('grid');
             document.getElementById('vistaTiendaVentas').classList.add('hidden');
             document.getElementById('vistaTiendaVentas').classList.remove('grid');
+            document.getElementById('vistaTiendaCaja').classList.add('hidden');
             document.getElementById('vistaTiendaReportes').classList.add('hidden');
 
             document.getElementById('vistaOrdenes').classList.add('hidden');
@@ -621,6 +754,7 @@
 
             document.getElementById('btnTabInventario').className = estiloInactivo;
             document.getElementById('btnTabVentas').className = estiloInactivo;
+            document.getElementById('btnTabCaja').className = estiloInactivo;
             document.getElementById('btnTabReportes').className = estiloInactivo;
 
             if (vista === 'inventario') {
@@ -632,6 +766,10 @@
                 document.getElementById('vistaTiendaVentas').classList.add('grid');
                 document.getElementById('btnTabVentas').className = estiloActivo;
                 renderizarCatalogoPOS(todosLosProductosGlobal);
+            } else if (vista === 'caja') {
+                document.getElementById('vistaTiendaCaja').classList.remove('hidden');
+                document.getElementById('btnTabCaja').className = estiloActivo;
+                actualizarResumenCajaDiaria();
             } else if (vista === 'reportes') {
                 document.getElementById('vistaTiendaReportes').classList.remove('hidden');
                 document.getElementById('btnTabReportes').className = estiloActivo;
@@ -669,7 +807,7 @@
                 listaTecnicosGlobal.push(t.nombre);
                 tabla.innerHTML += `<tr class="hover:bg-slate-900"><td class="p-3 font-bold text-cyan-400">👨‍🔧 ${t.nombre}</td><td class="p-3 text-xs text-slate-300">${t.especialidad}</td><td class="p-3 text-center"><button onclick="db.collection('tecnicos_taller').doc('${doc.id}').delete()" class="text-red-400 text-xs px-2 py-1 bg-red-950/50 border border-red-900 rounded-lg">Eliminar</button></td></tr>`;
             });
-            renderizarTodoTaller(todasLasOrdenesGlobal);
+            aplicarFiltrosOrdenes();
         });
 
         const ordenForm = document.getElementById('ordenForm');
@@ -740,15 +878,65 @@
             snapshot.forEach((doc) => {
                 todasLasOrdenesGlobal.push({ id: doc.id, numeroOrden: contadorID++, ...doc.data() });
             });
-            renderizarTodoTaller(todasLasOrdenesGlobal);
+            actualizarContadoresEstadoOrden();
+            aplicarFiltrosOrdenes();
             renderizarDiagnosticoYReportes(todasLasOrdenesGlobal);
         });
+
+        // ================= FILTRO POR ESTADO EN ÓRDENES DE TALLER =================
+        function actualizarContadoresEstadoOrden() {
+            const total = todasLasOrdenesGlobal.length;
+            const pendientes = todasLasOrdenesGlobal.filter(o => (o.estado || 'Pendiente') === 'Pendiente').length;
+            const reparados = todasLasOrdenesGlobal.filter(o => o.estado === 'Reparado').length;
+            const noReparados = todasLasOrdenesGlobal.filter(o => o.estado === 'No reparado').length;
+            const entregados = todasLasOrdenesGlobal.filter(o => o.estado === 'Entregado').length;
+
+            document.getElementById('countEst_Todos').textContent = total;
+            document.getElementById('countEst_Pendiente').textContent = pendientes;
+            document.getElementById('countEst_Reparado').textContent = reparados;
+            document.getElementById('countEst_No reparado').textContent = noReparados;
+            document.getElementById('countEst_Entregado').textContent = entregados;
+        }
+
+        function cambiarFiltroEstadoOrden(estado) {
+            filtroEstadoOrdenActual = estado;
+            const estados = ['Todos', 'Pendiente', 'Reparado', 'No reparado', 'Entregado'];
+            estados.forEach(est => {
+                const btn = document.getElementById(`filtroEst_${est}`);
+                if (!btn) return;
+                if (est === estado) {
+                    btn.className = "px-3 py-1.5 rounded-xl font-bold bg-cyan-600 text-slate-950 shadow-[0_0_10px_rgba(6,182,212,0.3)] transition";
+                } else {
+                    let colorTxt = "text-slate-300";
+                    if (est === 'Pendiente') colorTxt = "text-amber-400";
+                    if (est === 'Reparado') colorTxt = "text-cyan-400";
+                    if (est === 'No reparado') colorTxt = "text-rose-400";
+                    if (est === 'Entregado') colorTxt = "text-emerald-400";
+                    btn.className = `px-3 py-1.5 rounded-xl font-semibold bg-slate-950 ${colorTxt} border border-slate-800 hover:border-slate-600 transition`;
+                }
+            });
+            aplicarFiltrosOrdenes();
+        }
+
+        function aplicarFiltrosOrdenes() {
+            const txt = (document.getElementById('buscarOrden')?.value || '').toLowerCase();
+            const filtradas = todasLasOrdenesGlobal.filter(o => {
+                const estadoOrden = o.estado || 'Pendiente';
+                const coincideEstado = (filtroEstadoOrdenActual === 'Todos') || (estadoOrden === filtroEstadoOrdenActual);
+                const coincideTexto = o.marca.toLowerCase().includes(txt) ||
+                                      o.modelo.toLowerCase().includes(txt) ||
+                                      o.cliente.toLowerCase().includes(txt) ||
+                                      String(o.numeroOrden || '').includes(txt);
+                return coincideEstado && coincideTexto;
+            });
+            renderizarTodoTaller(filtradas);
+        }
 
         function renderizarTodoTaller(ordenes) {
             const t1 = document.getElementById('tablaOrdenes');
             t1.innerHTML = '';
             if (ordenes.length === 0) {
-                t1.innerHTML = `<tr><td colspan="6" class="text-center p-4 text-slate-500">Sin órdenes registradas.</td></tr>`;
+                t1.innerHTML = `<tr><td colspan="6" class="text-center p-4 text-slate-500">Sin órdenes en este filtro.</td></tr>`;
                 return;
             }
 
@@ -758,6 +946,15 @@
                     let seleccionado = (o.recibidoPor === tec) ? 'selected' : '';
                     opcionesTecnicos += `<option value="${tec}" ${seleccionado}>👨‍🔧 ${tec}</option>`;
                 });
+
+                let badgeEstado = `<span class="px-2.5 py-1 rounded-full font-bold bg-amber-950/60 text-amber-400 border border-amber-800/50 text-[10px]">${o.estado || 'Pendiente'}</span>`;
+                if (o.estado === 'Reparado') {
+                    badgeEstado = `<span class="px-2.5 py-1 rounded-full font-bold bg-cyan-950/60 text-cyan-400 border border-cyan-800/50 text-[10px]">✅ Reparado</span>`;
+                } else if (o.estado === 'No reparado') {
+                    badgeEstado = `<span class="px-2.5 py-1 rounded-full font-bold bg-rose-950/60 text-rose-400 border border-rose-800/50 text-[10px]">❌ No reparado</span>`;
+                } else if (o.estado === 'Entregado') {
+                    badgeEstado = `<span class="px-2.5 py-1 rounded-full font-bold bg-emerald-950/60 text-emerald-400 border border-emerald-800/50 text-[10px]">📦 Entregado</span>`;
+                }
 
                 t1.innerHTML += `
                     <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
@@ -773,7 +970,7 @@
                                 ${opcionesTecnicos}
                             </select>
                         </td>
-                        <td class="p-3"><span class="px-2.5 py-1 rounded-full font-bold bg-amber-950/60 text-amber-400 border border-amber-800/50 text-[10px]">${o.estado}</span></td>
+                        <td class="p-3">${badgeEstado}</td>
                         <td class="p-3 text-center space-y-1">
                             <button onclick="descargarTicketPDF('${o.cliente}', '${o.whatsapp}', '${o.tipoEquipo}', '${o.marca}', '${o.modelo}', '${o.errorReportado}', '${o.accesorios}', '${o.fecha}', '${o.numeroOrden || 1}')" class="w-full bg-amber-600 hover:bg-amber-500 text-slate-950 px-2 py-1 rounded-lg text-xs font-bold shadow">📄 Ficha</button>
                             <button onclick="prepararEdicionOrden('${o.id}', '${o.cliente}', '${o.whatsapp}', '${o.marca}', '${o.modelo}', '${o.tipoEquipo}', '${o.errorReportado}', '${o.tiempoSinUso || ''}', '${o.accesorios || ''}')" class="w-full bg-slate-800 text-cyan-400 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-slate-700">✏️ Modificar</button>
@@ -792,10 +989,8 @@
             alert('¡Técnico asignado con éxito!');
         }
 
-        document.getElementById('buscarOrden').addEventListener('input', (e) => {
-            const txt = e.target.value.toLowerCase();
-            const filtradas = todasLasOrdenesGlobal.filter(o => o.marca.toLowerCase().includes(txt) || o.modelo.toLowerCase().includes(txt) || o.cliente.toLowerCase().includes(txt));
-            renderizarTodoTaller(filtradas);
+        document.getElementById('buscarOrden').addEventListener('input', () => {
+            aplicarFiltrosOrdenes();
         });
 
         // ================= RENDERIZAR DIAGNÓSTICO Y REPORTE FINAL =================
@@ -846,6 +1041,7 @@
                             <select id="estado_${o.id}" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-xs text-slate-200 font-bold">
                                 <option value="Pendiente" ${o.estado === 'Pendiente' ? 'selected' : ''}>Pendiente</option>
                                 <option value="Reparado" ${o.estado === 'Reparado' ? 'selected' : ''}>Reparado</option>
+                                <option value="No reparado" ${o.estado === 'No reparado' ? 'selected' : ''}>No reparado</option>
                                 <option value="Entregado" ${o.estado === 'Entregado' ? 'selected' : ''}>Entregado</option>
                             </select>
                         </td>
@@ -1235,12 +1431,185 @@
             ventanaFactura.document.close();
         }
 
+        // ================= CIERRE DE CAJA DIARIO Y GASTOS OPERATIVOS =================
+        const gastoForm = document.getElementById('gastoForm');
+        gastoForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const monto = parseFloat(document.getElementById('montoGasto').value) || 0;
+            if (monto <= 0) {
+                alert('Ingrese un monto válido mayor a 0.');
+                return;
+            }
+            const fechaActual = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            await db.collection('gastos_caja').add({
+                categoria: document.getElementById('categoriaGasto').value,
+                descripcion: document.getElementById('descripcionGasto').value,
+                monto: monto,
+                fecha: fechaActual,
+                rawDate: new Date().toISOString()
+            });
+            alert('¡Salida de efectivo registrada en caja!');
+            gastoForm.reset();
+        });
+
+        db.collection('gastos_caja').orderBy('rawDate', 'desc').onSnapshot((snapshot) => {
+            todosLosGastosGlobal = [];
+            snapshot.forEach((doc) => {
+                todosLosGastosGlobal.push({ id: doc.id, ...doc.data() });
+            });
+            renderizarTablaGastos(todosLosGastosGlobal);
+            actualizarResumenCajaDiaria();
+            aplicarFiltroReportes();
+        });
+
+        function renderizarTablaGastos(gastos) {
+            const tabla = document.getElementById('tablaGastosCaja');
+            if (!tabla) return;
+            tabla.innerHTML = '';
+            if (gastos.length === 0) {
+                tabla.innerHTML = `<tr><td colspan="5" class="text-center p-4 text-slate-500">Sin gastos o salidas registradas.</td></tr>`;
+                return;
+            }
+            gastos.forEach(g => {
+                tabla.innerHTML += `
+                    <tr class="hover:bg-slate-900/60 border-b border-slate-800/40">
+                        <td class="p-2.5 text-slate-400">${g.fecha}</td>
+                        <td class="p-2.5 text-cyan-400 font-bold">${g.categoria}</td>
+                        <td class="p-2.5 text-slate-200">${g.descripcion}</td>
+                        <td class="p-2.5 font-bold text-rose-400">- Q. ${(g.monto || 0).toFixed(2)}</td>
+                        <td class="p-2.5 text-center">
+                            <button onclick="if(confirm('¿Eliminar este registro de gasto?')) db.collection('gastos_caja').doc('${g.id}').delete()" class="text-red-400 px-2 py-0.5 bg-red-950/50 border border-red-900/50 rounded">Eliminar</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        let ventasHoyTotalCache = 0;
+        let gastosHoyTotalCache = 0;
+
+        function actualizarResumenCajaDiaria() {
+            const hoyStr = new Date().toLocaleDateString();
+            const spanFecha = document.getElementById('fechaHoyCaja');
+            if (spanFecha) spanFecha.textContent = hoyStr;
+
+            ventasHoyTotalCache = todasLasVentasGlobal
+                .filter(v => v.fecha && v.fecha.includes(hoyStr))
+                .reduce((acc, v) => acc + (v.total || 0), 0);
+
+            gastosHoyTotalCache = todosLosGastosGlobal
+                .filter(g => g.fecha && g.fecha.includes(hoyStr))
+                .reduce((acc, g) => acc + (g.monto || 0), 0);
+
+            document.getElementById('cajaVentasHoy').textContent = `Q. ${ventasHoyTotalCache.toFixed(2)}`;
+            document.getElementById('cajaGastosHoy').textContent = `Q. ${gastosHoyTotalCache.toFixed(2)}`;
+            recalcularArqueoCaja();
+        }
+
+        function recalcularArqueoCaja() {
+            const fondo = parseFloat(document.getElementById('cajaFondoInicial')?.value) || 0;
+            const esperado = fondo + ventasHoyTotalCache - gastosHoyTotalCache;
+            document.getElementById('cajaEsperadoHoy').textContent = `Q. ${esperado.toFixed(2)}`;
+
+            const inputContado = document.getElementById('cajaEfectivoContado')?.value;
+            const divEstado = document.getElementById('cajaEstadoCuadre');
+            if (!divEstado) return;
+
+            if (inputContado === '' || inputContado === null) {
+                divEstado.className = "w-full bg-slate-900 border border-slate-800 rounded-xl p-2 text-xs font-bold text-slate-400 text-center";
+                divEstado.textContent = "Ingrese conteo físico";
+                return;
+            }
+
+            const contado = parseFloat(inputContado) || 0;
+            const diferencia = contado - esperado;
+
+            if (Math.abs(diferencia) < 0.01) {
+                divEstado.className = "w-full bg-emerald-950/80 border border-emerald-500/60 rounded-xl p-2 text-xs font-black text-emerald-400 text-center";
+                divEstado.textContent = "✅ CUADRE EXACTO (Q. 0.00)";
+            } else if (diferencia > 0) {
+                divEstado.className = "w-full bg-cyan-950/80 border border-cyan-500/60 rounded-xl p-2 text-xs font-black text-cyan-300 text-center";
+                divEstado.textContent = `➕ SOBRANTE: +Q. ${diferencia.toFixed(2)}`;
+            } else {
+                divEstado.className = "w-full bg-rose-950/80 border border-rose-500/60 rounded-xl p-2 text-xs font-black text-rose-400 text-center";
+                divEstado.textContent = `⚠️ FALTANTE: -Q. ${Math.abs(diferencia).toFixed(2)}`;
+            }
+        }
+
+        function imprimirCierreCajaPDF() {
+            const hoyStr = new Date().toLocaleDateString();
+            const horaStr = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            const fondo = parseFloat(document.getElementById('cajaFondoInicial')?.value) || 0;
+            const contado = parseFloat(document.getElementById('cajaEfectivoContado')?.value) || 0;
+            const esperado = fondo + ventasHoyTotalCache - gastosHoyTotalCache;
+            const diferencia = contado - esperado;
+
+            const gastosHoyLista = todosLosGastosGlobal.filter(g => g.fecha && g.fecha.includes(hoyStr));
+            let filasGastos = gastosHoyLista.length === 0
+                ? `<tr><td colspan="3" style="padding:8px; text-align:center; color:#64748b;">Sin gastos registrados hoy</td></tr>`
+                : gastosHoyLista.map(g => `
+                    <tr style="border-bottom:1px solid #e2e8f0;">
+                        <td style="padding:6px;">${g.categoria}</td>
+                        <td style="padding:6px;">${g.descripcion}</td>
+                        <td style="padding:6px; text-align:right; color:#e11d48; font-weight:bold;">-Q. ${g.monto.toFixed(2)}</td>
+                    </tr>
+                `).join('');
+
+            const ventanaCierre = window.open('', '_blank', 'width=700,height=650');
+            ventanaCierre.document.write(`
+                <!DOCTYPE html>
+                <html lang="es">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Cierre de Caja OSMOTEC - ${hoyStr}</title>
+                    <style>
+                        body { font-family: monospace; padding: 30px; color: #0f172a; }
+                        .box { border: 2px solid #0284c7; border-radius: 10px; padding: 20px; max-width: 550px; margin: 0 auto; }
+                        table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
+                        .row-summary { display: flex; justify-content: space-between; padding: 6px 0; font-size: 13px; border-bottom: 1px dashed #cbd5e1; }
+                        @media print { .no-print { display: none; } }
+                    </style>
+                </head>
+                <body>
+                    <div class="box">
+                        <h2 style="margin:0; text-align:center; color:#0369a1;">OSMOTEC - CIERRE DE CAJA DIARIO</h2>
+                        <p style="text-align:center; font-size:11px; color:#475569;">Los Amates, Izabal • Fecha: ${hoyStr} ${horaStr}</p>
+                        <hr>
+                        <div class="row-summary"><span>Fondo Inicial de Caja:</span><b>Q. ${fondo.toFixed(2)}</b></div>
+                        <div class="row-summary"><span>(+) Total Ventas del Día:</span><b style="color:#16a34a;">Q. ${ventasHoyTotalCache.toFixed(2)}</b></div>
+                        <div class="row-summary"><span>(-) Total Gastos / Salidas:</span><b style="color:#e11d48;">Q. ${gastosHoyTotalCache.toFixed(2)}</b></div>
+                        <div class="row-summary" style="font-size:15px; border-bottom:2px solid #0f172a;"><span><b>(=) Efectivo Esperado en Caja:</b></span><b>Q. ${esperado.toFixed(2)}</b></div>
+                        <div class="row-summary"><span>Efectivo Físico Contado:</span><b>Q. ${contado.toFixed(2)}</b></div>
+                        <div class="row-summary"><span>Diferencia (Arqueo):</span><b>${diferencia >= 0 ? '+' : ''}Q. ${diferencia.toFixed(2)}</b></div>
+                        <h4 style="margin-top:18px; margin-bottom:5px;">Detalle de Salidas / Gastos de Hoy:</h4>
+                        <table>
+                            <thead>
+                                <tr style="background:#f1f5f9; text-align:left;">
+                                    <th style="padding:6px;">Categoría</th>
+                                    <th style="padding:6px;">Detalle</th>
+                                    <th style="padding:6px; text-align:right;">Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody>${filasGastos}</tbody>
+                        </table>
+                        <p style="text-align:center; font-size:10px; color:#64748b; margin-top:25px;">Firma Responsable: ___________________________</p>
+                    </div>
+                    <div class="no-print" style="text-align:center; margin-top:20px;">
+                        <button onclick="window.print()" style="background:#0284c7; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer;">🖨️ Imprimir Comprobante</button>
+                    </div>
+                </body>
+                </html>
+            `);
+            ventanaCierre.document.close();
+        }
+
         // ================= TIENDA: REPORTES =================
         db.collection('ventas_tienda').orderBy('rawDate', 'desc').onSnapshot((snapshot) => {
             todasLasVentasGlobal = [];
             snapshot.forEach((doc) => {
                 todasLasVentasGlobal.push({ id: doc.id, ...doc.data() });
             });
+            actualizarResumenCajaDiaria();
             aplicarFiltroReportes();
         });
 
@@ -1272,8 +1641,15 @@
                 return true;
             });
 
+            let gastosFiltrados = todosLosGastosGlobal.filter(g => {
+                if (filtro === 'dia') return g.fecha && g.fecha.includes(hoyStr);
+                if (filtro === 'mes') return g.rawDate && g.rawDate.startsWith(mesActualStr);
+                return true;
+            });
+
             let totalIngresos = 0;
             let totalGanancias = 0;
+            let totalGastos = gastosFiltrados.reduce((acc, g) => acc + (g.monto || 0), 0);
 
             ventasFiltradas.forEach(v => {
                 totalIngresos += v.total || 0;
@@ -1287,8 +1663,12 @@
                 }
             });
 
+            let utilidadReal = totalGanancias - totalGastos;
+
             document.getElementById('reporteTotalIngresos').textContent = `Q. ${totalIngresos.toFixed(2)}`;
             document.getElementById('reporteTotalGanancia').textContent = `Q. ${totalGanancias.toFixed(2)}`;
+            document.getElementById('reporteTotalGastos').textContent = `Q. ${totalGastos.toFixed(2)}`;
+            document.getElementById('reporteUtilidadReal').textContent = `Q. ${utilidadReal.toFixed(2)}`;
             document.getElementById('reporteTotalVentas').textContent = ventasFiltradas.length;
 
             renderizarReporteVentas(ventasFiltradas);
@@ -1422,7 +1802,6 @@
             
             document.getElementById('qrInfoTexto').innerHTML = `<b>Garantía: ${diasGarantia} días</b><br><b>${eqSeleccionadoGarantia.marca} ${eqSeleccionadoGarantia.modelo}</b><br>Cliente: ${eqSeleccionadoGarantia.cliente}`;
             
-            // Contenido exacto optimizado: Fecha de creación del QR y días de garantía
             const textoQR = `OSMOTEC GARANTIA | Fecha: ${fechaCreacionQR} | Garantia: ${diasGarantia} Dias`;
 
             try {
@@ -1441,7 +1820,6 @@
             }
         }
 
-        // Función de impresión con esquina superior izquierda absoluta y QR optimizado
         function imprimirEtiquetaQRModal() {
             if(!eqSeleccionadoGarantia) { 
                 alert('Por favor seleccione y genere primero un equipo en garantía'); 
