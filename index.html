@@ -30,10 +30,9 @@
                 <img src="osmo.jpg" alt="Osmo" class="w-20 h-20 rounded-2xl object-cover border-2 border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.4)] mx-auto" onerror="this.style.display='none'">
                 <div>
                     <h1 class="text-2xl font-black tracking-tight text-white flex items-center justify-center gap-2">
-                        <span class="text-cyan-400">⚡</span> OSMOTEC, Los Amates <span class="text-xs font-mono text-cyan-400 px-2 py-0.5 bg-cyan-950 border border-cyan-800 rounded-md">v3.1</span>
+                        <span class="text-cyan-400">⚡</span> OSMOTEC CONSOLA <span class="text-xs font-mono text-cyan-400 px-2 py-0.5 bg-cyan-950 border border-cyan-800 rounded-md">v3.2</span>
                     </h1>
-                    <p class="text-xs text-slate-300 mt-1 font-mono">Segundo nivel del Mercado frente al gimnasio municipal</p>
-                    <p class="text-[11px] text-slate-400 mt-0.5 font-mono">Los Amates, Izabal • Tel. 45011153 • NIT: 53050290</p>
+                    <p class="text-xs text-slate-400 mt-1 font-mono">Los Amates, Izabal • En línea</p>
                 </div>
             </div>
 
@@ -65,33 +64,30 @@
         </div>
 
         <footer class="w-full text-center py-2 text-[11px] font-mono text-slate-400 relative z-10">
-            Propiedad de OSMOTEC, Los Amates • 2026 • NIT: 53050290 • Tel. 45011153
+            "Propiedad de OSMOTEC, Los Amates" 2026
         </footer>
     </div>
 
     <!-- ================= CONTENEDOR PRINCIPAL DE LA APLICACIÓN ================= -->
     <div id="contenedorApp" class="hidden min-h-screen flex-col bg-slate-950 flex-grow">
         
-        <!-- Header Estilo Consola (Centrado en la parte superior) -->
+        <!-- Header Estilo Consola -->
         <header class="bg-slate-900/90 backdrop-blur-xl border-b border-slate-800 text-white shadow-lg p-4 sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto flex flex-col items-center text-center gap-3">
+            <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-3">
                 
-                <!-- Imagen y título centrados en la parte superior -->
-                <div class="flex flex-col items-center justify-center gap-1.5">
-                    <img id="imgHeaderModulo" src="osmo.jpg" alt="Osmo" class="w-12 h-12 rounded-2xl object-cover border-2 border-cyan-400/70 shadow-[0_0_12px_rgba(6,182,212,0.35)] mx-auto" onerror="this.style.display='none'">
+                <div class="flex items-center gap-3">
+                    <img id="imgHeaderModulo" src="osmo.jpg" alt="Osmo" class="w-10 h-10 rounded-xl object-cover border border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.3)]" onerror="this.style.display='none'">
                     <div>
-                        <h1 class="text-base md:text-lg font-black tracking-tight flex items-center justify-center gap-2 font-mono text-cyan-400" id="tituloHeaderModulo">
-                            🛠️ OSMOTEC, Los Amates
+                        <h1 class="text-base md:text-lg font-black tracking-tight flex items-center gap-2 font-mono text-cyan-400" id="tituloHeaderModulo">
+                            🛠️ OSMOTEC CONSOLA
                         </h1>
-                        <span class="text-[10px] text-slate-300 font-mono block" id="estadoSync">Segundo nivel del Mercado frente al gimnasio municipal • Los Amates, Izabal</span>
-                        <span class="text-[10px] text-slate-400 font-mono block">Tel. 45011153 • NIT: 53050290</span>
+                        <span class="text-[10px] text-slate-400 font-mono" id="estadoSync">Los Amates, Izabal • En línea</span>
                     </div>
                 </div>
                 
-                <!-- Pestañas + botón Menú Principal centrados -->
-                <div class="flex flex-wrap items-center justify-center gap-2 w-full">
+                <div class="flex flex-wrap items-center gap-2">
                     <!-- Pestañas de Taller -->
-                    <nav id="navTaller" class="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 shadow-inner flex-wrap justify-center">
+                    <nav id="navTaller" class="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 shadow-inner flex-wrap">
                         <button onclick="cambiarPestanaTaller('ordenes')" id="btnTabOrdenes" class="px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-cyan-600 text-slate-950 shadow-[0_0_10px_rgba(6,182,212,0.3)]">📋 Órdenes</button>
                         <button onclick="cambiarPestanaTaller('diagnostico')" id="btnTabDiagnostico" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">🔍 Diagnóstico</button>
                         <button onclick="cambiarPestanaTaller('garantia')" id="btnTabGarantia" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">🛡️ Garantías</button>
@@ -99,7 +95,7 @@
                     </nav>
 
                     <!-- Pestañas de Tienda -->
-                    <nav id="navTienda" class="hidden items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 shadow-inner flex-wrap justify-center">
+                    <nav id="navTienda" class="hidden items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 shadow-inner flex-wrap">
                         <button onclick="cambiarPestanaTienda('inventario')" id="btnTabInventario" class="px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-emerald-600 text-slate-950 shadow-[0_0_10px_rgba(16,185,129,0.3)]">📦 Inventario</button>
                         <button onclick="cambiarPestanaTienda('ventas')" id="btnTabVentas" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">💵 POS / Caja</button>
                         <button onclick="cambiarPestanaTienda('clientes')" id="btnTabClientes" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">👥 Clientes</button>
@@ -771,9 +767,9 @@
 
         </main>
 
-        <!-- Pie de página visible en todos los módulos y pestañas -->
+        <!-- Pie de página en la parte inferior de módulos y pestañas -->
         <footer class="w-full bg-slate-900/90 border-t border-slate-800 py-3 px-4 text-center text-xs font-mono text-slate-400">
-            Propiedad de OSMOTEC, Los Amates • 2026 • NIT: 53050290 • Tel. 45011153
+            "Propiedad de OSMOTEC, Los Amates" 2026
         </footer>
     </div>
 
@@ -838,12 +834,12 @@
             if (modulo === 'taller') {
                 navTaller.classList.remove('hidden');
                 navTienda.classList.add('hidden');
-                tituloHeader.innerHTML = "🛠️ TALLER OSMOTEC, Los Amates";
+                tituloHeader.innerHTML = "🛠️ TALLER OSMOTEC";
                 cambiarPestanaTaller('ordenes');
             } else if (modulo === 'tienda') {
                 navTaller.classList.add('hidden');
                 navTienda.classList.remove('hidden');
-                tituloHeader.innerHTML = "🛒 TIENDA OSMOTEC, Los Amates";
+                tituloHeader.innerHTML = "🛒 TIENDA OSMOTEC";
                 cambiarPestanaTienda('inventario');
             }
         }
@@ -963,7 +959,7 @@
             if (confirm('¿Desea salir de la consola?')) {
                 window.close();
                 setTimeout(() => {
-                    document.body.innerHTML = `<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; background: #020617; color: #38bdf8; font-family: monospace; gap: 16px;"><h1>[ 🔒 CONSOLA CERRADA ]</h1><span style="font-size: 12px; color: #94a3b8;">Propiedad de OSMOTEC, Los Amates • 2026 • NIT: 53050290</span></div>`;
+                    document.body.innerHTML = `<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; background: #020617; color: #38bdf8; font-family: monospace; gap: 16px;"><h1>[ 🔒 CONSOLA CERRADA ]</h1><span style="font-size: 12px; color: #94a3b8;">"Propiedad de OSMOTEC, Los Amates" 2026</span></div>`;
                 }, 200);
             }
         }
@@ -1193,7 +1189,7 @@
 
             ordenes.forEach(o => {
                 const waClean = String(o.whatsapp || '').replace(/\D/g, '');
-                let mensajeWspFinal = `Hola *${o.cliente}*, le saludamos de *OSMOTEC, Los Amates* (Tel. 45011153).\n\nInformación sobre su equipo (*#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}*):\n\n🛠️ *Reporte Final:* ${o.reporteFinal || 'En proceso'}\n💰 *Total a Cobrar:* Q. ${o.costoReparacion || '0.00'}\n📌 *Estado:* ${o.estado}\n\n¡Gracias por su preferencia!`;
+                let mensajeWspFinal = `Hola *${o.cliente}*, le saludamos de *OSMOTEC*.\n\nInformación sobre su equipo (*#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}*):\n\n🛠️ *Reporte Final:* ${o.reporteFinal || 'En proceso'}\n💰 *Total a Cobrar:* Q. ${o.costoReparacion || '0.00'}\n📌 *Estado:* ${o.estado}\n\n¡Gracias por su preferencia!`;
 
                 tablaDiag.innerHTML += `
                     <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
@@ -1205,7 +1201,7 @@
                         </td>
                         <td class="p-3 text-center space-y-1">
                             <button onclick="guardarDiagnostico('${o.id}')" class="w-full bg-cyan-600 hover:bg-cyan-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">💾 Guardar</button>
-                            <a href="https://wa.me/502${waClean}?text=${encodeURIComponent(`Hola *${o.cliente}*, sobre su equipo *#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}* en OSMOTEC, Los Amates:\nDiagnóstico inicial: ${o.diagnosticoInicial || 'En revisión'}`)}" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">📱 WSP Diagnóstico</a>
+                            <a href="https://wa.me/502${waClean}?text=${encodeURIComponent(`Hola *${o.cliente}*, sobre su equipo *#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}* en OSMOTEC:\nDiagnóstico inicial: ${o.diagnosticoInicial || 'En revisión'}`)}" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">📱 WSP Diagnóstico</a>
                             <button onclick="eliminarDiagnostico('${o.id}')" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Limpiar</button>
                         </td>
                     </tr>
@@ -1362,11 +1358,11 @@
 
                 if (stock === 0) {
                     stockBadge = `<span class="bg-red-950/60 text-red-400 border border-red-900 px-2 py-0.5 rounded-full font-bold text-[11px]">❌ Agotado</span>`;
-                    let msgWsp = `⚠️ *ALERTA DE STOCK - OSMOTEC, Los Amates*\n\nEl producto *${p.nombre}* se encuentra *AGOTADO* (0 unidades). Se requiere reabastecimiento urgente.`;
+                    let msgWsp = `⚠️ *ALERTA DE STOCK - OSMOTEC TIENDA*\n\nEl producto *${p.nombre}* se encuentra *AGOTADO* (0 unidades). Se requiere reabastecimiento urgente.`;
                     botonWhatsAppAlerta = `<a href="https://wa.me/?text=${encodeURIComponent(msgWsp)}" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-1 px-2 rounded-lg text-[10px] shadow mt-1">📱 Alerta WSP</a>`;
                 } else if (stock <= 2) {
                     stockBadge = `<span class="bg-amber-950/60 text-amber-400 border border-amber-900 px-2 py-0.5 rounded-full font-bold text-[11px]">⚠️ ${stock} unids (Bajo)</span>`;
-                    let msgWsp = `⚠️ *ALERTA DE STOCK - OSMOTEC, Los Amates*\n\nEl producto *${p.nombre}* tiene stock bajo (${stock} unidades).`;
+                    let msgWsp = `⚠️ *ALERTA DE STOCK - OSMOTEC TIENDA*\n\nEl producto *${p.nombre}* tiene stock bajo (${stock} unidades).`;
                     botonWhatsAppAlerta = `<a href="https://wa.me/?text=${encodeURIComponent(msgWsp)}" target="_blank" class="block w-full text-center bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold py-1 px-2 rounded-lg text-[10px] shadow mt-1">📱 Alerta WSP</a>`;
                 } else {
                     stockBadge = `<span class="bg-emerald-950/60 text-emerald-400 border border-emerald-900 px-2 py-0.5 rounded-full font-bold text-[11px]">${stock} unids</span>`;
@@ -1580,9 +1576,8 @@
                 <body>
                     <div style="display: flex; justify-content: space-between; border-bottom: 3px solid #2563eb; padding-bottom: 20px; margin-bottom: 25px;">
                         <div>
-                            <h1 style="margin: 0; color: #1d4ed8; font-size: 26px; font-weight: 900;">🛒 OSMOTEC, Los Amates</h1>
-                            <p style="margin: 4px 0; font-size: 12px; color: #64748b;">Segundo nivel del Mercado frente al gimnasio municipal</p>
-                            <p style="margin: 4px 0; font-size: 12px; color: #64748b;">Los Amates, Izabal • Tel. 45011153 • NIT: 53050290</p>
+                            <h1 style="margin: 0; color: #1d4ed8; font-size: 26px; font-weight: 900;">🛒 OSMOTEC TIENDA</h1>
+                            <p style="margin: 4px 0; font-size: 12px; color: #64748b;">Los Amates, Izabal • WhatsApp: 4501 1153</p>
                         </div>
                         <div style="text-align: right;">
                             <h2 style="margin: 0; color: #0f172a; font-size: 22px;">COMPROBANTE DE VENTA</h2>
@@ -1610,7 +1605,7 @@
                         </div>
                     </div>
                     <div style="text-align: center; font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 12px;">
-                        Propiedad de OSMOTEC, Los Amates • 2026 • NIT: 53050290 • Tel. 45011153
+                        "Propiedad de OSMOTEC, Los Amates" 2026
                     </div>
                     <div class="no-print">
                         <button onclick="window.print()" style="background: #2563eb; color: white; border: none; padding: 12px 24px; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 14px;">🖨️ Imprimir / Guardar</button>
@@ -1854,7 +1849,7 @@
                 const prods = Array.isArray(c.productos) ? c.productos : [];
                 const detalleHtml = prods.map(p => `<b>${p.cantidad}x</b> ${escapeHtml(p.nombre)} (Q${Number(p.precio || 0).toFixed(2)})`).join('<br>');
                 const detalleTexto = prods.map(p => `• ${p.cantidad}x ${p.nombre} - Q${(Number(p.precio || 0) * p.cantidad).toFixed(2)}`).join('\n');
-                const msgWsp = `📄 *COTIZACIÓN - OSMOTEC, Los Amates*\nTel. 45011153 • NIT: 53050290\nCliente: *${c.cliente}*\nFecha: ${c.fecha}\n\n${detalleTexto}\n\n💰 *Total:* Q${Number(c.total || 0).toFixed(2)}\nPropiedad de OSMOTEC, Los Amates • 2026`;
+                const msgWsp = `📄 *COTIZACIÓN - OSMOTEC TIENDA*\nCliente: *${c.cliente}*\nFecha: ${c.fecha}\n\n${detalleTexto}\n\n💰 *Total:* Q${Number(c.total || 0).toFixed(2)}`;
                 const waNum = String(c.whatsapp || '').replace(/\D/g, '');
                 const waUrl = waNum ? `https://wa.me/502${waNum}?text=${encodeURIComponent(msgWsp)}` : `https://wa.me/?text=${encodeURIComponent(msgWsp)}`;
 
@@ -1950,6 +1945,24 @@
                             justify-content: space-between;
                             box-shadow: 0 4px 18px rgba(15, 23, 42, 0.12);
                         }
+                        .cot-header {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            text-align: center;
+                            border-bottom: 3px solid #0284c7;
+                            padding-bottom: 16px;
+                            margin-bottom: 22px;
+                            gap: 8px;
+                        }
+                        .cot-datos-barra {
+                            width: 100%;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: flex-end;
+                            margin-top: 6px;
+                            text-align: left;
+                        }
                         .no-print {
                             text-align: center;
                             margin-top: 18px;
@@ -1982,16 +1995,21 @@
                     <div class="page-wrapper">
                         <div class="hoja-cotizacion">
                             <div>
-                                <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid #0284c7; padding-bottom: 16px; margin-bottom: 22px;">
+                                <div class="cot-header">
+                                    <img src="osmo.jpg" alt="Osmo" style="width: 56px; height: 56px; border-radius: 14px; object-fit: cover; border: 2px solid #0284c7;" onerror="this.style.display='none'">
                                     <div>
                                         <h1 style="margin: 0; color: #0369a1; font-size: 24px; font-weight: 900;">OSMOTEC, Los Amates</h1>
                                         <p style="margin: 3px 0; font-size: 11px; color: #475569;">Segundo nivel del Mercado frente al gimnasio municipal</p>
                                         <p style="margin: 3px 0; font-size: 11px; color: #64748b;">Los Amates, Izabal • Tel. 45011153 • NIT: 53050290</p>
                                     </div>
-                                    <div style="text-align: right;">
-                                        <h2 style="margin: 0; font-size: 20px; color: #0f172a;">COTIZACIÓN</h2>
-                                        <p style="margin: 4px 0; font-size: 12px;">Cliente: <b>${escapeHtml(cliente)}</b></p>
-                                        <p style="margin: 4px 0; font-size: 12px; color: #64748b;">Fecha: ${escapeHtml(fecha)}</p>
+                                    <div class="cot-datos-barra">
+                                        <div style="font-size: 12px;">
+                                            <p style="margin: 2px 0;">Cliente: <b>${escapeHtml(cliente)}</b></p>
+                                            <p style="margin: 2px 0; color: #64748b;">Fecha: ${escapeHtml(fecha)}</p>
+                                        </div>
+                                        <div style="text-align: right;">
+                                            <h2 style="margin: 0; font-size: 20px; color: #0f172a;">COTIZACIÓN</h2>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -2014,7 +2032,7 @@
                             </div>
 
                             <div style="text-align: center; font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 12px;">
-                                Propiedad de OSMOTEC, Los Amates • 2026 • NIT: 53050290 • Tel. 45011153
+                                "Propiedad de OSMOTEC, Los Amates" 2026
                             </div>
                         </div>
 
@@ -2169,9 +2187,8 @@
                 </head>
                 <body>
                     <div class="box">
-                        <h2 style="margin:0; text-align:center; color:#0369a1;">OSMOTEC, Los Amates - CIERRE DE CAJA</h2>
-                        <p style="text-align:center; font-size:10px; color:#475569;">Segundo nivel del Mercado frente al gimnasio municipal • NIT: 53050290</p>
-                        <p style="text-align:center; font-size:11px; color:#475569;">Tel. 45011153 • Fecha: ${escapeHtml(hoyStr)} ${escapeHtml(horaStr)}</p>
+                        <h2 style="margin:0; text-align:center; color:#0369a1;">OSMOTEC - CIERRE DE CAJA</h2>
+                        <p style="text-align:center; font-size:11px; color:#475569;">Fecha: ${escapeHtml(hoyStr)} ${escapeHtml(horaStr)}</p>
                         <hr>
                         <div class="row-summary"><span>Fondo Inicial de Caja:</span><b>Q. ${fondo.toFixed(2)}</b></div>
                         <div class="row-summary"><span>(+) Total Ventas del Día:</span><b style="color:#16a34a;">Q. ${ventasHoyTotalCache.toFixed(2)}</b></div>
@@ -2190,7 +2207,7 @@
                             </thead>
                             <tbody>${filasGastos}</tbody>
                         </table>
-                        <p style="text-align:center; font-size:10px; color:#64748b; margin-top:20px;">Propiedad de OSMOTEC, Los Amates • 2026</p>
+                        <p style="text-align:center; font-size:10px; color:#64748b; margin-top:20px;">"Propiedad de OSMOTEC, Los Amates" 2026</p>
                     </div>
                     <div class="no-print" style="text-align:center; margin-top:20px;">
                         <button onclick="window.print()" style="background:#0284c7; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer;">🖨️ Imprimir Comprobante</button>
@@ -2265,7 +2282,7 @@
                 return;
             }
 
-            let mensaje = `🚨 *REPORTE DE PRODUCTOS AGOTADOS - OSMOTEC, Los Amates*\n\n`;
+            let mensaje = `🚨 *REPORTE DE PRODUCTOS AGOTADOS - OSMOTEC TIENDA*\n\n`;
             productosAgotados.forEach((p, index) => {
                 mensaje += `${index + 1}. *${p.nombre}* (Agotado)\n`;
             });
@@ -2395,10 +2412,9 @@
                 <body>
                     <div class="ticket">
                         <div class="header">
-                            <h1>OSMOTEC, Los Amates</h1>
+                            <h1>OSMOTEC</h1>
                             <p style="font-size: 13px; font-weight: bold; color: #0369a1; margin-top: 5px;">ORDEN DE TALLER #${escapeHtml(numeroOrden)}</p>
-                            <p>Segundo nivel del Mercado frente al gimnasio municipal</p>
-                            <p>Los Amates, Izabal • Tel. 45011153 • NIT: 53050290</p>
+                            <p>Los Amates, Izabal • WhatsApp: 4501 1153</p>
                         </div>
                         <div class="content">
                             <p><b>Fecha:</b> ${escapeHtml(fecha)}</p>
@@ -2408,7 +2424,7 @@
                             <p><b>Falla/Reporte:</b> ${escapeHtml(falla)}</p>
                             <p><b>Accesorios:</b> ${escapeHtml(accesorios)}</p>
                         </div>
-                        <div class="footer">Propiedad de OSMOTEC, Los Amates • 2026</div>
+                        <div class="footer">"Propiedad de OSMOTEC, Los Amates" 2026</div>
                     </div>
                     <div class="no-print" style="text-align: center; margin-top: 20px;">
                         <button onclick="window.print()" style="background: #0284c7; color: white; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; font-family: monospace;">🖨️ Imprimir / Guardar</button>
