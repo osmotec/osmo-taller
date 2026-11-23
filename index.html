@@ -12,7 +12,6 @@
     <!-- Librería para generar Códigos QR -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
-        /* Scrollbar estilo consola */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #020617; }
         ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
@@ -78,7 +77,7 @@
                         <h1 class="text-base font-black tracking-tight flex items-center gap-2 font-mono text-cyan-400" id="tituloHeaderModulo">
                             🛠️ OSMOTEC CONSOLA
                         </h1>
-                        <span class="text-[10px] text-slate-400 font-mono">Los Amates, Izabal • En línea</span>
+                        <span class="text-[10px] text-slate-400 font-mono" id="estadoSync">Los Amates, Izabal • En línea</span>
                     </div>
                 </div>
                 
@@ -211,7 +210,6 @@
 
             <!-- VISTA DIAGNÓSTICO Y REPORTE FINAL -->
             <div id="vistaDiagnostico" class="hidden space-y-6">
-                <!-- 1. Diagnóstico Inicial -->
                 <div class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800">
                     <div class="flex flex-col sm:flex-row justify-between items-center mb-4 border-b border-slate-800 pb-3 gap-2">
                         <h2 class="text-sm font-mono font-bold text-cyan-400">🔍 1. Diagnóstico Inicial</h2>
@@ -232,7 +230,6 @@
                     </div>
                 </div>
 
-                <!-- 2. Reporte Final, Costo y Entrega -->
                 <div class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800">
                     <div class="flex flex-col sm:flex-row justify-between items-center mb-4 border-b border-slate-800 pb-3 gap-2">
                         <h2 class="text-sm font-mono font-bold text-emerald-400">📌 2. Reporte Final, Costo y Entrega</h2>
@@ -341,16 +338,16 @@
                         <div class="grid grid-cols-2 gap-2">
                             <div>
                                 <label class="block text-xs text-slate-400 mb-1">Costo (Q.)</label>
-                                <input type="number" step="0.01" id="costoProducto" required placeholder="0.00" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200">
+                                <input type="number" step="0.01" min="0" id="costoProducto" required placeholder="0.00" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200">
                             </div>
                             <div>
                                 <label class="block text-xs text-slate-400 mb-1">Venta (Q.)</label>
-                                <input type="number" step="0.01" id="precioProducto" required placeholder="0.00" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200">
+                                <input type="number" step="0.01" min="0" id="precioProducto" required placeholder="0.00" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200">
                             </div>
                         </div>
                         <div>
                             <label class="block text-xs text-slate-400 mb-1">Stock / Cantidad</label>
-                            <input type="number" id="stockProducto" required placeholder="10" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200">
+                            <input type="number" min="0" id="stockProducto" required placeholder="10" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200">
                         </div>
                         <div class="flex gap-2 pt-2">
                             <button type="submit" id="btnGuardarProducto" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)] transition">
@@ -364,7 +361,6 @@
                 </section>
 
                 <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-2 space-y-4">
-                    <!-- Tarjetas de Resumen Financiero del Inventario -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono">
                         <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl flex items-center justify-between">
                             <div>
@@ -387,7 +383,6 @@
                         <input type="text" id="buscarTienda" placeholder="Buscar producto..." class="bg-slate-950 border border-slate-800 rounded-xl p-2 text-sm text-slate-200 font-mono w-64 focus:outline-none focus:border-emerald-500">
                     </div>
                     
-                    <!-- TABLA ESTÁTICA CON SCROLL INTERNO -->
                     <div class="overflow-x-auto max-h-[420px] overflow-y-auto border border-slate-800/80 rounded-xl">
                         <table class="w-full text-left border-collapse text-sm font-mono">
                             <thead>
@@ -413,13 +408,11 @@
                     </div>
 
                     <div class="bg-slate-950 text-emerald-400 text-xs font-mono font-bold rounded-xl p-3 flex justify-between items-center border border-slate-800">
-                        <span>PRODUCTO / UBICACIÓN</span>
-                        <span>STOCK / PRECIO</span>
+                        <span>PRODUCTO / DISPONIBILIDAD</span>
+                        <span>PRECIO</span>
                     </div>
 
-                    <div id="listaProductosPOS" class="space-y-2 overflow-y-auto max-h-[450px]">
-                        <!-- Se llena dinámicamente -->
-                    </div>
+                    <div id="listaProductosPOS" class="space-y-2 overflow-y-auto max-h-[450px]"></div>
                 </section>
 
                 <section class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-emerald-500/30 space-y-4 h-fit">
@@ -464,7 +457,6 @@
             <!-- VISTA: CIERRE DE CAJA DIARIO Y GASTOS OPERATIVOS -->
             <div id="vistaTiendaCaja" class="hidden space-y-6">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Formulario de Registro de Gasto / Salida -->
                     <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-1 h-fit">
                         <h2 class="text-sm font-mono font-bold text-rose-400 mb-4 border-b border-slate-800 pb-2">💸 Registrar Gasto / Salida de Caja</h2>
                         <form id="gastoForm" class="space-y-3 font-mono">
@@ -484,7 +476,7 @@
                             </div>
                             <div>
                                 <label class="block text-xs text-slate-400 mb-1">Monto (Q.)</label>
-                                <input type="number" step="0.01" id="montoGasto" required placeholder="0.00" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-rose-300 font-bold">
+                                <input type="number" step="0.01" min="0.01" id="montoGasto" required placeholder="0.00" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-rose-300 font-bold">
                             </div>
                             <button type="submit" class="w-full bg-rose-600 hover:bg-rose-500 text-white font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(225,29,72,0.3)] transition">
                                 ➖ Registrar Salida de Efectivo
@@ -492,7 +484,6 @@
                         </form>
                     </section>
 
-                    <!-- Panel de Arqueo y Cierre Diario -->
                     <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-2 space-y-4 font-mono">
                         <div class="flex flex-col sm:flex-row justify-between items-center border-b border-slate-800 pb-3 gap-2">
                             <div>
@@ -504,7 +495,6 @@
                             </button>
                         </div>
 
-                        <!-- Tarjetas de Resumen de Caja Hoy -->
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                             <div class="bg-slate-950 border border-slate-800 p-3.5 rounded-xl">
                                 <p class="text-[10px] text-slate-400 uppercase font-bold">Ventas Hoy (+)</p>
@@ -520,7 +510,6 @@
                             </div>
                         </div>
 
-                        <!-- Calculadora de Arqueo Físico -->
                         <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
                             <div>
                                 <label class="block text-[11px] text-slate-400 mb-1">Fondo Inicial en Caja (Q.):</label>
@@ -538,7 +527,6 @@
                             </div>
                         </div>
 
-                        <!-- Tabla de Gastos Registrados -->
                         <div>
                             <h3 class="text-xs font-bold text-slate-300 mb-2">📋 Historial de Gastos y Salidas de Efectivo</h3>
                             <div class="overflow-x-auto max-h-[260px] overflow-y-auto border border-slate-800/80 rounded-xl">
@@ -617,7 +605,6 @@
                         <input type="text" id="buscarReporteVentas" placeholder="Buscar producto..." class="bg-slate-950 border border-slate-800 rounded-xl p-2 text-sm text-slate-200 font-mono w-64 focus:outline-none">
                     </div>
                     
-                    <!-- TABLA ESTÁTICA DE VENTAS CON SCROLL INTERNO -->
                     <div class="overflow-x-auto max-h-[420px] overflow-y-auto border border-slate-800/80 rounded-xl">
                         <table class="w-full text-left border-collapse text-sm font-mono">
                             <thead>
@@ -663,6 +650,24 @@
         let todosLosGastosGlobal = [];
         let eqSeleccionadoGarantia = null;
         let filtroEstadoOrdenActual = 'Todos';
+
+        function escapeHtml(str) {
+            if (str === null || str === undefined) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function escapeJsArg(str) {
+            if (str === null || str === undefined) return '';
+            return String(str)
+                .replace(/\\/g, '\\\\')
+                .replace(/'/g, "\\'")
+                .replace(/\r?\n/g, ' ');
+        }
 
         // ================= CONTROL DE MÓDULOS PRINCIPALES =================
         function abrirModulo(modulo) {
@@ -791,8 +796,8 @@
         tecnicoForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             await db.collection('tecnicos_taller').add({
-                nombre: document.getElementById('nombreTecnico').value,
-                especialidad: document.getElementById('especialidad').value || 'General'
+                nombre: document.getElementById('nombreTecnico').value.trim(),
+                especialidad: document.getElementById('especialidad').value.trim() || 'General'
             });
             alert('¡Técnico registrado!');
             tecnicoForm.reset();
@@ -805,7 +810,14 @@
             snapshot.forEach((doc) => {
                 const t = doc.data();
                 listaTecnicosGlobal.push(t.nombre);
-                tabla.innerHTML += `<tr class="hover:bg-slate-900"><td class="p-3 font-bold text-cyan-400">👨‍🔧 ${t.nombre}</td><td class="p-3 text-xs text-slate-300">${t.especialidad}</td><td class="p-3 text-center"><button onclick="db.collection('tecnicos_taller').doc('${doc.id}').delete()" class="text-red-400 text-xs px-2 py-1 bg-red-950/50 border border-red-900 rounded-lg">Eliminar</button></td></tr>`;
+                tabla.innerHTML += `
+                    <tr class="hover:bg-slate-900">
+                        <td class="p-3 font-bold text-cyan-400">👨‍🔧 ${escapeHtml(t.nombre)}</td>
+                        <td class="p-3 text-xs text-slate-300">${escapeHtml(t.especialidad)}</td>
+                        <td class="p-3 text-center">
+                            <button onclick="db.collection('tecnicos_taller').doc('${doc.id}').delete()" class="text-red-400 text-xs px-2 py-1 bg-red-950/50 border border-red-900 rounded-lg">Eliminar</button>
+                        </td>
+                    </tr>`;
             });
             aplicarFiltrosOrdenes();
         });
@@ -815,14 +827,14 @@
             e.preventDefault();
             const editOrdenId = document.getElementById('editOrdenId').value;
             const datosOrden = {
-                cliente: document.getElementById('cliente').value,
-                whatsapp: document.getElementById('whatsapp').value,
-                marca: document.getElementById('marca').value,
-                modelo: document.getElementById('modelo').value,
+                cliente: document.getElementById('cliente').value.trim(),
+                whatsapp: document.getElementById('whatsapp').value.trim(),
+                marca: document.getElementById('marca').value.trim(),
+                modelo: document.getElementById('modelo').value.trim(),
                 tipoEquipo: document.getElementById('tipoEquipo').value,
-                errorReportado: document.getElementById('errorReportado').value,
-                tiempoSinUso: document.getElementById('tiempoSinUso').value,
-                accesorios: document.getElementById('accesorios').value || 'Ninguno'
+                errorReportado: document.getElementById('errorReportado').value.trim(),
+                tiempoSinUso: document.getElementById('tiempoSinUso').value.trim(),
+                accesorios: document.getElementById('accesorios').value.trim() || 'Ninguno'
             };
 
             if (editOrdenId) {
@@ -858,7 +870,6 @@
 
             document.getElementById('tituloFormOrden').textContent = "✏️ Modificar Orden";
             document.getElementById('btnGuardarOrden').textContent = "Actualizar Orden";
-            document.getElementById('btnGuardarOrden').className = "w-full bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-mono font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(6,182,212,0.3)] transition";
             document.getElementById('btnCancelarEdicionOrden').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -868,7 +879,6 @@
             document.getElementById('editOrdenId').value = '';
             document.getElementById('tituloFormOrden').textContent = "➕ Registrar Nuevo Equipo";
             document.getElementById('btnGuardarOrden').textContent = "Guardar Orden en Consola";
-            document.getElementById('btnGuardarOrden').className = "w-full bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-mono font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(6,182,212,0.3)] transition";
             document.getElementById('btnCancelarEdicionOrden').classList.add('hidden');
         }
 
@@ -881,21 +891,17 @@
             actualizarContadoresEstadoOrden();
             aplicarFiltrosOrdenes();
             renderizarDiagnosticoYReportes(todasLasOrdenesGlobal);
+            if (!document.getElementById('vistaGarantia').classList.contains('hidden')) {
+                poblarSelectGarantia();
+            }
         });
 
-        // ================= FILTRO POR ESTADO EN ÓRDENES DE TALLER =================
         function actualizarContadoresEstadoOrden() {
-            const total = todasLasOrdenesGlobal.length;
-            const pendientes = todasLasOrdenesGlobal.filter(o => (o.estado || 'Pendiente') === 'Pendiente').length;
-            const reparados = todasLasOrdenesGlobal.filter(o => o.estado === 'Reparado').length;
-            const noReparados = todasLasOrdenesGlobal.filter(o => o.estado === 'No reparado').length;
-            const entregados = todasLasOrdenesGlobal.filter(o => o.estado === 'Entregado').length;
-
-            document.getElementById('countEst_Todos').textContent = total;
-            document.getElementById('countEst_Pendiente').textContent = pendientes;
-            document.getElementById('countEst_Reparado').textContent = reparados;
-            document.getElementById('countEst_No reparado').textContent = noReparados;
-            document.getElementById('countEst_Entregado').textContent = entregados;
+            document.getElementById('countEst_Todos').textContent = todasLasOrdenesGlobal.length;
+            document.getElementById('countEst_Pendiente').textContent = todasLasOrdenesGlobal.filter(o => (o.estado || 'Pendiente') === 'Pendiente').length;
+            document.getElementById('countEst_Reparado').textContent = todasLasOrdenesGlobal.filter(o => o.estado === 'Reparado').length;
+            document.getElementById('countEst_No reparado').textContent = todasLasOrdenesGlobal.filter(o => o.estado === 'No reparado').length;
+            document.getElementById('countEst_Entregado').textContent = todasLasOrdenesGlobal.filter(o => o.estado === 'Entregado').length;
         }
 
         function cambiarFiltroEstadoOrden(estado) {
@@ -923,9 +929,9 @@
             const filtradas = todasLasOrdenesGlobal.filter(o => {
                 const estadoOrden = o.estado || 'Pendiente';
                 const coincideEstado = (filtroEstadoOrdenActual === 'Todos') || (estadoOrden === filtroEstadoOrdenActual);
-                const coincideTexto = o.marca.toLowerCase().includes(txt) ||
-                                      o.modelo.toLowerCase().includes(txt) ||
-                                      o.cliente.toLowerCase().includes(txt) ||
+                const coincideTexto = (o.marca || '').toLowerCase().includes(txt) ||
+                                      (o.modelo || '').toLowerCase().includes(txt) ||
+                                      (o.cliente || '').toLowerCase().includes(txt) ||
                                       String(o.numeroOrden || '').includes(txt);
                 return coincideEstado && coincideTexto;
             });
@@ -944,10 +950,10 @@
                 let opcionesTecnicos = `<option value="Sin asignar">-- Sin asignar --</option>`;
                 listaTecnicosGlobal.forEach(tec => {
                     let seleccionado = (o.recibidoPor === tec) ? 'selected' : '';
-                    opcionesTecnicos += `<option value="${tec}" ${seleccionado}>👨‍🔧 ${tec}</option>`;
+                    opcionesTecnicos += `<option value="${escapeHtml(tec)}" ${seleccionado}>👨‍🔧 ${escapeHtml(tec)}</option>`;
                 });
 
-                let badgeEstado = `<span class="px-2.5 py-1 rounded-full font-bold bg-amber-950/60 text-amber-400 border border-amber-800/50 text-[10px]">${o.estado || 'Pendiente'}</span>`;
+                let badgeEstado = `<span class="px-2.5 py-1 rounded-full font-bold bg-amber-950/60 text-amber-400 border border-amber-800/50 text-[10px]">${escapeHtml(o.estado || 'Pendiente')}</span>`;
                 if (o.estado === 'Reparado') {
                     badgeEstado = `<span class="px-2.5 py-1 rounded-full font-bold bg-cyan-950/60 text-cyan-400 border border-cyan-800/50 text-[10px]">✅ Reparado</span>`;
                 } else if (o.estado === 'No reparado') {
@@ -956,15 +962,19 @@
                     badgeEstado = `<span class="px-2.5 py-1 rounded-full font-bold bg-emerald-950/60 text-emerald-400 border border-emerald-800/50 text-[10px]">📦 Entregado</span>`;
                 }
 
+                const waClean = String(o.whatsapp || '').replace(/\D/g, '');
+                const argFicha = `'${escapeJsArg(o.cliente)}', '${escapeJsArg(o.whatsapp)}', '${escapeJsArg(o.tipoEquipo)}', '${escapeJsArg(o.marca)}', '${escapeJsArg(o.modelo)}', '${escapeJsArg(o.errorReportado)}', '${escapeJsArg(o.accesorios)}', '${escapeJsArg(o.fecha)}', '${o.numeroOrden || 1}'`;
+                const argEdit = `'${o.id}', '${escapeJsArg(o.cliente)}', '${escapeJsArg(o.whatsapp)}', '${escapeJsArg(o.marca)}', '${escapeJsArg(o.modelo)}', '${escapeJsArg(o.tipoEquipo)}', '${escapeJsArg(o.errorReportado)}', '${escapeJsArg(o.tiempoSinUso || '')}', '${escapeJsArg(o.accesorios || '')}'`;
+
                 t1.innerHTML += `
                     <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
                         <td class="p-3">
                             <span class="bg-cyan-950 border border-cyan-800 text-cyan-400 font-black px-2 py-0.5 rounded text-xs">#${o.numeroOrden || 1}</span><br>
-                            <span class="font-bold text-slate-200 mt-1 block">${o.marca} ${o.modelo}</span>
-                            <span class="text-[10px] text-slate-500">${o.fecha}</span>
+                            <span class="font-bold text-slate-200 mt-1 block">${escapeHtml(o.marca)} ${escapeHtml(o.modelo)}</span>
+                            <span class="text-[10px] text-slate-500">${escapeHtml(o.fecha)}</span>
                         </td>
-                        <td class="p-3 text-slate-300">${o.cliente}<br><a href="https://wa.me/502${o.whatsapp}" target="_blank" class="text-emerald-400 font-bold hover:underline">📱 ${o.whatsapp}</a></td>
-                        <td class="p-3 text-slate-300"><span class="text-red-400 font-bold">Falla:</span> ${o.errorReportado}<br><span class="text-slate-500">Accesorios: ${o.accesorios || 'Ninguno'}</span></td>
+                        <td class="p-3 text-slate-300">${escapeHtml(o.cliente)}<br><a href="https://wa.me/502${waClean}" target="_blank" class="text-emerald-400 font-bold hover:underline">📱 ${escapeHtml(o.whatsapp)}</a></td>
+                        <td class="p-3 text-slate-300"><span class="text-red-400 font-bold">Falla:</span> ${escapeHtml(o.errorReportado)}<br><span class="text-slate-500">Accesorios: ${escapeHtml(o.accesorios || 'Ninguno')}</span></td>
                         <td class="p-3">
                             <select id="tec_${o.id}" onchange="asignarTecnicoOrden('${o.id}')" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-xs text-cyan-300 font-bold focus:outline-none">
                                 ${opcionesTecnicos}
@@ -972,8 +982,8 @@
                         </td>
                         <td class="p-3">${badgeEstado}</td>
                         <td class="p-3 text-center space-y-1">
-                            <button onclick="descargarTicketPDF('${o.cliente}', '${o.whatsapp}', '${o.tipoEquipo}', '${o.marca}', '${o.modelo}', '${o.errorReportado}', '${o.accesorios}', '${o.fecha}', '${o.numeroOrden || 1}')" class="w-full bg-amber-600 hover:bg-amber-500 text-slate-950 px-2 py-1 rounded-lg text-xs font-bold shadow">📄 Ficha</button>
-                            <button onclick="prepararEdicionOrden('${o.id}', '${o.cliente}', '${o.whatsapp}', '${o.marca}', '${o.modelo}', '${o.tipoEquipo}', '${o.errorReportado}', '${o.tiempoSinUso || ''}', '${o.accesorios || ''}')" class="w-full bg-slate-800 text-cyan-400 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-slate-700">✏️ Modificar</button>
+                            <button onclick="descargarTicketPDF(${argFicha})" class="w-full bg-amber-600 hover:bg-amber-500 text-slate-950 px-2 py-1 rounded-lg text-xs font-bold shadow">📄 Ficha</button>
+                            <button onclick="prepararEdicionOrden(${argEdit})" class="w-full bg-slate-800 text-cyan-400 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-slate-700">✏️ Modificar</button>
                             <button onclick="if(confirm('¿Desea eliminar esta orden?')) { db.collection('ordenes_taller').doc('${o.id}').delete(); }" class="w-full bg-red-950/60 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Eliminar</button>
                         </td>
                     </tr>
@@ -983,15 +993,11 @@
 
         async function asignarTecnicoOrden(id) {
             const tecSeleccionado = document.getElementById(`tec_${id}`).value;
-            await db.collection('ordenes_taller').doc(id).update({
-                recibidoPor: tecSeleccionado
-            });
+            await db.collection('ordenes_taller').doc(id).update({ recibidoPor: tecSeleccionado });
             alert('¡Técnico asignado con éxito!');
         }
 
-        document.getElementById('buscarOrden').addEventListener('input', () => {
-            aplicarFiltrosOrdenes();
-        });
+        document.getElementById('buscarOrden').addEventListener('input', () => aplicarFiltrosOrdenes());
 
         // ================= RENDERIZAR DIAGNÓSTICO Y REPORTE FINAL =================
         function renderizarDiagnosticoYReportes(ordenes) {
@@ -1009,34 +1015,35 @@
             }
 
             ordenes.forEach(o => {
+                const waClean = String(o.whatsapp || '').replace(/\D/g, '');
+                let mensajeWspFinal = `Hola *${o.cliente}*, le saludamos de *OSMOTEC Taller*.\n\nInformación sobre su equipo (*#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}*):\n\n🛠️ *Reporte Final:* ${o.reporteFinal || 'En proceso'}\n💰 *Total a Cobrar:* Q. ${o.costoReparacion || '0.00'}\n📌 *Estado:* ${o.estado}\n\n¡Gracias por su preferencia!`;
+
                 tablaDiag.innerHTML += `
                     <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
-                        <td class="p-3 font-bold text-slate-200">#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}<br><span class="text-[10px] text-slate-500">${o.tipoEquipo}</span></td>
-                        <td class="p-3 text-slate-300">${o.cliente}<br><a href="https://wa.me/502${o.whatsapp}" target="_blank" class="text-emerald-400 font-bold hover:underline">📱 ${o.whatsapp}</a></td>
+                        <td class="p-3 font-bold text-slate-200">#${o.numeroOrden || 1} - ${escapeHtml(o.marca)} ${escapeHtml(o.modelo)}<br><span class="text-[10px] text-slate-500">${escapeHtml(o.tipoEquipo)}</span></td>
+                        <td class="p-3 text-slate-300">${escapeHtml(o.cliente)}<br><a href="https://wa.me/502${waClean}" target="_blank" class="text-emerald-400 font-bold hover:underline">📱 ${escapeHtml(o.whatsapp)}</a></td>
                         <td class="p-3">
-                            <div class="font-bold text-red-400 mb-1">Falla: ${o.errorReportado}</div>
-                            <textarea id="diag_${o.id}" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500" placeholder="Escribir diagnóstico...">${o.diagnosticoInicial || ''}</textarea>
+                            <div class="font-bold text-red-400 mb-1">Falla: ${escapeHtml(o.errorReportado)}</div>
+                            <textarea id="diag_${o.id}" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500" placeholder="Escribir diagnóstico...">${escapeHtml(o.diagnosticoInicial || '')}</textarea>
                         </td>
                         <td class="p-3 text-center space-y-1">
                             <button onclick="guardarDiagnostico('${o.id}')" class="w-full bg-cyan-600 hover:bg-cyan-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">💾 Guardar</button>
-                            <a href="https://wa.me/502${o.whatsapp}?text=${encodeURIComponent(`Hola *${o.cliente}*, sobre su equipo *#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}* en OSMOTEC Taller:\nDiagnóstico inicial: ${o.diagnosticoInicial || 'En revisión'}`)}" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">📱 WSP Diagnóstico</a>
+                            <a href="https://wa.me/502${waClean}?text=${encodeURIComponent(`Hola *${o.cliente}*, sobre su equipo *#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}* en OSMOTEC Taller:\nDiagnóstico inicial: ${o.diagnosticoInicial || 'En revisión'}`)}" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">📱 WSP Diagnóstico</a>
                             <button onclick="eliminarDiagnostico('${o.id}')" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Limpiar</button>
                         </td>
                     </tr>
                 `;
 
-                let mensajeWspFinal = `Hola *${o.cliente}*, le saludamos de *OSMOTEC Taller*.\n\nInformación sobre su equipo (*#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}*):\n\n🛠️ *Reporte Final:* ${o.reporteFinal || 'En proceso'}\n💰 *Total a Cobrar:* Q. ${o.costoReparacion || '0.00'}\n📌 *Estado:* ${o.estado}\n\n¡Gracias por su preferencia!`;
-
                 tablaFinal.innerHTML += `
                     <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
-                        <td class="p-3 font-bold text-slate-200">#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}<br><span class="text-[10px] text-slate-500">${o.cliente}</span></td>
+                        <td class="p-3 font-bold text-slate-200">#${o.numeroOrden || 1} - ${escapeHtml(o.marca)} ${escapeHtml(o.modelo)}<br><span class="text-[10px] text-slate-500">${escapeHtml(o.cliente)}</span></td>
                         <td class="p-3">
-                            <textarea id="rep_${o.id}" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500" placeholder="Reporte final o reparación...">${o.reporteFinal || ''}</textarea>
+                            <textarea id="rep_${o.id}" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500" placeholder="Reporte final o reparación...">${escapeHtml(o.reporteFinal || '')}</textarea>
                         </td>
                         <td class="p-3">
                             <div class="flex items-center gap-1 mb-1">
                                 <span class="font-bold text-slate-400">Q.</span>
-                                <input type="number" step="0.01" id="costo_${o.id}" value="${o.costoReparacion || '0.00'}" class="w-24 bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-xs font-bold text-emerald-400">
+                                <input type="number" step="0.01" id="costo_${o.id}" value="${escapeHtml(o.costoReparacion || '0.00')}" class="w-24 bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-xs font-bold text-emerald-400">
                             </div>
                             <select id="estado_${o.id}" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-xs text-slate-200 font-bold">
                                 <option value="Pendiente" ${o.estado === 'Pendiente' ? 'selected' : ''}>Pendiente</option>
@@ -1047,7 +1054,7 @@
                         </td>
                         <td class="p-3 text-center space-y-1">
                             <button onclick="guardarReporteFinal('${o.id}')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">💾 Actualizar</button>
-                            <a href="https://wa.me/502${o.whatsapp}?text=${encodeURIComponent(mensajeWspFinal)}" target="_blank" class="block w-full text-center bg-cyan-600 hover:bg-cyan-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">📱 Enviar WhatsApp</a>
+                            <a href="https://wa.me/502${waClean}?text=${encodeURIComponent(mensajeWspFinal)}" target="_blank" class="block w-full text-center bg-cyan-600 hover:bg-cyan-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">📱 Enviar WhatsApp</a>
                             <button onclick="eliminarReporteFinal('${o.id}')" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Restablecer</button>
                         </td>
                     </tr>
@@ -1062,7 +1069,7 @@
         }
 
         async function eliminarDiagnostico(id) {
-            if(confirm('¿Limpiar diagnóstico?')) {
+            if (confirm('¿Limpiar diagnóstico?')) {
                 await db.collection('ordenes_taller').doc(id).update({ diagnosticoInicial: 'Pendiente...' });
                 alert('¡Restablecido!');
             }
@@ -1077,7 +1084,7 @@
         }
 
         async function eliminarReporteFinal(id) {
-            if(confirm('¿Restablecer reporte final?')) {
+            if (confirm('¿Restablecer reporte final?')) {
                 await db.collection('ordenes_taller').doc(id).update({ reporteFinal: 'Pendiente...', costoReparacion: '0.00', estado: 'Pendiente' });
                 alert('¡Restablecido!');
             }
@@ -1085,13 +1092,13 @@
 
         document.getElementById('buscarDiagnostico').addEventListener('input', (e) => {
             const txt = e.target.value.toLowerCase();
-            const filtradas = todasLasOrdenesGlobal.filter(o => o.marca.toLowerCase().includes(txt) || o.modelo.toLowerCase().includes(txt) || o.cliente.toLowerCase().includes(txt));
+            const filtradas = todasLasOrdenesGlobal.filter(o => (o.marca || '').toLowerCase().includes(txt) || (o.modelo || '').toLowerCase().includes(txt) || (o.cliente || '').toLowerCase().includes(txt));
             renderizarDiagnosticoYReportes(filtradas);
         });
 
         document.getElementById('buscarReporteFinal').addEventListener('input', (e) => {
             const txt = e.target.value.toLowerCase();
-            const filtradas = todasLasOrdenesGlobal.filter(o => o.marca.toLowerCase().includes(txt) || o.modelo.toLowerCase().includes(txt) || o.cliente.toLowerCase().includes(txt));
+            const filtradas = todasLasOrdenesGlobal.filter(o => (o.marca || '').toLowerCase().includes(txt) || (o.modelo || '').toLowerCase().includes(txt) || (o.cliente || '').toLowerCase().includes(txt));
             renderizarDiagnosticoYReportes(filtradas);
         });
 
@@ -1101,10 +1108,10 @@
             e.preventDefault();
             const editId = document.getElementById('editProductId').value;
             const datosProducto = {
-                nombre: document.getElementById('nombreProducto').value,
-                costo: parseFloat(document.getElementById('costoProducto').value),
-                precio: parseFloat(document.getElementById('precioProducto').value),
-                stock: parseInt(document.getElementById('stockProducto').value)
+                nombre: document.getElementById('nombreProducto').value.trim(),
+                costo: parseFloat(document.getElementById('costoProducto').value) || 0,
+                precio: parseFloat(document.getElementById('precioProducto').value) || 0,
+                stock: parseInt(document.getElementById('stockProducto').value, 10) || 0
             };
 
             if (editId) {
@@ -1128,7 +1135,6 @@
 
             document.getElementById('tituloFormProducto').textContent = "✏️ Editar Producto";
             document.getElementById('btnGuardarProducto').textContent = "Actualizar Producto";
-            document.getElementById('btnGuardarProducto').className = "w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)] transition";
             document.getElementById('btnCancelarEdicion').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -1138,7 +1144,6 @@
             document.getElementById('editProductId').value = '';
             document.getElementById('tituloFormProducto').textContent = "📦 Nuevo Producto / Accesorio";
             document.getElementById('btnGuardarProducto').textContent = "Guardar en Inventario";
-            document.getElementById('btnGuardarProducto').className = "w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)] transition";
             document.getElementById('btnCancelarEdicion').classList.add('hidden');
         }
 
@@ -1156,7 +1161,7 @@
             let costoTotalInventario = 0;
             let ventaTotalInventario = 0;
 
-            if(productos.length === 0) { 
+            if (productos.length === 0) { 
                 tabla.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-500">Sin productos.</td></tr>`; 
                 document.getElementById('invCostoTotal').textContent = "Q. 0.00";
                 document.getElementById('invVentaTotal').textContent = "Q. 0.00";
@@ -1189,9 +1194,11 @@
                     stockBadge = `<span class="bg-emerald-950/60 text-emerald-400 border border-emerald-900 px-2 py-0.5 rounded-full font-bold text-[11px]">${stock} unids</span>`;
                 }
 
+                const argEditProd = `'${p.id}', '${escapeJsArg(p.nombre)}', ${costo}, ${precio}, ${stock}`;
+
                 tabla.innerHTML += `
                     <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
-                        <td class="p-3 font-bold text-slate-200">🛒 ${p.nombre}</td>
+                        <td class="p-3 font-bold text-slate-200">🛒 ${escapeHtml(p.nombre)}</td>
                         <td class="p-3 text-slate-300">
                             Costo: <b>Q. ${costo.toFixed(2)}</b><br>
                             Venta: <b class="text-emerald-400">Q. ${precio.toFixed(2)}</b><br>
@@ -1199,7 +1206,7 @@
                         </td>
                         <td class="p-3">${stockBadge}${botonWhatsAppAlerta}</td>
                         <td class="p-3 text-center space-y-1">
-                            <button onclick="prepararEdicionProducto('${p.id}', '${p.nombre}', ${costo}, ${precio}, ${stock})" class="w-full bg-slate-800 text-cyan-400 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-slate-700">✏️ Editar</button>
+                            <button onclick="prepararEdicionProducto(${argEditProd})" class="w-full bg-slate-800 text-cyan-400 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-slate-700">✏️ Editar</button>
                             <button onclick="db.collection('productos_tienda').doc('${p.id}').delete()" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Eliminar</button>
                         </td>
                     </tr>
@@ -1223,11 +1230,11 @@
                 catalogo.innerHTML += `
                     <div onclick="agregarAlCarritoDesdePOS('${p.id}')" class="p-3 bg-slate-950 border border-slate-800/80 rounded-xl hover:border-emerald-500/50 cursor-pointer transition flex justify-between items-center shadow">
                         <div>
-                            <div class="font-bold text-xs text-slate-200">${p.nombre}</div>
+                            <div class="font-bold text-xs text-slate-200">${escapeHtml(p.nombre)}</div>
                             <div class="text-[10px] text-slate-500">Stock: ${p.stock} u.</div>
                         </div>
                         <div class="text-right">
-                            <div class="font-extrabold text-sm text-emerald-400">Q${p.precio.toFixed(2)}</div>
+                            <div class="font-extrabold text-sm text-emerald-400">Q${Number(p.precio || 0).toFixed(2)}</div>
                         </div>
                     </div>
                 `;
@@ -1236,7 +1243,7 @@
 
         function filtrarCatalogoVenta() {
             const txt = document.getElementById('buscarVentaInput').value.toLowerCase();
-            const filtrados = todosLosProductosGlobal.filter(p => p.nombre.toLowerCase().includes(txt));
+            const filtrados = todosLosProductosGlobal.filter(p => (p.nombre || '').toLowerCase().includes(txt));
             renderizarCatalogoPOS(filtrados);
         }
 
@@ -1293,7 +1300,7 @@
                 total += sub;
                 contenedor.innerHTML += `
                     <div class="grid grid-cols-12 p-2.5 items-center bg-slate-900/50">
-                        <span class="col-span-6 font-bold text-slate-200">${item.nombre}</span>
+                        <span class="col-span-6 font-bold text-slate-200">${escapeHtml(item.nombre)}</span>
                         <div class="col-span-2 flex items-center justify-center gap-1">
                             <button onclick="cambiarCantidadCarrito(${index}, -1)" class="w-5 h-5 bg-slate-800 hover:bg-slate-700 rounded font-bold text-xs text-slate-200">-</button>
                             <span class="font-bold text-cyan-400">${item.cantidad}</span>
@@ -1324,10 +1331,12 @@
 
             let totalVentaCalculado = carritoVenta.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
             if (efectivo < totalVentaCalculado) {
-                if(!confirm('El efectivo recibido es menor al total. ¿Continuar?')) return;
+                if (!confirm('El efectivo recibido es menor al total. ¿Continuar?')) return;
             }
 
-            for(let item of carritoVenta) {
+            const snapshotCarrito = [...carritoVenta];
+
+            for (let item of snapshotCarrito) {
                 let subVenta = item.precio * item.cantidad;
                 let subCosto = item.costo * item.cantidad;
                 totalVenta += subVenta;
@@ -1335,8 +1344,8 @@
 
                 const prodRef = db.collection('productos_tienda').doc(item.id);
                 const prodDoc = await prodRef.get();
-                if(prodDoc.exists) {
-                    let nuevoStock = prodDoc.data().stock - item.cantidad;
+                if (prodDoc.exists) {
+                    let nuevoStock = (prodDoc.data().stock || 0) - item.cantidad;
                     await prodRef.update({ stock: nuevoStock >= 0 ? nuevoStock : 0 });
                 }
             }
@@ -1344,14 +1353,14 @@
             let fechaActual = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
             await db.collection('ventas_tienda').add({
-                productos: [...carritoVenta],
+                productos: snapshotCarrito,
                 total: totalVenta,
                 gananciaTotal: totalGanancia,
                 fecha: fechaActual,
                 rawDate: new Date().toISOString()
             });
 
-            generarFacturaCartaPDF(fechaActual, efectivo, totalVenta);
+            generarFacturaCartaPDF(snapshotCarrito, fechaActual, efectivo, totalVenta);
 
             alert('¡Venta cobrada con éxito!');
             carritoVenta = [];
@@ -1360,18 +1369,18 @@
             renderizarCatalogoPOS(todosLosProductosGlobal);
         }
 
-        function generarFacturaCartaPDF(fecha, efectivo, total) {
+        function generarFacturaCartaPDF(itemsFactura, fecha, efectivo, total) {
             let vuelto = efectivo - total;
             let filasProductos = '';
             
-            carritoVenta.forEach((item, idx) => {
+            itemsFactura.forEach((item, idx) => {
                 let sub = item.precio * item.cantidad;
                 filasProductos += `
                     <tr style="border-bottom: 1px solid #e2e8f0;">
                         <td style="padding: 10px; text-align: center;">${idx + 1}</td>
-                        <td style="padding: 10px;">${item.nombre}</td>
+                        <td style="padding: 10px;">${escapeHtml(item.nombre)}</td>
                         <td style="padding: 10px; text-align: center;">${item.cantidad}</td>
-                        <td style="padding: 10px; text-align: right;">Q${item.precio.toFixed(2)}</td>
+                        <td style="padding: 10px; text-align: right;">Q${Number(item.precio).toFixed(2)}</td>
                         <td style="padding: 10px; text-align: right; font-weight: bold;">Q${sub.toFixed(2)}</td>
                     </tr>
                 `;
@@ -1400,7 +1409,7 @@
                         <div style="text-align: right;">
                             <h2 style="margin: 0; color: #0f172a; font-size: 22px;">COMPROBANTE DE VENTA</h2>
                             <p style="margin: 4px 0; font-size: 13px; font-weight: bold; color: #2563eb;">No. FACTURA: #${Math.floor(100000 + Math.random() * 900000)}</p>
-                            <p style="margin: 4px 0; font-size: 13px; color: #64748b;">Fecha: ${fecha}</p>
+                            <p style="margin: 4px 0; font-size: 13px; color: #64748b;">Fecha: ${escapeHtml(fecha)}</p>
                         </div>
                     </div>
                     <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 13px;">
@@ -1419,7 +1428,7 @@
                         <div style="width: 300px; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 14px;">
                             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>Total a Pagar:</span><span style="font-weight: bold; font-size: 16px; color: #16a34a;">Q${total.toFixed(2)}</span></div>
                             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>Efectivo Recibido:</span><span>Q${efectivo.toFixed(2)}</span></div>
-                            <div style="display: flex; justify-content: space-between; border-top: 1px solid #cbd5e1; paddingTop: 8px;"><span style="font-weight: bold;">Su Vuelto:</span><span style="font-weight: bold; color: #2563eb;">Q${vuelto >= 0 ? vuelto.toFixed(2) : "0.00"}</span></div>
+                            <div style="display: flex; justify-content: space-between; border-top: 1px solid #cbd5e1; padding-top: 8px;"><span style="font-weight: bold;">Su Vuelto:</span><span style="font-weight: bold; color: #2563eb;">Q${vuelto >= 0 ? vuelto.toFixed(2) : "0.00"}</span></div>
                         </div>
                     </div>
                     <div class="no-print">
@@ -1443,7 +1452,7 @@
             const fechaActual = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
             await db.collection('gastos_caja').add({
                 categoria: document.getElementById('categoriaGasto').value,
-                descripcion: document.getElementById('descripcionGasto').value,
+                descripcion: document.getElementById('descripcionGasto').value.trim(),
                 monto: monto,
                 fecha: fechaActual,
                 rawDate: new Date().toISOString()
@@ -1473,9 +1482,9 @@
             gastos.forEach(g => {
                 tabla.innerHTML += `
                     <tr class="hover:bg-slate-900/60 border-b border-slate-800/40">
-                        <td class="p-2.5 text-slate-400">${g.fecha}</td>
-                        <td class="p-2.5 text-cyan-400 font-bold">${g.categoria}</td>
-                        <td class="p-2.5 text-slate-200">${g.descripcion}</td>
+                        <td class="p-2.5 text-slate-400">${escapeHtml(g.fecha)}</td>
+                        <td class="p-2.5 text-cyan-400 font-bold">${escapeHtml(g.categoria)}</td>
+                        <td class="p-2.5 text-slate-200">${escapeHtml(g.descripcion)}</td>
                         <td class="p-2.5 font-bold text-rose-400">- Q. ${(g.monto || 0).toFixed(2)}</td>
                         <td class="p-2.5 text-center">
                             <button onclick="if(confirm('¿Eliminar este registro de gasto?')) db.collection('gastos_caja').doc('${g.id}').delete()" class="text-red-400 px-2 py-0.5 bg-red-950/50 border border-red-900/50 rounded">Eliminar</button>
@@ -1549,9 +1558,9 @@
                 ? `<tr><td colspan="3" style="padding:8px; text-align:center; color:#64748b;">Sin gastos registrados hoy</td></tr>`
                 : gastosHoyLista.map(g => `
                     <tr style="border-bottom:1px solid #e2e8f0;">
-                        <td style="padding:6px;">${g.categoria}</td>
-                        <td style="padding:6px;">${g.descripcion}</td>
-                        <td style="padding:6px; text-align:right; color:#e11d48; font-weight:bold;">-Q. ${g.monto.toFixed(2)}</td>
+                        <td style="padding:6px;">${escapeHtml(g.categoria)}</td>
+                        <td style="padding:6px;">${escapeHtml(g.descripcion)}</td>
+                        <td style="padding:6px; text-align:right; color:#e11d48; font-weight:bold;">-Q. ${Number(g.monto || 0).toFixed(2)}</td>
                     </tr>
                 `).join('');
 
@@ -1561,7 +1570,7 @@
                 <html lang="es">
                 <head>
                     <meta charset="UTF-8">
-                    <title>Cierre de Caja OSMOTEC - ${hoyStr}</title>
+                    <title>Cierre de Caja OSMOTEC - ${escapeHtml(hoyStr)}</title>
                     <style>
                         body { font-family: monospace; padding: 30px; color: #0f172a; }
                         .box { border: 2px solid #0284c7; border-radius: 10px; padding: 20px; max-width: 550px; margin: 0 auto; }
@@ -1573,7 +1582,7 @@
                 <body>
                     <div class="box">
                         <h2 style="margin:0; text-align:center; color:#0369a1;">OSMOTEC - CIERRE DE CAJA DIARIO</h2>
-                        <p style="text-align:center; font-size:11px; color:#475569;">Los Amates, Izabal • Fecha: ${hoyStr} ${horaStr}</p>
+                        <p style="text-align:center; font-size:11px; color:#475569;">Los Amates, Izabal • Fecha: ${escapeHtml(hoyStr)} ${escapeHtml(horaStr)}</p>
                         <hr>
                         <div class="row-summary"><span>Fondo Inicial de Caja:</span><b>Q. ${fondo.toFixed(2)}</b></div>
                         <div class="row-summary"><span>(+) Total Ventas del Día:</span><b style="color:#16a34a;">Q. ${ventasHoyTotalCache.toFixed(2)}</b></div>
@@ -1603,7 +1612,7 @@
             ventanaCierre.document.close();
         }
 
-        // ================= TIENDA: REPORTES =================
+        // ================= TIENDA: REPORTES & ANULACIÓN CON DEVOLUCIÓN DE STOCK =================
         db.collection('ventas_tienda').orderBy('rawDate', 'desc').onSnapshot((snapshot) => {
             todasLasVentasGlobal = [];
             snapshot.forEach((doc) => {
@@ -1612,6 +1621,53 @@
             actualizarResumenCajaDiaria();
             aplicarFiltroReportes();
         });
+
+        async function anularVentaYDevolverStock(ventaId) {
+            if (!confirm('¿Desea anular esta venta y devolver los productos al inventario?')) {
+                return;
+            }
+
+            const ventaRef = db.collection('ventas_tienda').doc(ventaId);
+
+            try {
+                await db.runTransaction(async (transaction) => {
+                    const ventaDoc = await transaction.get(ventaRef);
+                    if (!ventaDoc.exists) {
+                        throw new Error('La venta ya no existe.');
+                    }
+
+                    const ventaData = ventaDoc.data();
+                    const productosVendidos = Array.isArray(ventaData.productos) ? ventaData.productos : [];
+
+                    const refsYDocs = [];
+                    for (const item of productosVendidos) {
+                        if (!item || !item.id) continue;
+                        const cantDevuelta = Number(item.cantidad) || 0;
+                        if (cantDevuelta <= 0) continue;
+
+                        const prodRef = db.collection('productos_tienda').doc(item.id);
+                        const prodDoc = await transaction.get(prodRef);
+                        refsYDocs.push({ prodRef, prodDoc, cantDevuelta });
+                    }
+
+                    for (const entry of refsYDocs) {
+                        if (entry.prodDoc.exists) {
+                            const stockActual = Number(entry.prodDoc.data().stock) || 0;
+                            transaction.update(entry.prodRef, {
+                                stock: stockActual + entry.cantDevuelta
+                            });
+                        }
+                    }
+
+                    transaction.delete(ventaRef);
+                });
+
+                alert('¡Venta anulada y stock devuelto al inventario con éxito!');
+            } catch (error) {
+                console.error('Error al anular venta:', error);
+                alert('No se pudo anular la venta: ' + error.message);
+            }
+        }
 
         function enviarWhatsAppAgotadosReportes() {
             let productosAgotados = todosLosProductosGlobal.filter(p => p.stock === 0);
@@ -1655,7 +1711,7 @@
                 totalIngresos += v.total || 0;
                 if (v.gananciaTotal !== undefined) {
                     totalGanancias += v.gananciaTotal;
-                } else {
+                } else if (Array.isArray(v.productos)) {
                     v.productos.forEach(p => {
                         let costoItem = p.costo || 0;
                         totalGanancias += (p.precio - costoItem) * p.cantidad;
@@ -1677,27 +1733,28 @@
         function renderizarReporteVentas(ventas) {
             const tabla = document.getElementById('tablaReporteVentas');
             tabla.innerHTML = '';
-            if(ventas.length === 0) { 
+            if (ventas.length === 0) { 
                 tabla.innerHTML = `<tr><td colspan="5" class="text-center p-4 text-slate-500">Sin ventas en este período.</td></tr>`; 
                 return; 
             }
 
             ventas.forEach(v => {
-                let detalleStr = v.productos.map(p => {
+                const prods = Array.isArray(v.productos) ? v.productos : [];
+                let detalleStr = prods.map(p => {
                     let gananciaItem = (p.precio - (p.costo || 0)) * p.cantidad;
-                    return `<b>${p.cantidad}x</b> ${p.nombre} <span class="text-slate-500">(Ganancia: Q.${gananciaItem.toFixed(2)})</span>`;
+                    return `<b>${p.cantidad}x</b> ${escapeHtml(p.nombre)} <span class="text-slate-500">(Ganancia: Q.${gananciaItem.toFixed(2)})</span>`;
                 }).join('<br>');
 
-                let gananciaVenta = v.gananciaTotal !== undefined ? v.gananciaTotal : v.productos.reduce((acc, p) => acc + ((p.precio - (p.costo || 0)) * p.cantidad), 0);
+                let gananciaVenta = v.gananciaTotal !== undefined ? v.gananciaTotal : prods.reduce((acc, p) => acc + ((p.precio - (p.costo || 0)) * p.cantidad), 0);
 
                 tabla.innerHTML += `
                     <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40 text-xs">
-                        <td class="p-3 text-slate-400">${v.fecha}</td>
+                        <td class="p-3 text-slate-400">${escapeHtml(v.fecha)}</td>
                         <td class="p-3 font-medium text-slate-200 leading-relaxed">${detalleStr}</td>
                         <td class="p-3 font-bold text-emerald-400">Q. ${(v.total || 0).toFixed(2)}</td>
                         <td class="p-3 font-bold text-cyan-400">Q. ${gananciaVenta.toFixed(2)}</td>
                         <td class="p-3 text-center">
-                            <button onclick="db.collection('ventas_tienda').doc('${v.id}').delete()" class="text-red-400 text-xs px-2.5 py-1 bg-red-950/50 rounded-lg font-semibold border border-red-900/50">Eliminar</button>
+                            <button onclick="anularVentaYDevolverStock('${v.id}')" class="text-amber-300 text-xs px-2.5 py-1 bg-amber-950/60 hover:bg-amber-900/60 rounded-lg font-bold border border-amber-700/60 transition">↩️ Anular y Devolver</button>
                         </td>
                     </tr>
                 `;
@@ -1706,7 +1763,7 @@
 
         document.getElementById('buscarTienda').addEventListener('input', (e) => {
             const txt = e.target.value.toLowerCase();
-            renderizarInventario(todosLosProductosGlobal.filter(p => p.nombre.toLowerCase().includes(txt)));
+            renderizarInventario(todosLosProductosGlobal.filter(p => (p.nombre || '').toLowerCase().includes(txt)));
         });
 
         document.getElementById('buscarReporteVentas').addEventListener('input', (e) => {
@@ -1719,7 +1776,7 @@
                 if (filtro === 'dia') return v.fecha && v.fecha.includes(hoyStr);
                 if (filtro === 'mes') return v.rawDate && v.rawDate.startsWith(mesActualStr);
                 return true;
-            }).filter(v => v.productos.some(p => p.nombre.toLowerCase().includes(txt)));
+            }).filter(v => Array.isArray(v.productos) && v.productos.some(p => (p.nombre || '').toLowerCase().includes(txt)));
 
             renderizarReporteVentas(ventasFiltradas);
         });
@@ -1733,7 +1790,7 @@
                 <html lang="es">
                 <head>
                     <meta charset="UTF-8">
-                    <title>Orden #${numeroOrden} - ${cliente}</title>
+                    <title>Orden #${escapeHtml(numeroOrden)} - ${escapeHtml(cliente)}</title>
                     <style>
                         body { font-family: monospace; margin: 0; padding: 20px; background: #ffffff; color: #1e293b; }
                         .ticket { width: 100%; max-width: 320px; margin: 0 auto; padding: 20px; border: 2px solid #0284c7; border-radius: 12px; box-sizing: border-box; }
@@ -1750,16 +1807,16 @@
                     <div class="ticket">
                         <div class="header">
                             <h1>OSMOTEC TALLER</h1>
-                            <p style="font-size: 14px; font-weight: bold; color: #0369a1; margin-top: 5px;">ORDEN DE TALLER #${numeroOrden}</p>
+                            <p style="font-size: 14px; font-weight: bold; color: #0369a1; margin-top: 5px;">ORDEN DE TALLER #${escapeHtml(numeroOrden)}</p>
                             <p>Los Amates, Izabal • WhatsApp: 4501 1153</p>
                         </div>
                         <div class="content">
-                            <p><b>Fecha:</b> ${fecha}</p>
-                            <p><b>Cliente:</b> ${cliente}</p>
-                            <p><b>WhatsApp:</b> ${whatsapp}</p>
-                            <p><b>Equipo:</b> ${tipo} - ${marca} ${modelo}</p>
-                            <p><b>Falla/Reporte:</b> ${falla}</p>
-                            <p><b>Accesorios:</b> ${accesorios}</p>
+                            <p><b>Fecha:</b> ${escapeHtml(fecha)}</p>
+                            <p><b>Cliente:</b> ${escapeHtml(cliente)}</p>
+                            <p><b>WhatsApp:</b> ${escapeHtml(whatsapp)}</p>
+                            <p><b>Equipo:</b> ${escapeHtml(tipo)} - ${escapeHtml(marca)} ${escapeHtml(modelo)}</p>
+                            <p><b>Falla/Reporte:</b> ${escapeHtml(falla)}</p>
+                            <p><b>Accesorios:</b> ${escapeHtml(accesorios)}</p>
                         </div>
                         <div class="footer">Comprobante Oficial OSMOTEC</div>
                     </div>
@@ -1775,22 +1832,26 @@
 
         function poblarSelectGarantia() {
             const sel = document.getElementById('selectEquipoGarantia');
+            const prevVal = sel.value;
             sel.innerHTML = '<option value="">-- Seleccione --</option>';
-            todasLasOrdenesGlobal.forEach(o => sel.innerHTML += `<option value="${o.id}">#${o.numeroOrden || 1} - ${o.marca} ${o.modelo} (${o.cliente})</option>`);
+            todasLasOrdenesGlobal.forEach(o => {
+                sel.innerHTML += `<option value="${o.id}">#${o.numeroOrden || 1} - ${escapeHtml(o.marca)} ${escapeHtml(o.modelo)} (${escapeHtml(o.cliente)})</option>`;
+            });
+            if (prevVal) sel.value = prevVal;
         }
 
         function cargarDatosGarantia() {
             const id = document.getElementById('selectEquipoGarantia').value;
             const t = document.getElementById('infoTrabajoGarantia');
-            eqSeleccionadoGarantia = todasLasOrdenesGlobal.find(o => o.id === id);
+            eqSeleccionadoGarantia = todasLasOrdenesGlobal.find(o => o.id === id) || null;
             t.value = eqSeleccionadoGarantia ? `Orden: #${eqSeleccionadoGarantia.numeroOrden || 1}\nCliente: ${eqSeleccionadoGarantia.cliente}\nEquipo: ${eqSeleccionadoGarantia.marca} ${eqSeleccionadoGarantia.modelo}\nReporte: ${eqSeleccionadoGarantia.reporteFinal}` : '';
         }
 
         function generarQR() {
             const id = document.getElementById('selectEquipoGarantia').value;
-            eqSeleccionadoGarantia = todasLasOrdenesGlobal.find(o => o.id === id);
+            eqSeleccionadoGarantia = todasLasOrdenesGlobal.find(o => o.id === id) || null;
             
-            if(!eqSeleccionadoGarantia) { 
+            if (!eqSeleccionadoGarantia) { 
                 alert('Por favor seleccione un equipo primero'); 
                 return; 
             }
@@ -1800,7 +1861,7 @@
             const contenedorQR = document.getElementById('qrcode');
             contenedorQR.innerHTML = '';
             
-            document.getElementById('qrInfoTexto').innerHTML = `<b>Garantía: ${diasGarantia} días</b><br><b>${eqSeleccionadoGarantia.marca} ${eqSeleccionadoGarantia.modelo}</b><br>Cliente: ${eqSeleccionadoGarantia.cliente}`;
+            document.getElementById('qrInfoTexto').innerHTML = `<b>Garantía: ${escapeHtml(diasGarantia)} días</b><br><b>${escapeHtml(eqSeleccionadoGarantia.marca)} ${escapeHtml(eqSeleccionadoGarantia.modelo)}</b><br>Cliente: ${escapeHtml(eqSeleccionadoGarantia.cliente)}`;
             
             const textoQR = `OSMOTEC GARANTIA | Fecha: ${fechaCreacionQR} | Garantia: ${diasGarantia} Dias`;
 
@@ -1814,14 +1875,14 @@
                     correctLevel: QRCode.CorrectLevel.M
                 });
                 alert('¡Código QR generado correctamente!');
-            } catch(e) {
+            } catch (e) {
                 console.error("Error detallado QR:", e);
                 alert('Error al generar el código QR.');
             }
         }
 
         function imprimirEtiquetaQRModal() {
-            if(!eqSeleccionadoGarantia) { 
+            if (!eqSeleccionadoGarantia) { 
                 alert('Por favor seleccione y genere primero un equipo en garantía'); 
                 return; 
             }
@@ -1830,6 +1891,7 @@
             const fechaCreacionQR = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
             const clienteSeguro = eqSeleccionadoGarantia.cliente;
             const equipoSeguro = eqSeleccionadoGarantia.tipoEquipo + " " + eqSeleccionadoGarantia.marca + " " + eqSeleccionadoGarantia.modelo;
+            const contenidoQR = `OSMOTEC GARANTIA | Fecha: ${fechaCreacionQR} | Garantia: ${diasGarantia} Dias`;
 
             const ventanaQR = window.open('', '_blank', 'width=400,height=500');
             ventanaQR.document.write(`
@@ -1855,12 +1917,12 @@
                 </head>
                 <body>
                     <div class="etiqueta">
-                        <div class="header-etiqueta">OSMOTEC - GARANTÍA (${diasGarantia} DÍAS)</div>
+                        <div class="header-etiqueta">OSMOTEC - GARANTÍA (${escapeHtml(diasGarantia)} DÍAS)</div>
                         <div id="qrImpresionModal"></div>
                         <div class="info-texto">
-                            Cliente: ${clienteSeguro}<br>
-                            Equipo: ${equipoSeguro}<br>
-                            Fecha: ${fechaCreacionQR}
+                            Cliente: ${escapeHtml(clienteSeguro)}<br>
+                            Equipo: ${escapeHtml(equipoSeguro)}<br>
+                            Fecha: ${escapeHtml(fechaCreacionQR)}
                         </div>
                     </div>
                     <div class="no-print">
@@ -1868,9 +1930,8 @@
                     </div>
                     <script>
                         window.onload = function() {
-                            const contenidoQR = "OSMOTEC GARANTIA | Fecha: " + "${fechaCreacionQR}" + " | Garantia: " + "${diasGarantia}" + " Dias";
                             new QRCode(document.getElementById("qrImpresionModal"), { 
-                                text: contenidoQR, 
+                                text: ${JSON.stringify(contenidoQR)}, 
                                 width: 78, 
                                 height: 78,
                                 colorDark: "#000000",
