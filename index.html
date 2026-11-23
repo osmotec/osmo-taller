@@ -18,21 +18,22 @@
         ::-webkit-scrollbar-thumb:hover { background: #334155; }
     </style>
 </head>
-<body class="bg-slate-950 font-sans text-slate-100 selection:bg-cyan-500 selection:text-slate-950">
+<body class="bg-slate-950 font-sans text-slate-100 selection:bg-cyan-500 selection:text-slate-950 min-h-screen flex flex-col">
 
     <!-- ================= PANTALLA DE SELECCIÓN INICIAL (HOME CONSOLA) ================= -->
-    <div id="vistaSelector" class="flex flex-col items-center justify-center min-h-screen p-4 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 text-white relative overflow-hidden">
+    <div id="vistaSelector" class="flex-grow flex flex-col items-center justify-between p-4 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 text-white relative overflow-hidden">
         <div class="absolute w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
         <div class="absolute w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none -bottom-20 -right-20"></div>
 
-        <div class="max-w-md w-full bg-slate-900/80 backdrop-blur-2xl p-8 rounded-3xl border border-cyan-500/30 shadow-[0_0_30px_rgba(6,182,212,0.15)] text-center space-y-6 relative z-10">
+        <div class="my-auto max-w-md w-full bg-slate-900/80 backdrop-blur-2xl p-8 rounded-3xl border border-cyan-500/30 shadow-[0_0_30px_rgba(6,182,212,0.15)] text-center space-y-6 relative z-10">
             <div class="flex flex-col items-center gap-3">
-                <img src="osmo.jpg" alt="Osmo" class="w-20 h-20 rounded-2xl object-cover border-2 border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.4)]" onerror="this.style.display='none'">
+                <img src="osmo.jpg" alt="Osmo" class="w-20 h-20 rounded-2xl object-cover border-2 border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.4)] mx-auto" onerror="this.style.display='none'">
                 <div>
                     <h1 class="text-2xl font-black tracking-tight text-white flex items-center justify-center gap-2">
-                        <span class="text-cyan-400">⚡</span> OSMOTEC <span class="text-xs font-mono text-cyan-400 px-2 py-0.5 bg-cyan-950 border border-cyan-800 rounded-md">v3.1</span>
+                        <span class="text-cyan-400">⚡</span> OSMOTEC, Los Amates <span class="text-xs font-mono text-cyan-400 px-2 py-0.5 bg-cyan-950 border border-cyan-800 rounded-md">v3.1</span>
                     </h1>
-                    <p class="text-xs text-slate-400 mt-1 font-mono">Los Amates, Izabal • Consola de Operaciones</p>
+                    <p class="text-xs text-slate-300 mt-1 font-mono">Segundo nivel del Mercado frente al gimnasio municipal</p>
+                    <p class="text-[11px] text-slate-400 mt-0.5 font-mono">Los Amates, Izabal • Tel. 45011153 • NIT: 53050290</p>
                 </div>
             </div>
 
@@ -51,7 +52,7 @@
                     <span class="text-xl">🛒</span>
                     <div class="text-left font-mono">
                         <div class="tracking-wide">MÓDULO TIENDA / POS</div>
-                        <div class="text-[10px] text-emerald-200 font-normal">Inventario, caja, gastos, cierre y reportes</div>
+                        <div class="text-[10px] text-emerald-200 font-normal">Inventario, POS, clientes, cotizaciones, caja y reportes</div>
                     </div>
                 </button>
             </div>
@@ -62,46 +63,56 @@
                 </button>
             </div>
         </div>
+
+        <footer class="w-full text-center py-2 text-[11px] font-mono text-slate-400 relative z-10">
+            Propiedad de OSMOTEC, Los Amates • 2026 • NIT: 53050290 • Tel. 45011153
+        </footer>
     </div>
 
     <!-- ================= CONTENEDOR PRINCIPAL DE LA APLICACIÓN ================= -->
-    <div id="contenedorApp" class="hidden min-h-screen flex flex-col bg-slate-950">
+    <div id="contenedorApp" class="hidden min-h-screen flex-col bg-slate-950 flex-grow">
         
-        <!-- Header Estilo Consola -->
+        <!-- Header Estilo Consola (Centrado en la parte superior) -->
         <header class="bg-slate-900/90 backdrop-blur-xl border-b border-slate-800 text-white shadow-lg p-4 sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="max-w-7xl mx-auto flex flex-col items-center text-center gap-3">
                 
-                <div class="flex items-center gap-3">
-                    <img src="osmo.jpg" alt="Osmo" class="w-10 h-10 rounded-xl object-cover border border-cyan-400/60 shadow-[0_0_10px_rgba(6,182,212,0.3)]" onerror="this.style.display='none'">
+                <!-- Imagen y título centrados en la parte superior -->
+                <div class="flex flex-col items-center justify-center gap-1.5">
+                    <img id="imgHeaderModulo" src="osmo.jpg" alt="Osmo" class="w-12 h-12 rounded-2xl object-cover border-2 border-cyan-400/70 shadow-[0_0_12px_rgba(6,182,212,0.35)] mx-auto" onerror="this.style.display='none'">
                     <div>
-                        <h1 class="text-base font-black tracking-tight flex items-center gap-2 font-mono text-cyan-400" id="tituloHeaderModulo">
-                            🛠️ OSMOTEC CONSOLA
+                        <h1 class="text-base md:text-lg font-black tracking-tight flex items-center justify-center gap-2 font-mono text-cyan-400" id="tituloHeaderModulo">
+                            🛠️ OSMOTEC, Los Amates
                         </h1>
-                        <span class="text-[10px] text-slate-400 font-mono" id="estadoSync">Los Amates, Izabal • En línea</span>
+                        <span class="text-[10px] text-slate-300 font-mono block" id="estadoSync">Segundo nivel del Mercado frente al gimnasio municipal • Los Amates, Izabal</span>
+                        <span class="text-[10px] text-slate-400 font-mono block">Tel. 45011153 • NIT: 53050290</span>
                     </div>
                 </div>
                 
-                <!-- Pestañas de Taller -->
-                <nav id="navTaller" class="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 shadow-inner flex-wrap justify-center">
-                    <button onclick="cambiarPestanaTaller('ordenes')" id="btnTabOrdenes" class="px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-cyan-600 text-slate-950 shadow-[0_0_10px_rgba(6,182,212,0.3)]">📋 Órdenes</button>
-                    <button onclick="cambiarPestanaTaller('diagnostico')" id="btnTabDiagnostico" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">🔍 Diagnóstico</button>
-                    <button onclick="cambiarPestanaTaller('garantia')" id="btnTabGarantia" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">🛡️ Garantías</button>
-                    <button onclick="cambiarPestanaTaller('tecnicos')" id="btnTabTecnicos" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">👨‍🔧 Técnicos</button>
-                </nav>
+                <!-- Pestañas + botón Menú Principal centrados -->
+                <div class="flex flex-wrap items-center justify-center gap-2 w-full">
+                    <!-- Pestañas de Taller -->
+                    <nav id="navTaller" class="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 shadow-inner flex-wrap justify-center">
+                        <button onclick="cambiarPestanaTaller('ordenes')" id="btnTabOrdenes" class="px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-cyan-600 text-slate-950 shadow-[0_0_10px_rgba(6,182,212,0.3)]">📋 Órdenes</button>
+                        <button onclick="cambiarPestanaTaller('diagnostico')" id="btnTabDiagnostico" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">🔍 Diagnóstico</button>
+                        <button onclick="cambiarPestanaTaller('garantia')" id="btnTabGarantia" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">🛡️ Garantías</button>
+                        <button onclick="cambiarPestanaTaller('tecnicos')" id="btnTabTecnicos" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">👨‍🔧 Técnicos</button>
+                    </nav>
 
-                <!-- Pestañas de Tienda -->
-                <nav id="navTienda" class="hidden flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 shadow-inner flex-wrap justify-center">
-                    <button onclick="cambiarPestanaTienda('inventario')" id="btnTabInventario" class="px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-emerald-600 text-slate-950 shadow-[0_0_10px_rgba(16,185,129,0.3)]">📦 Inventario</button>
-                    <button onclick="cambiarPestanaTienda('ventas')" id="btnTabVentas" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">💵 POS / Caja</button>
-                    <button onclick="cambiarPestanaTienda('caja')" id="btnTabCaja" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">💸 Cierre / Gastos</button>
-                    <button onclick="cambiarPestanaTienda('reportes')" id="btnTabReportes" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">📊 Reportes</button>
-                </nav>
+                    <!-- Pestañas de Tienda -->
+                    <nav id="navTienda" class="hidden items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 shadow-inner flex-wrap justify-center">
+                        <button onclick="cambiarPestanaTienda('inventario')" id="btnTabInventario" class="px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-emerald-600 text-slate-950 shadow-[0_0_10px_rgba(16,185,129,0.3)]">📦 Inventario</button>
+                        <button onclick="cambiarPestanaTienda('ventas')" id="btnTabVentas" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">💵 POS / Caja</button>
+                        <button onclick="cambiarPestanaTienda('clientes')" id="btnTabClientes" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">👥 Clientes</button>
+                        <button onclick="cambiarPestanaTienda('cotizaciones')" id="btnTabCotizaciones" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">📝 Cotizaciones</button>
+                        <button onclick="cambiarPestanaTienda('caja')" id="btnTabCaja" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">💸 Cierre / Gastos</button>
+                        <button onclick="cambiarPestanaTienda('reportes')" id="btnTabReportes" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">📊 Reportes</button>
+                    </nav>
 
-                <div>
                     <button onclick="volverAlSelector()" class="px-3.5 py-2 rounded-xl text-xs font-mono font-bold transition-all duration-200 flex items-center gap-1.5 bg-slate-950 text-cyan-400 hover:bg-slate-800 shadow-md border border-cyan-900">
                         🏠 Menú Principal
                     </button>
                 </div>
+
             </div>
         </header>
 
@@ -171,7 +182,6 @@
                         <input type="text" id="buscarOrden" placeholder="Buscar equipo o cliente..." class="bg-slate-950 border border-slate-800 rounded-xl p-2 text-sm text-slate-200 font-mono w-full sm:w-64 focus:outline-none focus:border-cyan-500">
                     </div>
 
-                    <!-- Filtro Rápido por Estado en Taller -->
                     <div class="flex flex-wrap items-center gap-2 font-mono text-xs pb-1">
                         <button onclick="cambiarFiltroEstadoOrden('Todos')" id="filtroEst_Todos" class="px-3 py-1.5 rounded-xl font-bold bg-cyan-600 text-slate-950 transition">
                             Todos (<span id="countEst_Todos">0</span>)
@@ -454,6 +464,143 @@
                 </section>
             </div>
 
+            <!-- ================= VISTA: CLIENTES TIENDA ================= -->
+            <div id="vistaTiendaClientes" class="hidden grid-cols-1 lg:grid-cols-3 gap-6">
+                <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-1 h-fit">
+                    <h2 id="tituloFormCliente" class="text-sm font-mono font-bold text-emerald-400 mb-4 border-b border-slate-800 pb-2">👤 Nuevo Cliente</h2>
+                    <form id="clienteTiendaForm" class="space-y-3 font-mono">
+                        <input type="hidden" id="editClienteId">
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Nombre Completo</label>
+                            <input type="text" id="nombreClienteTienda" required placeholder="Ej: Carlos Méndez" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200 focus:outline-none focus:border-emerald-500">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-xs text-slate-400 mb-1">Teléfono / WhatsApp</label>
+                                <input type="text" id="telefonoClienteTienda" required placeholder="Ej: 45011153" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200 focus:outline-none focus:border-emerald-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-slate-400 mb-1">NIT / Identificación</label>
+                                <input type="text" id="nitClienteTienda" placeholder="CF o NIT" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200 focus:outline-none focus:border-emerald-500">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Notas / Preferencias</label>
+                            <textarea id="notasClienteTienda" rows="2" placeholder="Compras frecuentes, dirección..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200 focus:outline-none focus:border-emerald-500"></textarea>
+                        </div>
+                        <div class="flex gap-2 pt-2">
+                            <button type="submit" id="btnGuardarCliente" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)] transition">
+                                Guardar Cliente
+                            </button>
+                            <button type="button" id="btnCancelarEdicionCliente" onclick="cancelarEdicionCliente()" class="hidden bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3 px-4 rounded-xl text-sm">
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </section>
+
+                <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-2 space-y-4 font-mono">
+                    <div class="flex flex-col sm:flex-row justify-between items-center border-b border-slate-800 pb-3 gap-2">
+                        <h2 class="text-sm font-bold text-slate-200">👥 Directorio de Clientes (<span id="totalClientesBadge">0</span>)</h2>
+                        <input type="text" id="buscarClienteTienda" oninput="renderizarClientesTienda()" placeholder="Buscar cliente o teléfono..." class="bg-slate-950 border border-slate-800 rounded-xl p-2 text-sm text-slate-200 w-full sm:w-64 focus:outline-none focus:border-emerald-500">
+                    </div>
+
+                    <div class="overflow-x-auto max-h-[450px] overflow-y-auto border border-slate-800/80 rounded-xl">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-slate-950 text-slate-400 border-b border-slate-800 sticky top-0 z-10 shadow">
+                                    <th class="p-3 bg-slate-950">Cliente</th>
+                                    <th class="p-3 bg-slate-950">WhatsApp / NIT</th>
+                                    <th class="p-3 bg-slate-950">Notas</th>
+                                    <th class="p-3 bg-slate-950 text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaClientesTienda" class="divide-y divide-slate-800/60"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ================= VISTA: COTIZACIONES TIENDA ================= -->
+            <div id="vistaTiendaCotizaciones" class="hidden space-y-6 font-mono">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-1 space-y-3 h-fit">
+                        <h2 class="text-sm font-bold text-cyan-400 border-b border-slate-800 pb-2">📝 Nueva Cotización</h2>
+
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Cliente Guardado (Opcional)</label>
+                            <select id="selectClienteCotizacion" onchange="autocompletarClienteCotizacion()" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200">
+                                <option value="">-- Cliente general / manual --</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Nombre del Cliente</label>
+                            <input type="text" id="cotClienteNombre" placeholder="Nombre o empresa" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">WhatsApp Cliente (Opcional)</label>
+                            <input type="text" id="cotClienteWhatsapp" placeholder="Ej: 45011153" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Agregar Producto de Inventario</label>
+                            <div class="flex gap-2">
+                                <select id="selectProductoCotizacion" class="flex-grow bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200">
+                                    <option value="">-- Seleccione producto --</option>
+                                </select>
+                                <input type="number" id="cantProductoCotizacion" min="1" value="1" class="w-16 bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-center text-cyan-300 font-bold">
+                            </div>
+                            <button type="button" onclick="agregarItemCotizacion()" class="mt-2 w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold py-2 rounded-xl text-xs border border-cyan-800/50 transition">
+                                ➕ Agregar a Cotización
+                            </button>
+                        </div>
+
+                        <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2">
+                            <div class="text-[11px] font-bold text-slate-400">Ítems en Cotización:</div>
+                            <div id="listaItemsCotizacion" class="space-y-1.5 max-h-40 overflow-y-auto text-xs">
+                                <div class="text-slate-500 italic text-center py-2">Sin productos agregados</div>
+                            </div>
+                            <div class="flex justify-between items-center border-t border-slate-800 pt-2 text-sm font-black">
+                                <span>Total Cotizado:</span>
+                                <span id="totalCotizacionActual" class="text-emerald-400">Q0.00</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 pt-1">
+                            <button type="button" onclick="guardarCotizacionFirestore()" class="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-2.5 rounded-xl text-xs shadow transition">
+                                💾 Guardar
+                            </button>
+                            <button type="button" onclick="imprimirCotizacionBorrador()" class="bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold py-2.5 rounded-xl text-xs shadow transition">
+                                🖨️ Imprimir
+                            </button>
+                        </div>
+                    </section>
+
+                    <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-2 space-y-4">
+                        <div class="flex flex-col sm:flex-row justify-between items-center border-b border-slate-800 pb-3 gap-2">
+                            <h2 class="text-sm font-bold text-slate-200">📋 Cotizaciones Registradas</h2>
+                            <input type="text" id="buscarCotizacion" oninput="renderizarTablaCotizaciones()" placeholder="Buscar cliente o producto..." class="bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 w-full sm:w-64 focus:outline-none focus:border-cyan-500">
+                        </div>
+
+                        <div class="overflow-x-auto max-h-[520px] overflow-y-auto border border-slate-800/80 rounded-xl">
+                            <table class="w-full text-left border-collapse text-xs">
+                                <thead>
+                                    <tr class="bg-slate-950 text-slate-400 border-b border-slate-800 sticky top-0 z-10 shadow">
+                                        <th class="p-3 bg-slate-950">Fecha / Cliente</th>
+                                        <th class="p-3 bg-slate-950">Detalle Productos</th>
+                                        <th class="p-3 bg-slate-950">Total</th>
+                                        <th class="p-3 bg-slate-950 text-center">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablaCotizaciones" class="divide-y divide-slate-800/60"></tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
             <!-- VISTA: CIERRE DE CAJA DIARIO Y GASTOS OPERATIVOS -->
             <div id="vistaTiendaCaja" class="hidden space-y-6">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -623,6 +770,11 @@
             </div>
 
         </main>
+
+        <!-- Pie de página visible en todos los módulos y pestañas -->
+        <footer class="w-full bg-slate-900/90 border-t border-slate-800 py-3 px-4 text-center text-xs font-mono text-slate-400">
+            Propiedad de OSMOTEC, Los Amates • 2026 • NIT: 53050290 • Tel. 45011153
+        </footer>
     </div>
 
     <!-- ================= SCRIPT DE CONFIGURACIÓN Y LÓGICA ================= -->
@@ -648,6 +800,9 @@
         let carritoVenta = [];
         let todasLasVentasGlobal = [];
         let todosLosGastosGlobal = [];
+        let todosLosClientesGlobal = [];
+        let todasLasCotizacionesGlobal = [];
+        let itemsCotizacionActual = [];
         let eqSeleccionadoGarantia = null;
         let filtroEstadoOrdenActual = 'Todos';
 
@@ -672,7 +827,9 @@
         // ================= CONTROL DE MÓDULOS PRINCIPALES =================
         function abrirModulo(modulo) {
             document.getElementById('vistaSelector').classList.add('hidden');
-            document.getElementById('contenedorApp').classList.remove('hidden');
+            const app = document.getElementById('contenedorApp');
+            app.classList.remove('hidden');
+            app.classList.add('flex');
 
             const navTaller = document.getElementById('navTaller');
             const navTienda = document.getElementById('navTienda');
@@ -681,18 +838,20 @@
             if (modulo === 'taller') {
                 navTaller.classList.remove('hidden');
                 navTienda.classList.add('hidden');
-                tituloHeader.innerHTML = "🛠️ TALLER OSMOTEC";
+                tituloHeader.innerHTML = "🛠️ TALLER OSMOTEC, Los Amates";
                 cambiarPestanaTaller('ordenes');
             } else if (modulo === 'tienda') {
                 navTaller.classList.add('hidden');
                 navTienda.classList.remove('hidden');
-                tituloHeader.innerHTML = "🛒 TIENDA OSMOTEC";
+                tituloHeader.innerHTML = "🛒 TIENDA OSMOTEC, Los Amates";
                 cambiarPestanaTienda('inventario');
             }
         }
 
         function volverAlSelector() {
-            document.getElementById('contenedorApp').classList.add('hidden');
+            const app = document.getElementById('contenedorApp');
+            app.classList.add('hidden');
+            app.classList.remove('flex');
             document.getElementById('vistaSelector').classList.remove('hidden');
         }
 
@@ -708,6 +867,8 @@
 
             document.getElementById('vistaTiendaInventario').classList.add('hidden');
             document.getElementById('vistaTiendaVentas').classList.add('hidden');
+            document.getElementById('vistaTiendaClientes').classList.add('hidden');
+            document.getElementById('vistaTiendaCotizaciones').classList.add('hidden');
             document.getElementById('vistaTiendaCaja').classList.add('hidden');
             document.getElementById('vistaTiendaReportes').classList.add('hidden');
 
@@ -746,6 +907,9 @@
             document.getElementById('vistaTiendaInventario').classList.remove('grid');
             document.getElementById('vistaTiendaVentas').classList.add('hidden');
             document.getElementById('vistaTiendaVentas').classList.remove('grid');
+            document.getElementById('vistaTiendaClientes').classList.add('hidden');
+            document.getElementById('vistaTiendaClientes').classList.remove('grid');
+            document.getElementById('vistaTiendaCotizaciones').classList.add('hidden');
             document.getElementById('vistaTiendaCaja').classList.add('hidden');
             document.getElementById('vistaTiendaReportes').classList.add('hidden');
 
@@ -759,6 +923,8 @@
 
             document.getElementById('btnTabInventario').className = estiloInactivo;
             document.getElementById('btnTabVentas').className = estiloInactivo;
+            document.getElementById('btnTabClientes').className = estiloInactivo;
+            document.getElementById('btnTabCotizaciones').className = estiloInactivo;
             document.getElementById('btnTabCaja').className = estiloInactivo;
             document.getElementById('btnTabReportes').className = estiloInactivo;
 
@@ -771,6 +937,17 @@
                 document.getElementById('vistaTiendaVentas').classList.add('grid');
                 document.getElementById('btnTabVentas').className = estiloActivo;
                 renderizarCatalogoPOS(todosLosProductosGlobal);
+            } else if (vista === 'clientes') {
+                document.getElementById('vistaTiendaClientes').classList.remove('hidden');
+                document.getElementById('vistaTiendaClientes').classList.add('grid');
+                document.getElementById('btnTabClientes').className = estiloActivo;
+                renderizarClientesTienda();
+            } else if (vista === 'cotizaciones') {
+                document.getElementById('vistaTiendaCotizaciones').classList.remove('hidden');
+                document.getElementById('btnTabCotizaciones').className = estiloActivo;
+                poblarSelectsCotizacion();
+                renderizarItemsCotizacion();
+                renderizarTablaCotizaciones();
             } else if (vista === 'caja') {
                 document.getElementById('vistaTiendaCaja').classList.remove('hidden');
                 document.getElementById('btnTabCaja').className = estiloActivo;
@@ -786,7 +963,7 @@
             if (confirm('¿Desea salir de la consola?')) {
                 window.close();
                 setTimeout(() => {
-                    document.body.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: #020617; color: #38bdf8; font-family: monospace;"><h1>[ 🔒 CONSOLA CERRADA ]</h1></div>`;
+                    document.body.innerHTML = `<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; background: #020617; color: #38bdf8; font-family: monospace; gap: 16px;"><h1>[ 🔒 CONSOLA CERRADA ]</h1><span style="font-size: 12px; color: #94a3b8;">Propiedad de OSMOTEC, Los Amates • 2026 • NIT: 53050290</span></div>`;
                 }, 200);
             }
         }
@@ -1016,7 +1193,7 @@
 
             ordenes.forEach(o => {
                 const waClean = String(o.whatsapp || '').replace(/\D/g, '');
-                let mensajeWspFinal = `Hola *${o.cliente}*, le saludamos de *OSMOTEC Taller*.\n\nInformación sobre su equipo (*#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}*):\n\n🛠️ *Reporte Final:* ${o.reporteFinal || 'En proceso'}\n💰 *Total a Cobrar:* Q. ${o.costoReparacion || '0.00'}\n📌 *Estado:* ${o.estado}\n\n¡Gracias por su preferencia!`;
+                let mensajeWspFinal = `Hola *${o.cliente}*, le saludamos de *OSMOTEC, Los Amates* (Tel. 45011153).\n\nInformación sobre su equipo (*#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}*):\n\n🛠️ *Reporte Final:* ${o.reporteFinal || 'En proceso'}\n💰 *Total a Cobrar:* Q. ${o.costoReparacion || '0.00'}\n📌 *Estado:* ${o.estado}\n\n¡Gracias por su preferencia!`;
 
                 tablaDiag.innerHTML += `
                     <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
@@ -1028,7 +1205,7 @@
                         </td>
                         <td class="p-3 text-center space-y-1">
                             <button onclick="guardarDiagnostico('${o.id}')" class="w-full bg-cyan-600 hover:bg-cyan-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">💾 Guardar</button>
-                            <a href="https://wa.me/502${waClean}?text=${encodeURIComponent(`Hola *${o.cliente}*, sobre su equipo *#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}* en OSMOTEC Taller:\nDiagnóstico inicial: ${o.diagnosticoInicial || 'En revisión'}`)}" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">📱 WSP Diagnóstico</a>
+                            <a href="https://wa.me/502${waClean}?text=${encodeURIComponent(`Hola *${o.cliente}*, sobre su equipo *#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}* en OSMOTEC, Los Amates:\nDiagnóstico inicial: ${o.diagnosticoInicial || 'En revisión'}`)}" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">📱 WSP Diagnóstico</a>
                             <button onclick="eliminarDiagnostico('${o.id}')" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Limpiar</button>
                         </td>
                     </tr>
@@ -1152,6 +1329,7 @@
             snapshot.forEach((doc) => todosLosProductosGlobal.push({ id: doc.id, ...doc.data() }));
             renderizarInventario(todosLosProductosGlobal);
             renderizarCatalogoPOS(todosLosProductosGlobal);
+            poblarSelectsCotizacion();
         });
 
         function renderizarInventario(productos) {
@@ -1184,11 +1362,11 @@
 
                 if (stock === 0) {
                     stockBadge = `<span class="bg-red-950/60 text-red-400 border border-red-900 px-2 py-0.5 rounded-full font-bold text-[11px]">❌ Agotado</span>`;
-                    let msgWsp = `⚠️ *ALERTA DE STOCK - OSMOTEC*\n\nEl producto *${p.nombre}* se encuentra *AGOTADO* (0 unidades). Se requiere reabastecimiento urgente.`;
+                    let msgWsp = `⚠️ *ALERTA DE STOCK - OSMOTEC, Los Amates*\n\nEl producto *${p.nombre}* se encuentra *AGOTADO* (0 unidades). Se requiere reabastecimiento urgente.`;
                     botonWhatsAppAlerta = `<a href="https://wa.me/?text=${encodeURIComponent(msgWsp)}" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-1 px-2 rounded-lg text-[10px] shadow mt-1">📱 Alerta WSP</a>`;
                 } else if (stock <= 2) {
                     stockBadge = `<span class="bg-amber-950/60 text-amber-400 border border-amber-900 px-2 py-0.5 rounded-full font-bold text-[11px]">⚠️ ${stock} unids (Bajo)</span>`;
-                    let msgWsp = `⚠️ *ALERTA DE STOCK - OSMOTEC*\n\nEl producto *${p.nombre}* tiene stock bajo (${stock} unidades).`;
+                    let msgWsp = `⚠️ *ALERTA DE STOCK - OSMOTEC, Los Amates*\n\nEl producto *${p.nombre}* tiene stock bajo (${stock} unidades).`;
                     botonWhatsAppAlerta = `<a href="https://wa.me/?text=${encodeURIComponent(msgWsp)}" target="_blank" class="block w-full text-center bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold py-1 px-2 rounded-lg text-[10px] shadow mt-1">📱 Alerta WSP</a>`;
                 } else {
                     stockBadge = `<span class="bg-emerald-950/60 text-emerald-400 border border-emerald-900 px-2 py-0.5 rounded-full font-bold text-[11px]">${stock} unids</span>`;
@@ -1402,9 +1580,9 @@
                 <body>
                     <div style="display: flex; justify-content: space-between; border-bottom: 3px solid #2563eb; padding-bottom: 20px; margin-bottom: 25px;">
                         <div>
-                            <h1 style="margin: 0; color: #1d4ed8; font-size: 26px; font-weight: 900;">🛒 OSMOTEC TIENDA</h1>
-                            <p style="margin: 4px 0; font-size: 13px; color: #64748b;">Los Amates, Izabal • Servicios Tecnológicos</p>
-                            <p style="margin: 4px 0; font-size: 13px; color: #64748b;">WhatsApp: 4501 1153</p>
+                            <h1 style="margin: 0; color: #1d4ed8; font-size: 26px; font-weight: 900;">🛒 OSMOTEC, Los Amates</h1>
+                            <p style="margin: 4px 0; font-size: 12px; color: #64748b;">Segundo nivel del Mercado frente al gimnasio municipal</p>
+                            <p style="margin: 4px 0; font-size: 12px; color: #64748b;">Los Amates, Izabal • Tel. 45011153 • NIT: 53050290</p>
                         </div>
                         <div style="text-align: right;">
                             <h2 style="margin: 0; color: #0f172a; font-size: 22px;">COMPROBANTE DE VENTA</h2>
@@ -1431,6 +1609,9 @@
                             <div style="display: flex; justify-content: space-between; border-top: 1px solid #cbd5e1; padding-top: 8px;"><span style="font-weight: bold;">Su Vuelto:</span><span style="font-weight: bold; color: #2563eb;">Q${vuelto >= 0 ? vuelto.toFixed(2) : "0.00"}</span></div>
                         </div>
                     </div>
+                    <div style="text-align: center; font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+                        Propiedad de OSMOTEC, Los Amates • 2026 • NIT: 53050290 • Tel. 45011153
+                    </div>
                     <div class="no-print">
                         <button onclick="window.print()" style="background: #2563eb; color: white; border: none; padding: 12px 24px; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 14px;">🖨️ Imprimir / Guardar</button>
                     </div>
@@ -1438,6 +1619,413 @@
                 </html>
             `);
             ventanaFactura.document.close();
+        }
+
+        // ================= TIENDA: CLIENTES =================
+        const clienteTiendaForm = document.getElementById('clienteTiendaForm');
+        clienteTiendaForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const editId = document.getElementById('editClienteId').value;
+            const datosCliente = {
+                nombre: document.getElementById('nombreClienteTienda').value.trim(),
+                telefono: document.getElementById('telefonoClienteTienda').value.trim(),
+                nit: document.getElementById('nitClienteTienda').value.trim() || 'CF',
+                notas: document.getElementById('notasClienteTienda').value.trim() || ''
+            };
+
+            if (editId) {
+                await db.collection('clientes_tienda').doc(editId).update(datosCliente);
+                alert('¡Cliente actualizado!');
+                cancelarEdicionCliente();
+            } else {
+                datosCliente.fechaRegistro = new Date().toLocaleDateString();
+                await db.collection('clientes_tienda').add(datosCliente);
+                alert('¡Cliente guardado!');
+                clienteTiendaForm.reset();
+            }
+        });
+
+        function prepararEdicionCliente(id, nombre, telefono, nit, notas) {
+            document.getElementById('editClienteId').value = id;
+            document.getElementById('nombreClienteTienda').value = nombre;
+            document.getElementById('telefonoClienteTienda').value = telefono;
+            document.getElementById('nitClienteTienda').value = nit;
+            document.getElementById('notasClienteTienda').value = notas;
+
+            document.getElementById('tituloFormCliente').textContent = "✏️ Editar Cliente";
+            document.getElementById('btnGuardarCliente').textContent = "Actualizar Cliente";
+            document.getElementById('btnCancelarEdicionCliente').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function cancelarEdicionCliente() {
+            clienteTiendaForm.reset();
+            document.getElementById('editClienteId').value = '';
+            document.getElementById('tituloFormCliente').textContent = "👤 Nuevo Cliente";
+            document.getElementById('btnGuardarCliente').textContent = "Guardar Cliente";
+            document.getElementById('btnCancelarEdicionCliente').classList.add('hidden');
+        }
+
+        db.collection('clientes_tienda').orderBy('nombre').onSnapshot((snapshot) => {
+            todosLosClientesGlobal = [];
+            snapshot.forEach((doc) => {
+                todosLosClientesGlobal.push({ id: doc.id, ...doc.data() });
+            });
+            document.getElementById('totalClientesBadge').textContent = todosLosClientesGlobal.length;
+            renderizarClientesTienda();
+            poblarSelectsCotizacion();
+        });
+
+        function renderizarClientesTienda() {
+            const tabla = document.getElementById('tablaClientesTienda');
+            if (!tabla) return;
+            const txt = (document.getElementById('buscarClienteTienda')?.value || '').toLowerCase();
+            const filtrados = todosLosClientesGlobal.filter(c =>
+                (c.nombre || '').toLowerCase().includes(txt) ||
+                (c.telefono || '').toLowerCase().includes(txt) ||
+                (c.nit || '').toLowerCase().includes(txt)
+            );
+
+            tabla.innerHTML = '';
+            if (filtrados.length === 0) {
+                tabla.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-500">Sin clientes registrados.</td></tr>`;
+                return;
+            }
+
+            filtrados.forEach(c => {
+                const waClean = String(c.telefono || '').replace(/\D/g, '');
+                const argEdit = `'${c.id}', '${escapeJsArg(c.nombre)}', '${escapeJsArg(c.telefono)}', '${escapeJsArg(c.nit || 'CF')}', '${escapeJsArg(c.notas || '')}'`;
+
+                tabla.innerHTML += `
+                    <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
+                        <td class="p-3 font-bold text-slate-200">👤 ${escapeHtml(c.nombre)}</td>
+                        <td class="p-3 text-slate-300">
+                            <a href="https://wa.me/502${waClean}" target="_blank" class="text-emerald-400 font-bold hover:underline">📱 ${escapeHtml(c.telefono)}</a><br>
+                            <span class="text-[10px] text-slate-400">NIT: ${escapeHtml(c.nit || 'CF')}</span>
+                        </td>
+                        <td class="p-3 text-slate-400">${escapeHtml(c.notas || '—')}</td>
+                        <td class="p-3 text-center space-y-1">
+                            <button onclick="prepararEdicionCliente(${argEdit})" class="w-full bg-slate-800 text-cyan-400 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-slate-700">✏️ Editar</button>
+                            <button onclick="if(confirm('¿Eliminar este cliente?')) db.collection('clientes_tienda').doc('${c.id}').delete()" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Eliminar</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // ================= TIENDA: COTIZACIONES =================
+        function poblarSelectsCotizacion() {
+            const selProd = document.getElementById('selectProductoCotizacion');
+            const selCli = document.getElementById('selectClienteCotizacion');
+            if (selProd) {
+                const prevProd = selProd.value;
+                selProd.innerHTML = '<option value="">-- Seleccione producto --</option>';
+                todosLosProductosGlobal.forEach(p => {
+                    selProd.innerHTML += `<option value="${p.id}">${escapeHtml(p.nombre)} (Q${Number(p.precio || 0).toFixed(2)})</option>`;
+                });
+                if (prevProd) selProd.value = prevProd;
+            }
+            if (selCli) {
+                const prevCli = selCli.value;
+                selCli.innerHTML = '<option value="">-- Cliente general / manual --</option>';
+                todosLosClientesGlobal.forEach(c => {
+                    selCli.innerHTML += `<option value="${c.id}">${escapeHtml(c.nombre)} (${escapeHtml(c.telefono)})</option>`;
+                });
+                if (prevCli) selCli.value = prevCli;
+            }
+        }
+
+        function autocompletarClienteCotizacion() {
+            const id = document.getElementById('selectClienteCotizacion').value;
+            const cli = todosLosClientesGlobal.find(c => c.id === id);
+            if (cli) {
+                document.getElementById('cotClienteNombre').value = cli.nombre || '';
+                document.getElementById('cotClienteWhatsapp').value = cli.telefono || '';
+            }
+        }
+
+        function agregarItemCotizacion() {
+            const prodId = document.getElementById('selectProductoCotizacion').value;
+            const cant = parseInt(document.getElementById('cantProductoCotizacion').value, 10) || 1;
+            const prod = todosLosProductosGlobal.find(p => p.id === prodId);
+            if (!prod) {
+                alert('Seleccione un producto para cotizar.');
+                return;
+            }
+            const existe = itemsCotizacionActual.find(i => i.id === prod.id);
+            if (existe) {
+                existe.cantidad += cant;
+            } else {
+                itemsCotizacionActual.push({
+                    id: prod.id,
+                    nombre: prod.nombre,
+                    precio: Number(prod.precio || 0),
+                    cantidad: cant
+                });
+            }
+            document.getElementById('cantProductoCotizacion').value = 1;
+            renderizarItemsCotizacion();
+        }
+
+        function quitarItemCotizacion(index) {
+            itemsCotizacionActual.splice(index, 1);
+            renderizarItemsCotizacion();
+        }
+
+        function renderizarItemsCotizacion() {
+            const cont = document.getElementById('listaItemsCotizacion');
+            const totalEl = document.getElementById('totalCotizacionActual');
+            if (!cont || !totalEl) return;
+
+            if (itemsCotizacionActual.length === 0) {
+                cont.innerHTML = `<div class="text-slate-500 italic text-center py-2">Sin productos agregados</div>`;
+                totalEl.textContent = "Q0.00";
+                return;
+            }
+
+            let total = 0;
+            cont.innerHTML = itemsCotizacionActual.map((item, idx) => {
+                const sub = item.precio * item.cantidad;
+                total += sub;
+                return `
+                    <div class="flex justify-between items-center bg-slate-900/70 px-2 py-1.5 rounded-lg">
+                        <span class="text-slate-200 truncate pr-2"><b>${item.cantidad}x</b> ${escapeHtml(item.nombre)}</span>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <span class="text-emerald-400 font-bold">Q${sub.toFixed(2)}</span>
+                            <button type="button" onclick="quitarItemCotizacion(${idx})" class="text-red-400 font-bold">✕</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            totalEl.textContent = `Q${total.toFixed(2)}`;
+        }
+
+        async function guardarCotizacionFirestore() {
+            if (itemsCotizacionActual.length === 0) {
+                alert('Agregue al menos un producto a la cotización.');
+                return;
+            }
+            const cliente = document.getElementById('cotClienteNombre').value.trim() || 'Cliente General';
+            const whatsapp = document.getElementById('cotClienteWhatsapp').value.trim() || '';
+            const total = itemsCotizacionActual.reduce((acc, i) => acc + (i.precio * i.cantidad), 0);
+            const fechaActual = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+            await db.collection('cotizaciones_tienda').add({
+                cliente,
+                whatsapp,
+                productos: [...itemsCotizacionActual],
+                total,
+                fecha: fechaActual,
+                rawDate: new Date().toISOString()
+            });
+
+            alert('¡Cotización guardada con éxito!');
+            itemsCotizacionActual = [];
+            document.getElementById('cotClienteNombre').value = '';
+            document.getElementById('cotClienteWhatsapp').value = '';
+            document.getElementById('selectClienteCotizacion').value = '';
+            renderizarItemsCotizacion();
+        }
+
+        db.collection('cotizaciones_tienda').orderBy('rawDate', 'desc').onSnapshot((snapshot) => {
+            todasLasCotizacionesGlobal = [];
+            snapshot.forEach((doc) => {
+                todasLasCotizacionesGlobal.push({ id: doc.id, ...doc.data() });
+            });
+            renderizarTablaCotizaciones();
+        });
+
+        function renderizarTablaCotizaciones() {
+            const tabla = document.getElementById('tablaCotizaciones');
+            if (!tabla) return;
+            const txt = (document.getElementById('buscarCotizacion')?.value || '').toLowerCase();
+            const filtradas = todasLasCotizacionesGlobal.filter(c =>
+                (c.cliente || '').toLowerCase().includes(txt) ||
+                (Array.isArray(c.productos) && c.productos.some(p => (p.nombre || '').toLowerCase().includes(txt)))
+            );
+
+            tabla.innerHTML = '';
+            if (filtradas.length === 0) {
+                tabla.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-500">Sin cotizaciones registradas.</td></tr>`;
+                return;
+            }
+
+            filtradas.forEach(c => {
+                const prods = Array.isArray(c.productos) ? c.productos : [];
+                const detalleHtml = prods.map(p => `<b>${p.cantidad}x</b> ${escapeHtml(p.nombre)} (Q${Number(p.precio || 0).toFixed(2)})`).join('<br>');
+                const detalleTexto = prods.map(p => `• ${p.cantidad}x ${p.nombre} - Q${(Number(p.precio || 0) * p.cantidad).toFixed(2)}`).join('\n');
+                const msgWsp = `📄 *COTIZACIÓN - OSMOTEC, Los Amates*\nTel. 45011153 • NIT: 53050290\nCliente: *${c.cliente}*\nFecha: ${c.fecha}\n\n${detalleTexto}\n\n💰 *Total:* Q${Number(c.total || 0).toFixed(2)}\nPropiedad de OSMOTEC, Los Amates • 2026`;
+                const waNum = String(c.whatsapp || '').replace(/\D/g, '');
+                const waUrl = waNum ? `https://wa.me/502${waNum}?text=${encodeURIComponent(msgWsp)}` : `https://wa.me/?text=${encodeURIComponent(msgWsp)}`;
+
+                tabla.innerHTML += `
+                    <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
+                        <td class="p-3">
+                            <div class="font-bold text-cyan-400">${escapeHtml(c.cliente)}</div>
+                            <div class="text-[10px] text-slate-400">${escapeHtml(c.fecha)}</div>
+                            ${c.whatsapp ? `<div class="text-[10px] text-emerald-400">📱 ${escapeHtml(c.whatsapp)}</div>` : ''}
+                        </td>
+                        <td class="p-3 text-slate-200 leading-relaxed">${detalleHtml}</td>
+                        <td class="p-3 font-black text-emerald-400">Q${Number(c.total || 0).toFixed(2)}</td>
+                        <td class="p-3 text-center space-y-1">
+                            <button onclick="imprimirCotizacionPorId('${c.id}')" class="w-full bg-cyan-600 hover:bg-cyan-500 text-slate-950 text-[11px] px-2 py-1 rounded-lg font-bold">🖨️ Imprimir</button>
+                            <a href="${waUrl}" target="_blank" class="block w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 text-[11px] px-2 py-1 rounded-lg font-bold">📱 WSP</a>
+                            <button onclick="if(confirm('¿Eliminar cotización?')) db.collection('cotizaciones_tienda').doc('${c.id}').delete()" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Eliminar</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function imprimirCotizacionBorrador() {
+            if (itemsCotizacionActual.length === 0) {
+                alert('Agregue productos antes de imprimir.');
+                return;
+            }
+            const cliente = document.getElementById('cotClienteNombre').value.trim() || 'Cliente General';
+            const total = itemsCotizacionActual.reduce((acc, i) => acc + (i.precio * i.cantidad), 0);
+            const fechaActual = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            abrirVentanaCotizacion(cliente, fechaActual, itemsCotizacionActual, total);
+        }
+
+        function imprimirCotizacionPorId(id) {
+            const cot = todasLasCotizacionesGlobal.find(c => c.id === id);
+            if (!cot) return;
+            abrirVentanaCotizacion(cot.cliente, cot.fecha, cot.productos || [], cot.total || 0);
+        }
+
+        function abrirVentanaCotizacion(cliente, fecha, productos, total) {
+            const filas = productos.map((item, idx) => {
+                const sub = Number(item.precio || 0) * Number(item.cantidad || 1);
+                return `
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 8px; text-align: center;">${idx + 1}</td>
+                        <td style="padding: 8px;">${escapeHtml(item.nombre)}</td>
+                        <td style="padding: 8px; text-align: center;">${item.cantidad}</td>
+                        <td style="padding: 8px; text-align: right;">Q${Number(item.precio || 0).toFixed(2)}</td>
+                        <td style="padding: 8px; text-align: right; font-weight: bold;">Q${sub.toFixed(2)}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            const win = window.open('', '_blank', 'width=850,height=750');
+            win.document.write(`
+                <!DOCTYPE html>
+                <html lang="es">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Cotización OSMOTEC</title>
+                    <style>
+                        @page {
+                            size: 21.5cm 27.9cm;
+                            margin: 1.5cm;
+                        }
+                        * {
+                            box-sizing: border-box;
+                        }
+                        html, body {
+                            margin: 0;
+                            padding: 0;
+                            background: #f1f5f9;
+                            font-family: Arial, sans-serif;
+                            color: #1e293b;
+                        }
+                        .page-wrapper {
+                            width: 100%;
+                            min-height: 100vh;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            padding: 16px;
+                        }
+                        .hoja-cotizacion {
+                            width: 18.5cm;
+                            min-height: 24.9cm;
+                            margin: 0 auto;
+                            background: #ffffff;
+                            padding: 28px 32px;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                            box-shadow: 0 4px 18px rgba(15, 23, 42, 0.12);
+                        }
+                        .no-print {
+                            text-align: center;
+                            margin-top: 18px;
+                        }
+                        @media print {
+                            html, body {
+                                background: #ffffff;
+                                width: 21.5cm;
+                                height: 27.9cm;
+                            }
+                            .page-wrapper {
+                                min-height: auto;
+                                padding: 0;
+                                display: block;
+                            }
+                            .hoja-cotizacion {
+                                width: 18.5cm;
+                                min-height: 24.9cm;
+                                margin: 0 auto;
+                                padding: 12px 16px;
+                                box-shadow: none;
+                            }
+                            .no-print {
+                                display: none;
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="page-wrapper">
+                        <div class="hoja-cotizacion">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid #0284c7; padding-bottom: 16px; margin-bottom: 22px;">
+                                    <div>
+                                        <h1 style="margin: 0; color: #0369a1; font-size: 24px; font-weight: 900;">OSMOTEC, Los Amates</h1>
+                                        <p style="margin: 3px 0; font-size: 11px; color: #475569;">Segundo nivel del Mercado frente al gimnasio municipal</p>
+                                        <p style="margin: 3px 0; font-size: 11px; color: #64748b;">Los Amates, Izabal • Tel. 45011153 • NIT: 53050290</p>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <h2 style="margin: 0; font-size: 20px; color: #0f172a;">COTIZACIÓN</h2>
+                                        <p style="margin: 4px 0; font-size: 12px;">Cliente: <b>${escapeHtml(cliente)}</b></p>
+                                        <p style="margin: 4px 0; font-size: 12px; color: #64748b;">Fecha: ${escapeHtml(fecha)}</p>
+                                    </div>
+                                </div>
+
+                                <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+                                    <thead>
+                                        <tr style="background: #0f172a; color: white;">
+                                            <th style="padding: 8px; width: 8%;">No.</th>
+                                            <th style="padding: 8px; text-align: left;">Producto</th>
+                                            <th style="padding: 8px; width: 12%;">Cant.</th>
+                                            <th style="padding: 8px; text-align: right; width: 18%;">Precio Unit.</th>
+                                            <th style="padding: 8px; text-align: right; width: 18%;">Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>${filas}</tbody>
+                                </table>
+
+                                <div style="text-align: right; font-size: 18px; font-weight: bold; color: #0369a1; margin-top: 12px;">
+                                    Total Estimado: Q${Number(total || 0).toFixed(2)}
+                                </div>
+                            </div>
+
+                            <div style="text-align: center; font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+                                Propiedad de OSMOTEC, Los Amates • 2026 • NIT: 53050290 • Tel. 45011153
+                            </div>
+                        </div>
+
+                        <div class="no-print">
+                            <button onclick="window.print()" style="background: #0284c7; color: white; border: none; padding: 10px 22px; font-weight: bold; border-radius: 8px; cursor: pointer;">🖨️ Imprimir Cotización (21.5 × 27.9 cm)</button>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `);
+            win.document.close();
         }
 
         // ================= CIERRE DE CAJA DIARIO Y GASTOS OPERATIVOS =================
@@ -1581,8 +2169,9 @@
                 </head>
                 <body>
                     <div class="box">
-                        <h2 style="margin:0; text-align:center; color:#0369a1;">OSMOTEC - CIERRE DE CAJA DIARIO</h2>
-                        <p style="text-align:center; font-size:11px; color:#475569;">Los Amates, Izabal • Fecha: ${escapeHtml(hoyStr)} ${escapeHtml(horaStr)}</p>
+                        <h2 style="margin:0; text-align:center; color:#0369a1;">OSMOTEC, Los Amates - CIERRE DE CAJA</h2>
+                        <p style="text-align:center; font-size:10px; color:#475569;">Segundo nivel del Mercado frente al gimnasio municipal • NIT: 53050290</p>
+                        <p style="text-align:center; font-size:11px; color:#475569;">Tel. 45011153 • Fecha: ${escapeHtml(hoyStr)} ${escapeHtml(horaStr)}</p>
                         <hr>
                         <div class="row-summary"><span>Fondo Inicial de Caja:</span><b>Q. ${fondo.toFixed(2)}</b></div>
                         <div class="row-summary"><span>(+) Total Ventas del Día:</span><b style="color:#16a34a;">Q. ${ventasHoyTotalCache.toFixed(2)}</b></div>
@@ -1601,7 +2190,7 @@
                             </thead>
                             <tbody>${filasGastos}</tbody>
                         </table>
-                        <p style="text-align:center; font-size:10px; color:#64748b; margin-top:25px;">Firma Responsable: ___________________________</p>
+                        <p style="text-align:center; font-size:10px; color:#64748b; margin-top:20px;">Propiedad de OSMOTEC, Los Amates • 2026</p>
                     </div>
                     <div class="no-print" style="text-align:center; margin-top:20px;">
                         <button onclick="window.print()" style="background:#0284c7; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer;">🖨️ Imprimir Comprobante</button>
@@ -1676,7 +2265,7 @@
                 return;
             }
 
-            let mensaje = `🚨 *REPORTE DE PRODUCTOS AGOTADOS - OSMOTEC*\n\n`;
+            let mensaje = `🚨 *REPORTE DE PRODUCTOS AGOTADOS - OSMOTEC, Los Amates*\n\n`;
             productosAgotados.forEach((p, index) => {
                 mensaje += `${index + 1}. *${p.nombre}* (Agotado)\n`;
             });
@@ -1796,7 +2385,7 @@
                         .ticket { width: 100%; max-width: 320px; margin: 0 auto; padding: 20px; border: 2px solid #0284c7; border-radius: 12px; box-sizing: border-box; }
                         .header { text-align: center; border-bottom: 2px dashed #0284c7; padding-bottom: 12px; margin-bottom: 15px; }
                         .header h1 { margin: 0; color: #0369a1; font-size: 18px; font-weight: 900; }
-                        .header p { margin: 3px 0; font-size: 11px; color: #64748b; }
+                        .header p { margin: 3px 0; font-size: 10px; color: #64748b; }
                         .content { font-size: 12px; line-height: 1.6; }
                         .content p { margin: 6px 0; }
                         .footer { text-align: center; margin-top: 20px; border-top: 1px dashed #cbd5e1; padding-top: 10px; font-size: 10px; color: #64748b; }
@@ -1806,9 +2395,10 @@
                 <body>
                     <div class="ticket">
                         <div class="header">
-                            <h1>OSMOTEC TALLER</h1>
-                            <p style="font-size: 14px; font-weight: bold; color: #0369a1; margin-top: 5px;">ORDEN DE TALLER #${escapeHtml(numeroOrden)}</p>
-                            <p>Los Amates, Izabal • WhatsApp: 4501 1153</p>
+                            <h1>OSMOTEC, Los Amates</h1>
+                            <p style="font-size: 13px; font-weight: bold; color: #0369a1; margin-top: 5px;">ORDEN DE TALLER #${escapeHtml(numeroOrden)}</p>
+                            <p>Segundo nivel del Mercado frente al gimnasio municipal</p>
+                            <p>Los Amates, Izabal • Tel. 45011153 • NIT: 53050290</p>
                         </div>
                         <div class="content">
                             <p><b>Fecha:</b> ${escapeHtml(fecha)}</p>
@@ -1818,7 +2408,7 @@
                             <p><b>Falla/Reporte:</b> ${escapeHtml(falla)}</p>
                             <p><b>Accesorios:</b> ${escapeHtml(accesorios)}</p>
                         </div>
-                        <div class="footer">Comprobante Oficial OSMOTEC</div>
+                        <div class="footer">Propiedad de OSMOTEC, Los Amates • 2026</div>
                     </div>
                     <div class="no-print" style="text-align: center; margin-top: 20px;">
                         <button onclick="window.print()" style="background: #0284c7; color: white; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; font-family: monospace;">🖨️ Imprimir / Guardar</button>
