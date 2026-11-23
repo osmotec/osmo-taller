@@ -1937,6 +1937,7 @@
                         .hoja-cotizacion {
                             width: 18.5cm;
                             min-height: 24.9cm;
+                            height: 24.9cm;
                             margin: 0 auto;
                             background: #ffffff;
                             padding: 28px 32px;
@@ -1944,6 +1945,10 @@
                             flex-direction: column;
                             justify-content: space-between;
                             box-shadow: 0 4px 18px rgba(15, 23, 42, 0.12);
+                        }
+                        .cot-superior {
+                            display: flex;
+                            flex-direction: column;
                         }
                         .cot-header {
                             display: flex;
@@ -1963,17 +1968,25 @@
                             margin-top: 6px;
                             text-align: left;
                         }
+                        .cot-pie-firma {
+                            margin-top: auto;
+                            padding-top: 48px;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                        }
                         .cot-firma-bloque {
-                            margin-top: 42px;
-                            margin-bottom: 18px;
+                            margin-top: 24px;
+                            margin-bottom: 28px;
                             display: flex;
                             justify-content: center;
+                            width: 100%;
                         }
                         .cot-firma-box {
-                            width: 260px;
+                            width: 280px;
                             text-align: center;
                             border-top: 1px solid #334155;
-                            padding-top: 6px;
+                            padding-top: 8px;
                             font-size: 12px;
                             font-weight: bold;
                             color: #0f172a;
@@ -1996,6 +2009,7 @@
                             .hoja-cotizacion {
                                 width: 18.5cm;
                                 min-height: 24.9cm;
+                                height: 24.9cm;
                                 margin: 0 auto;
                                 padding: 12px 16px;
                                 box-shadow: none;
@@ -2009,7 +2023,7 @@
                 <body>
                     <div class="page-wrapper">
                         <div class="hoja-cotizacion">
-                            <div>
+                            <div class="cot-superior">
                                 <div class="cot-header">
                                     <img src="osmo.jpg" alt="Osmo" style="width: 56px; height: 56px; border-radius: 14px; object-fit: cover; border: 2px solid #0284c7;" onerror="this.style.display='none'">
                                     <div>
@@ -2028,7 +2042,7 @@
                                     </div>
                                 </div>
 
-                                <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+                                <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px;">
                                     <thead>
                                         <tr style="background: #0f172a; color: white;">
                                             <th style="padding: 8px; width: 8%;">No.</th>
@@ -2041,17 +2055,19 @@
                                     <tbody>${filas}</tbody>
                                 </table>
 
-                                <div style="text-align: right; font-size: 18px; font-weight: bold; color: #0369a1; margin-top: 12px;">
+                                <div style="text-align: right; font-size: 18px; font-weight: bold; color: #0369a1; margin-top: 8px;">
                                     Total Estimado: Q${Number(total || 0).toFixed(2)}
-                                </div>
-
-                                <div class="cot-firma-bloque">
-                                    <div class="cot-firma-box">Juan Carlos Garcia Morales</div>
                                 </div>
                             </div>
 
-                            <div style="text-align: center; font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 12px;">
-                                "Propiedad de OSMOTEC, Los Amates" 2026
+                            <div class="cot-pie-firma">
+                                <div class="cot-firma-bloque">
+                                    <div class="cot-firma-box">Juan Carlos Garcia Morales</div>
+                                </div>
+
+                                <div style="width: 100%; text-align: center; font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+                                    "Propiedad de OSMOTEC, Los Amates" 2026
+                                </div>
                             </div>
                         </div>
 
