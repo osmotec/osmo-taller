@@ -423,6 +423,31 @@
 
                 <section class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-emerald-500/30 space-y-4 h-fit">
                     <h2 class="text-sm font-mono font-black text-center text-emerald-400 tracking-wider uppercase">🧾 Ticket de Venta Actual</h2>
+
+                    <!-- Asignación de Cliente por Venta -->
+                    <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2.5 font-mono">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[11px] font-bold text-cyan-400 uppercase">👤 Cliente de la Venta</span>
+                            <button type="button" onclick="limpiarClienteVenta()" class="text-[10px] text-slate-400 hover:text-cyan-300 underline">Consumidor Final</button>
+                        </div>
+
+                        <select id="selectClienteVenta" onchange="autocompletarClienteVenta()" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
+                            <option value="">-- Consumidor Final / Cliente manual --</option>
+                        </select>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                            <input type="text" id="ventaClienteNombre" placeholder="Nombre cliente" class="sm:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
+                            <input type="text" id="ventaClienteNit" placeholder="NIT / CF" class="bg-slate-900 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
+                        </div>
+
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <input type="text" id="ventaClienteTelefono" placeholder="WhatsApp / Teléfono (opcional)" class="flex-grow bg-slate-900 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
+                            <label class="flex items-center gap-1.5 text-[11px] text-slate-300 cursor-pointer select-none">
+                                <input type="checkbox" id="guardarClienteEnDirectorio" class="rounded accent-emerald-500">
+                                <span>Guardar cliente</span>
+                            </label>
+                        </div>
+                    </div>
                     
                     <div class="bg-slate-950 rounded-xl border border-slate-800 overflow-hidden shadow-inner">
                         <div class="bg-slate-900 text-slate-300 text-xs font-mono font-bold grid grid-cols-12 p-2.5 border-b border-slate-800">
@@ -755,7 +780,7 @@
                         <table class="w-full text-left border-collapse text-sm font-mono">
                             <thead>
                                 <tr class="bg-slate-950 text-xs uppercase text-slate-400 border-b border-slate-800 sticky top-0 z-10 shadow">
-                                    <th class="p-3 bg-slate-950">Fecha / Hora</th>
+                                    <th class="p-3 bg-slate-950">Fecha / Cliente</th>
                                     <th class="p-3 bg-slate-950">Productos Detalle</th>
                                     <th class="p-3 bg-slate-950">Venta Total</th>
                                     <th class="p-3 bg-slate-950">Ganancia Neta</th>
@@ -936,6 +961,7 @@
                 document.getElementById('vistaTiendaVentas').classList.remove('hidden');
                 document.getElementById('vistaTiendaVentas').classList.add('grid');
                 document.getElementById('btnTabVentas').className = estiloActivo;
+                poblarSelectClienteVenta();
                 renderizarCatalogoPOS(todosLosProductosGlobal);
             } else if (vista === 'clientes') {
                 document.getElementById('vistaTiendaClientes').classList.remove('hidden');
@@ -1396,6 +1422,39 @@
         }
 
         // ================= TIENDA: POS & VENTAS =================
+        function poblarSelectClienteVenta() {
+            const selCli = document.getElementById('selectClienteVenta');
+            if (!selCli) return;
+            const prevCli = selCli.value;
+            selCli.innerHTML = '<option value="">-- Consumidor Final / Cliente manual --</option>';
+            todosLosClientesGlobal.forEach(c => {
+                selCli.innerHTML += `<option value="${c.id}">${escapeHtml(c.nombre)} (${escapeHtml(c.telefono || 'S/T')} • ${escapeHtml(c.nit || 'CF')})</option>`;
+            });
+            if (prevCli) selCli.value = prevCli;
+        }
+
+        function autocompletarClienteVenta() {
+            const id = document.getElementById('selectClienteVenta')?.value;
+            const cli = todosLosClientesGlobal.find(c => c.id === id);
+            if (cli) {
+                document.getElementById('ventaClienteNombre').value = cli.nombre || '';
+                document.getElementById('ventaClienteTelefono').value = cli.telefono || '';
+                document.getElementById('ventaClienteNit').value = cli.nit || 'CF';
+                const chk = document.getElementById('guardarClienteEnDirectorio');
+                if (chk) chk.checked = false;
+            }
+        }
+
+        function limpiarClienteVenta() {
+            const sel = document.getElementById('selectClienteVenta');
+            if (sel) sel.value = '';
+            document.getElementById('ventaClienteNombre').value = '';
+            document.getElementById('ventaClienteTelefono').value = '';
+            document.getElementById('ventaClienteNit').value = '';
+            const chk = document.getElementById('guardarClienteEnDirectorio');
+            if (chk) chk.checked = false;
+        }
+
         function renderizarCatalogoPOS(productos) {
             const catalogo = document.getElementById('listaProductosPOS');
             catalogo.innerHTML = '';
@@ -1512,6 +1571,27 @@
                 if (!confirm('El efectivo recibido es menor al total. ¿Continuar?')) return;
             }
 
+            const clienteNombre = (document.getElementById('ventaClienteNombre')?.value || '').trim() || 'Consumidor Final';
+            const clienteTelefono = (document.getElementById('ventaClienteTelefono')?.value || '').trim();
+            const clienteNit = (document.getElementById('ventaClienteNit')?.value || '').trim() || 'CF';
+            const debeGuardarCliente = Boolean(document.getElementById('guardarClienteEnDirectorio')?.checked);
+
+            if (debeGuardarCliente && clienteNombre !== 'Consumidor Final') {
+                const yaExiste = todosLosClientesGlobal.some(c =>
+                    (c.nombre || '').toLowerCase() === clienteNombre.toLowerCase() &&
+                    (clienteTelefono ? (c.telefono || '') === clienteTelefono : true)
+                );
+                if (!yaExiste) {
+                    await db.collection('clientes_tienda').add({
+                        nombre: clienteNombre,
+                        telefono: clienteTelefono || 'Sin teléfono',
+                        nit: clienteNit,
+                        notas: 'Agregado desde venta POS',
+                        fechaRegistro: new Date().toLocaleDateString()
+                    });
+                }
+            }
+
             const snapshotCarrito = [...carritoVenta];
 
             for (let item of snapshotCarrito) {
@@ -1530,26 +1610,37 @@
 
             let fechaActual = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
+            const datosClienteVenta = {
+                clienteNombre,
+                clienteTelefono,
+                clienteNit
+            };
+
             await db.collection('ventas_tienda').add({
                 productos: snapshotCarrito,
                 total: totalVenta,
                 gananciaTotal: totalGanancia,
+                ...datosClienteVenta,
                 fecha: fechaActual,
                 rawDate: new Date().toISOString()
             });
 
-            generarFacturaCartaPDF(snapshotCarrito, fechaActual, efectivo, totalVenta);
+            generarFacturaCartaPDF(snapshotCarrito, fechaActual, efectivo, totalVenta, datosClienteVenta);
 
             alert('¡Venta cobrada con éxito!');
             carritoVenta = [];
             document.getElementById('efectivoRecibido').value = '';
+            limpiarClienteVenta();
             actualizarCarritoUI();
             renderizarCatalogoPOS(todosLosProductosGlobal);
         }
 
-        function generarFacturaCartaPDF(itemsFactura, fecha, efectivo, total) {
+        function generarFacturaCartaPDF(itemsFactura, fecha, efectivo, total, clienteInfo = {}) {
             let vuelto = efectivo - total;
             let filasProductos = '';
+            const cliNombre = clienteInfo.clienteNombre || 'Consumidor Final';
+            const cliNit = clienteInfo.clienteNit || 'CF';
+            const cliTel = clienteInfo.clienteTelefono || '';
             
             itemsFactura.forEach((item, idx) => {
                 let sub = item.precio * item.cantidad;
@@ -1578,7 +1669,7 @@
                     </style>
                 </head>
                 <body>
-                    <div style="display: flex; justify-content: space-between; border-bottom: 3px solid #2563eb; padding-bottom: 20px; margin-bottom: 25px;">
+                    <div style="display: flex; justify-content: space-between; border-bottom: 3px solid #2563eb; padding-bottom: 20px; margin-bottom: 20px;">
                         <div>
                             <h1 style="margin: 0; color: #1d4ed8; font-size: 26px; font-weight: 900;">🛒 OSMOTEC TIENDA</h1>
                             <p style="margin: 4px 0; font-size: 12px; color: #64748b;">Los Amates, Izabal • WhatsApp: 4501 1153</p>
@@ -1588,6 +1679,11 @@
                             <p style="margin: 4px 0; font-size: 13px; font-weight: bold; color: #2563eb;">No. FACTURA: #${Math.floor(100000 + Math.random() * 900000)}</p>
                             <p style="margin: 4px 0; font-size: 13px; color: #64748b;">Fecha: ${escapeHtml(fecha)}</p>
                         </div>
+                    </div>
+                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px; margin-bottom: 20px; font-size: 13px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px;">
+                        <div><b>Cliente:</b> ${escapeHtml(cliNombre)}</div>
+                        <div><b>NIT:</b> ${escapeHtml(cliNit)}</div>
+                        ${cliTel ? `<div><b>Tel / WA:</b> ${escapeHtml(cliTel)}</div>` : ''}
                     </div>
                     <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 13px;">
                         <thead>
@@ -1670,6 +1766,7 @@
             document.getElementById('totalClientesBadge').textContent = todosLosClientesGlobal.length;
             renderizarClientesTienda();
             poblarSelectsCotizacion();
+            poblarSelectClienteVenta();
         });
 
         function renderizarClientesTienda() {
@@ -2429,10 +2526,11 @@
                 }).join('<br>');
 
                 let gananciaVenta = v.gananciaTotal !== undefined ? v.gananciaTotal : prods.reduce((acc, p) => acc + ((p.precio - (p.costo || 0)) * p.cantidad), 0);
+                const cliTexto = v.clienteNombre ? `<div class="text-cyan-400 font-bold mt-0.5">👤 ${escapeHtml(v.clienteNombre)} (${escapeHtml(v.clienteNit || 'CF')})</div>` : '';
 
                 tabla.innerHTML += `
                     <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40 text-xs">
-                        <td class="p-3 text-slate-400">${escapeHtml(v.fecha)}</td>
+                        <td class="p-3 text-slate-400">${escapeHtml(v.fecha)}${cliTexto}</td>
                         <td class="p-3 font-medium text-slate-200 leading-relaxed">${detalleStr}</td>
                         <td class="p-3 font-bold text-emerald-400">Q. ${(v.total || 0).toFixed(2)}</td>
                         <td class="p-3 font-bold text-cyan-400">Q. ${gananciaVenta.toFixed(2)}</td>
@@ -2459,7 +2557,10 @@
                 if (filtro === 'dia') return v.fecha && v.fecha.includes(hoyStr);
                 if (filtro === 'mes') return v.rawDate && v.rawDate.startsWith(mesActualStr);
                 return true;
-            }).filter(v => Array.isArray(v.productos) && v.productos.some(p => (p.nombre || '').toLowerCase().includes(txt)));
+            }).filter(v =>
+                (Array.isArray(v.productos) && v.productos.some(p => (p.nombre || '').toLowerCase().includes(txt))) ||
+                (v.clienteNombre || '').toLowerCase().includes(txt)
+            );
 
             renderizarReporteVentas(ventasFiltradas);
         });
