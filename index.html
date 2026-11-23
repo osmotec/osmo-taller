@@ -521,7 +521,10 @@
             <div id="vistaTiendaCotizaciones" class="hidden space-y-6 font-mono">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-1 space-y-3 h-fit">
-                        <h2 class="text-sm font-bold text-cyan-400 border-b border-slate-800 pb-2">📝 Nueva Cotización</h2>
+                        <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                            <h2 class="text-sm font-bold text-cyan-400">📝 Nueva Cotización</h2>
+                            <span class="text-[10px] bg-cyan-950 border border-cyan-800 text-cyan-300 px-2 py-0.5 rounded-md font-bold">Próx. No. <span id="badgeProximoCorrelativoCot">1</span></span>
+                        </div>
 
                         <div>
                             <label class="block text-xs text-slate-400 mb-1">Cliente Guardado (Opcional)</label>
@@ -801,6 +804,7 @@
         let itemsCotizacionActual = [];
         let eqSeleccionadoGarantia = null;
         let filtroEstadoOrdenActual = 'Todos';
+        let proximoCorrelativoCotizacion = 1;
 
         function escapeHtml(str) {
             if (str === null || str === undefined) return '';
@@ -1597,15 +1601,12 @@
                         </thead>
                         <tbody>${filasProductos}</tbody>
                     </table>
-                    <div style="display: flex; justify-content: flex-end; margin-bottom: 40px;">
+                    <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
                         <div style="width: 300px; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 14px;">
                             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>Total a Pagar:</span><span style="font-weight: bold; font-size: 16px; color: #16a34a;">Q${total.toFixed(2)}</span></div>
                             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>Efectivo Recibido:</span><span>Q${efectivo.toFixed(2)}</span></div>
                             <div style="display: flex; justify-content: space-between; border-top: 1px solid #cbd5e1; padding-top: 8px;"><span style="font-weight: bold;">Su Vuelto:</span><span style="font-weight: bold; color: #2563eb;">Q${vuelto >= 0 ? vuelto.toFixed(2) : "0.00"}</span></div>
                         </div>
-                    </div>
-                    <div style="text-align: center; font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 12px;">
-                        "Propiedad de OSMOTEC, Los Amates" 2026
                     </div>
                     <div class="no-print">
                         <button onclick="window.print()" style="background: #2563eb; color: white; border: none; padding: 12px 24px; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 14px;">🖨️ Imprimir / Guardar</button>
@@ -1708,7 +1709,38 @@
             });
         }
 
-        // ================= TIENDA: COTIZACIONES =================
+        // ================= TIENDA: COTIZACIONES Y CORRELATIVO DE IMPRESIÓN =================
+        db.collection('config_tienda').doc('correlativo_cotizacion').onSnapshot((doc) => {
+            if (doc.exists && typeof doc.data().siguiente === 'number' && doc.data().siguiente >= 1) {
+                proximoCorrelativoCotizacion = doc.data().siguiente;
+            } else {
+                proximoCorrelativoCotizacion = 1;
+            }
+            const badge = document.getElementById('badgeProximoCorrelativoCot');
+            if (badge) badge.textContent = proximoCorrelativoCotizacion;
+        });
+
+        async function obtenerYAvanzarCorrelativoCotizacion() {
+            const ref = db.collection('config_tienda').doc('correlativo_cotizacion');
+            try {
+                const numeroAsignado = await db.runTransaction(async (transaction) => {
+                    const snap = await transaction.get(ref);
+                    let actual = 1;
+                    if (snap.exists && typeof snap.data().siguiente === 'number' && snap.data().siguiente >= 1) {
+                        actual = snap.data().siguiente;
+                    }
+                    transaction.set(ref, { siguiente: actual + 1 }, { merge: true });
+                    return actual;
+                });
+                return numeroAsignado;
+            } catch (e) {
+                console.error('Error al actualizar correlativo de cotización:', e);
+                const fallback = proximoCorrelativoCotizacion || 1;
+                proximoCorrelativoCotizacion = fallback + 1;
+                return fallback;
+            }
+        }
+
         function poblarSelectsCotizacion() {
             const selProd = document.getElementById('selectProductoCotizacion');
             const selCli = document.getElementById('selectClienteCotizacion');
@@ -1872,7 +1904,7 @@
             });
         }
 
-        function imprimirCotizacionBorrador() {
+        async function imprimirCotizacionBorrador() {
             if (itemsCotizacionActual.length === 0) {
                 alert('Agregue productos antes de imprimir.');
                 return;
@@ -1880,16 +1912,19 @@
             const cliente = document.getElementById('cotClienteNombre').value.trim() || 'Cliente General';
             const total = itemsCotizacionActual.reduce((acc, i) => acc + (i.precio * i.cantidad), 0);
             const fechaActual = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            abrirVentanaCotizacion(cliente, fechaActual, itemsCotizacionActual, total);
+            const correlativo = await obtenerYAvanzarCorrelativoCotizacion();
+            abrirVentanaCotizacion(cliente, fechaActual, itemsCotizacionActual, total, correlativo);
         }
 
-        function imprimirCotizacionPorId(id) {
+        async function imprimirCotizacionPorId(id) {
             const cot = todasLasCotizacionesGlobal.find(c => c.id === id);
             if (!cot) return;
-            abrirVentanaCotizacion(cot.cliente, cot.fecha, cot.productos || [], cot.total || 0);
+            const correlativo = await obtenerYAvanzarCorrelativoCotizacion();
+            abrirVentanaCotizacion(cot.cliente, cot.fecha, cot.productos || [], cot.total || 0, correlativo);
         }
 
-        function abrirVentanaCotizacion(cliente, fecha, productos, total) {
+        function abrirVentanaCotizacion(cliente, fecha, productos, total, correlativo) {
+            const numeroFormateado = String(correlativo || 1).padStart(4, '0');
             const filas = productos.map((item, idx) => {
                 const sub = Number(item.precio || 0) * Number(item.cantidad || 1);
                 return `
@@ -1909,7 +1944,7 @@
                 <html lang="es">
                 <head>
                     <meta charset="UTF-8">
-                    <title>Cotización OSMOTEC</title>
+                    <title>Cotización No. ${numeroFormateado} - OSMOTEC</title>
                     <style>
                         @page {
                             size: 21.5cm 27.9cm;
@@ -2038,6 +2073,7 @@
                                         </div>
                                         <div style="text-align: right;">
                                             <h2 style="margin: 0; font-size: 20px; color: #0f172a;">COTIZACIÓN</h2>
+                                            <p style="margin: 3px 0 0 0; font-size: 13px; font-weight: bold; color: #0369a1;">No. ${numeroFormateado}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -2063,10 +2099,6 @@
                             <div class="cot-pie-firma">
                                 <div class="cot-firma-bloque">
                                     <div class="cot-firma-box">Juan Carlos Garcia Morales</div>
-                                </div>
-
-                                <div style="width: 100%; text-align: center; font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 12px;">
-                                    "Propiedad de OSMOTEC, Los Amates" 2026
                                 </div>
                             </div>
                         </div>
