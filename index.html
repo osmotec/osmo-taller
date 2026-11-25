@@ -439,7 +439,7 @@
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            <input type="text" id="ventaClienteTelefono" placeholder="WhatsApp / Teléfono (opcional)" class="bg-slate-900 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
+                            <input type="text" id="ventaClienteTelefono" placeholder="Teléfono (opcional)" class="bg-slate-900 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
                             <input type="text" id="ventaClienteDireccion" placeholder="Dirección cliente (opcional)" class="bg-slate-900 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
                         </div>
 
@@ -499,7 +499,7 @@
                         </div>
                         <div class="grid grid-cols-2 gap-2">
                             <div>
-                                <label class="block text-xs text-slate-400 mb-1">Teléfono / WhatsApp</label>
+                                <label class="block text-xs text-slate-400 mb-1">Teléfono</label>
                                 <input type="text" id="telefonoClienteTienda" required placeholder="Ej: 45011153" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200 focus:outline-none focus:border-emerald-500">
                             </div>
                             <div>
@@ -537,7 +537,7 @@
                             <thead>
                                 <tr class="bg-slate-950 text-slate-400 border-b border-slate-800 sticky top-0 z-10 shadow">
                                     <th class="p-3 bg-slate-950">Cliente</th>
-                                    <th class="p-3 bg-slate-950">WhatsApp / NIT</th>
+                                    <th class="p-3 bg-slate-950">Teléfono / NIT</th>
                                     <th class="p-3 bg-slate-950">Dirección / Notas</th>
                                     <th class="p-3 bg-slate-950 text-center">Acciones</th>
                                 </tr>
@@ -575,7 +575,7 @@
                                 <input type="text" id="cotClienteNit" placeholder="CF o NIT" class="w-full min-w-0 bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
                             </div>
                             <div class="min-w-0">
-                                <label class="block text-xs text-slate-400 mb-1">Teléfono / WhatsApp</label>
+                                <label class="block text-xs text-slate-400 mb-1">Teléfono</label>
                                 <input type="text" id="cotClienteWhatsapp" placeholder="Ej: 45011153" class="w-full min-w-0 bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
                             </div>
                         </div>
@@ -1727,6 +1727,23 @@
                         * { box-sizing: border-box; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
                         body { font-family: Arial, sans-serif; padding: 40px; color: #1e293b; position: relative; }
                         .contenido-factura { position: relative; z-index: 1; }
+                        .comp-cliente-box {
+                            background: #f8fafc;
+                            border: 1px solid #cbd5e1;
+                            border-radius: 8px;
+                            padding: 12px 16px;
+                            margin-bottom: 20px;
+                            font-size: 12px;
+                            line-height: 1.55;
+                            display: grid;
+                            grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+                            column-gap: 48px;
+                            row-gap: 8px;
+                        }
+                        .comp-cliente-dir {
+                            grid-column: 2;
+                            padding-top: 2px;
+                        }
                         .no-print { text-align: center; margin-top: 30px; }
                         @media print { .no-print { display: none; } }
                     </style>
@@ -1738,8 +1755,8 @@
                                 <img src="${srcOsmo}" alt="Osmo" style="width: 4cm; height: 4.5cm; border-radius: 14px; object-fit: cover; border: 2px solid #2563eb; flex-shrink: 0;">
                                 <div>
                                     <h1 style="margin: 0; color: #1d4ed8; font-size: 24px; font-weight: 900;">OSMOTEC, Los Amates</h1>
-                                    <p style="margin: 4px 0; font-size: 11px; color: #475569;">Segundo nivel del Mercado frente al gimnasio municipal</p>
-                                    <p style="margin: 4px 0; font-size: 11px; color: #64748b;">Los Amates, Izabal • Tel. 45011153 • NIT: 53050290</p>
+                                    <p style="margin: 4px 0; font-size: 11px; color: #475569;">Segundo nivel del mercado frente al gimnasio municipal, Los Amates, Izabal</p>
+                                    <p style="margin: 4px 0; font-size: 11px; color: #64748b;">Tel. 45011153 • NIT: 53050290</p>
                                 </div>
                             </div>
                             <div style="text-align: right;">
@@ -1748,12 +1765,11 @@
                                 <p style="margin: 4px 0; font-size: 12px; color: #64748b;">Fecha: ${escapeHtml(fecha)}</p>
                             </div>
                         </div>
-                        <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px 14px; margin-bottom: 20px; font-size: 12px; line-height: 1.5; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 16px;">
+                        <div class="comp-cliente-box">
                             <div><b>Cliente:</b> ${escapeHtml(cliNombre)}</div>
                             <div><b>NIT:</b> ${escapeHtml(cliNit)}</div>
-                            <div><b>Tel / WA:</b> ${escapeHtml(cliTel || '—')}</div>
-                            <div><b>Comprobante:</b> #${noFactura}</div>
-                            <div style="grid-column: 1 / -1;"><b>Dirección:</b> ${escapeHtml(cliDir || '—')}</div>
+                            <div><b>Teléfono:</b> ${escapeHtml(cliTel || '—')}</div>
+                            <div class="comp-cliente-dir"><b>Dirección:</b> ${escapeHtml(cliDir || '—')}</div>
                         </div>
                         <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 13px;">
                             <thead>
@@ -2088,7 +2104,7 @@
                 const lineasCliWsp = [
                     `Cliente: *${c.cliente}*`,
                     c.nit ? `NIT: *${c.nit}*` : '',
-                    c.whatsapp ? `Tel: *${c.whatsapp}*` : '',
+                    c.whatsapp ? `Teléfono: *${c.whatsapp}*` : '',
                     c.direccion ? `Dirección: *${c.direccion}*` : ''
                 ].filter(Boolean).join('\n');
                 const msgWsp = `📄 *COTIZACIÓN - OSMOTEC TIENDA*\n${lineasCliWsp}\nFecha: ${c.fecha}\n\n${detalleTexto}\n\n💰 *Total:* Q${Number(c.total || 0).toFixed(2)}`;
@@ -2246,16 +2262,18 @@
                             background: #f8fafc;
                             border: 1px solid #cbd5e1;
                             border-radius: 8px;
-                            padding: 10px 14px;
+                            padding: 12px 16px;
                             margin-bottom: 18px;
                             font-size: 12px;
-                            line-height: 1.5;
+                            line-height: 1.55;
                             display: grid;
-                            grid-template-columns: repeat(2, minmax(0, 1fr));
-                            gap: 6px 16px;
+                            grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+                            column-gap: 48px;
+                            row-gap: 8px;
                         }
                         .cot-cliente-dir {
-                            grid-column: 1 / -1;
+                            grid-column: 2;
+                            padding-top: 2px;
                         }
                         .cot-pie-firma {
                             margin-top: auto;
@@ -2325,8 +2343,8 @@
                                         <img src="${srcOsmo}" alt="Osmo" style="width: 4cm; height: 4.5cm; border-radius: 14px; object-fit: cover; border: 2px solid #0284c7; flex-shrink: 0;">
                                         <div class="cot-header-texto">
                                             <h1 style="margin: 0; color: #0369a1; font-size: 24px; font-weight: 900;">OSMOTEC, Los Amates</h1>
-                                            <p style="margin: 4px 0; font-size: 11px; color: #475569;">Segundo nivel del mercado frente al gimnasio municipal</p>
-                                            <p style="margin: 4px 0; font-size: 11px; color: #64748b;">Los Amates, Izabal • Tel. 45011153 • NIT: 53050290</p>
+                                            <p style="margin: 4px 0; font-size: 11px; color: #475569;">Segundo nivel del mercado frente al gimnasio municipal, Los Amates, Izabal</p>
+                                            <p style="margin: 4px 0; font-size: 11px; color: #64748b;">Tel. 45011153 • NIT: 53050290</p>
                                         </div>
                                     </div>
                                     <div class="cot-header-der">
@@ -2339,8 +2357,7 @@
                                 <div class="cot-cliente-box">
                                     <div><b>Cliente:</b> ${escapeHtml(nombreCliente)}</div>
                                     <div><b>NIT:</b> ${escapeHtml(nitCliente)}</div>
-                                    <div><b>Teléfono / WA:</b> ${escapeHtml(telCliente || '—')}</div>
-                                    <div><b>Referencia:</b> ${escapeHtml(numeroFormateado)}</div>
+                                    <div><b>Teléfono:</b> ${escapeHtml(telCliente || '—')}</div>
                                     <div class="cot-cliente-dir"><b>Dirección:</b> ${escapeHtml(dirCliente || '—')}</div>
                                 </div>
 
