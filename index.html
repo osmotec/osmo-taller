@@ -18,7 +18,7 @@
         ::-webkit-scrollbar-thumb:hover { background: #334155; }
     </style>
 </head>
-<body class="bg-slate-950 font-sans text-slate-100 selection:bg-cyan-500 selection:text-slate-950 min-h-screen flex flex-col">
+<body class="bg-slate-950 font-sans text-slate-100 selection:bg-cyan-500 selection:text-slate-950 min-h-screen flex flex-col overflow-x-hidden">
 
     <!-- ================= PANTALLA DE SELECCIÓN INICIAL (HOME CONSOLA) ================= -->
     <div id="vistaSelector" class="flex-grow flex flex-col items-center justify-between p-4 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 text-white relative overflow-hidden">
@@ -69,25 +69,25 @@
     </div>
 
     <!-- ================= CONTENEDOR PRINCIPAL DE LA APLICACIÓN ================= -->
-    <div id="contenedorApp" class="hidden min-h-screen flex-col bg-slate-950 flex-grow">
+    <div id="contenedorApp" class="hidden min-h-screen flex-col bg-slate-950 flex-grow min-w-0 overflow-x-hidden">
         
         <!-- Header Estilo Consola -->
         <header class="bg-slate-900/90 backdrop-blur-xl border-b border-slate-800 text-white shadow-lg p-4 sticky top-0 z-50">
             <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-3">
                 
-                <div class="flex items-center gap-3">
-                    <img id="imgHeaderModulo" src="osmo.jpg" alt="Osmo" class="w-10 h-10 rounded-xl object-cover border border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.3)]" onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='https://osmotec.github.io/osmo-taller/osmo.jpg';}else{this.style.display='none';}">
-                    <div>
-                        <h1 class="text-base md:text-lg font-black tracking-tight flex items-center gap-2 font-mono text-cyan-400" id="tituloHeaderModulo">
+                <div class="flex items-center gap-3 min-w-0">
+                    <img id="imgHeaderModulo" src="osmo.jpg" alt="Osmo" class="w-10 h-10 rounded-xl object-cover border border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.3)] shrink-0" onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='https://osmotec.github.io/osmo-taller/osmo.jpg';}else{this.style.display='none';}">
+                    <div class="min-w-0">
+                        <h1 class="text-base md:text-lg font-black tracking-tight flex items-center gap-2 font-mono text-cyan-400 truncate" id="tituloHeaderModulo">
                             🛠️ OSMOTEC CONSOLA
                         </h1>
-                        <span class="text-[10px] text-slate-400 font-mono" id="estadoSync">Los Amates, Izabal • En línea</span>
+                        <span class="text-[10px] text-slate-400 font-mono block truncate" id="estadoSync">Los Amates, Izabal • En línea</span>
                     </div>
                 </div>
                 
-                <div class="flex flex-wrap items-center gap-2">
+                <div class="flex flex-wrap items-center gap-2 min-w-0 max-w-full">
                     <!-- Pestañas de Taller -->
-                    <nav id="navTaller" class="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 shadow-inner flex-wrap">
+                    <nav id="navTaller" class="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 shadow-inner flex-wrap max-w-full">
                         <button onclick="cambiarPestanaTaller('ordenes')" id="btnTabOrdenes" class="px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-cyan-600 text-slate-950 shadow-[0_0_10px_rgba(6,182,212,0.3)]">📋 Órdenes</button>
                         <button onclick="cambiarPestanaTaller('diagnostico')" id="btnTabDiagnostico" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">🔍 Diagnóstico</button>
                         <button onclick="cambiarPestanaTaller('garantia')" id="btnTabGarantia" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">🛡️ Garantías</button>
@@ -95,7 +95,7 @@
                     </nav>
 
                     <!-- Pestañas de Tienda -->
-                    <nav id="navTienda" class="hidden items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 shadow-inner flex-wrap">
+                    <nav id="navTienda" class="hidden items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 shadow-inner flex-wrap max-w-full">
                         <button onclick="cambiarPestanaTienda('inventario')" id="btnTabInventario" class="px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-emerald-600 text-slate-950 shadow-[0_0_10px_rgba(16,185,129,0.3)]">📦 Inventario</button>
                         <button onclick="cambiarPestanaTienda('ventas')" id="btnTabVentas" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">💵 POS / Caja</button>
                         <button onclick="cambiarPestanaTienda('clientes')" id="btnTabClientes" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">👥 Clientes</button>
@@ -104,7 +104,7 @@
                         <button onclick="cambiarPestanaTienda('reportes')" id="btnTabReportes" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">📊 Reportes</button>
                     </nav>
 
-                    <button onclick="volverAlSelector()" class="px-3.5 py-2 rounded-xl text-xs font-mono font-bold transition-all duration-200 flex items-center gap-1.5 bg-slate-950 text-cyan-400 hover:bg-slate-800 shadow-md border border-cyan-900">
+                    <button onclick="volverAlSelector()" class="px-3.5 py-2 rounded-xl text-xs font-mono font-bold transition-all duration-200 flex items-center gap-1.5 bg-slate-950 text-cyan-400 hover:bg-slate-800 shadow-md border border-cyan-900 shrink-0">
                         🏠 Menú Principal
                     </button>
                 </div>
@@ -112,7 +112,7 @@
             </div>
         </header>
 
-        <main class="max-w-7xl mx-auto p-4 md:p-6 flex-grow w-full">
+        <main class="max-w-7xl mx-auto p-4 md:p-6 flex-grow w-full min-w-0 overflow-x-hidden">
             
             <!-- ================= VISTAS DE TALLER ================= -->
             <div id="vistaOrdenes" class="hidden grid-cols-1 lg:grid-cols-3 gap-6">
@@ -504,8 +504,12 @@
                             </div>
                         </div>
                         <div>
+                            <label class="block text-xs text-slate-400 mb-1">Dirección</label>
+                            <input type="text" id="direccionClienteTienda" placeholder="Ej: Barrio El Centro, Los Amates" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200 focus:outline-none focus:border-emerald-500">
+                        </div>
+                        <div>
                             <label class="block text-xs text-slate-400 mb-1">Notas / Preferencias</label>
-                            <textarea id="notasClienteTienda" rows="2" placeholder="Compras frecuentes, dirección..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200 focus:outline-none focus:border-emerald-500"></textarea>
+                            <textarea id="notasClienteTienda" rows="2" placeholder="Compras frecuentes..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200 focus:outline-none focus:border-emerald-500"></textarea>
                         </div>
                         <div class="flex gap-2 pt-2">
                             <button type="submit" id="btnGuardarCliente" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)] transition">
@@ -530,7 +534,7 @@
                                 <tr class="bg-slate-950 text-slate-400 border-b border-slate-800 sticky top-0 z-10 shadow">
                                     <th class="p-3 bg-slate-950">Cliente</th>
                                     <th class="p-3 bg-slate-950">WhatsApp / NIT</th>
-                                    <th class="p-3 bg-slate-950">Notas</th>
+                                    <th class="p-3 bg-slate-950">Dirección / Notas</th>
                                     <th class="p-3 bg-slate-950 text-center">Acciones</th>
                                 </tr>
                             </thead>
@@ -541,45 +545,56 @@
             </div>
 
             <!-- ================= VISTA: COTIZACIONES TIENDA ================= -->
-            <div id="vistaTiendaCotizaciones" class="hidden space-y-6 font-mono">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-1 space-y-3 h-fit">
-                        <div class="flex justify-between items-center border-b border-slate-800 pb-2">
-                            <h2 class="text-sm font-bold text-cyan-400">📝 Nueva Cotización</h2>
-                            <span class="text-[10px] bg-cyan-950 border border-cyan-800 text-cyan-300 px-2 py-0.5 rounded-md font-bold">Próx. No. <span id="badgeProximoCorrelativoCot">1</span></span>
+            <div id="vistaTiendaCotizaciones" class="hidden space-y-6 font-mono w-full max-w-full min-w-0 overflow-x-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full min-w-0">
+                    <section class="bg-slate-900/80 backdrop-blur-xl p-4 sm:p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-1 space-y-3 h-fit min-w-0 w-full">
+                        <div class="flex justify-between items-center gap-2 border-b border-slate-800 pb-2 min-w-0">
+                            <h2 class="text-sm font-bold text-cyan-400 truncate">📝 Nueva Cotización</h2>
+                            <span class="text-[10px] bg-cyan-950 border border-cyan-800 text-cyan-300 px-2 py-0.5 rounded-md font-bold shrink-0">Próx. No. <span id="badgeProximoCorrelativoCot">1</span></span>
                         </div>
 
-                        <div>
+                        <div class="min-w-0">
                             <label class="block text-xs text-slate-400 mb-1">Cliente Guardado (Opcional)</label>
-                            <select id="selectClienteCotizacion" onchange="autocompletarClienteCotizacion()" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200">
+                            <select id="selectClienteCotizacion" onchange="autocompletarClienteCotizacion()" class="w-full min-w-0 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 truncate">
                                 <option value="">-- Cliente general / manual --</option>
                             </select>
                         </div>
 
-                        <div>
+                        <div class="min-w-0">
                             <label class="block text-xs text-slate-400 mb-1">Nombre del Cliente</label>
-                            <input type="text" id="cotClienteNombre" placeholder="Nombre o empresa" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
+                            <input type="text" id="cotClienteNombre" placeholder="Nombre o empresa" class="w-full min-w-0 bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
                         </div>
 
-                        <div>
-                            <label class="block text-xs text-slate-400 mb-1">WhatsApp Cliente (Opcional)</label>
-                            <input type="text" id="cotClienteWhatsapp" placeholder="Ej: 45011153" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 min-w-0">
+                            <div class="min-w-0">
+                                <label class="block text-xs text-slate-400 mb-1">NIT Cliente</label>
+                                <input type="text" id="cotClienteNit" placeholder="CF o NIT" class="w-full min-w-0 bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
+                            </div>
+                            <div class="min-w-0">
+                                <label class="block text-xs text-slate-400 mb-1">Teléfono / WhatsApp</label>
+                                <input type="text" id="cotClienteWhatsapp" placeholder="Ej: 45011153" class="w-full min-w-0 bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
+                            </div>
                         </div>
 
-                        <div>
+                        <div class="min-w-0">
+                            <label class="block text-xs text-slate-400 mb-1">Dirección del Cliente</label>
+                            <input type="text" id="cotClienteDireccion" placeholder="Ej: Calle 15 de Septiembre, Los Amates" class="w-full min-w-0 bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
+                        </div>
+
+                        <div class="min-w-0">
                             <label class="block text-xs text-slate-400 mb-1">Agregar Producto de Inventario</label>
-                            <div class="flex gap-2">
-                                <select id="selectProductoCotizacion" class="flex-grow bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200">
+                            <div class="flex items-center gap-2 w-full min-w-0">
+                                <select id="selectProductoCotizacion" class="flex-1 min-w-0 bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 truncate">
                                     <option value="">-- Seleccione producto --</option>
                                 </select>
-                                <input type="number" id="cantProductoCotizacion" min="1" value="1" class="w-16 bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-center text-cyan-300 font-bold">
+                                <input type="number" id="cantProductoCotizacion" min="1" value="1" class="w-14 shrink-0 bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-center text-cyan-300 font-bold">
                             </div>
                             <button type="button" onclick="agregarItemCotizacion()" class="mt-2 w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold py-2 rounded-xl text-xs border border-cyan-800/50 transition">
                                 ➕ Agregar a Cotización
                             </button>
                         </div>
 
-                        <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2">
+                        <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2 min-w-0">
                             <div class="text-[11px] font-bold text-slate-400">Ítems en Cotización:</div>
                             <div id="listaItemsCotizacion" class="space-y-1.5 max-h-40 overflow-y-auto text-xs">
                                 <div class="text-slate-500 italic text-center py-2">Sin productos agregados</div>
@@ -600,13 +615,13 @@
                         </div>
                     </section>
 
-                    <section class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-2 space-y-4">
-                        <div class="flex flex-col sm:flex-row justify-between items-center border-b border-slate-800 pb-3 gap-2">
-                            <h2 class="text-sm font-bold text-slate-200">📋 Cotizaciones Registradas</h2>
-                            <input type="text" id="buscarCotizacion" oninput="renderizarTablaCotizaciones()" placeholder="Buscar cliente o producto..." class="bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 w-full sm:w-64 focus:outline-none focus:border-cyan-500">
+                    <section class="bg-slate-900/80 backdrop-blur-xl p-4 sm:p-5 rounded-2xl shadow-xl border border-slate-800 lg:col-span-2 space-y-4 min-w-0 w-full">
+                        <div class="flex flex-col sm:flex-row justify-between items-center border-b border-slate-800 pb-3 gap-2 min-w-0">
+                            <h2 class="text-sm font-bold text-slate-200 truncate">📋 Cotizaciones Registradas</h2>
+                            <input type="text" id="buscarCotizacion" oninput="renderizarTablaCotizaciones()" placeholder="Buscar cliente o producto..." class="bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 w-full min-w-0 sm:w-64 focus:outline-none focus:border-cyan-500">
                         </div>
 
-                        <div class="overflow-x-auto max-h-[520px] overflow-y-auto border border-slate-800/80 rounded-xl">
+                        <div class="overflow-x-auto max-h-[520px] overflow-y-auto border border-slate-800/80 rounded-xl w-full min-w-0">
                             <table class="w-full text-left border-collapse text-xs">
                                 <thead>
                                     <tr class="bg-slate-950 text-slate-400 border-b border-slate-800 sticky top-0 z-10 shadow">
@@ -1618,6 +1633,7 @@
                         nombre: clienteNombre,
                         telefono: clienteTelefono || 'Sin teléfono',
                         nit: clienteNit,
+                        direccion: '',
                         notas: 'Agregado desde venta POS',
                         fechaRegistro: new Date().toLocaleDateString()
                     });
@@ -1699,34 +1715,12 @@
                     <style>
                         * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
                         body { font-family: Arial, sans-serif; padding: 40px; color: #1e293b; position: relative; }
-                        .watermark-bg {
-                            position: fixed;
-                            top: 50%;
-                            left: 50%;
-                            transform: translate(-50%, -50%);
-                            width: 10cm;
-                            height: 12cm;
-                            opacity: 0.14;
-                            pointer-events: none;
-                            z-index: 0;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                        }
-                        .watermark-bg img {
-                            width: 100%;
-                            height: 100%;
-                            object-fit: contain;
-                        }
                         .contenido-factura { position: relative; z-index: 1; }
                         .no-print { text-align: center; margin-top: 30px; }
                         @media print { .no-print { display: none; } }
                     </style>
                 </head>
                 <body>
-                    <div class="watermark-bg">
-                        <img src="${srcOsmo}" alt="">
-                    </div>
                     <div class="contenido-factura">
                         <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; border-bottom: 3px solid #2563eb; padding-bottom: 20px; margin-bottom: 20px;">
                             <div style="display: flex; align-items: center; gap: 14px;">
@@ -1790,6 +1784,7 @@
                 nombre: document.getElementById('nombreClienteTienda').value.trim(),
                 telefono: document.getElementById('telefonoClienteTienda').value.trim(),
                 nit: document.getElementById('nitClienteTienda').value.trim() || 'CF',
+                direccion: document.getElementById('direccionClienteTienda')?.value.trim() || '',
                 notas: document.getElementById('notasClienteTienda').value.trim() || ''
             };
 
@@ -1805,11 +1800,13 @@
             }
         });
 
-        function prepararEdicionCliente(id, nombre, telefono, nit, notas) {
+        function prepararEdicionCliente(id, nombre, telefono, nit, direccion, notas) {
             document.getElementById('editClienteId').value = id;
             document.getElementById('nombreClienteTienda').value = nombre;
             document.getElementById('telefonoClienteTienda').value = telefono;
             document.getElementById('nitClienteTienda').value = nit;
+            const dirEl = document.getElementById('direccionClienteTienda');
+            if (dirEl) dirEl.value = direccion || '';
             document.getElementById('notasClienteTienda').value = notas;
 
             document.getElementById('tituloFormCliente').textContent = "✏️ Editar Cliente";
@@ -1844,7 +1841,8 @@
             const filtrados = todosLosClientesGlobal.filter(c =>
                 (c.nombre || '').toLowerCase().includes(txt) ||
                 (c.telefono || '').toLowerCase().includes(txt) ||
-                (c.nit || '').toLowerCase().includes(txt)
+                (c.nit || '').toLowerCase().includes(txt) ||
+                (c.direccion || '').toLowerCase().includes(txt)
             );
 
             tabla.innerHTML = '';
@@ -1855,7 +1853,7 @@
 
             filtrados.forEach(c => {
                 const waClean = String(c.telefono || '').replace(/\D/g, '');
-                const argEdit = `'${c.id}', '${escapeJsArg(c.nombre)}', '${escapeJsArg(c.telefono)}', '${escapeJsArg(c.nit || 'CF')}', '${escapeJsArg(c.notas || '')}'`;
+                const argEdit = `'${c.id}', '${escapeJsArg(c.nombre)}', '${escapeJsArg(c.telefono)}', '${escapeJsArg(c.nit || 'CF')}', '${escapeJsArg(c.direccion || '')}', '${escapeJsArg(c.notas || '')}'`;
 
                 tabla.innerHTML += `
                     <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
@@ -1864,7 +1862,10 @@
                             <a href="https://wa.me/502${waClean}" target="_blank" class="text-emerald-400 font-bold hover:underline">📱 ${escapeHtml(c.telefono)}</a><br>
                             <span class="text-[10px] text-slate-400">NIT: ${escapeHtml(c.nit || 'CF')}</span>
                         </td>
-                        <td class="p-3 text-slate-400">${escapeHtml(c.notas || '—')}</td>
+                        <td class="p-3 text-slate-400">
+                            ${c.direccion ? `<div class="text-slate-200">📍 ${escapeHtml(c.direccion)}</div>` : ''}
+                            <div>${escapeHtml(c.notas || (c.direccion ? '' : '—'))}</div>
+                        </td>
                         <td class="p-3 text-center space-y-1">
                             <button onclick="prepararEdicionCliente(${argEdit})" class="w-full bg-slate-800 text-cyan-400 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-slate-700">✏️ Editar</button>
                             <button onclick="if(confirm('¿Eliminar este cliente?')) db.collection('clientes_tienda').doc('${c.id}').delete()" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Eliminar</button>
@@ -1933,7 +1934,30 @@
             if (cli) {
                 document.getElementById('cotClienteNombre').value = cli.nombre || '';
                 document.getElementById('cotClienteWhatsapp').value = cli.telefono || '';
+                const nitEl = document.getElementById('cotClienteNit');
+                if (nitEl) nitEl.value = cli.nit || 'CF';
+                const dirEl = document.getElementById('cotClienteDireccion');
+                if (dirEl) dirEl.value = cli.direccion || '';
             }
+        }
+
+        function limpiarCamposClienteCotizacion() {
+            document.getElementById('cotClienteNombre').value = '';
+            document.getElementById('cotClienteWhatsapp').value = '';
+            const nitEl = document.getElementById('cotClienteNit');
+            if (nitEl) nitEl.value = '';
+            const dirEl = document.getElementById('cotClienteDireccion');
+            if (dirEl) dirEl.value = '';
+            document.getElementById('selectClienteCotizacion').value = '';
+        }
+
+        function obtenerDatosClienteCotizacionFormulario() {
+            return {
+                cliente: (document.getElementById('cotClienteNombre')?.value || '').trim() || 'Cliente General',
+                nit: (document.getElementById('cotClienteNit')?.value || '').trim() || 'CF',
+                whatsapp: (document.getElementById('cotClienteWhatsapp')?.value || '').trim() || '',
+                direccion: (document.getElementById('cotClienteDireccion')?.value || '').trim() || ''
+            };
         }
 
         function agregarItemCotizacion() {
@@ -1997,14 +2021,15 @@
                 alert('Agregue al menos un producto a la cotización.');
                 return;
             }
-            const cliente = document.getElementById('cotClienteNombre').value.trim() || 'Cliente General';
-            const whatsapp = document.getElementById('cotClienteWhatsapp').value.trim() || '';
+            const datosCli = obtenerDatosClienteCotizacionFormulario();
             const total = itemsCotizacionActual.reduce((acc, i) => acc + (i.precio * i.cantidad), 0);
             const fechaActual = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
             await db.collection('cotizaciones_tienda').add({
-                cliente,
-                whatsapp,
+                cliente: datosCli.cliente,
+                nit: datosCli.nit,
+                whatsapp: datosCli.whatsapp,
+                direccion: datosCli.direccion,
                 productos: [...itemsCotizacionActual],
                 total,
                 fecha: fechaActual,
@@ -2013,9 +2038,7 @@
 
             alert('¡Cotización guardada con éxito!');
             itemsCotizacionActual = [];
-            document.getElementById('cotClienteNombre').value = '';
-            document.getElementById('cotClienteWhatsapp').value = '';
-            document.getElementById('selectClienteCotizacion').value = '';
+            limpiarCamposClienteCotizacion();
             renderizarItemsCotizacion();
         }
 
@@ -2033,6 +2056,8 @@
             const txt = (document.getElementById('buscarCotizacion')?.value || '').toLowerCase();
             const filtradas = todasLasCotizacionesGlobal.filter(c =>
                 (c.cliente || '').toLowerCase().includes(txt) ||
+                (c.nit || '').toLowerCase().includes(txt) ||
+                (c.direccion || '').toLowerCase().includes(txt) ||
                 (Array.isArray(c.productos) && c.productos.some(p => (p.nombre || '').toLowerCase().includes(txt)))
             );
 
@@ -2046,7 +2071,13 @@
                 const prods = Array.isArray(c.productos) ? c.productos : [];
                 const detalleHtml = prods.map(p => `<b>${p.cantidad}x</b> ${escapeHtml(p.nombre)} (Q${Number(p.precio || 0).toFixed(2)})`).join('<br>');
                 const detalleTexto = prods.map(p => `• ${p.cantidad}x ${p.nombre} - Q${(Number(p.precio || 0) * p.cantidad).toFixed(2)}`).join('\n');
-                const msgWsp = `📄 *COTIZACIÓN - OSMOTEC TIENDA*\nCliente: *${c.cliente}*\nFecha: ${c.fecha}\n\n${detalleTexto}\n\n💰 *Total:* Q${Number(c.total || 0).toFixed(2)}`;
+                const lineasCliWsp = [
+                    `Cliente: *${c.cliente}*`,
+                    c.nit ? `NIT: *${c.nit}*` : '',
+                    c.whatsapp ? `Tel: *${c.whatsapp}*` : '',
+                    c.direccion ? `Dirección: *${c.direccion}*` : ''
+                ].filter(Boolean).join('\n');
+                const msgWsp = `📄 *COTIZACIÓN - OSMOTEC TIENDA*\n${lineasCliWsp}\nFecha: ${c.fecha}\n\n${detalleTexto}\n\n💰 *Total:* Q${Number(c.total || 0).toFixed(2)}`;
                 const waNum = String(c.whatsapp || '').replace(/\D/g, '');
                 const waUrl = waNum ? `https://wa.me/502${waNum}?text=${encodeURIComponent(msgWsp)}` : `https://wa.me/?text=${encodeURIComponent(msgWsp)}`;
 
@@ -2055,7 +2086,9 @@
                         <td class="p-3">
                             <div class="font-bold text-cyan-400">${escapeHtml(c.cliente)}</div>
                             <div class="text-[10px] text-slate-400">${escapeHtml(c.fecha)}</div>
+                            ${c.nit ? `<div class="text-[10px] text-slate-300">NIT: ${escapeHtml(c.nit)}</div>` : ''}
                             ${c.whatsapp ? `<div class="text-[10px] text-emerald-400">📱 ${escapeHtml(c.whatsapp)}</div>` : ''}
+                            ${c.direccion ? `<div class="text-[10px] text-slate-400">📍 ${escapeHtml(c.direccion)}</div>` : ''}
                         </td>
                         <td class="p-3 text-slate-200 leading-relaxed">${detalleHtml}</td>
                         <td class="p-3 font-black text-emerald-400">Q${Number(c.total || 0).toFixed(2)}</td>
@@ -2074,21 +2107,34 @@
                 alert('Agregue productos antes de imprimir.');
                 return;
             }
-            const cliente = document.getElementById('cotClienteNombre').value.trim() || 'Cliente General';
+            const datosCli = obtenerDatosClienteCotizacionFormulario();
             const total = itemsCotizacionActual.reduce((acc, i) => acc + (i.precio * i.cantidad), 0);
             const fechaActual = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
             const correlativo = await obtenerYAvanzarCorrelativoCotizacion();
-            abrirVentanaCotizacion(cliente, fechaActual, itemsCotizacionActual, total, correlativo);
+            abrirVentanaCotizacion(datosCli, fechaActual, itemsCotizacionActual, total, correlativo);
         }
 
         async function imprimirCotizacionPorId(id) {
             const cot = todasLasCotizacionesGlobal.find(c => c.id === id);
             if (!cot) return;
             const correlativo = await obtenerYAvanzarCorrelativoCotizacion();
-            abrirVentanaCotizacion(cot.cliente, cot.fecha, cot.productos || [], cot.total || 0, correlativo);
+            abrirVentanaCotizacion({
+                cliente: cot.cliente || 'Cliente General',
+                nit: cot.nit || 'CF',
+                whatsapp: cot.whatsapp || '',
+                direccion: cot.direccion || ''
+            }, cot.fecha, cot.productos || [], cot.total || 0, correlativo);
         }
 
-        function abrirVentanaCotizacion(cliente, fecha, productos, total, correlativo) {
+        function abrirVentanaCotizacion(clienteData, fecha, productos, total, correlativo) {
+            const infoCli = typeof clienteData === 'string'
+                ? { cliente: clienteData, nit: 'CF', whatsapp: '', direccion: '' }
+                : (clienteData || { cliente: 'Cliente General', nit: 'CF', whatsapp: '', direccion: '' });
+            const nombreCliente = infoCli.cliente || 'Cliente General';
+            const nitCliente = infoCli.nit || 'CF';
+            const telCliente = infoCli.whatsapp || '';
+            const dirCliente = infoCli.direccion || '';
+
             const numeroFormateado = String(correlativo || 1).padStart(4, '0');
             const srcOsmo = osmoImagenDataUrl || URL_LOGO_OSMO;
             const filas = productos.map((item, idx) => {
@@ -2151,25 +2197,6 @@
                             position: relative;
                             overflow: hidden;
                         }
-                        .cot-marca-agua {
-                            position: absolute;
-                            top: 50%;
-                            left: 50%;
-                            transform: translate(-50%, -50%);
-                            width: 10cm;
-                            height: 12cm;
-                            opacity: 0.14;
-                            pointer-events: none;
-                            z-index: 0;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                        }
-                        .cot-marca-agua img {
-                            width: 100%;
-                            height: 100%;
-                            object-fit: contain;
-                        }
                         .cot-superior, .cot-pie-firma {
                             position: relative;
                             z-index: 1;
@@ -2184,8 +2211,8 @@
                             align-items: center;
                             gap: 16px;
                             border-bottom: 3px solid #0284c7;
-                            padding-bottom: 16px;
-                            margin-bottom: 22px;
+                            padding-bottom: 14px;
+                            margin-bottom: 14px;
                         }
                         .cot-header-izq {
                             display: flex;
@@ -2200,6 +2227,21 @@
                         }
                         .cot-header-der {
                             text-align: right;
+                        }
+                        .cot-cliente-box {
+                            background: #f8fafc;
+                            border: 1px solid #cbd5e1;
+                            border-radius: 8px;
+                            padding: 10px 14px;
+                            margin-bottom: 18px;
+                            font-size: 12px;
+                            line-height: 1.5;
+                            display: grid;
+                            grid-template-columns: repeat(2, minmax(0, 1fr));
+                            gap: 6px 16px;
+                        }
+                        .cot-cliente-dir {
+                            grid-column: 1 / -1;
                         }
                         .cot-pie-firma {
                             margin-top: auto;
@@ -2254,12 +2296,6 @@
                                 padding: 12px 16px;
                                 box-shadow: none;
                             }
-                            .cot-marca-agua {
-                                position: fixed;
-                                top: 50%;
-                                left: 50%;
-                                transform: translate(-50%, -50%);
-                            }
                             .no-print {
                                 display: none;
                             }
@@ -2269,9 +2305,6 @@
                 <body>
                     <div class="page-wrapper">
                         <div class="hoja-cotizacion">
-                            <div class="cot-marca-agua">
-                                <img src="${srcOsmo}" alt="">
-                            </div>
                             <div class="cot-superior">
                                 <div class="cot-header">
                                     <div class="cot-header-izq">
@@ -2280,7 +2313,6 @@
                                             <h1 style="margin: 0; color: #0369a1; font-size: 24px; font-weight: 900;">OSMOTEC, Los Amates</h1>
                                             <p style="margin: 4px 0; font-size: 11px; color: #475569;">Segundo nivel del Mercado frente al gimnasio municipal</p>
                                             <p style="margin: 4px 0; font-size: 11px; color: #64748b;">Los Amates, Izabal • Tel. 45011153 • NIT: 53050290</p>
-                                            <p style="margin: 6px 0 0 0; font-size: 12px;">Cliente: <b>${escapeHtml(cliente)}</b></p>
                                         </div>
                                     </div>
                                     <div class="cot-header-der">
@@ -2288,6 +2320,14 @@
                                         <p style="margin: 4px 0; font-size: 13px; font-weight: bold; color: #0369a1;">No. ${numeroFormateado}</p>
                                         <p style="margin: 4px 0; font-size: 12px; color: #64748b;">Fecha: ${escapeHtml(fecha)}</p>
                                     </div>
+                                </div>
+
+                                <div class="cot-cliente-box">
+                                    <div><b>Cliente:</b> ${escapeHtml(nombreCliente)}</div>
+                                    <div><b>NIT:</b> ${escapeHtml(nitCliente)}</div>
+                                    <div><b>Teléfono / WA:</b> ${escapeHtml(telCliente || '—')}</div>
+                                    <div><b>Referencia:</b> ${escapeHtml(numeroFormateado)}</div>
+                                    <div class="cot-cliente-dir"><b>Dirección:</b> ${escapeHtml(dirCliente || '—')}</div>
                                 </div>
 
                                 <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px;">
