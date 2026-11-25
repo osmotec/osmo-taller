@@ -438,8 +438,12 @@
                             <input type="text" id="ventaClienteNit" placeholder="NIT / CF" class="bg-slate-900 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
                         </div>
 
-                        <div class="flex flex-wrap items-center justify-between gap-2">
-                            <input type="text" id="ventaClienteTelefono" placeholder="WhatsApp / Teléfono (opcional)" class="flex-grow bg-slate-900 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <input type="text" id="ventaClienteTelefono" placeholder="WhatsApp / Teléfono (opcional)" class="bg-slate-900 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
+                            <input type="text" id="ventaClienteDireccion" placeholder="Dirección cliente (opcional)" class="bg-slate-900 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
+                        </div>
+
+                        <div class="flex items-center justify-end">
                             <label class="flex items-center gap-1.5 text-[11px] text-slate-300 cursor-pointer select-none">
                                 <input type="checkbox" id="guardarClienteEnDirectorio" class="rounded accent-emerald-500">
                                 <span>Guardar cliente</span>
@@ -1487,6 +1491,8 @@
                 document.getElementById('ventaClienteNombre').value = cli.nombre || '';
                 document.getElementById('ventaClienteTelefono').value = cli.telefono || '';
                 document.getElementById('ventaClienteNit').value = cli.nit || 'CF';
+                const dirEl = document.getElementById('ventaClienteDireccion');
+                if (dirEl) dirEl.value = cli.direccion || '';
                 const chk = document.getElementById('guardarClienteEnDirectorio');
                 if (chk) chk.checked = false;
             }
@@ -1498,6 +1504,8 @@
             document.getElementById('ventaClienteNombre').value = '';
             document.getElementById('ventaClienteTelefono').value = '';
             document.getElementById('ventaClienteNit').value = '';
+            const dirEl = document.getElementById('ventaClienteDireccion');
+            if (dirEl) dirEl.value = '';
             const chk = document.getElementById('guardarClienteEnDirectorio');
             if (chk) chk.checked = false;
         }
@@ -1621,6 +1629,7 @@
             const clienteNombre = (document.getElementById('ventaClienteNombre')?.value || '').trim() || 'Consumidor Final';
             const clienteTelefono = (document.getElementById('ventaClienteTelefono')?.value || '').trim();
             const clienteNit = (document.getElementById('ventaClienteNit')?.value || '').trim() || 'CF';
+            const clienteDireccion = (document.getElementById('ventaClienteDireccion')?.value || '').trim();
             const debeGuardarCliente = Boolean(document.getElementById('guardarClienteEnDirectorio')?.checked);
 
             if (debeGuardarCliente && clienteNombre !== 'Consumidor Final') {
@@ -1633,7 +1642,7 @@
                         nombre: clienteNombre,
                         telefono: clienteTelefono || 'Sin teléfono',
                         nit: clienteNit,
-                        direccion: '',
+                        direccion: clienteDireccion,
                         notas: 'Agregado desde venta POS',
                         fechaRegistro: new Date().toLocaleDateString()
                     });
@@ -1661,7 +1670,8 @@
             const datosClienteVenta = {
                 clienteNombre,
                 clienteTelefono,
-                clienteNit
+                clienteNit,
+                clienteDireccion
             };
 
             await db.collection('ventas_tienda').add({
@@ -1689,6 +1699,7 @@
             const cliNombre = clienteInfo.clienteNombre || 'Consumidor Final';
             const cliNit = clienteInfo.clienteNit || 'CF';
             const cliTel = clienteInfo.clienteTelefono || '';
+            const cliDir = clienteInfo.clienteDireccion || '';
             const noFactura = Math.floor(100000 + Math.random() * 900000);
             const srcOsmo = osmoImagenDataUrl || URL_LOGO_OSMO;
             
@@ -1713,7 +1724,7 @@
                     <meta charset="UTF-8">
                     <title>Factura OSMOTEC</title>
                     <style>
-                        * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+                        * { box-sizing: border-box; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
                         body { font-family: Arial, sans-serif; padding: 40px; color: #1e293b; position: relative; }
                         .contenido-factura { position: relative; z-index: 1; }
                         .no-print { text-align: center; margin-top: 30px; }
@@ -1722,12 +1733,13 @@
                 </head>
                 <body>
                     <div class="contenido-factura">
-                        <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; border-bottom: 3px solid #2563eb; padding-bottom: 20px; margin-bottom: 20px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; border-bottom: 3px solid #2563eb; padding-bottom: 16px; margin-bottom: 16px;">
                             <div style="display: flex; align-items: center; gap: 14px;">
                                 <img src="${srcOsmo}" alt="Osmo" style="width: 4cm; height: 4.5cm; border-radius: 14px; object-fit: cover; border: 2px solid #2563eb; flex-shrink: 0;">
                                 <div>
-                                    <h1 style="margin: 0; color: #1d4ed8; font-size: 28px; font-weight: 900;">🛒 OSMOTEC TIENDA</h1>
-                                    <p style="margin: 4px 0; font-size: 12px; color: #64748b;">Los Amates, Izabal • WhatsApp: 4501 1153</p>
+                                    <h1 style="margin: 0; color: #1d4ed8; font-size: 24px; font-weight: 900;">OSMOTEC, Los Amates</h1>
+                                    <p style="margin: 4px 0; font-size: 11px; color: #475569;">Segundo nivel del Mercado frente al gimnasio municipal</p>
+                                    <p style="margin: 4px 0; font-size: 11px; color: #64748b;">Los Amates, Izabal • Tel. 45011153 • NIT: 53050290</p>
                                 </div>
                             </div>
                             <div style="text-align: right;">
@@ -1736,10 +1748,12 @@
                                 <p style="margin: 4px 0; font-size: 12px; color: #64748b;">Fecha: ${escapeHtml(fecha)}</p>
                             </div>
                         </div>
-                        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px; margin-bottom: 20px; font-size: 13px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px;">
+                        <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px 14px; margin-bottom: 20px; font-size: 12px; line-height: 1.5; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 16px;">
                             <div><b>Cliente:</b> ${escapeHtml(cliNombre)}</div>
                             <div><b>NIT:</b> ${escapeHtml(cliNit)}</div>
-                            ${cliTel ? `<div><b>Tel / WA:</b> ${escapeHtml(cliTel)}</div>` : ''}
+                            <div><b>Tel / WA:</b> ${escapeHtml(cliTel || '—')}</div>
+                            <div><b>Comprobante:</b> #${noFactura}</div>
+                            <div style="grid-column: 1 / -1;"><b>Dirección:</b> ${escapeHtml(cliDir || '—')}</div>
                         </div>
                         <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 13px;">
                             <thead>
@@ -2311,7 +2325,7 @@
                                         <img src="${srcOsmo}" alt="Osmo" style="width: 4cm; height: 4.5cm; border-radius: 14px; object-fit: cover; border: 2px solid #0284c7; flex-shrink: 0;">
                                         <div class="cot-header-texto">
                                             <h1 style="margin: 0; color: #0369a1; font-size: 24px; font-weight: 900;">OSMOTEC, Los Amates</h1>
-                                            <p style="margin: 4px 0; font-size: 11px; color: #475569;">Segundo nivel del Mercado frente al gimnasio municipal</p>
+                                            <p style="margin: 4px 0; font-size: 11px; color: #475569;">Segundo nivel del mercado frente al gimnasio municipal</p>
                                             <p style="margin: 4px 0; font-size: 11px; color: #64748b;">Los Amates, Izabal • Tel. 45011153 • NIT: 53050290</p>
                                         </div>
                                     </div>
