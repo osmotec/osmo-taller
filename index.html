@@ -39,7 +39,7 @@
             <p class="text-xs text-slate-300 font-mono">Seleccione el subsistema operativo:</p>
 
             <div class="space-y-3">
-                <button onclick="abrirModulo('taller')" class="w-full bg-gradient-to-r from-blue-700 to-cyan-600 hover:from-blue-600 hover:to-cyan-500 text-white font-bold py-4 px-6 rounded-2xl text-sm shadow-[0_0_15px_rgba(37,99,235,0.4)] transition transform active:scale-95 flex items-center justify-center gap-3 border border-cyan-400/40">
+                <button type="button" onclick="abrirModulo('taller')" class="w-full bg-gradient-to-r from-blue-700 to-cyan-600 hover:from-blue-600 hover:to-cyan-500 text-white font-bold py-4 px-6 rounded-2xl text-sm shadow-[0_0_15px_rgba(37,99,235,0.4)] transition transform active:scale-95 flex items-center justify-center gap-3 border border-cyan-400/40">
                     <span class="text-xl">🛠️</span>
                     <div class="text-left font-mono">
                         <div class="tracking-wide">MÓDULO DE TALLER</div>
@@ -47,7 +47,7 @@
                     </div>
                 </button>
 
-                <button onclick="abrirModulo('tienda')" class="w-full bg-gradient-to-r from-emerald-700 to-teal-600 hover:from-emerald-600 hover:to-teal-500 text-white font-bold py-4 px-6 rounded-2xl text-sm shadow-[0_0_15px_rgba(16,185,129,0.4)] transition transform active:scale-95 flex items-center justify-center gap-3 border border-emerald-400/40">
+                <button type="button" onclick="abrirModulo('tienda')" class="w-full bg-gradient-to-r from-emerald-700 to-teal-600 hover:from-emerald-600 hover:to-teal-500 text-white font-bold py-4 px-6 rounded-2xl text-sm shadow-[0_0_15px_rgba(16,185,129,0.4)] transition transform active:scale-95 flex items-center justify-center gap-3 border border-emerald-400/40">
                     <span class="text-xl">🛒</span>
                     <div class="text-left font-mono">
                         <div class="tracking-wide">MÓDULO TIENDA / POS</div>
@@ -57,7 +57,7 @@
             </div>
 
             <div class="pt-2 border-t border-slate-800">
-                <button onclick="cerrarAplicacion()" class="text-xs text-red-400 hover:text-red-300 font-mono transition">
+                <button type="button" onclick="cerrarAplicacion()" class="text-xs text-red-400 hover:text-red-300 font-mono transition">
                     [ ❌ Cerrar Sistema ]
                 </button>
             </div>
@@ -88,23 +88,23 @@
                 <div class="flex flex-wrap items-center gap-2 min-w-0 max-w-full">
                     <!-- Pestañas de Taller -->
                     <nav id="navTaller" class="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 shadow-inner flex-wrap max-w-full">
-                        <button onclick="cambiarPestanaTaller('ordenes')" id="btnTabOrdenes" class="px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-cyan-600 text-slate-950 shadow-[0_0_10px_rgba(6,182,212,0.3)]">📋 Órdenes</button>
-                        <button onclick="cambiarPestanaTaller('diagnostico')" id="btnTabDiagnostico" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">🔍 Diagnóstico</button>
-                        <button onclick="cambiarPestanaTaller('garantia')" id="btnTabGarantia" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">🛡️ Garantías</button>
-                        <button onclick="cambiarPestanaTaller('tecnicos')" id="btnTabTecnicos" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">👨‍🔧 Técnicos</button>
+                        <button type="button" onclick="cambiarPestanaTaller('ordenes')" id="btnTabOrdenes" class="px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-cyan-600 text-slate-950 shadow-[0_0_10px_rgba(6,182,212,0.3)]">📋 Órdenes</button>
+                        <button type="button" onclick="cambiarPestanaTaller('diagnostico')" id="btnTabDiagnostico" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">🔍 Diagnóstico</button>
+                        <button type="button" onclick="cambiarPestanaTaller('garantia')" id="btnTabGarantia" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">🛡️ Garantías</button>
+                        <button type="button" onclick="cambiarPestanaTaller('tecnicos')" id="btnTabTecnicos" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">👨‍🔧 Técnicos</button>
                     </nav>
 
                     <!-- Pestañas de Tienda -->
                     <nav id="navTienda" class="hidden items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 shadow-inner flex-wrap max-w-full">
-                        <button onclick="cambiarPestanaTienda('inventario')" id="btnTabInventario" class="px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-emerald-600 text-slate-950 shadow-[0_0_10px_rgba(16,185,129,0.3)]">📦 Inventario</button>
-                        <button onclick="cambiarPestanaTienda('ventas')" id="btnTabVentas" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">💵 POS / Caja</button>
-                        <button onclick="cambiarPestanaTienda('clientes')" id="btnTabClientes" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">👥 Clientes</button>
-                        <button onclick="cambiarPestanaTienda('cotizaciones')" id="btnTabCotizaciones" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">📝 Cotizaciones</button>
-                        <button onclick="cambiarPestanaTienda('caja')" id="btnTabCaja" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">💸 Cierre / Gastos</button>
-                        <button onclick="cambiarPestanaTienda('reportes')" id="btnTabReportes" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">📊 Reportes</button>
+                        <button type="button" onclick="cambiarPestanaTienda('inventario')" id="btnTabInventario" class="px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-emerald-600 text-slate-950 shadow-[0_0_10px_rgba(16,185,129,0.3)]">📦 Inventario</button>
+                        <button type="button" onclick="cambiarPestanaTienda('ventas')" id="btnTabVentas" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">💵 POS / Caja</button>
+                        <button type="button" onclick="cambiarPestanaTienda('clientes')" id="btnTabClientes" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">👥 Clientes</button>
+                        <button type="button" onclick="cambiarPestanaTienda('cotizaciones')" id="btnTabCotizaciones" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">📝 Cotizaciones</button>
+                        <button type="button" onclick="cambiarPestanaTienda('caja')" id="btnTabCaja" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">💸 Cierre / Gastos</button>
+                        <button type="button" onclick="cambiarPestanaTienda('reportes')" id="btnTabReportes" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">📊 Reportes</button>
                     </nav>
 
-                    <button onclick="volverAlSelector()" class="px-3.5 py-2 rounded-xl text-xs font-mono font-bold transition-all duration-200 flex items-center gap-1.5 bg-slate-950 text-cyan-400 hover:bg-slate-800 shadow-md border border-cyan-900 shrink-0">
+                    <button type="button" onclick="volverAlSelector()" class="px-3.5 py-2 rounded-xl text-xs font-mono font-bold transition-all duration-200 flex items-center gap-1.5 bg-slate-950 text-cyan-400 hover:bg-slate-800 shadow-md border border-cyan-900 shrink-0">
                         🏠 Menú Principal
                     </button>
                 </div>
@@ -179,19 +179,19 @@
                     </div>
 
                     <div class="flex flex-wrap items-center gap-2 font-mono text-xs pb-1">
-                        <button onclick="cambiarFiltroEstadoOrden('Todos')" id="filtroEst_Todos" class="px-3 py-1.5 rounded-xl font-bold bg-cyan-600 text-slate-950 transition">
+                        <button type="button" onclick="cambiarFiltroEstadoOrden('Todos')" id="filtroEst_Todos" class="px-3 py-1.5 rounded-xl font-bold bg-cyan-600 text-slate-950 transition">
                             Todos (<span id="countEst_Todos">0</span>)
                         </button>
-                        <button onclick="cambiarFiltroEstadoOrden('Pendiente')" id="filtroEst_Pendiente" class="px-3 py-1.5 rounded-xl font-semibold bg-slate-950 text-amber-400 border border-slate-800 hover:border-amber-500/50 transition">
+                        <button type="button" onclick="cambiarFiltroEstadoOrden('Pendiente')" id="filtroEst_Pendiente" class="px-3 py-1.5 rounded-xl font-semibold bg-slate-950 text-amber-400 border border-slate-800 hover:border-amber-500/50 transition">
                             ⏳ Pendiente (<span id="countEst_Pendiente">0</span>)
                         </button>
-                        <button onclick="cambiarFiltroEstadoOrden('Reparado')" id="filtroEst_Reparado" class="px-3 py-1.5 rounded-xl font-semibold bg-slate-950 text-cyan-400 border border-slate-800 hover:border-cyan-500/50 transition">
+                        <button type="button" onclick="cambiarFiltroEstadoOrden('Reparado')" id="filtroEst_Reparado" class="px-3 py-1.5 rounded-xl font-semibold bg-slate-950 text-cyan-400 border border-slate-800 hover:border-cyan-500/50 transition">
                             ✅ Reparado (<span id="countEst_Reparado">0</span>)
                         </button>
-                        <button onclick="cambiarFiltroEstadoOrden('No reparado')" id="filtroEst_No reparado" class="px-3 py-1.5 rounded-xl font-semibold bg-slate-950 text-rose-400 border border-slate-800 hover:border-rose-500/50 transition">
+                        <button type="button" onclick="cambiarFiltroEstadoOrden('No reparado')" id="filtroEst_No reparado" class="px-3 py-1.5 rounded-xl font-semibold bg-slate-950 text-rose-400 border border-slate-800 hover:border-rose-500/50 transition">
                             ❌ No reparado (<span id="countEst_No reparado">0</span>)
                         </button>
-                        <button onclick="cambiarFiltroEstadoOrden('Entregado')" id="filtroEst_Entregado" class="px-3 py-1.5 rounded-xl font-semibold bg-slate-950 text-emerald-400 border border-slate-800 hover:border-emerald-500/50 transition">
+                        <button type="button" onclick="cambiarFiltroEstadoOrden('Entregado')" id="filtroEst_Entregado" class="px-3 py-1.5 rounded-xl font-semibold bg-slate-950 text-emerald-400 border border-slate-800 hover:border-emerald-500/50 transition">
                             📦 Entregado (<span id="countEst_Entregado">0</span>)
                         </button>
                     </div>
@@ -219,7 +219,14 @@
                 <div class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800">
                     <div class="flex flex-col sm:flex-row justify-between items-center mb-4 border-b border-slate-800 pb-3 gap-2">
                         <h2 class="text-sm font-mono font-bold text-cyan-400">🔍 1. Diagnóstico Inicial</h2>
-                        <input type="text" id="buscarDiagnostico" placeholder="Filtrar..." class="bg-slate-950 border border-slate-800 rounded-xl p-2 text-sm text-slate-200 font-mono w-full sm:w-64 focus:outline-none focus:border-cyan-500">
+                        <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto font-mono">
+                            <select id="filtroPeriodoDiagnostico" onchange="renderizarDiagnosticoYReportes(todasLasOrdenesGlobal)" class="bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs font-bold text-cyan-300 focus:outline-none focus:border-cyan-500">
+                                <option value="dia" selected>📅 Solo Hoy</option>
+                                <option value="mes">📆 Este Mes</option>
+                                <option value="todos">📜 Todas</option>
+                            </select>
+                            <input type="text" id="buscarDiagnostico" placeholder="Filtrar..." class="bg-slate-950 border border-slate-800 rounded-xl p-2 text-sm text-slate-200 font-mono w-full sm:w-56 focus:outline-none focus:border-cyan-500">
+                        </div>
                     </div>
                     <div class="overflow-x-auto max-h-[400px] overflow-y-auto">
                         <table class="w-full text-left border-collapse text-sm font-mono">
@@ -239,7 +246,14 @@
                 <div class="bg-slate-900/80 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-slate-800">
                     <div class="flex flex-col sm:flex-row justify-between items-center mb-4 border-b border-slate-800 pb-3 gap-2">
                         <h2 class="text-sm font-mono font-bold text-emerald-400">📌 2. Reporte Final, Costo y Entrega</h2>
-                        <input type="text" id="buscarReporteFinal" placeholder="Filtrar..." class="bg-slate-950 border border-slate-800 rounded-xl p-2 text-sm text-slate-200 font-mono w-full sm:w-64 focus:outline-none focus:border-emerald-500">
+                        <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto font-mono">
+                            <select id="filtroPeriodoReporteFinal" onchange="renderizarDiagnosticoYReportes(todasLasOrdenesGlobal)" class="bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs font-bold text-emerald-300 focus:outline-none focus:border-emerald-500">
+                                <option value="dia" selected>📅 Solo Hoy</option>
+                                <option value="mes">📆 Este Mes</option>
+                                <option value="todos">📜 Todas</option>
+                            </select>
+                            <input type="text" id="buscarReporteFinal" placeholder="Filtrar..." class="bg-slate-950 border border-slate-800 rounded-xl p-2 text-sm text-slate-200 font-mono w-full sm:w-56 focus:outline-none focus:border-emerald-500">
+                        </div>
                     </div>
                     <div class="overflow-x-auto max-h-[400px] overflow-y-auto">
                         <table class="w-full text-left border-collapse text-sm font-mono">
@@ -275,7 +289,7 @@
                             <label class="block text-xs text-cyan-400 mb-1">Días de Garantía (1-15)</label>
                             <input type="number" id="diasGarantia" min="1" max="15" value="15" class="w-full bg-slate-950 border-2 border-cyan-500/50 rounded-xl p-2.5 text-sm font-bold text-cyan-300">
                         </div>
-                        <button onclick="generarQR()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)] transition">
+                        <button type="button" onclick="generarQR()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)] transition">
                             🖨️ Generar y Vista Previa QR
                         </button>
                     </div>
@@ -289,7 +303,7 @@
                         <div id="qrSiguenosBadge" class="text-[6px] font-mono font-black text-cyan-300 tracking-wider uppercase leading-none">¡SÍGUENOS!</div>
                         <div id="qrInfoTexto" class="text-[5.5px] font-mono text-slate-300 font-medium leading-tight text-center w-full">Seleccione un equipo</div>
                     </div>
-                    <button onclick="imprimirEtiquetaQRModal()" class="mt-4 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-mono font-bold px-6 py-2.5 rounded-xl text-xs shadow-md transition">
+                    <button type="button" onclick="imprimirEtiquetaQRModal()" class="mt-4 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-mono font-bold px-6 py-2.5 rounded-xl text-xs shadow-md transition">
                         🖨️ Imprimir en la Esquina Superior Izquierda
                     </button>
                 </section>
@@ -480,7 +494,7 @@
                             </div>
                         </div>
 
-                        <button onclick="procesarVentaEImprimir()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3.5 rounded-xl text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)] transition flex items-center justify-center gap-2">
+                        <button type="button" onclick="procesarVentaEImprimir()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3.5 rounded-xl text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)] transition flex items-center justify-center gap-2">
                             ✅ Cobrar e Imprimir / Guardar Factura
                         </button>
                     </div>
@@ -678,7 +692,7 @@
                                 <h2 class="text-sm font-bold text-cyan-400">🔐 Arqueo y Cierre de Caja (Hoy: <span id="fechaHoyCaja"></span>)</h2>
                                 <p class="text-[11px] text-slate-400">Cuadre automático entre ingresos por ventas y salidas de efectivo</p>
                             </div>
-                            <button onclick="imprimirCierreCajaPDF()" class="bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs shadow transition">
+                            <button type="button" onclick="imprimirCierreCajaPDF()" class="bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs shadow transition">
                                 🖨️ Imprimir Cierre del Día
                             </button>
                         </div>
@@ -744,7 +758,7 @@
                         <p class="text-xs text-slate-400 font-mono">Visualiza ingresos, ganancias netas, gastos operativos y utilidad real</p>
                     </div>
                     <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto font-mono">
-                        <button onclick="enviarWhatsAppAgotadosReportes()" class="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs shadow-md transition flex items-center gap-1.5">
+                        <button type="button" onclick="enviarWhatsAppAgotadosReportes()" class="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs shadow-md transition flex items-center gap-1.5">
                             📱 Enviar Reporte Agotados WSP
                         </button>
                         <select id="filtroPeriodoReporte" onchange="aplicarFiltroReportes()" class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs font-bold text-slate-300 focus:outline-none">
@@ -900,6 +914,59 @@
                 .replace(/\r?\n/g, ' ');
         }
 
+        function abrirVentanaImpresion(htmlString, options = {}) {
+            const width = options.width || 820;
+            const height = options.height || 680;
+            const tituloFallback = options.tituloFallback || 'Documento OSMOTEC';
+
+            const win = window.open('', '_blank', `width=${width},height=${height}`);
+            if (win && win.document) {
+                win.document.open();
+                win.document.write(htmlString);
+                win.document.close();
+                return win;
+            }
+
+            let iframe = document.getElementById('frameImpresionFallback');
+            if (!iframe) {
+                iframe = document.createElement('iframe');
+                iframe.id = 'frameImpresionFallback';
+                iframe.style.position = 'fixed';
+                iframe.style.right = '0';
+                iframe.style.bottom = '0';
+                iframe.style.width = '0';
+                iframe.style.height = '0';
+                iframe.style.border = '0';
+                document.body.appendChild(iframe);
+            }
+
+            const doc = iframe.contentWindow && iframe.contentWindow.document;
+            if (!doc) {
+                alert(`${tituloFallback}: No se pudo abrir la vista de impresión en este entorno.`);
+                return null;
+            }
+
+            const htmlSinAutoPrint = htmlString.replace(
+                /<script>[\s\S]*?window\.print\(\)[\s\S]*?<\/script>/gi,
+                ''
+            );
+
+            doc.open();
+            doc.write(htmlSinAutoPrint);
+            doc.close();
+
+            setTimeout(() => {
+                try {
+                    iframe.contentWindow.focus();
+                    iframe.contentWindow.print();
+                } catch (err) {
+                    alert(`${tituloFallback}: No se pudo lanzar la impresión directamente.`);
+                }
+            }, 400);
+
+            return null;
+        }
+
         // ================= CONTROL DE MÓDULOS PRINCIPALES =================
         function abrirModulo(modulo) {
             document.getElementById('vistaSelector').classList.add('hidden');
@@ -1049,12 +1116,17 @@
         const tecnicoForm = document.getElementById('tecnicoForm');
         tecnicoForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            await db.collection('tecnicos_taller').add({
-                nombre: document.getElementById('nombreTecnico').value.trim(),
-                especialidad: document.getElementById('especialidad').value.trim() || 'General'
-            });
-            alert('¡Técnico registrado!');
-            tecnicoForm.reset();
+            try {
+                await db.collection('tecnicos_taller').add({
+                    nombre: document.getElementById('nombreTecnico').value.trim(),
+                    especialidad: document.getElementById('especialidad').value.trim() || 'General'
+                });
+                alert('¡Técnico registrado!');
+                tecnicoForm.reset();
+            } catch (err) {
+                console.error('Error al registrar técnico:', err);
+                alert('No se pudo guardar el técnico: ' + err.message);
+            }
         });
 
         db.collection('tecnicos_taller').onSnapshot((snapshot) => {
@@ -1069,7 +1141,7 @@
                         <td class="p-3 font-bold text-cyan-400">👨‍🔧 ${escapeHtml(t.nombre)}</td>
                         <td class="p-3 text-xs text-slate-300">${escapeHtml(t.especialidad)}</td>
                         <td class="p-3 text-center">
-                            <button onclick="db.collection('tecnicos_taller').doc('${doc.id}').delete()" class="text-red-400 text-xs px-2 py-1 bg-red-950/50 border border-red-900 rounded-lg">Eliminar</button>
+                            <button type="button" onclick="db.collection('tecnicos_taller').doc('${doc.id}').delete()" class="text-red-400 text-xs px-2 py-1 bg-red-950/50 border border-red-900 rounded-lg">Eliminar</button>
                         </td>
                     </tr>`;
             });
@@ -1091,23 +1163,28 @@
                 accesorios: document.getElementById('accesorios').value.trim() || 'Ninguno'
             };
 
-            if (editOrdenId) {
-                await db.collection('ordenes_taller').doc(editOrdenId).update(datosOrden);
-                alert('¡Orden de taller actualizada con éxito!');
-                cancelarEdicionOrden();
-            } else {
-                datosOrden.recibidoPor = 'Sin asignar';
-                datosOrden.diagnosticoInicial = 'Pendiente...';
-                datosOrden.reporteFinal = 'Pendiente...';
-                datosOrden.costoReparacion = '0.00';
-                datosOrden.estadoPago = 'Pendiente pago';
-                datosOrden.estado = 'Pendiente';
-                datosOrden.rawTimestamp = Date.now();
-                datosOrden.fecha = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                
-                await db.collection('ordenes_taller').add(datosOrden);
-                alert('¡Equipo registrado en consola!');
-                ordenForm.reset();
+            try {
+                if (editOrdenId) {
+                    await db.collection('ordenes_taller').doc(editOrdenId).update(datosOrden);
+                    alert('¡Orden de taller actualizada con éxito!');
+                    cancelarEdicionOrden();
+                } else {
+                    datosOrden.recibidoPor = 'Sin asignar';
+                    datosOrden.diagnosticoInicial = 'Pendiente...';
+                    datosOrden.reporteFinal = 'Pendiente...';
+                    datosOrden.costoReparacion = '0.00';
+                    datosOrden.estadoPago = 'Pendiente pago';
+                    datosOrden.estado = 'Pendiente';
+                    datosOrden.rawTimestamp = Date.now();
+                    datosOrden.fecha = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    
+                    await db.collection('ordenes_taller').add(datosOrden);
+                    alert('¡Equipo registrado en consola!');
+                    ordenForm.reset();
+                }
+            } catch (err) {
+                console.error('Error al guardar orden:', err);
+                alert('No se pudo guardar la orden: ' + err.message);
             }
         });
 
@@ -1236,9 +1313,9 @@
                         </td>
                         <td class="p-3">${badgeEstado}</td>
                         <td class="p-3 text-center space-y-1">
-                            <button onclick="descargarTicketPDF(${argFicha})" class="w-full bg-amber-600 hover:bg-amber-500 text-slate-950 px-2 py-1 rounded-lg text-xs font-bold shadow">📄 Ficha</button>
-                            <button onclick="prepararEdicionOrden(${argEdit})" class="w-full bg-slate-800 text-cyan-400 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-slate-700">✏️ Modificar</button>
-                            <button onclick="if(confirm('¿Desea eliminar esta orden?')) { db.collection('ordenes_taller').doc('${o.id}').delete(); }" class="w-full bg-red-950/60 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Eliminar</button>
+                            <button type="button" onclick="descargarTicketPDF(${argFicha})" class="w-full bg-amber-600 hover:bg-amber-500 text-slate-950 px-2 py-1 rounded-lg text-xs font-bold shadow">📄 Ficha</button>
+                            <button type="button" onclick="prepararEdicionOrden(${argEdit})" class="w-full bg-slate-800 text-cyan-400 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-slate-700">✏️ Modificar</button>
+                            <button type="button" onclick="if(confirm('¿Desea eliminar esta orden?')) { db.collection('ordenes_taller').doc('${o.id}').delete(); }" class="w-full bg-red-950/60 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Eliminar</button>
                         </td>
                     </tr>
                 `;
@@ -1247,85 +1324,159 @@
 
         async function asignarTecnicoOrden(id) {
             const tecSeleccionado = document.getElementById(`tec_${id}`).value;
-            await db.collection('ordenes_taller').doc(id).update({ recibidoPor: tecSeleccionado });
-            alert('¡Técnico asignado con éxito!');
+            try {
+                await db.collection('ordenes_taller').doc(id).update({ recibidoPor: tecSeleccionado });
+                alert('¡Técnico asignado con éxito!');
+            } catch (err) {
+                console.error('Error al asignar técnico:', err);
+                alert('No se pudo asignar el técnico: ' + err.message);
+            }
         }
 
         document.getElementById('buscarOrden').addEventListener('input', () => aplicarFiltrosOrdenes());
 
-        // ================= RENDERIZAR DIAGNÓSTICO Y REPORTE FINAL =================
+        // ================= FILTRO POR DÍA ACTUAL Y MES EN DIAGNÓSTICO / REPORTE FINAL =================
+        function ordenCoincidePeriodo(orden, periodo) {
+            if (!periodo || periodo === 'todos') return true;
+
+            const ahora = new Date();
+            const hoyLocalStr = ahora.toLocaleDateString();
+
+            if (typeof orden.rawTimestamp === 'number' && orden.rawTimestamp > 0) {
+                const fechaOrden = new Date(orden.rawTimestamp);
+                const mismoAnio = fechaOrden.getFullYear() === ahora.getFullYear();
+                const mismoMes = mismoAnio && fechaOrden.getMonth() === ahora.getMonth();
+                const mismoDia = mismoMes && fechaOrden.getDate() === ahora.getDate();
+
+                if (periodo === 'dia') return mismoDia;
+                if (periodo === 'mes') return mismoMes;
+            }
+
+            const textoFecha = String(orden.fecha || '');
+            if (periodo === 'dia') {
+                return textoFecha.includes(hoyLocalStr);
+            }
+            if (periodo === 'mes') {
+                const partes = hoyLocalStr.split('/');
+                if (partes.length === 3) {
+                    const mesConCero = partes[1].padStart(2, '0');
+                    return textoFecha.includes(`/${mesConCero}/${partes[2]}`) || textoFecha.includes(`/${partes[1]}/${partes[2]}`);
+                }
+            }
+            return true;
+        }
+
         function renderizarDiagnosticoYReportes(ordenes) {
             const tablaDiag = document.getElementById('tablaDiagnosticoInicial');
             const tablaFinal = document.getElementById('tablaReporteFinal');
             if (!tablaDiag || !tablaFinal) return;
 
+            const periodoDiag = document.getElementById('filtroPeriodoDiagnostico')?.value || 'dia';
+            const textoDiag = (document.getElementById('buscarDiagnostico')?.value || '').toLowerCase();
+
+            const periodoFinal = document.getElementById('filtroPeriodoReporteFinal')?.value || 'dia';
+            const textoFinal = (document.getElementById('buscarReporteFinal')?.value || '').toLowerCase();
+
+            const ordenesDiag = ordenes.filter(o => {
+                if (!ordenCoincidePeriodo(o, periodoDiag)) return false;
+                if (!textoDiag) return true;
+                return (o.marca || '').toLowerCase().includes(textoDiag) ||
+                       (o.modelo || '').toLowerCase().includes(textoDiag) ||
+                       (o.cliente || '').toLowerCase().includes(textoDiag) ||
+                       String(o.numeroOrden || '').includes(textoDiag);
+            });
+
+            const ordenesFinal = ordenes.filter(o => {
+                if (!ordenCoincidePeriodo(o, periodoFinal)) return false;
+                if (!textoFinal) return true;
+                return (o.marca || '').toLowerCase().includes(textoFinal) ||
+                       (o.modelo || '').toLowerCase().includes(textoFinal) ||
+                       (o.cliente || '').toLowerCase().includes(textoFinal) ||
+                       String(o.numeroOrden || '').includes(textoFinal);
+            });
+
             tablaDiag.innerHTML = '';
             tablaFinal.innerHTML = '';
 
-            if (ordenes.length === 0) {
-                tablaDiag.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-500">Sin órdenes registradas.</td></tr>`;
-                tablaFinal.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-500">Sin órdenes registradas.</td></tr>`;
-                return;
+            if (ordenesDiag.length === 0) {
+                tablaDiag.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-500">Sin órdenes para el período seleccionado.</td></tr>`;
+            } else {
+                ordenesDiag.forEach(o => {
+                    const waClean = String(o.whatsapp || '').replace(/\D/g, '');
+                    tablaDiag.innerHTML += `
+                        <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
+                            <td class="p-3 font-bold text-slate-200">#${o.numeroOrden || 1} - ${escapeHtml(o.marca)} ${escapeHtml(o.modelo)}<br><span class="text-[10px] text-slate-500">${escapeHtml(o.tipoEquipo)} • ${escapeHtml(o.fecha || '')}</span></td>
+                            <td class="p-3 text-slate-300">${escapeHtml(o.cliente)}<br><a href="https://wa.me/502${waClean}" target="_blank" class="text-emerald-400 font-bold hover:underline">📱 ${escapeHtml(o.whatsapp)}</a></td>
+                            <td class="p-3">
+                                <div class="font-bold text-red-400 mb-1">Falla: ${escapeHtml(o.errorReportado)}</div>
+                                <textarea id="diag_${o.id}" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500" placeholder="Escribir diagnóstico...">${escapeHtml(o.diagnosticoInicial || '')}</textarea>
+                            </td>
+                            <td class="p-3 text-center space-y-1">
+                                <button type="button" onclick="guardarDiagnostico('${o.id}')" class="w-full bg-cyan-600 hover:bg-cyan-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">💾 Guardar</button>
+                                <a href="https://wa.me/502${waClean}?text=${encodeURIComponent(`Hola *${o.cliente}*, sobre su equipo *#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}* en OSMOTEC:\nDiagnóstico inicial: ${o.diagnosticoInicial || 'En revisión'}`)}" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">📱 WSP Diagnóstico</a>
+                                <button type="button" onclick="eliminarDiagnostico('${o.id}')" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Limpiar</button>
+                            </td>
+                        </tr>
+                    `;
+                });
             }
 
-            ordenes.forEach(o => {
-                const waClean = String(o.whatsapp || '').replace(/\D/g, '');
-                let mensajeWspFinal = `Hola *${o.cliente}*, le saludamos de *OSMOTEC*.\n\nInformación sobre su equipo (*#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}*):\n\n🛠️ *Reporte Final:* ${o.reporteFinal || 'En proceso'}\n💰 *Total a Cobrar:* Q. ${o.costoReparacion || '0.00'}\n📌 *Estado:* ${o.estado}\n\n¡Gracias por su preferencia!`;
+            if (ordenesFinal.length === 0) {
+                tablaFinal.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-500">Sin órdenes para el período seleccionado.</td></tr>`;
+            } else {
+                ordenesFinal.forEach(o => {
+                    const waClean = String(o.whatsapp || '').replace(/\D/g, '');
+                    let mensajeWspFinal = `Hola *${o.cliente}*, le saludamos de *OSMOTEC*.\n\nInformación sobre su equipo (*#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}*):\n\n🛠️ *Reporte Final:* ${o.reporteFinal || 'En proceso'}\n💰 *Total a Cobrar:* Q. ${o.costoReparacion || '0.00'}\n📌 *Estado:* ${o.estado}\n\n¡Gracias por su preferencia!`;
 
-                tablaDiag.innerHTML += `
-                    <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
-                        <td class="p-3 font-bold text-slate-200">#${o.numeroOrden || 1} - ${escapeHtml(o.marca)} ${escapeHtml(o.modelo)}<br><span class="text-[10px] text-slate-500">${escapeHtml(o.tipoEquipo)}</span></td>
-                        <td class="p-3 text-slate-300">${escapeHtml(o.cliente)}<br><a href="https://wa.me/502${waClean}" target="_blank" class="text-emerald-400 font-bold hover:underline">📱 ${escapeHtml(o.whatsapp)}</a></td>
-                        <td class="p-3">
-                            <div class="font-bold text-red-400 mb-1">Falla: ${escapeHtml(o.errorReportado)}</div>
-                            <textarea id="diag_${o.id}" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500" placeholder="Escribir diagnóstico...">${escapeHtml(o.diagnosticoInicial || '')}</textarea>
-                        </td>
-                        <td class="p-3 text-center space-y-1">
-                            <button onclick="guardarDiagnostico('${o.id}')" class="w-full bg-cyan-600 hover:bg-cyan-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">💾 Guardar</button>
-                            <a href="https://wa.me/502${waClean}?text=${encodeURIComponent(`Hola *${o.cliente}*, sobre su equipo *#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}* en OSMOTEC:\nDiagnóstico inicial: ${o.diagnosticoInicial || 'En revisión'}`)}" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">📱 WSP Diagnóstico</a>
-                            <button onclick="eliminarDiagnostico('${o.id}')" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Limpiar</button>
-                        </td>
-                    </tr>
-                `;
-
-                tablaFinal.innerHTML += `
-                    <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
-                        <td class="p-3 font-bold text-slate-200">#${o.numeroOrden || 1} - ${escapeHtml(o.marca)} ${escapeHtml(o.modelo)}<br><span class="text-[10px] text-slate-500">${escapeHtml(o.cliente)}</span></td>
-                        <td class="p-3">
-                            <textarea id="rep_${o.id}" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500" placeholder="Reporte final o reparación...">${escapeHtml(o.reporteFinal || '')}</textarea>
-                        </td>
-                        <td class="p-3">
-                            <div class="flex items-center gap-1 mb-1">
-                                <span class="font-bold text-slate-400">Q.</span>
-                                <input type="number" step="0.01" id="costo_${o.id}" value="${escapeHtml(o.costoReparacion || '0.00')}" class="w-24 bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-xs font-bold text-emerald-400">
-                            </div>
-                            <select id="estado_${o.id}" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-xs text-slate-200 font-bold">
-                                <option value="Pendiente" ${o.estado === 'Pendiente' ? 'selected' : ''}>Pendiente</option>
-                                <option value="Reparado" ${o.estado === 'Reparado' ? 'selected' : ''}>Reparado</option>
-                                <option value="No reparado" ${o.estado === 'No reparado' ? 'selected' : ''}>No reparado</option>
-                                <option value="Entregado" ${o.estado === 'Entregado' ? 'selected' : ''}>Entregado</option>
-                            </select>
-                        </td>
-                        <td class="p-3 text-center space-y-1">
-                            <button onclick="guardarReporteFinal('${o.id}')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">💾 Actualizar</button>
-                            <a href="https://wa.me/502${waClean}?text=${encodeURIComponent(mensajeWspFinal)}" target="_blank" class="block w-full text-center bg-cyan-600 hover:bg-cyan-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">📱 Enviar WhatsApp</a>
-                            <button onclick="eliminarReporteFinal('${o.id}')" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Restablecer</button>
-                        </td>
-                    </tr>
-                `;
-            });
+                    tablaFinal.innerHTML += `
+                        <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
+                            <td class="p-3 font-bold text-slate-200">#${o.numeroOrden || 1} - ${escapeHtml(o.marca)} ${escapeHtml(o.modelo)}<br><span class="text-[10px] text-slate-500">${escapeHtml(o.cliente)} • ${escapeHtml(o.fecha || '')}</span></td>
+                            <td class="p-3">
+                                <textarea id="rep_${o.id}" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500" placeholder="Reporte final o reparación...">${escapeHtml(o.reporteFinal || '')}</textarea>
+                            </td>
+                            <td class="p-3">
+                                <div class="flex items-center gap-1 mb-1">
+                                    <span class="font-bold text-slate-400">Q.</span>
+                                    <input type="number" step="0.01" id="costo_${o.id}" value="${escapeHtml(o.costoReparacion || '0.00')}" class="w-24 bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-xs font-bold text-emerald-400">
+                                </div>
+                                <select id="estado_${o.id}" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-xs text-slate-200 font-bold">
+                                    <option value="Pendiente" ${o.estado === 'Pendiente' ? 'selected' : ''}>Pendiente</option>
+                                    <option value="Reparado" ${o.estado === 'Reparado' ? 'selected' : ''}>Reparado</option>
+                                    <option value="No reparado" ${o.estado === 'No reparado' ? 'selected' : ''}>No reparado</option>
+                                    <option value="Entregado" ${o.estado === 'Entregado' ? 'selected' : ''}>Entregado</option>
+                                </select>
+                            </td>
+                            <td class="p-3 text-center space-y-1">
+                                <button type="button" onclick="guardarReporteFinal('${o.id}')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">💾 Actualizar</button>
+                                <a href="https://wa.me/502${waClean}?text=${encodeURIComponent(mensajeWspFinal)}" target="_blank" class="block w-full text-center bg-cyan-600 hover:bg-cyan-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">📱 Enviar WhatsApp</a>
+                                <button type="button" onclick="eliminarReporteFinal('${o.id}')" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Restablecer</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
         }
 
         async function guardarDiagnostico(id) {
             const diag = document.getElementById(`diag_${id}`).value;
-            await db.collection('ordenes_taller').doc(id).update({ diagnosticoInicial: diag });
-            alert('¡Diagnóstico actualizado!');
+            try {
+                await db.collection('ordenes_taller').doc(id).update({ diagnosticoInicial: diag });
+                alert('¡Diagnóstico actualizado!');
+            } catch (err) {
+                console.error('Error al guardar diagnóstico:', err);
+                alert('No se pudo guardar el diagnóstico: ' + err.message);
+            }
         }
 
         async function eliminarDiagnostico(id) {
             if (confirm('¿Limpiar diagnóstico?')) {
-                await db.collection('ordenes_taller').doc(id).update({ diagnosticoInicial: 'Pendiente...' });
-                alert('¡Restablecido!');
+                try {
+                    await db.collection('ordenes_taller').doc(id).update({ diagnosticoInicial: 'Pendiente...' });
+                    alert('¡Restablecido!');
+                } catch (err) {
+                    console.error('Error al restablecer diagnóstico:', err);
+                    alert('No se pudo restablecer el diagnóstico: ' + err.message);
+                }
             }
         }
 
@@ -1333,27 +1484,33 @@
             const reporte = document.getElementById(`rep_${id}`).value;
             const costo = document.getElementById(`costo_${id}`).value;
             const estado = document.getElementById(`estado_${id}`).value;
-            await db.collection('ordenes_taller').doc(id).update({ reporteFinal: reporte, costoReparacion: costo, estado: estado });
-            alert('¡Reporte final actualizado!');
+            try {
+                await db.collection('ordenes_taller').doc(id).update({ reporteFinal: reporte, costoReparacion: costo, estado: estado });
+                alert('¡Reporte final actualizado!');
+            } catch (err) {
+                console.error('Error al guardar reporte final:', err);
+                alert('No se pudo actualizar el reporte final: ' + err.message);
+            }
         }
 
         async function eliminarReporteFinal(id) {
             if (confirm('¿Restablecer reporte final?')) {
-                await db.collection('ordenes_taller').doc(id).update({ reporteFinal: 'Pendiente...', costoReparacion: '0.00', estado: 'Pendiente' });
-                alert('¡Restablecido!');
+                try {
+                    await db.collection('ordenes_taller').doc(id).update({ reporteFinal: 'Pendiente...', costoReparacion: '0.00', estado: 'Pendiente' });
+                    alert('¡Restablecido!');
+                } catch (err) {
+                    console.error('Error al restablecer reporte final:', err);
+                    alert('No se pudo restablecer el reporte final: ' + err.message);
+                }
             }
         }
 
-        document.getElementById('buscarDiagnostico').addEventListener('input', (e) => {
-            const txt = e.target.value.toLowerCase();
-            const filtradas = todasLasOrdenesGlobal.filter(o => (o.marca || '').toLowerCase().includes(txt) || (o.modelo || '').toLowerCase().includes(txt) || (o.cliente || '').toLowerCase().includes(txt));
-            renderizarDiagnosticoYReportes(filtradas);
+        document.getElementById('buscarDiagnostico').addEventListener('input', () => {
+            renderizarDiagnosticoYReportes(todasLasOrdenesGlobal);
         });
 
-        document.getElementById('buscarReporteFinal').addEventListener('input', (e) => {
-            const txt = e.target.value.toLowerCase();
-            const filtradas = todasLasOrdenesGlobal.filter(o => (o.marca || '').toLowerCase().includes(txt) || (o.modelo || '').toLowerCase().includes(txt) || (o.cliente || '').toLowerCase().includes(txt));
-            renderizarDiagnosticoYReportes(filtradas);
+        document.getElementById('buscarReporteFinal').addEventListener('input', () => {
+            renderizarDiagnosticoYReportes(todasLasOrdenesGlobal);
         });
 
         // ================= TIENDA: INVENTARIO =================
@@ -1368,15 +1525,20 @@
                 stock: parseInt(document.getElementById('stockProducto').value, 10) || 0
             };
 
-            if (editId) {
-                await db.collection('productos_tienda').doc(editId).update(datosProducto);
-                alert('¡Producto actualizado!');
-                cancelarEdicionProducto();
-            } else {
-                datosProducto.fecha = new Date().toLocaleDateString();
-                await db.collection('productos_tienda').add(datosProducto);
-                alert('¡Producto agregado al inventario!');
-                tiendaForm.reset();
+            try {
+                if (editId) {
+                    await db.collection('productos_tienda').doc(editId).update(datosProducto);
+                    alert('¡Producto actualizado!');
+                    cancelarEdicionProducto();
+                } else {
+                    datosProducto.fecha = new Date().toLocaleDateString();
+                    await db.collection('productos_tienda').add(datosProducto);
+                    alert('¡Producto agregado al inventario!');
+                    tiendaForm.reset();
+                }
+            } catch (err) {
+                console.error('Error al guardar producto:', err);
+                alert('No se pudo guardar el producto: ' + err.message);
             }
         });
 
@@ -1461,8 +1623,8 @@
                         </td>
                         <td class="p-3">${stockBadge}${botonWhatsAppAlerta}</td>
                         <td class="p-3 text-center space-y-1">
-                            <button onclick="prepararEdicionProducto(${argEditProd})" class="w-full bg-slate-800 text-cyan-400 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-slate-700">✏️ Editar</button>
-                            <button onclick="db.collection('productos_tienda').doc('${p.id}').delete()" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Eliminar</button>
+                            <button type="button" onclick="prepararEdicionProducto(${argEditProd})" class="w-full bg-slate-800 text-cyan-400 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-slate-700">✏️ Editar</button>
+                            <button type="button" onclick="db.collection('productos_tienda').doc('${p.id}').delete()" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Eliminar</button>
                         </td>
                     </tr>
                 `;
@@ -1594,12 +1756,12 @@
                     <div class="grid grid-cols-12 p-2.5 items-center bg-slate-900/50">
                         <span class="col-span-6 font-bold text-slate-200">${escapeHtml(item.nombre)}</span>
                         <div class="col-span-2 flex items-center justify-center gap-1">
-                            <button onclick="cambiarCantidadCarrito(${index}, -1)" class="w-5 h-5 bg-slate-800 hover:bg-slate-700 rounded font-bold text-xs text-slate-200">-</button>
+                            <button type="button" onclick="cambiarCantidadCarrito(${index}, -1)" class="w-5 h-5 bg-slate-800 hover:bg-slate-700 rounded font-bold text-xs text-slate-200">-</button>
                             <span class="font-bold text-cyan-400">${item.cantidad}</span>
-                            <button onclick="cambiarCantidadCarrito(${index}, 1)" class="w-5 h-5 bg-slate-800 hover:bg-slate-700 rounded font-bold text-xs text-slate-200">+</button>
+                            <button type="button" onclick="cambiarCantidadCarrito(${index}, 1)" class="w-5 h-5 bg-slate-800 hover:bg-slate-700 rounded font-bold text-xs text-slate-200">+</button>
                         </div>
                         <span class="col-span-3 text-right font-bold text-emerald-400">Q${sub.toFixed(2)}</span>
-                        <button onclick="carritoVenta.splice(${index},1);actualizarCarritoUI()" class="col-span-1 text-center text-red-400 font-bold hover:text-red-300">✕</button>
+                        <button type="button" onclick="carritoVenta.splice(${index},1);actualizarCarritoUI()" class="col-span-1 text-center text-red-400 font-bold hover:text-red-300">✕</button>
                     </div>
                 `;
             });
@@ -1632,65 +1794,70 @@
             const clienteDireccion = (document.getElementById('ventaClienteDireccion')?.value || '').trim();
             const debeGuardarCliente = Boolean(document.getElementById('guardarClienteEnDirectorio')?.checked);
 
-            if (debeGuardarCliente && clienteNombre !== 'Consumidor Final') {
-                const yaExiste = todosLosClientesGlobal.some(c =>
-                    (c.nombre || '').toLowerCase() === clienteNombre.toLowerCase() &&
-                    (clienteTelefono ? (c.telefono || '') === clienteTelefono : true)
-                );
-                if (!yaExiste) {
-                    await db.collection('clientes_tienda').add({
-                        nombre: clienteNombre,
-                        telefono: clienteTelefono || 'Sin teléfono',
-                        nit: clienteNit,
-                        direccion: clienteDireccion,
-                        notas: 'Agregado desde venta POS',
-                        fechaRegistro: new Date().toLocaleDateString()
-                    });
+            try {
+                if (debeGuardarCliente && clienteNombre !== 'Consumidor Final') {
+                    const yaExiste = todosLosClientesGlobal.some(c =>
+                        (c.nombre || '').toLowerCase() === clienteNombre.toLowerCase() &&
+                        (clienteTelefono ? (c.telefono || '') === clienteTelefono : true)
+                    );
+                    if (!yaExiste) {
+                        await db.collection('clientes_tienda').add({
+                            nombre: clienteNombre,
+                            telefono: clienteTelefono || 'Sin teléfono',
+                            nit: clienteNit,
+                            direccion: clienteDireccion,
+                            notas: 'Agregado desde venta POS',
+                            fechaRegistro: new Date().toLocaleDateString()
+                        });
+                    }
                 }
-            }
 
-            const snapshotCarrito = [...carritoVenta];
+                const snapshotCarrito = [...carritoVenta];
 
-            for (let item of snapshotCarrito) {
-                let subVenta = item.precio * item.cantidad;
-                let subCosto = item.costo * item.cantidad;
-                totalVenta += subVenta;
-                totalGanancia += (subVenta - subCosto);
+                for (let item of snapshotCarrito) {
+                    let subVenta = item.precio * item.cantidad;
+                    let subCosto = item.costo * item.cantidad;
+                    totalVenta += subVenta;
+                    totalGanancia += (subVenta - subCosto);
 
-                const prodRef = db.collection('productos_tienda').doc(item.id);
-                const prodDoc = await prodRef.get();
-                if (prodDoc.exists) {
-                    let nuevoStock = (prodDoc.data().stock || 0) - item.cantidad;
-                    await prodRef.update({ stock: nuevoStock >= 0 ? nuevoStock : 0 });
+                    const prodRef = db.collection('productos_tienda').doc(item.id);
+                    const prodDoc = await prodRef.get();
+                    if (prodDoc.exists) {
+                        let nuevoStock = (prodDoc.data().stock || 0) - item.cantidad;
+                        await prodRef.update({ stock: nuevoStock >= 0 ? nuevoStock : 0 });
+                    }
                 }
+
+                let fechaActual = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+                const datosClienteVenta = {
+                    clienteNombre,
+                    clienteTelefono,
+                    clienteNit,
+                    clienteDireccion
+                };
+
+                await db.collection('ventas_tienda').add({
+                    productos: snapshotCarrito,
+                    total: totalVenta,
+                    gananciaTotal: totalGanancia,
+                    ...datosClienteVenta,
+                    fecha: fechaActual,
+                    rawDate: new Date().toISOString()
+                });
+
+                generarFacturaCartaPDF(snapshotCarrito, fechaActual, efectivo, totalVenta, datosClienteVenta);
+
+                alert('¡Venta cobrada con éxito!');
+                carritoVenta = [];
+                document.getElementById('efectivoRecibido').value = '';
+                limpiarClienteVenta();
+                actualizarCarritoUI();
+                renderizarCatalogoPOS(todosLosProductosGlobal);
+            } catch (err) {
+                console.error('Error al procesar venta:', err);
+                alert('No se pudo procesar la venta: ' + err.message);
             }
-
-            let fechaActual = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-
-            const datosClienteVenta = {
-                clienteNombre,
-                clienteTelefono,
-                clienteNit,
-                clienteDireccion
-            };
-
-            await db.collection('ventas_tienda').add({
-                productos: snapshotCarrito,
-                total: totalVenta,
-                gananciaTotal: totalGanancia,
-                ...datosClienteVenta,
-                fecha: fechaActual,
-                rawDate: new Date().toISOString()
-            });
-
-            generarFacturaCartaPDF(snapshotCarrito, fechaActual, efectivo, totalVenta, datosClienteVenta);
-
-            alert('¡Venta cobrada con éxito!');
-            carritoVenta = [];
-            document.getElementById('efectivoRecibido').value = '';
-            limpiarClienteVenta();
-            actualizarCarritoUI();
-            renderizarCatalogoPOS(todosLosProductosGlobal);
         }
 
         function generarFacturaCartaPDF(itemsFactura, fecha, efectivo, total, clienteInfo = {}) {
@@ -1716,8 +1883,7 @@
                 `;
             });
 
-            const ventanaFactura = window.open('', '_blank', 'width=820,height=680');
-            ventanaFactura.document.write(`
+            const htmlFactura = `
                 <!DOCTYPE html>
                 <html lang="es">
                 <head>
@@ -1791,7 +1957,7 @@
                             </div>
                         </div>
                         <div class="no-print">
-                            <button onclick="window.print()" style="background: #2563eb; color: white; border: none; padding: 12px 24px; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 14px;">🖨️ Imprimir / Guardar</button>
+                            <button type="button" onclick="window.print()" style="background: #2563eb; color: white; border: none; padding: 12px 24px; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 14px;">🖨️ Imprimir / Guardar</button>
                         </div>
                     </div>
                     <script>
@@ -1801,8 +1967,13 @@
                     <\/script>
                 </body>
                 </html>
-            `);
-            ventanaFactura.document.close();
+            `;
+
+            abrirVentanaImpresion(htmlFactura, {
+                width: 820,
+                height: 680,
+                tituloFallback: 'Comprobante de Venta OSMOTEC'
+            });
         }
 
         // ================= TIENDA: CLIENTES =================
@@ -1818,15 +1989,20 @@
                 notas: document.getElementById('notasClienteTienda').value.trim() || ''
             };
 
-            if (editId) {
-                await db.collection('clientes_tienda').doc(editId).update(datosCliente);
-                alert('¡Cliente actualizado!');
-                cancelarEdicionCliente();
-            } else {
-                datosCliente.fechaRegistro = new Date().toLocaleDateString();
-                await db.collection('clientes_tienda').add(datosCliente);
-                alert('¡Cliente guardado!');
-                clienteTiendaForm.reset();
+            try {
+                if (editId) {
+                    await db.collection('clientes_tienda').doc(editId).update(datosCliente);
+                    alert('¡Cliente actualizado!');
+                    cancelarEdicionCliente();
+                } else {
+                    datosCliente.fechaRegistro = new Date().toLocaleDateString();
+                    await db.collection('clientes_tienda').add(datosCliente);
+                    alert('¡Cliente guardado!');
+                    clienteTiendaForm.reset();
+                }
+            } catch (err) {
+                console.error('Error al guardar cliente:', err);
+                alert('No se pudo guardar el cliente: ' + err.message);
             }
         });
 
@@ -1897,8 +2073,8 @@
                             <div>${escapeHtml(c.notas || (c.direccion ? '' : '—'))}</div>
                         </td>
                         <td class="p-3 text-center space-y-1">
-                            <button onclick="prepararEdicionCliente(${argEdit})" class="w-full bg-slate-800 text-cyan-400 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-slate-700">✏️ Editar</button>
-                            <button onclick="if(confirm('¿Eliminar este cliente?')) db.collection('clientes_tienda').doc('${c.id}').delete()" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Eliminar</button>
+                            <button type="button" onclick="prepararEdicionCliente(${argEdit})" class="w-full bg-slate-800 text-cyan-400 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-slate-700">✏️ Editar</button>
+                            <button type="button" onclick="if(confirm('¿Eliminar este cliente?')) db.collection('clientes_tienda').doc('${c.id}').delete()" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Eliminar</button>
                         </td>
                     </tr>
                 `;
@@ -2055,21 +2231,26 @@
             const total = itemsCotizacionActual.reduce((acc, i) => acc + (i.precio * i.cantidad), 0);
             const fechaActual = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
-            await db.collection('cotizaciones_tienda').add({
-                cliente: datosCli.cliente,
-                nit: datosCli.nit,
-                whatsapp: datosCli.whatsapp,
-                direccion: datosCli.direccion,
-                productos: [...itemsCotizacionActual],
-                total,
-                fecha: fechaActual,
-                rawDate: new Date().toISOString()
-            });
+            try {
+                await db.collection('cotizaciones_tienda').add({
+                    cliente: datosCli.cliente,
+                    nit: datosCli.nit,
+                    whatsapp: datosCli.whatsapp,
+                    direccion: datosCli.direccion,
+                    productos: [...itemsCotizacionActual],
+                    total,
+                    fecha: fechaActual,
+                    rawDate: new Date().toISOString()
+                });
 
-            alert('¡Cotización guardada con éxito!');
-            itemsCotizacionActual = [];
-            limpiarCamposClienteCotizacion();
-            renderizarItemsCotizacion();
+                alert('¡Cotización guardada con éxito!');
+                itemsCotizacionActual = [];
+                limpiarCamposClienteCotizacion();
+                renderizarItemsCotizacion();
+            } catch (err) {
+                console.error('Error al guardar cotización:', err);
+                alert('No se pudo guardar la cotización: ' + err.message);
+            }
         }
 
         db.collection('cotizaciones_tienda').orderBy('rawDate', 'desc').onSnapshot((snapshot) => {
@@ -2123,9 +2304,9 @@
                         <td class="p-3 text-slate-200 leading-relaxed">${detalleHtml}</td>
                         <td class="p-3 font-black text-emerald-400">Q${Number(c.total || 0).toFixed(2)}</td>
                         <td class="p-3 text-center space-y-1">
-                            <button onclick="imprimirCotizacionPorId('${c.id}')" class="w-full bg-cyan-600 hover:bg-cyan-500 text-slate-950 text-[11px] px-2 py-1 rounded-lg font-bold">🖨️ Imprimir</button>
+                            <button type="button" onclick="imprimirCotizacionPorId('${c.id}')" class="w-full bg-cyan-600 hover:bg-cyan-500 text-slate-950 text-[11px] px-2 py-1 rounded-lg font-bold">🖨️ Imprimir</button>
                             <a href="${waUrl}" target="_blank" class="block w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 text-[11px] px-2 py-1 rounded-lg font-bold">📱 WSP</a>
-                            <button onclick="if(confirm('¿Eliminar cotización?')) db.collection('cotizaciones_tienda').doc('${c.id}').delete()" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Eliminar</button>
+                            <button type="button" onclick="if(confirm('¿Eliminar cotización?')) db.collection('cotizaciones_tienda').doc('${c.id}').delete()" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Eliminar</button>
                         </td>
                     </tr>
                 `;
@@ -2180,8 +2361,7 @@
                 `;
             }).join('');
 
-            const win = window.open('', '_blank', 'width=850,height=750');
-            win.document.write(`
+            const htmlCotizacion = `
                 <!DOCTYPE html>
                 <html lang="es">
                 <head>
@@ -2390,7 +2570,7 @@
                         </div>
 
                         <div class="no-print">
-                            <button onclick="window.print()" style="background: #0284c7; color: white; border: none; padding: 10px 22px; font-weight: bold; border-radius: 8px; cursor: pointer;">🖨️ Imprimir Cotización (21.5 × 27.9 cm)</button>
+                            <button type="button" onclick="window.print()" style="background: #0284c7; color: white; border: none; padding: 10px 22px; font-weight: bold; border-radius: 8px; cursor: pointer;">🖨️ Imprimir Cotización (21.5 × 27.9 cm)</button>
                         </div>
                     </div>
                     <script>
@@ -2400,8 +2580,13 @@
                     <\/script>
                 </body>
                 </html>
-            `);
-            win.document.close();
+            `;
+
+            abrirVentanaImpresion(htmlCotizacion, {
+                width: 850,
+                height: 750,
+                tituloFallback: `Cotización No. ${numeroFormateado}`
+            });
         }
 
         // ================= CIERRE DE CAJA DIARIO Y GASTOS OPERATIVOS =================
@@ -2414,15 +2599,20 @@
                 return;
             }
             const fechaActual = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            await db.collection('gastos_caja').add({
-                categoria: document.getElementById('categoriaGasto').value,
-                descripcion: document.getElementById('descripcionGasto').value.trim(),
-                monto: monto,
-                fecha: fechaActual,
-                rawDate: new Date().toISOString()
-            });
-            alert('¡Salida de efectivo registrada en caja!');
-            gastoForm.reset();
+            try {
+                await db.collection('gastos_caja').add({
+                    categoria: document.getElementById('categoriaGasto').value,
+                    descripcion: document.getElementById('descripcionGasto').value.trim(),
+                    monto: monto,
+                    fecha: fechaActual,
+                    rawDate: new Date().toISOString()
+                });
+                alert('¡Salida de efectivo registrada en caja!');
+                gastoForm.reset();
+            } catch (err) {
+                console.error('Error al registrar gasto:', err);
+                alert('No se pudo registrar el gasto: ' + err.message);
+            }
         });
 
         db.collection('gastos_caja').orderBy('rawDate', 'desc').onSnapshot((snapshot) => {
@@ -2451,7 +2641,7 @@
                         <td class="p-2.5 text-slate-200">${escapeHtml(g.descripcion)}</td>
                         <td class="p-2.5 font-bold text-rose-400">- Q. ${(g.monto || 0).toFixed(2)}</td>
                         <td class="p-2.5 text-center">
-                            <button onclick="if(confirm('¿Eliminar este registro de gasto?')) db.collection('gastos_caja').doc('${g.id}').delete()" class="text-red-400 px-2 py-0.5 bg-red-950/50 border border-red-900/50 rounded">Eliminar</button>
+                            <button type="button" onclick="if(confirm('¿Eliminar este registro de gasto?')) db.collection('gastos_caja').doc('${g.id}').delete()" class="text-red-400 px-2 py-0.5 bg-red-950/50 border border-red-900/50 rounded">Eliminar</button>
                         </td>
                     </tr>
                 `;
@@ -2528,8 +2718,7 @@
                     </tr>
                 `).join('');
 
-            const ventanaCierre = window.open('', '_blank', 'width=700,height=650');
-            ventanaCierre.document.write(`
+            const htmlCierre = `
                 <!DOCTYPE html>
                 <html lang="es">
                 <head>
@@ -2568,12 +2757,17 @@
                         <p style="text-align:center; font-size:10px; color:#64748b; margin-top:20px;">"Propiedad de OSMOTEC, Los Amates" 2026</p>
                     </div>
                     <div class="no-print" style="text-align:center; margin-top:20px;">
-                        <button onclick="window.print()" style="background:#0284c7; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer;">🖨️ Imprimir Comprobante</button>
+                        <button type="button" onclick="window.print()" style="background:#0284c7; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer;">🖨️ Imprimir Comprobante</button>
                     </div>
                 </body>
                 </html>
-            `);
-            ventanaCierre.document.close();
+            `;
+
+            abrirVentanaImpresion(htmlCierre, {
+                width: 700,
+                height: 650,
+                tituloFallback: 'Cierre de Caja OSMOTEC'
+            });
         }
 
         // ================= TIENDA: REPORTES & ANULACIÓN CON DEVOLUCIÓN DE STOCK =================
@@ -2719,7 +2913,7 @@
                         <td class="p-3 font-bold text-emerald-400">Q. ${(v.total || 0).toFixed(2)}</td>
                         <td class="p-3 font-bold text-cyan-400">Q. ${gananciaVenta.toFixed(2)}</td>
                         <td class="p-3 text-center">
-                            <button onclick="anularVentaYDevolverStock('${v.id}')" class="text-amber-300 text-xs px-2.5 py-1 bg-amber-950/60 hover:bg-amber-900/60 rounded-lg font-bold border border-amber-700/60 transition">↩️ Anular y Devolver</button>
+                            <button type="button" onclick="anularVentaYDevolverStock('${v.id}')" class="text-amber-300 text-xs px-2.5 py-1 bg-amber-950/60 hover:bg-amber-900/60 rounded-lg font-bold border border-amber-700/60 transition">↩️ Anular y Devolver</button>
                         </td>
                     </tr>
                 `;
@@ -2751,9 +2945,7 @@
 
         // ================= FICHA / TICKET VISUAL DE TALLER =================
         function descargarTicketPDF(cliente, whatsapp, tipo, marca, modelo, falla, accesorios, fecha, numeroOrden) {
-            const ventanaImpresion = window.open('', '_blank', 'width=400,height=600');
-            
-            ventanaImpresion.document.write(`
+            const htmlTicket = `
                 <!DOCTYPE html>
                 <html lang="es">
                 <head>
@@ -2789,13 +2981,18 @@
                         <div class="footer">"Propiedad de OSMOTEC, Los Amates" 2026</div>
                     </div>
                     <div class="no-print" style="text-align: center; margin-top: 20px;">
-                        <button onclick="window.print()" style="background: #0284c7; color: white; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; font-family: monospace;">🖨️ Imprimir / Guardar</button>
+                        <button type="button" onclick="window.print()" style="background: #0284c7; color: white; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; font-family: monospace;">🖨️ Imprimir / Guardar</button>
                     </div>
                     <script>window.onload = function() { setTimeout(() => { window.print(); }, 300); };<\/script>
                 </body>
                 </html>
-            `);
-            ventanaImpresion.document.close();
+            `;
+
+            abrirVentanaImpresion(htmlTicket, {
+                width: 400,
+                height: 600,
+                tituloFallback: `Orden #${numeroOrden}`
+            });
         }
 
         function poblarSelectGarantia() {
@@ -2842,7 +3039,6 @@
                     colorLight: "#ffffff",
                     correctLevel: QRCode.CorrectLevel.M
                 });
-                alert('¡Código QR generado correctamente!');
             } catch (e) {
                 console.error("Error detallado QR:", e);
                 alert('Error al generar el código QR.');
@@ -2860,8 +3056,7 @@
             const equipoSeguro = `${eqSeleccionadoGarantia.marca} ${eqSeleccionadoGarantia.modelo}`.trim();
             const contenidoQR = URL_FACEBOOK_OSMOTEC;
 
-            const ventanaQR = window.open('', '_blank', 'width=400,height=500');
-            ventanaQR.document.write(`
+            const htmlQR = `
                 <!DOCTYPE html>
                 <html lang="es">
                 <head>
@@ -2897,7 +3092,7 @@
                         </div>
                     </div>
                     <div class="no-print">
-                        <button onclick="window.print()" style="background: #0284c7; color: white; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; font-family: monospace;">🖨️ Imprimir Etiqueta</button>
+                        <button type="button" onclick="window.print()" style="background: #0284c7; color: white; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; font-family: monospace;">🖨️ Imprimir Etiqueta</button>
                     </div>
                     <script>
                         window.onload = function() {
@@ -2914,8 +3109,30 @@
                     <\/script>
                 </body>
                 </html>
-            `);
-            ventanaQR.document.close();
+            `;
+
+            const win = abrirVentanaImpresion(htmlQR, {
+                width: 400,
+                height: 500,
+                tituloFallback: 'Etiqueta QR Garantía OSMOTEC'
+            });
+
+            if (!win) {
+                const iframe = document.getElementById('frameImpresionFallback');
+                const doc = iframe && iframe.contentWindow && iframe.contentWindow.document;
+                const cont = doc && doc.getElementById('qrImpresionModal');
+                if (cont && typeof QRCode !== 'undefined') {
+                    cont.innerHTML = '';
+                    new QRCode(cont, {
+                        text: contenidoQR,
+                        width: 98,
+                        height: 98,
+                        colorDark: '#000000',
+                        colorLight: '#ffffff',
+                        correctLevel: QRCode.CorrectLevel.M
+                    });
+                }
+            }
         }
     </script>
 </body>
