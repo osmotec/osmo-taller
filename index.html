@@ -56,9 +56,12 @@
                 </button>
             </div>
 
-            <div class="pt-2 border-t border-slate-800">
-                <button type="button" onclick="cerrarAplicacion()" class="text-xs text-red-400 hover:text-red-300 font-mono transition">
-                    [ ❌ Cerrar Sistema ]
+            <div class="pt-3 border-t border-slate-800 grid grid-cols-2 gap-2.5 font-mono">
+                <button type="button" onclick="abrirModalRespaldo()" class="w-full py-2.5 px-3 rounded-xl text-xs font-bold bg-slate-950 hover:bg-slate-800 text-cyan-400 border border-cyan-800/60 transition">
+                    💾 Respaldo
+                </button>
+                <button type="button" onclick="cerrarAplicacion()" class="w-full py-2.5 px-3 rounded-xl text-xs font-bold bg-slate-950 hover:bg-slate-800 text-red-400 border border-red-900/50 transition">
+                    ❌ Cerrar Sistema
                 </button>
             </div>
         </div>
@@ -103,6 +106,10 @@
                         <button type="button" onclick="cambiarPestanaTienda('caja')" id="btnTabCaja" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">💸 Cierre / Gastos</button>
                         <button type="button" onclick="cambiarPestanaTienda('reportes')" id="btnTabReportes" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800">📊 Reportes</button>
                     </nav>
+
+                    <button type="button" onclick="abrirModalRespaldo()" class="px-3.5 py-2 rounded-xl text-xs font-mono font-bold transition-all duration-200 flex items-center gap-1.5 bg-slate-950 text-emerald-400 hover:bg-slate-800 shadow-md border border-emerald-900 shrink-0">
+                        💾 Respaldo
+                    </button>
 
                     <button type="button" onclick="volverAlSelector()" class="px-3.5 py-2 rounded-xl text-xs font-mono font-bold transition-all duration-200 flex items-center gap-1.5 bg-slate-950 text-cyan-400 hover:bg-slate-800 shadow-md border border-cyan-900 shrink-0">
                         🏠 Menú Principal
@@ -161,12 +168,12 @@
                                 <input type="text" id="accesorios" placeholder="Cargador..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200 font-mono">
                             </div>
                         </div>
-                        <div class="flex gap-2 pt-2">
-                            <button type="submit" id="btnGuardarOrden" class="w-full bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-mono font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(6,182,212,0.3)] transition">
-                                Guardar Orden en Consola
+                        <div class="grid grid-cols-2 gap-2 pt-2">
+                            <button type="submit" id="btnGuardarOrden" class="w-full bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-mono font-bold py-2.5 px-3 rounded-xl text-xs shadow-[0_0_15px_rgba(6,182,212,0.3)] transition">
+                                Guardar Orden
                             </button>
-                            <button type="button" id="btnCancelarEdicionOrden" onclick="cancelarEdicionOrden()" class="hidden bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono font-bold py-3 px-4 rounded-xl text-sm">
-                                Cancelar
+                            <button type="button" id="btnCancelarEdicionOrden" onclick="cancelarEdicionOrden()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono font-bold py-2.5 px-3 rounded-xl text-xs transition">
+                                Limpiar
                             </button>
                         </div>
                     </form>
@@ -178,20 +185,20 @@
                         <input type="text" id="buscarOrden" placeholder="Buscar equipo o cliente..." class="bg-slate-950 border border-slate-800 rounded-xl p-2 text-sm text-slate-200 font-mono w-full sm:w-64 focus:outline-none focus:border-cyan-500">
                     </div>
 
-                    <div class="flex flex-wrap items-center gap-2 font-mono text-xs pb-1">
-                        <button type="button" onclick="cambiarFiltroEstadoOrden('Todos')" id="filtroEst_Todos" class="px-3 py-1.5 rounded-xl font-bold bg-cyan-600 text-slate-950 transition">
+                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 font-mono text-xs pb-1">
+                        <button type="button" onclick="cambiarFiltroEstadoOrden('Todos')" id="filtroEst_Todos" class="w-full py-1.5 px-2 rounded-xl font-bold bg-cyan-600 text-slate-950 transition text-center">
                             Todos (<span id="countEst_Todos">0</span>)
                         </button>
-                        <button type="button" onclick="cambiarFiltroEstadoOrden('Pendiente')" id="filtroEst_Pendiente" class="px-3 py-1.5 rounded-xl font-semibold bg-slate-950 text-amber-400 border border-slate-800 hover:border-amber-500/50 transition">
+                        <button type="button" onclick="cambiarFiltroEstadoOrden('Pendiente')" id="filtroEst_Pendiente" class="w-full py-1.5 px-2 rounded-xl font-semibold bg-slate-950 text-amber-400 border border-slate-800 hover:border-amber-500/50 transition text-center">
                             ⏳ Pendiente (<span id="countEst_Pendiente">0</span>)
                         </button>
-                        <button type="button" onclick="cambiarFiltroEstadoOrden('Reparado')" id="filtroEst_Reparado" class="px-3 py-1.5 rounded-xl font-semibold bg-slate-950 text-cyan-400 border border-slate-800 hover:border-cyan-500/50 transition">
+                        <button type="button" onclick="cambiarFiltroEstadoOrden('Reparado')" id="filtroEst_Reparado" class="w-full py-1.5 px-2 rounded-xl font-semibold bg-slate-950 text-cyan-400 border border-slate-800 hover:border-cyan-500/50 transition text-center">
                             ✅ Reparado (<span id="countEst_Reparado">0</span>)
                         </button>
-                        <button type="button" onclick="cambiarFiltroEstadoOrden('No reparado')" id="filtroEst_No reparado" class="px-3 py-1.5 rounded-xl font-semibold bg-slate-950 text-rose-400 border border-slate-800 hover:border-rose-500/50 transition">
-                            ❌ No reparado (<span id="countEst_No reparado">0</span>)
+                        <button type="button" onclick="cambiarFiltroEstadoOrden('No reparado')" id="filtroEst_No reparado" class="w-full py-1.5 px-2 rounded-xl font-semibold bg-slate-950 text-rose-400 border border-slate-800 hover:border-rose-500/50 transition text-center">
+                            ❌ No rep. (<span id="countEst_No reparado">0</span>)
                         </button>
-                        <button type="button" onclick="cambiarFiltroEstadoOrden('Entregado')" id="filtroEst_Entregado" class="px-3 py-1.5 rounded-xl font-semibold bg-slate-950 text-emerald-400 border border-slate-800 hover:border-emerald-500/50 transition">
+                        <button type="button" onclick="cambiarFiltroEstadoOrden('Entregado')" id="filtroEst_Entregado" class="w-full py-1.5 px-2 rounded-xl font-semibold bg-slate-950 text-emerald-400 border border-slate-800 hover:border-emerald-500/50 transition text-center">
                             📦 Entregado (<span id="countEst_Entregado">0</span>)
                         </button>
                     </div>
@@ -205,7 +212,7 @@
                                     <th class="p-3 bg-slate-950">Falla & Accesorios</th>
                                     <th class="p-3 bg-slate-950">Técnico</th>
                                     <th class="p-3 bg-slate-950">Estado</th>
-                                    <th class="p-3 bg-slate-950 text-center">Acciones</th>
+                                    <th class="p-3 bg-slate-950 text-center w-28">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody id="tablaOrdenes" class="divide-y divide-slate-800/60 font-mono text-xs"></tbody>
@@ -289,7 +296,7 @@
                             <label class="block text-xs text-cyan-400 mb-1">Días de Garantía (1-15)</label>
                             <input type="number" id="diasGarantia" min="1" max="15" value="15" class="w-full bg-slate-950 border-2 border-cyan-500/50 rounded-xl p-2.5 text-sm font-bold text-cyan-300">
                         </div>
-                        <button type="button" onclick="generarQR()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)] transition">
+                        <button type="button" onclick="generarQR()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-2.5 px-4 rounded-xl text-xs shadow-[0_0_15px_rgba(16,185,129,0.3)] transition">
                             🖨️ Generar y Vista Previa QR
                         </button>
                     </div>
@@ -303,7 +310,7 @@
                         <div id="qrSiguenosBadge" class="text-[6px] font-mono font-black text-cyan-300 tracking-wider uppercase leading-none">¡SÍGUENOS!</div>
                         <div id="qrInfoTexto" class="text-[5.5px] font-mono text-slate-300 font-medium leading-tight text-center w-full">Seleccione un equipo</div>
                     </div>
-                    <button type="button" onclick="imprimirEtiquetaQRModal()" class="mt-4 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-mono font-bold px-6 py-2.5 rounded-xl text-xs shadow-md transition">
+                    <button type="button" onclick="imprimirEtiquetaQRModal()" class="mt-4 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-mono font-bold py-2.5 px-6 rounded-xl text-xs shadow-md transition">
                         🖨️ Imprimir en la Esquina Superior Izquierda
                     </button>
                 </section>
@@ -321,7 +328,7 @@
                             <label class="block text-xs text-slate-400 mb-1">Especialidad</label>
                             <input type="text" id="especialidad" placeholder="Ej: Impresoras" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200">
                         </div>
-                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3 rounded-xl text-sm transition">
+                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-2.5 px-4 rounded-xl text-xs transition">
                             Guardar Técnico
                         </button>
                     </form>
@@ -334,7 +341,7 @@
                                 <tr class="bg-slate-950 text-xs uppercase text-slate-400 border-b border-slate-800 sticky top-0 z-10 shadow">
                                     <th class="p-3 bg-slate-950">Nombre</th>
                                     <th class="p-3 bg-slate-950">Especialidad</th>
-                                    <th class="p-3 bg-slate-950 text-center">Acciones</th>
+                                    <th class="p-3 bg-slate-950 text-center w-28">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody id="tablaTecnicos" class="divide-y divide-slate-800/60 text-xs"></tbody>
@@ -367,12 +374,12 @@
                             <label class="block text-xs text-slate-400 mb-1">Stock / Cantidad</label>
                             <input type="number" min="0" id="stockProducto" required placeholder="10" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200">
                         </div>
-                        <div class="flex gap-2 pt-2">
-                            <button type="submit" id="btnGuardarProducto" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)] transition">
-                                Guardar en Inventario
+                        <div class="grid grid-cols-2 gap-2 pt-2">
+                            <button type="submit" id="btnGuardarProducto" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-2.5 px-3 rounded-xl text-xs shadow-[0_0_15px_rgba(16,185,129,0.3)] transition">
+                                Guardar Producto
                             </button>
-                            <button type="button" id="btnCancelarEdicion" onclick="cancelarEdicionProducto()" class="hidden bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3 px-4 rounded-xl text-sm">
-                                Cancelar
+                            <button type="button" id="btnCancelarEdicion" onclick="cancelarEdicionProducto()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 px-3 rounded-xl text-xs transition">
+                                Limpiar
                             </button>
                         </div>
                     </form>
@@ -408,7 +415,7 @@
                                     <th class="p-3 bg-slate-950">Producto</th>
                                     <th class="p-3 bg-slate-950">Costo / Venta</th>
                                     <th class="p-3 bg-slate-950">Stock & Alerta</th>
-                                    <th class="p-3 bg-slate-950 text-center">Acciones</th>
+                                    <th class="p-3 bg-slate-950 text-center w-28">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody id="tablaTienda" class="divide-y divide-slate-800/60 text-xs"></tbody>
@@ -494,7 +501,7 @@
                             </div>
                         </div>
 
-                        <button type="button" onclick="procesarVentaEImprimir()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3.5 rounded-xl text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)] transition flex items-center justify-center gap-2">
+                        <button type="button" onclick="procesarVentaEImprimir()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3 px-4 rounded-xl text-xs shadow-[0_0_15px_rgba(16,185,129,0.3)] transition flex items-center justify-center gap-2">
                             ✅ Cobrar e Imprimir / Guardar Factura
                         </button>
                     </div>
@@ -529,12 +536,12 @@
                             <label class="block text-xs text-slate-400 mb-1">Notas / Preferencias</label>
                             <textarea id="notasClienteTienda" rows="2" placeholder="Compras frecuentes..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200 focus:outline-none focus:border-emerald-500"></textarea>
                         </div>
-                        <div class="flex gap-2 pt-2">
-                            <button type="submit" id="btnGuardarCliente" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(16,185,129,0.3)] transition">
+                        <div class="grid grid-cols-2 gap-2 pt-2">
+                            <button type="submit" id="btnGuardarCliente" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-2.5 px-3 rounded-xl text-xs shadow-[0_0_15px_rgba(16,185,129,0.3)] transition">
                                 Guardar Cliente
                             </button>
-                            <button type="button" id="btnCancelarEdicionCliente" onclick="cancelarEdicionCliente()" class="hidden bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3 px-4 rounded-xl text-sm">
-                                Cancelar
+                            <button type="button" id="btnCancelarEdicionCliente" onclick="cancelarEdicionCliente()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 px-3 rounded-xl text-xs transition">
+                                Limpiar
                             </button>
                         </div>
                     </form>
@@ -553,7 +560,7 @@
                                     <th class="p-3 bg-slate-950">Cliente</th>
                                     <th class="p-3 bg-slate-950">Teléfono / NIT</th>
                                     <th class="p-3 bg-slate-950">Dirección / Notas</th>
-                                    <th class="p-3 bg-slate-950 text-center">Acciones</th>
+                                    <th class="p-3 bg-slate-950 text-center w-28">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody id="tablaClientesTienda" class="divide-y divide-slate-800/60"></tbody>
@@ -607,7 +614,7 @@
                                 </select>
                                 <input type="number" id="cantProductoCotizacion" min="1" value="1" class="w-14 shrink-0 bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-center text-cyan-300 font-bold">
                             </div>
-                            <button type="button" onclick="agregarItemCotizacion()" class="mt-2 w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold py-2 rounded-xl text-xs border border-cyan-800/50 transition">
+                            <button type="button" onclick="agregarItemCotizacion()" class="mt-2 w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold py-2 px-3 rounded-xl text-xs border border-cyan-800/50 transition">
                                 ➕ Agregar a Cotización
                             </button>
                         </div>
@@ -624,10 +631,10 @@
                         </div>
 
                         <div class="grid grid-cols-2 gap-2 pt-1">
-                            <button type="button" onclick="guardarCotizacionFirestore()" class="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-2.5 rounded-xl text-xs shadow transition">
+                            <button type="button" onclick="guardarCotizacionFirestore()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-2.5 px-3 rounded-xl text-xs shadow transition">
                                 💾 Guardar
                             </button>
-                            <button type="button" onclick="imprimirCotizacionBorrador()" class="bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold py-2.5 rounded-xl text-xs shadow transition">
+                            <button type="button" onclick="imprimirCotizacionBorrador()" class="w-full bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold py-2.5 px-3 rounded-xl text-xs shadow transition">
                                 🖨️ Imprimir
                             </button>
                         </div>
@@ -646,7 +653,7 @@
                                         <th class="p-3 bg-slate-950">Fecha / Cliente</th>
                                         <th class="p-3 bg-slate-950">Detalle Productos</th>
                                         <th class="p-3 bg-slate-950">Total</th>
-                                        <th class="p-3 bg-slate-950 text-center">Acciones</th>
+                                        <th class="p-3 bg-slate-950 text-center w-28">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tablaCotizaciones" class="divide-y divide-slate-800/60"></tbody>
@@ -680,7 +687,7 @@
                                 <label class="block text-xs text-slate-400 mb-1">Monto (Q.)</label>
                                 <input type="number" step="0.01" min="0.01" id="montoGasto" required placeholder="0.00" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-rose-300 font-bold">
                             </div>
-                            <button type="submit" class="w-full bg-rose-600 hover:bg-rose-500 text-white font-bold py-3 rounded-xl text-sm shadow-[0_0_15px_rgba(225,29,72,0.3)] transition">
+                            <button type="submit" class="w-full bg-rose-600 hover:bg-rose-500 text-white font-bold py-2.5 px-4 rounded-xl text-xs shadow-[0_0_15px_rgba(225,29,72,0.3)] transition">
                                 ➖ Registrar Salida de Efectivo
                             </button>
                         </form>
@@ -692,7 +699,7 @@
                                 <h2 class="text-sm font-bold text-cyan-400">🔐 Arqueo y Cierre de Caja (Hoy: <span id="fechaHoyCaja"></span>)</h2>
                                 <p class="text-[11px] text-slate-400">Cuadre automático entre ingresos por ventas y salidas de efectivo</p>
                             </div>
-                            <button type="button" onclick="imprimirCierreCajaPDF()" class="bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs shadow transition">
+                            <button type="button" onclick="imprimirCierreCajaPDF()" class="bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold py-2 px-4 rounded-xl text-xs shadow transition">
                                 🖨️ Imprimir Cierre del Día
                             </button>
                         </div>
@@ -739,7 +746,7 @@
                                             <th class="p-2.5 bg-slate-950">Categoría</th>
                                             <th class="p-2.5 bg-slate-950">Descripción</th>
                                             <th class="p-2.5 bg-slate-950">Monto</th>
-                                            <th class="p-2.5 bg-slate-950 text-center">Acción</th>
+                                            <th class="p-2.5 bg-slate-950 text-center w-24">Acción</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tablaGastosCaja" class="divide-y divide-slate-800/60"></tbody>
@@ -758,7 +765,7 @@
                         <p class="text-xs text-slate-400 font-mono">Visualiza ingresos, ganancias netas, gastos operativos y utilidad real</p>
                     </div>
                     <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto font-mono">
-                        <button type="button" onclick="enviarWhatsAppAgotadosReportes()" class="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs shadow-md transition flex items-center gap-1.5">
+                        <button type="button" onclick="enviarWhatsAppAgotadosReportes()" class="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-2.5 px-4 rounded-xl text-xs shadow-md transition flex items-center gap-1.5">
                             📱 Enviar Reporte Agotados WSP
                         </button>
                         <select id="filtroPeriodoReporte" onchange="aplicarFiltroReportes()" class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs font-bold text-slate-300 focus:outline-none">
@@ -815,7 +822,7 @@
                                     <th class="p-3 bg-slate-950">Productos Detalle</th>
                                     <th class="p-3 bg-slate-950">Venta Total</th>
                                     <th class="p-3 bg-slate-950">Ganancia Neta</th>
-                                    <th class="p-3 bg-slate-950 text-center">Acciones</th>
+                                    <th class="p-3 bg-slate-950 text-center w-36">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody id="tablaReporteVentas" class="divide-y divide-slate-800/60 text-xs"></tbody>
@@ -830,6 +837,49 @@
         <footer class="w-full bg-slate-900/90 border-t border-slate-800 py-3 px-4 text-center text-xs font-mono text-slate-400">
             "Propiedad de OSMOTEC, Los Amates" 2026
         </footer>
+    </div>
+
+    <!-- ================= MODAL GLOBAL DE RESPALDO Y RESTAURACIÓN ================= -->
+    <div id="modalRespaldo" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 font-mono">
+        <div class="max-w-lg w-full bg-slate-900 border border-cyan-500/40 rounded-3xl p-6 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h2 class="text-sm font-black text-cyan-400">💾 RESPALDO GLOBAL (TALLER + TIENDA)</h2>
+                <button type="button" onclick="cerrarModalRespaldo()" class="text-slate-400 hover:text-white text-xs px-2.5 py-1 rounded-lg bg-slate-800">✕ Cerrar</button>
+            </div>
+
+            <p class="text-xs text-slate-300 leading-relaxed">
+                Exporta o restaura en un archivo <b class="text-cyan-300">.JSON</b> los datos de <b>Taller</b> (órdenes, técnicos) y <b>Tienda / POS</b> (inventario, ventas, clientes, cotizaciones, caja y correlativo).
+            </p>
+
+            <div class="grid grid-cols-3 gap-2 text-center text-[11px]">
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5">
+                    <div class="text-slate-400">Órdenes</div>
+                    <div id="respaldoCountOrdenes" class="text-cyan-400 font-black text-sm mt-0.5">0</div>
+                </div>
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5">
+                    <div class="text-slate-400">Productos</div>
+                    <div id="respaldoCountProductos" class="text-emerald-400 font-black text-sm mt-0.5">0</div>
+                </div>
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5">
+                    <div class="text-slate-400">Ventas</div>
+                    <div id="respaldoCountVentas" class="text-amber-400 font-black text-sm mt-0.5">0</div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 pt-1">
+                <button type="button" onclick="descargarRespaldoGlobalJSON()" class="w-full py-2.5 px-3 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-slate-950 shadow transition">
+                    ⬇️ Descargar .JSON
+                </button>
+                <label class="w-full py-2.5 px-3 rounded-xl text-xs font-bold bg-cyan-600 hover:bg-cyan-500 text-slate-950 shadow transition text-center cursor-pointer">
+                    ⬆️ Restaurar .JSON
+                    <input type="file" id="inputArchivoRespaldo" accept=".json,application/json" onchange="restaurarRespaldoGlobalJSON(event)" class="hidden">
+                </label>
+            </div>
+
+            <div id="estadoRespaldoTexto" class="text-[11px] text-slate-400 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-center">
+                Listo para exportar o importar respaldo.
+            </div>
+        </div>
     </div>
 
     <!-- ================= SCRIPT DE CONFIGURACIÓN Y LÓGICA ================= -->
@@ -884,6 +934,7 @@
         const db = firebase.firestore();
 
         let listaTecnicosGlobal = [];
+        let listaTecnicosDocsGlobal = [];
         let todasLasOrdenesGlobal = [];
         let todosLosProductosGlobal = [];
         let carritoVenta = [];
@@ -914,6 +965,124 @@
                 .replace(/\r?\n/g, ' ');
         }
 
+        // ================= RESPALDO Y RESTAURACIÓN GLOBAL =================
+        function abrirModalRespaldo() {
+            document.getElementById('respaldoCountOrdenes').textContent = todasLasOrdenesGlobal.length;
+            document.getElementById('respaldoCountProductos').textContent = todosLosProductosGlobal.length;
+            document.getElementById('respaldoCountVentas').textContent = todasLasVentasGlobal.length;
+            document.getElementById('estadoRespaldoTexto').textContent = 'Listo para exportar o importar respaldo.';
+            document.getElementById('modalRespaldo').classList.remove('hidden');
+        }
+
+        function cerrarModalRespaldo() {
+            document.getElementById('modalRespaldo').classList.add('hidden');
+            const inputFile = document.getElementById('inputArchivoRespaldo');
+            if (inputFile) inputFile.value = '';
+        }
+
+        function descargarRespaldoGlobalJSON() {
+            const payload = {
+                sistema: 'OSMOTEC CONSOLA v3.2',
+                proyectoFirebase: firebaseConfig.projectId,
+                exportadoEn: new Date().toISOString(),
+                taller: {
+                    ordenes_taller: todasLasOrdenesGlobal.map(({ id, numeroOrden, ...rest }) => ({ id, ...rest })),
+                    tecnicos_taller: listaTecnicosDocsGlobal.length > 0
+                        ? listaTecnicosDocsGlobal
+                        : listaTecnicosGlobal.map(nombre => ({ nombre, especialidad: 'General' }))
+                },
+                tienda: {
+                    productos_tienda: todosLosProductosGlobal.map(({ id, ...rest }) => ({ id, ...rest })),
+                    ventas_tienda: todasLasVentasGlobal.map(({ id, ...rest }) => ({ id, ...rest })),
+                    clientes_tienda: todosLosClientesGlobal.map(({ id, ...rest }) => ({ id, ...rest })),
+                    cotizaciones_tienda: todasLasCotizacionesGlobal.map(({ id, ...rest }) => ({ id, ...rest })),
+                    gastos_caja: todosLosGastosGlobal.map(({ id, ...rest }) => ({ id, ...rest })),
+                    correlativo_cotizacion: { siguiente: proximoCorrelativoCotizacion || 1 }
+                }
+            };
+
+            const jsonStr = JSON.stringify(payload, null, 2);
+            const blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const fechaArchivo = new Date().toISOString().slice(0, 10);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Respaldo_OSMOTEC_${fechaArchivo}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+            document.getElementById('estadoRespaldoTexto').textContent = `Respaldo descargado (${fechaArchivo}).`;
+        }
+
+        async function restaurarRespaldoGlobalJSON(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+
+            const estadoEl = document.getElementById('estadoRespaldoTexto');
+            estadoEl.textContent = 'Leyendo archivo de respaldo...';
+
+            try {
+                const texto = await file.text();
+                const data = JSON.parse(texto);
+
+                const ordenes = data?.taller?.ordenes_taller || [];
+                const tecnicos = data?.taller?.tecnicos_taller || [];
+                const productos = data?.tienda?.productos_tienda || [];
+                const ventas = data?.tienda?.ventas_tienda || [];
+                const clientes = data?.tienda?.clientes_tienda || [];
+                const cotizaciones = data?.tienda?.cotizaciones_tienda || [];
+                const gastos = data?.tienda?.gastos_caja || [];
+                const correlativo = data?.tienda?.correlativo_cotizacion;
+
+                if (!confirm('¿Restaurar este respaldo en Firebase (osmoapp-edf62)? Se actualizarán o agregarán los registros del archivo.')) {
+                    estadoEl.textContent = 'Restauración cancelada.';
+                    event.target.value = '';
+                    return;
+                }
+
+                estadoEl.textContent = 'Restaurando datos en Taller y Tienda...';
+
+                const restaurarColeccion = async (coleccionNombre, items) => {
+                    for (const item of items) {
+                        if (!item || typeof item !== 'object') continue;
+                        const { id, ...campos } = item;
+                        if (id) {
+                            await db.collection(coleccionNombre).doc(String(id)).set(campos, { merge: true });
+                        } else {
+                            await db.collection(coleccionNombre).add(campos);
+                        }
+                    }
+                };
+
+                await restaurarColeccion('ordenes_taller', ordenes);
+                await restaurarColeccion('tecnicos_taller', tecnicos);
+                await restaurarColeccion('productos_tienda', productos);
+                await restaurarColeccion('ventas_tienda', ventas);
+                await restaurarColeccion('clientes_tienda', clientes);
+                await restaurarColeccion('cotizaciones_tienda', cotizaciones);
+                await restaurarColeccion('gastos_caja', gastos);
+
+                if (correlativo && typeof correlativo.siguiente === 'number') {
+                    await db.collection('config_tienda').doc('correlativo_cotizacion').set(
+                        { siguiente: correlativo.siguiente },
+                        { merge: true }
+                    );
+                }
+
+                estadoEl.textContent = '¡Respaldo restaurado correctamente en Taller y Tienda!';
+                alert('¡Respaldo restaurado con éxito!');
+            } catch (err) {
+                console.error('Error al restaurar respaldo:', err);
+                estadoEl.textContent = 'Error al restaurar: ' + err.message;
+                alert('No se pudo restaurar el archivo JSON: ' + err.message);
+            } finally {
+                event.target.value = '';
+            }
+        }
+
+        // ================= IMPRESIÓN SEGURA (VENTANA + FALLBACK IFRAME) =================
         function abrirVentanaImpresion(htmlString, options = {}) {
             const width = options.width || 820;
             const height = options.height || 680;
@@ -930,2210 +1099,4 @@
             let iframe = document.getElementById('frameImpresionFallback');
             if (!iframe) {
                 iframe = document.createElement('iframe');
-                iframe.id = 'frameImpresionFallback';
-                iframe.style.position = 'fixed';
-                iframe.style.right = '0';
-                iframe.style.bottom = '0';
-                iframe.style.width = '0';
-                iframe.style.height = '0';
-                iframe.style.border = '0';
-                document.body.appendChild(iframe);
-            }
-
-            const doc = iframe.contentWindow && iframe.contentWindow.document;
-            if (!doc) {
-                alert(`${tituloFallback}: No se pudo abrir la vista de impresión en este entorno.`);
-                return null;
-            }
-
-            const htmlSinAutoPrint = htmlString.replace(
-                /<script>[\s\S]*?window\.print\(\)[\s\S]*?<\/script>/gi,
-                ''
-            );
-
-            doc.open();
-            doc.write(htmlSinAutoPrint);
-            doc.close();
-
-            setTimeout(() => {
-                try {
-                    iframe.contentWindow.focus();
-                    iframe.contentWindow.print();
-                } catch (err) {
-                    alert(`${tituloFallback}: No se pudo lanzar la impresión directamente.`);
-                }
-            }, 400);
-
-            return null;
-        }
-
-        // ================= CONTROL DE MÓDULOS PRINCIPALES =================
-        function abrirModulo(modulo) {
-            document.getElementById('vistaSelector').classList.add('hidden');
-            const app = document.getElementById('contenedorApp');
-            app.classList.remove('hidden');
-            app.classList.add('flex');
-
-            const navTaller = document.getElementById('navTaller');
-            const navTienda = document.getElementById('navTienda');
-            const tituloHeader = document.getElementById('tituloHeaderModulo');
-
-            if (modulo === 'taller') {
-                navTaller.classList.remove('hidden');
-                navTienda.classList.add('hidden');
-                tituloHeader.innerHTML = "🛠️ TALLER OSMOTEC";
-                cambiarPestanaTaller('ordenes');
-            } else if (modulo === 'tienda') {
-                navTaller.classList.add('hidden');
-                navTienda.classList.remove('hidden');
-                tituloHeader.innerHTML = "🛒 TIENDA OSMOTEC";
-                cambiarPestanaTienda('inventario');
-            }
-        }
-
-        function volverAlSelector() {
-            const app = document.getElementById('contenedorApp');
-            app.classList.add('hidden');
-            app.classList.remove('flex');
-            document.getElementById('vistaSelector').classList.remove('hidden');
-        }
-
-        // ================= CONTROL AISLADO DE PESTAÑAS DE TALLER =================
-        function cambiarPestanaTaller(vista) {
-            document.getElementById('vistaOrdenes').classList.add('hidden');
-            document.getElementById('vistaOrdenes').classList.remove('grid');
-            document.getElementById('vistaDiagnostico').classList.add('hidden');
-            document.getElementById('vistaGarantia').classList.add('hidden');
-            document.getElementById('vistaGarantia').classList.remove('grid');
-            document.getElementById('vistaTecnicos').classList.add('hidden');
-            document.getElementById('vistaTecnicos').classList.remove('grid');
-
-            document.getElementById('vistaTiendaInventario').classList.add('hidden');
-            document.getElementById('vistaTiendaVentas').classList.add('hidden');
-            document.getElementById('vistaTiendaClientes').classList.add('hidden');
-            document.getElementById('vistaTiendaCotizaciones').classList.add('hidden');
-            document.getElementById('vistaTiendaCaja').classList.add('hidden');
-            document.getElementById('vistaTiendaReportes').classList.add('hidden');
-
-            const estiloInactivo = "px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800";
-            const estiloActivo = "px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-cyan-600 text-slate-950 shadow-[0_0_10px_rgba(6,182,212,0.3)]";
-
-            document.getElementById('btnTabOrdenes').className = estiloInactivo;
-            document.getElementById('btnTabDiagnostico').className = estiloInactivo;
-            document.getElementById('btnTabGarantia').className = estiloInactivo;
-            document.getElementById('btnTabTecnicos').className = estiloInactivo;
-
-            if (vista === 'ordenes') {
-                document.getElementById('vistaOrdenes').classList.remove('hidden');
-                document.getElementById('vistaOrdenes').classList.add('grid');
-                document.getElementById('btnTabOrdenes').className = estiloActivo;
-                aplicarFiltrosOrdenes();
-            } else if (vista === 'diagnostico') {
-                document.getElementById('vistaDiagnostico').classList.remove('hidden');
-                document.getElementById('btnTabDiagnostico').className = estiloActivo;
-                renderizarDiagnosticoYReportes(todasLasOrdenesGlobal);
-            } else if (vista === 'garantia') {
-                document.getElementById('vistaGarantia').classList.remove('hidden');
-                document.getElementById('vistaGarantia').classList.add('grid');
-                document.getElementById('btnTabGarantia').className = estiloActivo;
-                poblarSelectGarantia();
-            } else if (vista === 'tecnicos') {
-                document.getElementById('vistaTecnicos').classList.remove('hidden');
-                document.getElementById('vistaTecnicos').classList.add('grid');
-                document.getElementById('btnTabTecnicos').className = estiloActivo;
-            }
-        }
-
-        // ================= CONTROL AISLADO DE PESTAÑAS DE TIENDA =================
-        function cambiarPestanaTienda(vista) {
-            document.getElementById('vistaTiendaInventario').classList.add('hidden');
-            document.getElementById('vistaTiendaInventario').classList.remove('grid');
-            document.getElementById('vistaTiendaVentas').classList.add('hidden');
-            document.getElementById('vistaTiendaVentas').classList.remove('grid');
-            document.getElementById('vistaTiendaClientes').classList.add('hidden');
-            document.getElementById('vistaTiendaClientes').classList.remove('grid');
-            document.getElementById('vistaTiendaCotizaciones').classList.add('hidden');
-            document.getElementById('vistaTiendaCaja').classList.add('hidden');
-            document.getElementById('vistaTiendaReportes').classList.add('hidden');
-
-            document.getElementById('vistaOrdenes').classList.add('hidden');
-            document.getElementById('vistaDiagnostico').classList.add('hidden');
-            document.getElementById('vistaGarantia').classList.add('hidden');
-            document.getElementById('vistaTecnicos').classList.add('hidden');
-
-            const estiloInactivo = "px-3 py-1.5 rounded-xl text-xs font-mono font-semibold text-slate-300 hover:bg-slate-800";
-            const estiloActivo = "px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-emerald-600 text-slate-950 shadow-[0_0_10px_rgba(16,185,129,0.3)]";
-
-            document.getElementById('btnTabInventario').className = estiloInactivo;
-            document.getElementById('btnTabVentas').className = estiloInactivo;
-            document.getElementById('btnTabClientes').className = estiloInactivo;
-            document.getElementById('btnTabCotizaciones').className = estiloInactivo;
-            document.getElementById('btnTabCaja').className = estiloInactivo;
-            document.getElementById('btnTabReportes').className = estiloInactivo;
-
-            if (vista === 'inventario') {
-                document.getElementById('vistaTiendaInventario').classList.remove('hidden');
-                document.getElementById('vistaTiendaInventario').classList.add('grid');
-                document.getElementById('btnTabInventario').className = estiloActivo;
-            } else if (vista === 'ventas') {
-                document.getElementById('vistaTiendaVentas').classList.remove('hidden');
-                document.getElementById('vistaTiendaVentas').classList.add('grid');
-                document.getElementById('btnTabVentas').className = estiloActivo;
-                poblarSelectClienteVenta();
-                renderizarCatalogoPOS(todosLosProductosGlobal);
-            } else if (vista === 'clientes') {
-                document.getElementById('vistaTiendaClientes').classList.remove('hidden');
-                document.getElementById('vistaTiendaClientes').classList.add('grid');
-                document.getElementById('btnTabClientes').className = estiloActivo;
-                renderizarClientesTienda();
-            } else if (vista === 'cotizaciones') {
-                document.getElementById('vistaTiendaCotizaciones').classList.remove('hidden');
-                document.getElementById('btnTabCotizaciones').className = estiloActivo;
-                poblarSelectsCotizacion();
-                renderizarItemsCotizacion();
-                renderizarTablaCotizaciones();
-            } else if (vista === 'caja') {
-                document.getElementById('vistaTiendaCaja').classList.remove('hidden');
-                document.getElementById('btnTabCaja').className = estiloActivo;
-                actualizarResumenCajaDiaria();
-            } else if (vista === 'reportes') {
-                document.getElementById('vistaTiendaReportes').classList.remove('hidden');
-                document.getElementById('btnTabReportes').className = estiloActivo;
-                aplicarFiltroReportes();
-            }
-        }
-
-        function cerrarAplicacion() {
-            if (confirm('¿Desea salir de la consola?')) {
-                window.close();
-                setTimeout(() => {
-                    document.body.innerHTML = `<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; background: #020617; color: #38bdf8; font-family: monospace; gap: 16px;"><h1>[ 🔒 CONSOLA CERRADA ]</h1><span style="font-size: 12px; color: #94a3b8;">"Propiedad de OSMOTEC, Los Amates" 2026</span></div>`;
-                }, 200);
-            }
-        }
-
-        // ================= TALLER & TÉCNICOS =================
-        const tecnicoForm = document.getElementById('tecnicoForm');
-        tecnicoForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            try {
-                await db.collection('tecnicos_taller').add({
-                    nombre: document.getElementById('nombreTecnico').value.trim(),
-                    especialidad: document.getElementById('especialidad').value.trim() || 'General'
-                });
-                alert('¡Técnico registrado!');
-                tecnicoForm.reset();
-            } catch (err) {
-                console.error('Error al registrar técnico:', err);
-                alert('No se pudo guardar el técnico: ' + err.message);
-            }
-        });
-
-        db.collection('tecnicos_taller').onSnapshot((snapshot) => {
-            const tabla = document.getElementById('tablaTecnicos');
-            tabla.innerHTML = '';
-            listaTecnicosGlobal = [];
-            snapshot.forEach((doc) => {
-                const t = doc.data();
-                listaTecnicosGlobal.push(t.nombre);
-                tabla.innerHTML += `
-                    <tr class="hover:bg-slate-900">
-                        <td class="p-3 font-bold text-cyan-400">👨‍🔧 ${escapeHtml(t.nombre)}</td>
-                        <td class="p-3 text-xs text-slate-300">${escapeHtml(t.especialidad)}</td>
-                        <td class="p-3 text-center">
-                            <button type="button" onclick="db.collection('tecnicos_taller').doc('${doc.id}').delete()" class="text-red-400 text-xs px-2 py-1 bg-red-950/50 border border-red-900 rounded-lg">Eliminar</button>
-                        </td>
-                    </tr>`;
-            });
-            aplicarFiltrosOrdenes();
-        });
-
-        const ordenForm = document.getElementById('ordenForm');
-        ordenForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const editOrdenId = document.getElementById('editOrdenId').value;
-            const datosOrden = {
-                cliente: document.getElementById('cliente').value.trim(),
-                whatsapp: document.getElementById('whatsapp').value.trim(),
-                marca: document.getElementById('marca').value.trim(),
-                modelo: document.getElementById('modelo').value.trim(),
-                tipoEquipo: document.getElementById('tipoEquipo').value,
-                errorReportado: document.getElementById('errorReportado').value.trim(),
-                tiempoSinUso: document.getElementById('tiempoSinUso').value.trim(),
-                accesorios: document.getElementById('accesorios').value.trim() || 'Ninguno'
-            };
-
-            try {
-                if (editOrdenId) {
-                    await db.collection('ordenes_taller').doc(editOrdenId).update(datosOrden);
-                    alert('¡Orden de taller actualizada con éxito!');
-                    cancelarEdicionOrden();
-                } else {
-                    datosOrden.recibidoPor = 'Sin asignar';
-                    datosOrden.diagnosticoInicial = 'Pendiente...';
-                    datosOrden.reporteFinal = 'Pendiente...';
-                    datosOrden.costoReparacion = '0.00';
-                    datosOrden.estadoPago = 'Pendiente pago';
-                    datosOrden.estado = 'Pendiente';
-                    datosOrden.rawTimestamp = Date.now();
-                    datosOrden.fecha = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                    
-                    await db.collection('ordenes_taller').add(datosOrden);
-                    alert('¡Equipo registrado en consola!');
-                    ordenForm.reset();
-                }
-            } catch (err) {
-                console.error('Error al guardar orden:', err);
-                alert('No se pudo guardar la orden: ' + err.message);
-            }
-        });
-
-        function prepararEdicionOrden(id, cliente, whatsapp, marca, modelo, tipoEquipo, errorReportado, tiempoSinUso, accesorios) {
-            document.getElementById('editOrdenId').value = id;
-            document.getElementById('cliente').value = cliente;
-            document.getElementById('whatsapp').value = whatsapp;
-            document.getElementById('marca').value = marca;
-            document.getElementById('modelo').value = modelo;
-            document.getElementById('tipoEquipo').value = tipoEquipo;
-            document.getElementById('errorReportado').value = errorReportado;
-            document.getElementById('tiempoSinUso').value = tiempoSinUso;
-            document.getElementById('accesorios').value = accesorios;
-
-            document.getElementById('tituloFormOrden').textContent = "✏️ Modificar Orden";
-            document.getElementById('btnGuardarOrden').textContent = "Actualizar Orden";
-            document.getElementById('btnCancelarEdicionOrden').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function cancelarEdicionOrden() {
-            ordenForm.reset();
-            document.getElementById('editOrdenId').value = '';
-            document.getElementById('tituloFormOrden').textContent = "➕ Registrar Nuevo Equipo";
-            document.getElementById('btnGuardarOrden').textContent = "Guardar Orden en Consola";
-            document.getElementById('btnCancelarEdicionOrden').classList.add('hidden');
-        }
-
-        db.collection('ordenes_taller').orderBy('rawTimestamp', 'asc').onSnapshot((snapshot) => {
-            todasLasOrdenesGlobal = [];
-            let contadorID = 1;
-            snapshot.forEach((doc) => {
-                todasLasOrdenesGlobal.push({ id: doc.id, numeroOrden: contadorID++, ...doc.data() });
-            });
-            actualizarContadoresEstadoOrden();
-            aplicarFiltrosOrdenes();
-            renderizarDiagnosticoYReportes(todasLasOrdenesGlobal);
-            if (!document.getElementById('vistaGarantia').classList.contains('hidden')) {
-                poblarSelectGarantia();
-            }
-        });
-
-        function actualizarContadoresEstadoOrden() {
-            document.getElementById('countEst_Todos').textContent = todasLasOrdenesGlobal.length;
-            document.getElementById('countEst_Pendiente').textContent = todasLasOrdenesGlobal.filter(o => (o.estado || 'Pendiente') === 'Pendiente').length;
-            document.getElementById('countEst_Reparado').textContent = todasLasOrdenesGlobal.filter(o => o.estado === 'Reparado').length;
-            document.getElementById('countEst_No reparado').textContent = todasLasOrdenesGlobal.filter(o => o.estado === 'No reparado').length;
-            document.getElementById('countEst_Entregado').textContent = todasLasOrdenesGlobal.filter(o => o.estado === 'Entregado').length;
-        }
-
-        function cambiarFiltroEstadoOrden(estado) {
-            filtroEstadoOrdenActual = estado;
-            const estados = ['Todos', 'Pendiente', 'Reparado', 'No reparado', 'Entregado'];
-            estados.forEach(est => {
-                const btn = document.getElementById(`filtroEst_${est}`);
-                if (!btn) return;
-                if (est === estado) {
-                    btn.className = "px-3 py-1.5 rounded-xl font-bold bg-cyan-600 text-slate-950 shadow-[0_0_10px_rgba(6,182,212,0.3)] transition";
-                } else {
-                    let colorTxt = "text-slate-300";
-                    if (est === 'Pendiente') colorTxt = "text-amber-400";
-                    if (est === 'Reparado') colorTxt = "text-cyan-400";
-                    if (est === 'No reparado') colorTxt = "text-rose-400";
-                    if (est === 'Entregado') colorTxt = "text-emerald-400";
-                    btn.className = `px-3 py-1.5 rounded-xl font-semibold bg-slate-950 ${colorTxt} border border-slate-800 hover:border-slate-600 transition`;
-                }
-            });
-            aplicarFiltrosOrdenes();
-        }
-
-        function aplicarFiltrosOrdenes() {
-            const txt = (document.getElementById('buscarOrden')?.value || '').toLowerCase();
-            const filtradas = todasLasOrdenesGlobal.filter(o => {
-                const estadoOrden = o.estado || 'Pendiente';
-                const coincideEstado = (filtroEstadoOrdenActual === 'Todos') || (estadoOrden === filtroEstadoOrdenActual);
-                const coincideTexto = (o.marca || '').toLowerCase().includes(txt) ||
-                                      (o.modelo || '').toLowerCase().includes(txt) ||
-                                      (o.cliente || '').toLowerCase().includes(txt) ||
-                                      String(o.numeroOrden || '').includes(txt);
-                return coincideEstado && coincideTexto;
-            });
-            renderizarTodoTaller(filtradas);
-        }
-
-        function renderizarTodoTaller(ordenes) {
-            const t1 = document.getElementById('tablaOrdenes');
-            t1.innerHTML = '';
-            if (ordenes.length === 0) {
-                t1.innerHTML = `<tr><td colspan="6" class="text-center p-4 text-slate-500">Sin órdenes en este filtro.</td></tr>`;
-                return;
-            }
-
-            ordenes.forEach(o => {
-                let opcionesTecnicos = `<option value="Sin asignar">-- Sin asignar --</option>`;
-                listaTecnicosGlobal.forEach(tec => {
-                    let seleccionado = (o.recibidoPor === tec) ? 'selected' : '';
-                    opcionesTecnicos += `<option value="${escapeHtml(tec)}" ${seleccionado}>👨‍🔧 ${escapeHtml(tec)}</option>`;
-                });
-
-                let badgeEstado = `<span class="px-2.5 py-1 rounded-full font-bold bg-amber-950/60 text-amber-400 border border-amber-800/50 text-[10px]">${escapeHtml(o.estado || 'Pendiente')}</span>`;
-                if (o.estado === 'Reparado') {
-                    badgeEstado = `<span class="px-2.5 py-1 rounded-full font-bold bg-cyan-950/60 text-cyan-400 border border-cyan-800/50 text-[10px]">✅ Reparado</span>`;
-                } else if (o.estado === 'No reparado') {
-                    badgeEstado = `<span class="px-2.5 py-1 rounded-full font-bold bg-rose-950/60 text-rose-400 border border-rose-800/50 text-[10px]">❌ No reparado</span>`;
-                } else if (o.estado === 'Entregado') {
-                    badgeEstado = `<span class="px-2.5 py-1 rounded-full font-bold bg-emerald-950/60 text-emerald-400 border border-emerald-800/50 text-[10px]">📦 Entregado</span>`;
-                }
-
-                const waClean = String(o.whatsapp || '').replace(/\D/g, '');
-                const argFicha = `'${escapeJsArg(o.cliente)}', '${escapeJsArg(o.whatsapp)}', '${escapeJsArg(o.tipoEquipo)}', '${escapeJsArg(o.marca)}', '${escapeJsArg(o.modelo)}', '${escapeJsArg(o.errorReportado)}', '${escapeJsArg(o.accesorios)}', '${escapeJsArg(o.fecha)}', '${o.numeroOrden || 1}'`;
-                const argEdit = `'${o.id}', '${escapeJsArg(o.cliente)}', '${escapeJsArg(o.whatsapp)}', '${escapeJsArg(o.marca)}', '${escapeJsArg(o.modelo)}', '${escapeJsArg(o.tipoEquipo)}', '${escapeJsArg(o.errorReportado)}', '${escapeJsArg(o.tiempoSinUso || '')}', '${escapeJsArg(o.accesorios || '')}'`;
-
-                t1.innerHTML += `
-                    <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
-                        <td class="p-3">
-                            <span class="bg-cyan-950 border border-cyan-800 text-cyan-400 font-black px-2 py-0.5 rounded text-xs">#${o.numeroOrden || 1}</span><br>
-                            <span class="font-bold text-slate-200 mt-1 block">${escapeHtml(o.marca)} ${escapeHtml(o.modelo)}</span>
-                            <span class="text-[10px] text-slate-500">${escapeHtml(o.fecha)}</span>
-                        </td>
-                        <td class="p-3 text-slate-300">${escapeHtml(o.cliente)}<br><a href="https://wa.me/502${waClean}" target="_blank" class="text-emerald-400 font-bold hover:underline">📱 ${escapeHtml(o.whatsapp)}</a></td>
-                        <td class="p-3 text-slate-300"><span class="text-red-400 font-bold">Falla:</span> ${escapeHtml(o.errorReportado)}<br><span class="text-slate-500">Accesorios: ${escapeHtml(o.accesorios || 'Ninguno')}</span></td>
-                        <td class="p-3">
-                            <select id="tec_${o.id}" onchange="asignarTecnicoOrden('${o.id}')" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-xs text-cyan-300 font-bold focus:outline-none">
-                                ${opcionesTecnicos}
-                            </select>
-                        </td>
-                        <td class="p-3">${badgeEstado}</td>
-                        <td class="p-3 text-center space-y-1">
-                            <button type="button" onclick="descargarTicketPDF(${argFicha})" class="w-full bg-amber-600 hover:bg-amber-500 text-slate-950 px-2 py-1 rounded-lg text-xs font-bold shadow">📄 Ficha</button>
-                            <button type="button" onclick="prepararEdicionOrden(${argEdit})" class="w-full bg-slate-800 text-cyan-400 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-slate-700">✏️ Modificar</button>
-                            <button type="button" onclick="if(confirm('¿Desea eliminar esta orden?')) { db.collection('ordenes_taller').doc('${o.id}').delete(); }" class="w-full bg-red-950/60 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Eliminar</button>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
-
-        async function asignarTecnicoOrden(id) {
-            const tecSeleccionado = document.getElementById(`tec_${id}`).value;
-            try {
-                await db.collection('ordenes_taller').doc(id).update({ recibidoPor: tecSeleccionado });
-                alert('¡Técnico asignado con éxito!');
-            } catch (err) {
-                console.error('Error al asignar técnico:', err);
-                alert('No se pudo asignar el técnico: ' + err.message);
-            }
-        }
-
-        document.getElementById('buscarOrden').addEventListener('input', () => aplicarFiltrosOrdenes());
-
-        // ================= FILTRO POR DÍA ACTUAL Y MES EN DIAGNÓSTICO / REPORTE FINAL =================
-        function ordenCoincidePeriodo(orden, periodo) {
-            if (!periodo || periodo === 'todos') return true;
-
-            const ahora = new Date();
-            const hoyLocalStr = ahora.toLocaleDateString();
-
-            if (typeof orden.rawTimestamp === 'number' && orden.rawTimestamp > 0) {
-                const fechaOrden = new Date(orden.rawTimestamp);
-                const mismoAnio = fechaOrden.getFullYear() === ahora.getFullYear();
-                const mismoMes = mismoAnio && fechaOrden.getMonth() === ahora.getMonth();
-                const mismoDia = mismoMes && fechaOrden.getDate() === ahora.getDate();
-
-                if (periodo === 'dia') return mismoDia;
-                if (periodo === 'mes') return mismoMes;
-            }
-
-            const textoFecha = String(orden.fecha || '');
-            if (periodo === 'dia') {
-                return textoFecha.includes(hoyLocalStr);
-            }
-            if (periodo === 'mes') {
-                const partes = hoyLocalStr.split('/');
-                if (partes.length === 3) {
-                    const mesConCero = partes[1].padStart(2, '0');
-                    return textoFecha.includes(`/${mesConCero}/${partes[2]}`) || textoFecha.includes(`/${partes[1]}/${partes[2]}`);
-                }
-            }
-            return true;
-        }
-
-        function renderizarDiagnosticoYReportes(ordenes) {
-            const tablaDiag = document.getElementById('tablaDiagnosticoInicial');
-            const tablaFinal = document.getElementById('tablaReporteFinal');
-            if (!tablaDiag || !tablaFinal) return;
-
-            const periodoDiag = document.getElementById('filtroPeriodoDiagnostico')?.value || 'dia';
-            const textoDiag = (document.getElementById('buscarDiagnostico')?.value || '').toLowerCase();
-
-            const periodoFinal = document.getElementById('filtroPeriodoReporteFinal')?.value || 'dia';
-            const textoFinal = (document.getElementById('buscarReporteFinal')?.value || '').toLowerCase();
-
-            const ordenesDiag = ordenes.filter(o => {
-                if (!ordenCoincidePeriodo(o, periodoDiag)) return false;
-                if (!textoDiag) return true;
-                return (o.marca || '').toLowerCase().includes(textoDiag) ||
-                       (o.modelo || '').toLowerCase().includes(textoDiag) ||
-                       (o.cliente || '').toLowerCase().includes(textoDiag) ||
-                       String(o.numeroOrden || '').includes(textoDiag);
-            });
-
-            const ordenesFinal = ordenes.filter(o => {
-                if (!ordenCoincidePeriodo(o, periodoFinal)) return false;
-                if (!textoFinal) return true;
-                return (o.marca || '').toLowerCase().includes(textoFinal) ||
-                       (o.modelo || '').toLowerCase().includes(textoFinal) ||
-                       (o.cliente || '').toLowerCase().includes(textoFinal) ||
-                       String(o.numeroOrden || '').includes(textoFinal);
-            });
-
-            tablaDiag.innerHTML = '';
-            tablaFinal.innerHTML = '';
-
-            if (ordenesDiag.length === 0) {
-                tablaDiag.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-500">Sin órdenes para el período seleccionado.</td></tr>`;
-            } else {
-                ordenesDiag.forEach(o => {
-                    const waClean = String(o.whatsapp || '').replace(/\D/g, '');
-                    tablaDiag.innerHTML += `
-                        <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
-                            <td class="p-3 font-bold text-slate-200">#${o.numeroOrden || 1} - ${escapeHtml(o.marca)} ${escapeHtml(o.modelo)}<br><span class="text-[10px] text-slate-500">${escapeHtml(o.tipoEquipo)} • ${escapeHtml(o.fecha || '')}</span></td>
-                            <td class="p-3 text-slate-300">${escapeHtml(o.cliente)}<br><a href="https://wa.me/502${waClean}" target="_blank" class="text-emerald-400 font-bold hover:underline">📱 ${escapeHtml(o.whatsapp)}</a></td>
-                            <td class="p-3">
-                                <div class="font-bold text-red-400 mb-1">Falla: ${escapeHtml(o.errorReportado)}</div>
-                                <textarea id="diag_${o.id}" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500" placeholder="Escribir diagnóstico...">${escapeHtml(o.diagnosticoInicial || '')}</textarea>
-                            </td>
-                            <td class="p-3 text-center space-y-1">
-                                <button type="button" onclick="guardarDiagnostico('${o.id}')" class="w-full bg-cyan-600 hover:bg-cyan-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">💾 Guardar</button>
-                                <a href="https://wa.me/502${waClean}?text=${encodeURIComponent(`Hola *${o.cliente}*, sobre su equipo *#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}* en OSMOTEC:\nDiagnóstico inicial: ${o.diagnosticoInicial || 'En revisión'}`)}" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">📱 WSP Diagnóstico</a>
-                                <button type="button" onclick="eliminarDiagnostico('${o.id}')" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Limpiar</button>
-                            </td>
-                        </tr>
-                    `;
-                });
-            }
-
-            if (ordenesFinal.length === 0) {
-                tablaFinal.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-500">Sin órdenes para el período seleccionado.</td></tr>`;
-            } else {
-                ordenesFinal.forEach(o => {
-                    const waClean = String(o.whatsapp || '').replace(/\D/g, '');
-                    let mensajeWspFinal = `Hola *${o.cliente}*, le saludamos de *OSMOTEC*.\n\nInformación sobre su equipo (*#${o.numeroOrden || 1} - ${o.marca} ${o.modelo}*):\n\n🛠️ *Reporte Final:* ${o.reporteFinal || 'En proceso'}\n💰 *Total a Cobrar:* Q. ${o.costoReparacion || '0.00'}\n📌 *Estado:* ${o.estado}\n\n¡Gracias por su preferencia!`;
-
-                    tablaFinal.innerHTML += `
-                        <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
-                            <td class="p-3 font-bold text-slate-200">#${o.numeroOrden || 1} - ${escapeHtml(o.marca)} ${escapeHtml(o.modelo)}<br><span class="text-[10px] text-slate-500">${escapeHtml(o.cliente)} • ${escapeHtml(o.fecha || '')}</span></td>
-                            <td class="p-3">
-                                <textarea id="rep_${o.id}" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500" placeholder="Reporte final o reparación...">${escapeHtml(o.reporteFinal || '')}</textarea>
-                            </td>
-                            <td class="p-3">
-                                <div class="flex items-center gap-1 mb-1">
-                                    <span class="font-bold text-slate-400">Q.</span>
-                                    <input type="number" step="0.01" id="costo_${o.id}" value="${escapeHtml(o.costoReparacion || '0.00')}" class="w-24 bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-xs font-bold text-emerald-400">
-                                </div>
-                                <select id="estado_${o.id}" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-xs text-slate-200 font-bold">
-                                    <option value="Pendiente" ${o.estado === 'Pendiente' ? 'selected' : ''}>Pendiente</option>
-                                    <option value="Reparado" ${o.estado === 'Reparado' ? 'selected' : ''}>Reparado</option>
-                                    <option value="No reparado" ${o.estado === 'No reparado' ? 'selected' : ''}>No reparado</option>
-                                    <option value="Entregado" ${o.estado === 'Entregado' ? 'selected' : ''}>Entregado</option>
-                                </select>
-                            </td>
-                            <td class="p-3 text-center space-y-1">
-                                <button type="button" onclick="guardarReporteFinal('${o.id}')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">💾 Actualizar</button>
-                                <a href="https://wa.me/502${waClean}?text=${encodeURIComponent(mensajeWspFinal)}" target="_blank" class="block w-full text-center bg-cyan-600 hover:bg-cyan-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-xs">📱 Enviar WhatsApp</a>
-                                <button type="button" onclick="eliminarReporteFinal('${o.id}')" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Restablecer</button>
-                            </td>
-                        </tr>
-                    `;
-                });
-            }
-        }
-
-        async function guardarDiagnostico(id) {
-            const diag = document.getElementById(`diag_${id}`).value;
-            try {
-                await db.collection('ordenes_taller').doc(id).update({ diagnosticoInicial: diag });
-                alert('¡Diagnóstico actualizado!');
-            } catch (err) {
-                console.error('Error al guardar diagnóstico:', err);
-                alert('No se pudo guardar el diagnóstico: ' + err.message);
-            }
-        }
-
-        async function eliminarDiagnostico(id) {
-            if (confirm('¿Limpiar diagnóstico?')) {
-                try {
-                    await db.collection('ordenes_taller').doc(id).update({ diagnosticoInicial: 'Pendiente...' });
-                    alert('¡Restablecido!');
-                } catch (err) {
-                    console.error('Error al restablecer diagnóstico:', err);
-                    alert('No se pudo restablecer el diagnóstico: ' + err.message);
-                }
-            }
-        }
-
-        async function guardarReporteFinal(id) {
-            const reporte = document.getElementById(`rep_${id}`).value;
-            const costo = document.getElementById(`costo_${id}`).value;
-            const estado = document.getElementById(`estado_${id}`).value;
-            try {
-                await db.collection('ordenes_taller').doc(id).update({ reporteFinal: reporte, costoReparacion: costo, estado: estado });
-                alert('¡Reporte final actualizado!');
-            } catch (err) {
-                console.error('Error al guardar reporte final:', err);
-                alert('No se pudo actualizar el reporte final: ' + err.message);
-            }
-        }
-
-        async function eliminarReporteFinal(id) {
-            if (confirm('¿Restablecer reporte final?')) {
-                try {
-                    await db.collection('ordenes_taller').doc(id).update({ reporteFinal: 'Pendiente...', costoReparacion: '0.00', estado: 'Pendiente' });
-                    alert('¡Restablecido!');
-                } catch (err) {
-                    console.error('Error al restablecer reporte final:', err);
-                    alert('No se pudo restablecer el reporte final: ' + err.message);
-                }
-            }
-        }
-
-        document.getElementById('buscarDiagnostico').addEventListener('input', () => {
-            renderizarDiagnosticoYReportes(todasLasOrdenesGlobal);
-        });
-
-        document.getElementById('buscarReporteFinal').addEventListener('input', () => {
-            renderizarDiagnosticoYReportes(todasLasOrdenesGlobal);
-        });
-
-        // ================= TIENDA: INVENTARIO =================
-        const tiendaForm = document.getElementById('tiendaForm');
-        tiendaForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const editId = document.getElementById('editProductId').value;
-            const datosProducto = {
-                nombre: document.getElementById('nombreProducto').value.trim(),
-                costo: parseFloat(document.getElementById('costoProducto').value) || 0,
-                precio: parseFloat(document.getElementById('precioProducto').value) || 0,
-                stock: parseInt(document.getElementById('stockProducto').value, 10) || 0
-            };
-
-            try {
-                if (editId) {
-                    await db.collection('productos_tienda').doc(editId).update(datosProducto);
-                    alert('¡Producto actualizado!');
-                    cancelarEdicionProducto();
-                } else {
-                    datosProducto.fecha = new Date().toLocaleDateString();
-                    await db.collection('productos_tienda').add(datosProducto);
-                    alert('¡Producto agregado al inventario!');
-                    tiendaForm.reset();
-                }
-            } catch (err) {
-                console.error('Error al guardar producto:', err);
-                alert('No se pudo guardar el producto: ' + err.message);
-            }
-        });
-
-        function prepararEdicionProducto(id, nombre, costo, precio, stock) {
-            document.getElementById('editProductId').value = id;
-            document.getElementById('nombreProducto').value = nombre;
-            document.getElementById('costoProducto').value = costo;
-            document.getElementById('precioProducto').value = precio;
-            document.getElementById('stockProducto').value = stock;
-
-            document.getElementById('tituloFormProducto').textContent = "✏️ Editar Producto";
-            document.getElementById('btnGuardarProducto').textContent = "Actualizar Producto";
-            document.getElementById('btnCancelarEdicion').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function cancelarEdicionProducto() {
-            tiendaForm.reset();
-            document.getElementById('editProductId').value = '';
-            document.getElementById('tituloFormProducto').textContent = "📦 Nuevo Producto / Accesorio";
-            document.getElementById('btnGuardarProducto').textContent = "Guardar en Inventario";
-            document.getElementById('btnCancelarEdicion').classList.add('hidden');
-        }
-
-        db.collection('productos_tienda').orderBy('nombre').onSnapshot((snapshot) => {
-            todosLosProductosGlobal = [];
-            snapshot.forEach((doc) => todosLosProductosGlobal.push({ id: doc.id, ...doc.data() }));
-            renderizarInventario(todosLosProductosGlobal);
-            renderizarCatalogoPOS(todosLosProductosGlobal);
-            poblarSelectsCotizacion();
-        });
-
-        function renderizarInventario(productos) {
-            const tabla = document.getElementById('tablaTienda');
-            tabla.innerHTML = '';
-            
-            let costoTotalInventario = 0;
-            let ventaTotalInventario = 0;
-
-            if (productos.length === 0) { 
-                tabla.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-500">Sin productos.</td></tr>`; 
-                document.getElementById('invCostoTotal').textContent = "Q. 0.00";
-                document.getElementById('invVentaTotal').textContent = "Q. 0.00";
-                return; 
-            }
-            
-            productos.forEach(p => {
-                let costo = p.costo || 0;
-                let precio = p.precio || 0;
-                let stock = p.stock || 0;
-
-                costoTotalInventario += (costo * stock);
-                ventaTotalInventario += (precio * stock);
-
-                let ganancia = precio - costo;
-                let margen = costo > 0 ? ((ganancia / costo) * 100).toFixed(0) : 100;
-
-                let stockBadge = "";
-                let botonWhatsAppAlerta = "";
-
-                if (stock === 0) {
-                    stockBadge = `<span class="bg-red-950/60 text-red-400 border border-red-900 px-2 py-0.5 rounded-full font-bold text-[11px]">❌ Agotado</span>`;
-                    let msgWsp = `⚠️ *ALERTA DE STOCK - OSMOTEC TIENDA*\n\nEl producto *${p.nombre}* se encuentra *AGOTADO* (0 unidades). Se requiere reabastecimiento urgente.`;
-                    botonWhatsAppAlerta = `<a href="https://wa.me/?text=${encodeURIComponent(msgWsp)}" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-1 px-2 rounded-lg text-[10px] shadow mt-1">📱 Alerta WSP</a>`;
-                } else if (stock <= 2) {
-                    stockBadge = `<span class="bg-amber-950/60 text-amber-400 border border-amber-900 px-2 py-0.5 rounded-full font-bold text-[11px]">⚠️ ${stock} unids (Bajo)</span>`;
-                    let msgWsp = `⚠️ *ALERTA DE STOCK - OSMOTEC TIENDA*\n\nEl producto *${p.nombre}* tiene stock bajo (${stock} unidades).`;
-                    botonWhatsAppAlerta = `<a href="https://wa.me/?text=${encodeURIComponent(msgWsp)}" target="_blank" class="block w-full text-center bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold py-1 px-2 rounded-lg text-[10px] shadow mt-1">📱 Alerta WSP</a>`;
-                } else {
-                    stockBadge = `<span class="bg-emerald-950/60 text-emerald-400 border border-emerald-900 px-2 py-0.5 rounded-full font-bold text-[11px]">${stock} unids</span>`;
-                }
-
-                const argEditProd = `'${p.id}', '${escapeJsArg(p.nombre)}', ${costo}, ${precio}, ${stock}`;
-
-                tabla.innerHTML += `
-                    <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
-                        <td class="p-3 font-bold text-slate-200">🛒 ${escapeHtml(p.nombre)}</td>
-                        <td class="p-3 text-slate-300">
-                            Costo: <b>Q. ${costo.toFixed(2)}</b><br>
-                            Venta: <b class="text-emerald-400">Q. ${precio.toFixed(2)}</b><br>
-                            <span class="text-cyan-400">Ganancia: Q. ${ganancia.toFixed(2)} (${margen}%)</span>
-                        </td>
-                        <td class="p-3">${stockBadge}${botonWhatsAppAlerta}</td>
-                        <td class="p-3 text-center space-y-1">
-                            <button type="button" onclick="prepararEdicionProducto(${argEditProd})" class="w-full bg-slate-800 text-cyan-400 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-slate-700">✏️ Editar</button>
-                            <button type="button" onclick="db.collection('productos_tienda').doc('${p.id}').delete()" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Eliminar</button>
-                        </td>
-                    </tr>
-                `;
-            });
-
-            document.getElementById('invCostoTotal').textContent = `Q. ${costoTotalInventario.toFixed(2)}`;
-            document.getElementById('invVentaTotal').textContent = `Q. ${ventaTotalInventario.toFixed(2)}`;
-        }
-
-        // ================= TIENDA: POS & VENTAS =================
-        function poblarSelectClienteVenta() {
-            const selCli = document.getElementById('selectClienteVenta');
-            if (!selCli) return;
-            const prevCli = selCli.value;
-            selCli.innerHTML = '<option value="">-- Consumidor Final / Cliente manual --</option>';
-            todosLosClientesGlobal.forEach(c => {
-                selCli.innerHTML += `<option value="${c.id}">${escapeHtml(c.nombre)} (${escapeHtml(c.telefono || 'S/T')} • ${escapeHtml(c.nit || 'CF')})</option>`;
-            });
-            if (prevCli) selCli.value = prevCli;
-        }
-
-        function autocompletarClienteVenta() {
-            const id = document.getElementById('selectClienteVenta')?.value;
-            const cli = todosLosClientesGlobal.find(c => c.id === id);
-            if (cli) {
-                document.getElementById('ventaClienteNombre').value = cli.nombre || '';
-                document.getElementById('ventaClienteTelefono').value = cli.telefono || '';
-                document.getElementById('ventaClienteNit').value = cli.nit || 'CF';
-                const dirEl = document.getElementById('ventaClienteDireccion');
-                if (dirEl) dirEl.value = cli.direccion || '';
-                const chk = document.getElementById('guardarClienteEnDirectorio');
-                if (chk) chk.checked = false;
-            }
-        }
-
-        function limpiarClienteVenta() {
-            const sel = document.getElementById('selectClienteVenta');
-            if (sel) sel.value = '';
-            document.getElementById('ventaClienteNombre').value = '';
-            document.getElementById('ventaClienteTelefono').value = '';
-            document.getElementById('ventaClienteNit').value = '';
-            const dirEl = document.getElementById('ventaClienteDireccion');
-            if (dirEl) dirEl.value = '';
-            const chk = document.getElementById('guardarClienteEnDirectorio');
-            if (chk) chk.checked = false;
-        }
-
-        function renderizarCatalogoPOS(productos) {
-            const catalogo = document.getElementById('listaProductosPOS');
-            catalogo.innerHTML = '';
-            if (productos.length === 0) {
-                catalogo.innerHTML = `<div class="p-4 text-center text-slate-500 text-xs">Sin productos en catálogo.</div>`;
-                return;
-            }
-
-            productos.forEach(p => {
-                catalogo.innerHTML += `
-                    <div onclick="agregarAlCarritoDesdePOS('${p.id}')" class="p-3 bg-slate-950 border border-slate-800/80 rounded-xl hover:border-emerald-500/50 cursor-pointer transition flex justify-between items-center shadow">
-                        <div>
-                            <div class="font-bold text-xs text-slate-200">${escapeHtml(p.nombre)}</div>
-                            <div class="text-[10px] text-slate-500">Stock: ${p.stock} u.</div>
-                        </div>
-                        <div class="text-right">
-                            <div class="font-extrabold text-sm text-emerald-400">Q${Number(p.precio || 0).toFixed(2)}</div>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        function filtrarCatalogoVenta() {
-            const txt = document.getElementById('buscarVentaInput').value.toLowerCase();
-            const filtrados = todosLosProductosGlobal.filter(p => (p.nombre || '').toLowerCase().includes(txt));
-            renderizarCatalogoPOS(filtrados);
-        }
-
-        function agregarAlCarritoDesdePOS(id) {
-            const prod = todosLosProductosGlobal.find(p => p.id === id);
-            if (!prod || prod.stock <= 0) {
-                alert('Producto agotado');
-                return;
-            }
-            const existe = carritoVenta.find(item => item.id === id);
-            if (existe) {
-                if (existe.cantidad < prod.stock) {
-                    existe.cantidad++;
-                } else {
-                    alert('Stock insuficiente');
-                }
-            } else {
-                carritoVenta.push({ id: prod.id, nombre: prod.nombre, costo: prod.costo || 0, precio: prod.precio, cantidad: 1 });
-            }
-            actualizarCarritoUI();
-        }
-
-        function cambiarCantidadCarrito(index, cambio) {
-            const item = carritoVenta[index];
-            const prod = todosLosProductosGlobal.find(p => p.id === item.id);
-            const nuevaCantidad = item.cantidad + cambio;
-
-            if (nuevaCantidad <= 0) {
-                carritoVenta.splice(index, 1);
-            } else if (prod && nuevaCantidad > prod.stock) {
-                alert('Stock insuficiente');
-                return;
-            } else {
-                item.cantidad = nuevaCantidad;
-            }
-            actualizarCarritoUI();
-        }
-
-        function actualizarCarritoUI() {
-            const contenedor = document.getElementById('tablaTicketCarrito');
-            const totalSpan = document.getElementById('totalCarrito');
-            contenedor.innerHTML = '';
-            let total = 0;
-
-            if (carritoVenta.length === 0) {
-                contenedor.innerHTML = `<div class="p-4 text-center text-slate-500 italic">El carrito está vacío</div>`;
-                totalSpan.textContent = "Q0.00";
-                document.getElementById('vueltoCambio').textContent = "Q0.00";
-                return;
-            }
-
-            carritoVenta.forEach((item, index) => {
-                let sub = item.precio * item.cantidad;
-                total += sub;
-                contenedor.innerHTML += `
-                    <div class="grid grid-cols-12 p-2.5 items-center bg-slate-900/50">
-                        <span class="col-span-6 font-bold text-slate-200">${escapeHtml(item.nombre)}</span>
-                        <div class="col-span-2 flex items-center justify-center gap-1">
-                            <button type="button" onclick="cambiarCantidadCarrito(${index}, -1)" class="w-5 h-5 bg-slate-800 hover:bg-slate-700 rounded font-bold text-xs text-slate-200">-</button>
-                            <span class="font-bold text-cyan-400">${item.cantidad}</span>
-                            <button type="button" onclick="cambiarCantidadCarrito(${index}, 1)" class="w-5 h-5 bg-slate-800 hover:bg-slate-700 rounded font-bold text-xs text-slate-200">+</button>
-                        </div>
-                        <span class="col-span-3 text-right font-bold text-emerald-400">Q${sub.toFixed(2)}</span>
-                        <button type="button" onclick="carritoVenta.splice(${index},1);actualizarCarritoUI()" class="col-span-1 text-center text-red-400 font-bold hover:text-red-300">✕</button>
-                    </div>
-                `;
-            });
-            totalSpan.textContent = `Q${total.toFixed(2)}`;
-            calcularVuelto();
-        }
-
-        function calcularVuelto() {
-            let totalVenta = carritoVenta.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
-            let efectivo = parseFloat(document.getElementById('efectivoRecibido').value) || 0;
-            let vuelto = efectivo - totalVenta;
-            document.getElementById('vueltoCambio').textContent = vuelto >= 0 ? `Q${vuelto.toFixed(2)}` : "Q0.00";
-        }
-
-        async function procesarVentaEImprimir() {
-            if (carritoVenta.length === 0) { alert('El carrito está vacío'); return; }
-
-            let totalVenta = 0;
-            let totalGanancia = 0;
-            let efectivo = parseFloat(document.getElementById('efectivoRecibido').value) || 0;
-
-            let totalVentaCalculado = carritoVenta.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
-            if (efectivo < totalVentaCalculado) {
-                if (!confirm('El efectivo recibido es menor al total. ¿Continuar?')) return;
-            }
-
-            const clienteNombre = (document.getElementById('ventaClienteNombre')?.value || '').trim() || 'Consumidor Final';
-            const clienteTelefono = (document.getElementById('ventaClienteTelefono')?.value || '').trim();
-            const clienteNit = (document.getElementById('ventaClienteNit')?.value || '').trim() || 'CF';
-            const clienteDireccion = (document.getElementById('ventaClienteDireccion')?.value || '').trim();
-            const debeGuardarCliente = Boolean(document.getElementById('guardarClienteEnDirectorio')?.checked);
-
-            try {
-                if (debeGuardarCliente && clienteNombre !== 'Consumidor Final') {
-                    const yaExiste = todosLosClientesGlobal.some(c =>
-                        (c.nombre || '').toLowerCase() === clienteNombre.toLowerCase() &&
-                        (clienteTelefono ? (c.telefono || '') === clienteTelefono : true)
-                    );
-                    if (!yaExiste) {
-                        await db.collection('clientes_tienda').add({
-                            nombre: clienteNombre,
-                            telefono: clienteTelefono || 'Sin teléfono',
-                            nit: clienteNit,
-                            direccion: clienteDireccion,
-                            notas: 'Agregado desde venta POS',
-                            fechaRegistro: new Date().toLocaleDateString()
-                        });
-                    }
-                }
-
-                const snapshotCarrito = [...carritoVenta];
-
-                for (let item of snapshotCarrito) {
-                    let subVenta = item.precio * item.cantidad;
-                    let subCosto = item.costo * item.cantidad;
-                    totalVenta += subVenta;
-                    totalGanancia += (subVenta - subCosto);
-
-                    const prodRef = db.collection('productos_tienda').doc(item.id);
-                    const prodDoc = await prodRef.get();
-                    if (prodDoc.exists) {
-                        let nuevoStock = (prodDoc.data().stock || 0) - item.cantidad;
-                        await prodRef.update({ stock: nuevoStock >= 0 ? nuevoStock : 0 });
-                    }
-                }
-
-                let fechaActual = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-
-                const datosClienteVenta = {
-                    clienteNombre,
-                    clienteTelefono,
-                    clienteNit,
-                    clienteDireccion
-                };
-
-                await db.collection('ventas_tienda').add({
-                    productos: snapshotCarrito,
-                    total: totalVenta,
-                    gananciaTotal: totalGanancia,
-                    ...datosClienteVenta,
-                    fecha: fechaActual,
-                    rawDate: new Date().toISOString()
-                });
-
-                generarFacturaCartaPDF(snapshotCarrito, fechaActual, efectivo, totalVenta, datosClienteVenta);
-
-                alert('¡Venta cobrada con éxito!');
-                carritoVenta = [];
-                document.getElementById('efectivoRecibido').value = '';
-                limpiarClienteVenta();
-                actualizarCarritoUI();
-                renderizarCatalogoPOS(todosLosProductosGlobal);
-            } catch (err) {
-                console.error('Error al procesar venta:', err);
-                alert('No se pudo procesar la venta: ' + err.message);
-            }
-        }
-
-        function generarFacturaCartaPDF(itemsFactura, fecha, efectivo, total, clienteInfo = {}) {
-            let vuelto = efectivo - total;
-            let filasProductos = '';
-            const cliNombre = clienteInfo.clienteNombre || 'Consumidor Final';
-            const cliNit = clienteInfo.clienteNit || 'CF';
-            const cliTel = clienteInfo.clienteTelefono || '';
-            const cliDir = clienteInfo.clienteDireccion || '';
-            const noFactura = Math.floor(100000 + Math.random() * 900000);
-            const srcOsmo = osmoImagenDataUrl || URL_LOGO_OSMO;
-            
-            itemsFactura.forEach((item, idx) => {
-                let sub = item.precio * item.cantidad;
-                filasProductos += `
-                    <tr style="border-bottom: 1px solid #e2e8f0;">
-                        <td style="padding: 10px; text-align: center;">${idx + 1}</td>
-                        <td style="padding: 10px;">${escapeHtml(item.nombre)}</td>
-                        <td style="padding: 10px; text-align: center;">${item.cantidad}</td>
-                        <td style="padding: 10px; text-align: right;">Q${Number(item.precio).toFixed(2)}</td>
-                        <td style="padding: 10px; text-align: right; font-weight: bold;">Q${sub.toFixed(2)}</td>
-                    </tr>
-                `;
-            });
-
-            const htmlFactura = `
-                <!DOCTYPE html>
-                <html lang="es">
-                <head>
-                    <meta charset="UTF-8">
-                    <title>Factura OSMOTEC</title>
-                    <style>
-                        * { box-sizing: border-box; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-                        body { font-family: Arial, sans-serif; padding: 40px; color: #1e293b; position: relative; }
-                        .contenido-factura { position: relative; z-index: 1; }
-                        .comp-cliente-box {
-                            background: #f8fafc;
-                            border: 1px solid #cbd5e1;
-                            border-radius: 8px;
-                            padding: 12px 16px;
-                            margin-bottom: 20px;
-                            font-size: 12px;
-                            line-height: 1.55;
-                            display: grid;
-                            grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-                            column-gap: 48px;
-                            row-gap: 8px;
-                        }
-                        .comp-cliente-dir {
-                            grid-column: 2;
-                            padding-top: 2px;
-                        }
-                        .no-print { text-align: center; margin-top: 30px; }
-                        @media print { .no-print { display: none; } }
-                    </style>
-                </head>
-                <body>
-                    <div class="contenido-factura">
-                        <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; border-bottom: 3px solid #2563eb; padding-bottom: 16px; margin-bottom: 16px;">
-                            <div style="display: flex; align-items: center; gap: 14px;">
-                                <img src="${srcOsmo}" alt="Osmo" style="width: 4cm; height: 4.5cm; border-radius: 14px; object-fit: cover; border: 2px solid #2563eb; flex-shrink: 0;">
-                                <div>
-                                    <h1 style="margin: 0; color: #1d4ed8; font-size: 24px; font-weight: 900;">OSMOTEC, Los Amates</h1>
-                                    <p style="margin: 4px 0; font-size: 11px; color: #475569;">Segundo nivel del mercado frente al gimnasio municipal, Los Amates, Izabal</p>
-                                    <p style="margin: 4px 0; font-size: 11px; color: #64748b;">Tel. 45011153 • NIT: 53050290</p>
-                                </div>
-                            </div>
-                            <div style="text-align: right;">
-                                <h2 style="margin: 0; color: #0f172a; font-size: 20px;">COMPROBANTE DE VENTA</h2>
-                                <p style="margin: 4px 0; font-size: 13px; font-weight: bold; color: #2563eb;">No. FACTURA: #${noFactura}</p>
-                                <p style="margin: 4px 0; font-size: 12px; color: #64748b;">Fecha: ${escapeHtml(fecha)}</p>
-                            </div>
-                        </div>
-                        <div class="comp-cliente-box">
-                            <div><b>Cliente:</b> ${escapeHtml(cliNombre)}</div>
-                            <div><b>NIT:</b> ${escapeHtml(cliNit)}</div>
-                            <div><b>Teléfono:</b> ${escapeHtml(cliTel || '—')}</div>
-                            <div class="comp-cliente-dir"><b>Dirección:</b> ${escapeHtml(cliDir || '—')}</div>
-                        </div>
-                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 13px;">
-                            <thead>
-                                <tr style="background: #1e293b; color: white;">
-                                    <th style="padding: 10px; text-align: center; width: 8%;">No.</th>
-                                    <th style="padding: 10px; text-align: left; width: 45%;">Descripción del Producto</th>
-                                    <th style="padding: 10px; text-align: center; width: 12%;">Cant.</th>
-                                    <th style="padding: 10px; text-align: right; width: 17%;">Precio Unit.</th>
-                                    <th style="padding: 10px; text-align: right; width: 18%;">Subtotal</th>
-                                </tr>
-                            </thead>
-                            <tbody>${filasProductos}</tbody>
-                        </table>
-                        <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
-                            <div style="width: 300px; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 14px;">
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>Total a Pagar:</span><span style="font-weight: bold; font-size: 16px; color: #16a34a;">Q${total.toFixed(2)}</span></div>
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>Efectivo Recibido:</span><span>Q${efectivo.toFixed(2)}</span></div>
-                                <div style="display: flex; justify-content: space-between; border-top: 1px solid #cbd5e1; padding-top: 8px;"><span style="font-weight: bold;">Su Vuelto:</span><span style="font-weight: bold; color: #2563eb;">Q${vuelto >= 0 ? vuelto.toFixed(2) : "0.00"}</span></div>
-                            </div>
-                        </div>
-                        <div class="no-print">
-                            <button type="button" onclick="window.print()" style="background: #2563eb; color: white; border: none; padding: 12px 24px; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 14px;">🖨️ Imprimir / Guardar</button>
-                        </div>
-                    </div>
-                    <script>
-                        window.addEventListener('load', function() {
-                            setTimeout(function() { window.print(); }, 200);
-                        });
-                    <\/script>
-                </body>
-                </html>
-            `;
-
-            abrirVentanaImpresion(htmlFactura, {
-                width: 820,
-                height: 680,
-                tituloFallback: 'Comprobante de Venta OSMOTEC'
-            });
-        }
-
-        // ================= TIENDA: CLIENTES =================
-        const clienteTiendaForm = document.getElementById('clienteTiendaForm');
-        clienteTiendaForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const editId = document.getElementById('editClienteId').value;
-            const datosCliente = {
-                nombre: document.getElementById('nombreClienteTienda').value.trim(),
-                telefono: document.getElementById('telefonoClienteTienda').value.trim(),
-                nit: document.getElementById('nitClienteTienda').value.trim() || 'CF',
-                direccion: document.getElementById('direccionClienteTienda')?.value.trim() || '',
-                notas: document.getElementById('notasClienteTienda').value.trim() || ''
-            };
-
-            try {
-                if (editId) {
-                    await db.collection('clientes_tienda').doc(editId).update(datosCliente);
-                    alert('¡Cliente actualizado!');
-                    cancelarEdicionCliente();
-                } else {
-                    datosCliente.fechaRegistro = new Date().toLocaleDateString();
-                    await db.collection('clientes_tienda').add(datosCliente);
-                    alert('¡Cliente guardado!');
-                    clienteTiendaForm.reset();
-                }
-            } catch (err) {
-                console.error('Error al guardar cliente:', err);
-                alert('No se pudo guardar el cliente: ' + err.message);
-            }
-        });
-
-        function prepararEdicionCliente(id, nombre, telefono, nit, direccion, notas) {
-            document.getElementById('editClienteId').value = id;
-            document.getElementById('nombreClienteTienda').value = nombre;
-            document.getElementById('telefonoClienteTienda').value = telefono;
-            document.getElementById('nitClienteTienda').value = nit;
-            const dirEl = document.getElementById('direccionClienteTienda');
-            if (dirEl) dirEl.value = direccion || '';
-            document.getElementById('notasClienteTienda').value = notas;
-
-            document.getElementById('tituloFormCliente').textContent = "✏️ Editar Cliente";
-            document.getElementById('btnGuardarCliente').textContent = "Actualizar Cliente";
-            document.getElementById('btnCancelarEdicionCliente').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function cancelarEdicionCliente() {
-            clienteTiendaForm.reset();
-            document.getElementById('editClienteId').value = '';
-            document.getElementById('tituloFormCliente').textContent = "👤 Nuevo Cliente";
-            document.getElementById('btnGuardarCliente').textContent = "Guardar Cliente";
-            document.getElementById('btnCancelarEdicionCliente').classList.add('hidden');
-        }
-
-        db.collection('clientes_tienda').orderBy('nombre').onSnapshot((snapshot) => {
-            todosLosClientesGlobal = [];
-            snapshot.forEach((doc) => {
-                todosLosClientesGlobal.push({ id: doc.id, ...doc.data() });
-            });
-            document.getElementById('totalClientesBadge').textContent = todosLosClientesGlobal.length;
-            renderizarClientesTienda();
-            poblarSelectsCotizacion();
-            poblarSelectClienteVenta();
-        });
-
-        function renderizarClientesTienda() {
-            const tabla = document.getElementById('tablaClientesTienda');
-            if (!tabla) return;
-            const txt = (document.getElementById('buscarClienteTienda')?.value || '').toLowerCase();
-            const filtrados = todosLosClientesGlobal.filter(c =>
-                (c.nombre || '').toLowerCase().includes(txt) ||
-                (c.telefono || '').toLowerCase().includes(txt) ||
-                (c.nit || '').toLowerCase().includes(txt) ||
-                (c.direccion || '').toLowerCase().includes(txt)
-            );
-
-            tabla.innerHTML = '';
-            if (filtrados.length === 0) {
-                tabla.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-500">Sin clientes registrados.</td></tr>`;
-                return;
-            }
-
-            filtrados.forEach(c => {
-                const waClean = String(c.telefono || '').replace(/\D/g, '');
-                const argEdit = `'${c.id}', '${escapeJsArg(c.nombre)}', '${escapeJsArg(c.telefono)}', '${escapeJsArg(c.nit || 'CF')}', '${escapeJsArg(c.direccion || '')}', '${escapeJsArg(c.notas || '')}'`;
-
-                tabla.innerHTML += `
-                    <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
-                        <td class="p-3 font-bold text-slate-200">👤 ${escapeHtml(c.nombre)}</td>
-                        <td class="p-3 text-slate-300">
-                            <a href="https://wa.me/502${waClean}" target="_blank" class="text-emerald-400 font-bold hover:underline">📱 ${escapeHtml(c.telefono)}</a><br>
-                            <span class="text-[10px] text-slate-400">NIT: ${escapeHtml(c.nit || 'CF')}</span>
-                        </td>
-                        <td class="p-3 text-slate-400">
-                            ${c.direccion ? `<div class="text-slate-200">📍 ${escapeHtml(c.direccion)}</div>` : ''}
-                            <div>${escapeHtml(c.notas || (c.direccion ? '' : '—'))}</div>
-                        </td>
-                        <td class="p-3 text-center space-y-1">
-                            <button type="button" onclick="prepararEdicionCliente(${argEdit})" class="w-full bg-slate-800 text-cyan-400 text-[11px] px-2 py-1 rounded-lg font-bold hover:bg-slate-700">✏️ Editar</button>
-                            <button type="button" onclick="if(confirm('¿Eliminar este cliente?')) db.collection('clientes_tienda').doc('${c.id}').delete()" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Eliminar</button>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
-
-        // ================= TIENDA: COTIZACIONES Y CORRELATIVO DE IMPRESIÓN =================
-        db.collection('config_tienda').doc('correlativo_cotizacion').onSnapshot((doc) => {
-            if (doc.exists && typeof doc.data().siguiente === 'number' && doc.data().siguiente >= 1) {
-                proximoCorrelativoCotizacion = doc.data().siguiente;
-            } else {
-                proximoCorrelativoCotizacion = 1;
-            }
-            const badge = document.getElementById('badgeProximoCorrelativoCot');
-            if (badge) badge.textContent = proximoCorrelativoCotizacion;
-        });
-
-        async function obtenerYAvanzarCorrelativoCotizacion() {
-            const ref = db.collection('config_tienda').doc('correlativo_cotizacion');
-            try {
-                const numeroAsignado = await db.runTransaction(async (transaction) => {
-                    const snap = await transaction.get(ref);
-                    let actual = 1;
-                    if (snap.exists && typeof snap.data().siguiente === 'number' && snap.data().siguiente >= 1) {
-                        actual = snap.data().siguiente;
-                    }
-                    transaction.set(ref, { siguiente: actual + 1 }, { merge: true });
-                    return actual;
-                });
-                return numeroAsignado;
-            } catch (e) {
-                console.error('Error al actualizar correlativo de cotización:', e);
-                const fallback = proximoCorrelativoCotizacion || 1;
-                proximoCorrelativoCotizacion = fallback + 1;
-                return fallback;
-            }
-        }
-
-        function poblarSelectsCotizacion() {
-            const selProd = document.getElementById('selectProductoCotizacion');
-            const selCli = document.getElementById('selectClienteCotizacion');
-            if (selProd) {
-                const prevProd = selProd.value;
-                selProd.innerHTML = '<option value="">-- Seleccione producto --</option>';
-                todosLosProductosGlobal.forEach(p => {
-                    selProd.innerHTML += `<option value="${p.id}">${escapeHtml(p.nombre)} (Q${Number(p.precio || 0).toFixed(2)})</option>`;
-                });
-                if (prevProd) selProd.value = prevProd;
-            }
-            if (selCli) {
-                const prevCli = selCli.value;
-                selCli.innerHTML = '<option value="">-- Cliente general / manual --</option>';
-                todosLosClientesGlobal.forEach(c => {
-                    selCli.innerHTML += `<option value="${c.id}">${escapeHtml(c.nombre)} (${escapeHtml(c.telefono)})</option>`;
-                });
-                if (prevCli) selCli.value = prevCli;
-            }
-        }
-
-        function autocompletarClienteCotizacion() {
-            const id = document.getElementById('selectClienteCotizacion').value;
-            const cli = todosLosClientesGlobal.find(c => c.id === id);
-            if (cli) {
-                document.getElementById('cotClienteNombre').value = cli.nombre || '';
-                document.getElementById('cotClienteWhatsapp').value = cli.telefono || '';
-                const nitEl = document.getElementById('cotClienteNit');
-                if (nitEl) nitEl.value = cli.nit || 'CF';
-                const dirEl = document.getElementById('cotClienteDireccion');
-                if (dirEl) dirEl.value = cli.direccion || '';
-            }
-        }
-
-        function limpiarCamposClienteCotizacion() {
-            document.getElementById('cotClienteNombre').value = '';
-            document.getElementById('cotClienteWhatsapp').value = '';
-            const nitEl = document.getElementById('cotClienteNit');
-            if (nitEl) nitEl.value = '';
-            const dirEl = document.getElementById('cotClienteDireccion');
-            if (dirEl) dirEl.value = '';
-            document.getElementById('selectClienteCotizacion').value = '';
-        }
-
-        function obtenerDatosClienteCotizacionFormulario() {
-            return {
-                cliente: (document.getElementById('cotClienteNombre')?.value || '').trim() || 'Cliente General',
-                nit: (document.getElementById('cotClienteNit')?.value || '').trim() || 'CF',
-                whatsapp: (document.getElementById('cotClienteWhatsapp')?.value || '').trim() || '',
-                direccion: (document.getElementById('cotClienteDireccion')?.value || '').trim() || ''
-            };
-        }
-
-        function agregarItemCotizacion() {
-            const prodId = document.getElementById('selectProductoCotizacion').value;
-            const cant = parseInt(document.getElementById('cantProductoCotizacion').value, 10) || 1;
-            const prod = todosLosProductosGlobal.find(p => p.id === prodId);
-            if (!prod) {
-                alert('Seleccione un producto para cotizar.');
-                return;
-            }
-            const existe = itemsCotizacionActual.find(i => i.id === prod.id);
-            if (existe) {
-                existe.cantidad += cant;
-            } else {
-                itemsCotizacionActual.push({
-                    id: prod.id,
-                    nombre: prod.nombre,
-                    precio: Number(prod.precio || 0),
-                    cantidad: cant
-                });
-            }
-            document.getElementById('cantProductoCotizacion').value = 1;
-            renderizarItemsCotizacion();
-        }
-
-        function quitarItemCotizacion(index) {
-            itemsCotizacionActual.splice(index, 1);
-            renderizarItemsCotizacion();
-        }
-
-        function renderizarItemsCotizacion() {
-            const cont = document.getElementById('listaItemsCotizacion');
-            const totalEl = document.getElementById('totalCotizacionActual');
-            if (!cont || !totalEl) return;
-
-            if (itemsCotizacionActual.length === 0) {
-                cont.innerHTML = `<div class="text-slate-500 italic text-center py-2">Sin productos agregados</div>`;
-                totalEl.textContent = "Q0.00";
-                return;
-            }
-
-            let total = 0;
-            cont.innerHTML = itemsCotizacionActual.map((item, idx) => {
-                const sub = item.precio * item.cantidad;
-                total += sub;
-                return `
-                    <div class="flex justify-between items-center bg-slate-900/70 px-2 py-1.5 rounded-lg">
-                        <span class="text-slate-200 truncate pr-2"><b>${item.cantidad}x</b> ${escapeHtml(item.nombre)}</span>
-                        <div class="flex items-center gap-2 shrink-0">
-                            <span class="text-emerald-400 font-bold">Q${sub.toFixed(2)}</span>
-                            <button type="button" onclick="quitarItemCotizacion(${idx})" class="text-red-400 font-bold">✕</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-            totalEl.textContent = `Q${total.toFixed(2)}`;
-        }
-
-        async function guardarCotizacionFirestore() {
-            if (itemsCotizacionActual.length === 0) {
-                alert('Agregue al menos un producto a la cotización.');
-                return;
-            }
-            const datosCli = obtenerDatosClienteCotizacionFormulario();
-            const total = itemsCotizacionActual.reduce((acc, i) => acc + (i.precio * i.cantidad), 0);
-            const fechaActual = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-
-            try {
-                await db.collection('cotizaciones_tienda').add({
-                    cliente: datosCli.cliente,
-                    nit: datosCli.nit,
-                    whatsapp: datosCli.whatsapp,
-                    direccion: datosCli.direccion,
-                    productos: [...itemsCotizacionActual],
-                    total,
-                    fecha: fechaActual,
-                    rawDate: new Date().toISOString()
-                });
-
-                alert('¡Cotización guardada con éxito!');
-                itemsCotizacionActual = [];
-                limpiarCamposClienteCotizacion();
-                renderizarItemsCotizacion();
-            } catch (err) {
-                console.error('Error al guardar cotización:', err);
-                alert('No se pudo guardar la cotización: ' + err.message);
-            }
-        }
-
-        db.collection('cotizaciones_tienda').orderBy('rawDate', 'desc').onSnapshot((snapshot) => {
-            todasLasCotizacionesGlobal = [];
-            snapshot.forEach((doc) => {
-                todasLasCotizacionesGlobal.push({ id: doc.id, ...doc.data() });
-            });
-            renderizarTablaCotizaciones();
-        });
-
-        function renderizarTablaCotizaciones() {
-            const tabla = document.getElementById('tablaCotizaciones');
-            if (!tabla) return;
-            const txt = (document.getElementById('buscarCotizacion')?.value || '').toLowerCase();
-            const filtradas = todasLasCotizacionesGlobal.filter(c =>
-                (c.cliente || '').toLowerCase().includes(txt) ||
-                (c.nit || '').toLowerCase().includes(txt) ||
-                (c.direccion || '').toLowerCase().includes(txt) ||
-                (Array.isArray(c.productos) && c.productos.some(p => (p.nombre || '').toLowerCase().includes(txt)))
-            );
-
-            tabla.innerHTML = '';
-            if (filtradas.length === 0) {
-                tabla.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-slate-500">Sin cotizaciones registradas.</td></tr>`;
-                return;
-            }
-
-            filtradas.forEach(c => {
-                const prods = Array.isArray(c.productos) ? c.productos : [];
-                const detalleHtml = prods.map(p => `<b>${p.cantidad}x</b> ${escapeHtml(p.nombre)} (Q${Number(p.precio || 0).toFixed(2)})`).join('<br>');
-                const detalleTexto = prods.map(p => `• ${p.cantidad}x ${p.nombre} - Q${(Number(p.precio || 0) * p.cantidad).toFixed(2)}`).join('\n');
-                const lineasCliWsp = [
-                    `Cliente: *${c.cliente}*`,
-                    c.nit ? `NIT: *${c.nit}*` : '',
-                    c.whatsapp ? `Teléfono: *${c.whatsapp}*` : '',
-                    c.direccion ? `Dirección: *${c.direccion}*` : ''
-                ].filter(Boolean).join('\n');
-                const msgWsp = `📄 *COTIZACIÓN - OSMOTEC TIENDA*\n${lineasCliWsp}\nFecha: ${c.fecha}\n\n${detalleTexto}\n\n💰 *Total:* Q${Number(c.total || 0).toFixed(2)}`;
-                const waNum = String(c.whatsapp || '').replace(/\D/g, '');
-                const waUrl = waNum ? `https://wa.me/502${waNum}?text=${encodeURIComponent(msgWsp)}` : `https://wa.me/?text=${encodeURIComponent(msgWsp)}`;
-
-                tabla.innerHTML += `
-                    <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40">
-                        <td class="p-3">
-                            <div class="font-bold text-cyan-400">${escapeHtml(c.cliente)}</div>
-                            <div class="text-[10px] text-slate-400">${escapeHtml(c.fecha)}</div>
-                            ${c.nit ? `<div class="text-[10px] text-slate-300">NIT: ${escapeHtml(c.nit)}</div>` : ''}
-                            ${c.whatsapp ? `<div class="text-[10px] text-emerald-400">📱 ${escapeHtml(c.whatsapp)}</div>` : ''}
-                            ${c.direccion ? `<div class="text-[10px] text-slate-400">📍 ${escapeHtml(c.direccion)}</div>` : ''}
-                        </td>
-                        <td class="p-3 text-slate-200 leading-relaxed">${detalleHtml}</td>
-                        <td class="p-3 font-black text-emerald-400">Q${Number(c.total || 0).toFixed(2)}</td>
-                        <td class="p-3 text-center space-y-1">
-                            <button type="button" onclick="imprimirCotizacionPorId('${c.id}')" class="w-full bg-cyan-600 hover:bg-cyan-500 text-slate-950 text-[11px] px-2 py-1 rounded-lg font-bold">🖨️ Imprimir</button>
-                            <a href="${waUrl}" target="_blank" class="block w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 text-[11px] px-2 py-1 rounded-lg font-bold">📱 WSP</a>
-                            <button type="button" onclick="if(confirm('¿Eliminar cotización?')) db.collection('cotizaciones_tienda').doc('${c.id}').delete()" class="w-full bg-red-950/50 text-red-400 text-[11px] px-2 py-1 rounded-lg font-bold border border-red-900/50">🗑️ Eliminar</button>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
-
-        async function imprimirCotizacionBorrador() {
-            if (itemsCotizacionActual.length === 0) {
-                alert('Agregue productos antes de imprimir.');
-                return;
-            }
-            const datosCli = obtenerDatosClienteCotizacionFormulario();
-            const total = itemsCotizacionActual.reduce((acc, i) => acc + (i.precio * i.cantidad), 0);
-            const fechaActual = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            const correlativo = await obtenerYAvanzarCorrelativoCotizacion();
-            abrirVentanaCotizacion(datosCli, fechaActual, itemsCotizacionActual, total, correlativo);
-        }
-
-        async function imprimirCotizacionPorId(id) {
-            const cot = todasLasCotizacionesGlobal.find(c => c.id === id);
-            if (!cot) return;
-            const correlativo = await obtenerYAvanzarCorrelativoCotizacion();
-            abrirVentanaCotizacion({
-                cliente: cot.cliente || 'Cliente General',
-                nit: cot.nit || 'CF',
-                whatsapp: cot.whatsapp || '',
-                direccion: cot.direccion || ''
-            }, cot.fecha, cot.productos || [], cot.total || 0, correlativo);
-        }
-
-        function abrirVentanaCotizacion(clienteData, fecha, productos, total, correlativo) {
-            const infoCli = typeof clienteData === 'string'
-                ? { cliente: clienteData, nit: 'CF', whatsapp: '', direccion: '' }
-                : (clienteData || { cliente: 'Cliente General', nit: 'CF', whatsapp: '', direccion: '' });
-            const nombreCliente = infoCli.cliente || 'Cliente General';
-            const nitCliente = infoCli.nit || 'CF';
-            const telCliente = infoCli.whatsapp || '';
-            const dirCliente = infoCli.direccion || '';
-
-            const numeroFormateado = String(correlativo || 1).padStart(4, '0');
-            const srcOsmo = osmoImagenDataUrl || URL_LOGO_OSMO;
-            const filas = productos.map((item, idx) => {
-                const sub = Number(item.precio || 0) * Number(item.cantidad || 1);
-                return `
-                    <tr style="border-bottom: 1px solid #e2e8f0;">
-                        <td style="padding: 8px; text-align: center;">${idx + 1}</td>
-                        <td style="padding: 8px;">${escapeHtml(item.nombre)}</td>
-                        <td style="padding: 8px; text-align: center;">${item.cantidad}</td>
-                        <td style="padding: 8px; text-align: right;">Q${Number(item.precio || 0).toFixed(2)}</td>
-                        <td style="padding: 8px; text-align: right; font-weight: bold;">Q${sub.toFixed(2)}</td>
-                    </tr>
-                `;
-            }).join('');
-
-            const htmlCotizacion = `
-                <!DOCTYPE html>
-                <html lang="es">
-                <head>
-                    <meta charset="UTF-8">
-                    <title>Cotización No. ${numeroFormateado} - OSMOTEC</title>
-                    <style>
-                        @page {
-                            size: 21.5cm 27.9cm;
-                            margin: 1.5cm;
-                        }
-                        * {
-                            box-sizing: border-box;
-                            -webkit-print-color-adjust: exact !important;
-                            print-color-adjust: exact !important;
-                        }
-                        html, body {
-                            margin: 0;
-                            padding: 0;
-                            background: #f1f5f9;
-                            font-family: Arial, sans-serif;
-                            color: #1e293b;
-                        }
-                        .page-wrapper {
-                            width: 100%;
-                            min-height: 100vh;
-                            display: flex;
-                            flex-direction: column;
-                            align-items: center;
-                            justify-content: center;
-                            padding: 16px;
-                        }
-                        .hoja-cotizacion {
-                            width: 18.5cm;
-                            min-height: 24.9cm;
-                            height: 24.9cm;
-                            margin: 0 auto;
-                            background: #ffffff;
-                            padding: 28px 32px;
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: space-between;
-                            box-shadow: 0 4px 18px rgba(15, 23, 42, 0.12);
-                            position: relative;
-                            overflow: hidden;
-                        }
-                        .cot-superior, .cot-pie-firma {
-                            position: relative;
-                            z-index: 1;
-                        }
-                        .cot-superior {
-                            display: flex;
-                            flex-direction: column;
-                        }
-                        .cot-header {
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: center;
-                            gap: 16px;
-                            border-bottom: 3px solid #0284c7;
-                            padding-bottom: 14px;
-                            margin-bottom: 14px;
-                        }
-                        .cot-header-izq {
-                            display: flex;
-                            align-items: center;
-                            gap: 14px;
-                            text-align: left;
-                        }
-                        .cot-header-texto {
-                            display: flex;
-                            flex-direction: column;
-                            text-align: left;
-                        }
-                        .cot-header-der {
-                            text-align: right;
-                        }
-                        .cot-cliente-box {
-                            background: #f8fafc;
-                            border: 1px solid #cbd5e1;
-                            border-radius: 8px;
-                            padding: 12px 16px;
-                            margin-bottom: 18px;
-                            font-size: 12px;
-                            line-height: 1.55;
-                            display: grid;
-                            grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-                            column-gap: 48px;
-                            row-gap: 8px;
-                        }
-                        .cot-cliente-dir {
-                            grid-column: 2;
-                            padding-top: 2px;
-                        }
-                        .cot-pie-firma {
-                            margin-top: auto;
-                            padding-top: 48px;
-                            display: flex;
-                            flex-direction: column;
-                            align-items: center;
-                        }
-                        .cot-firma-bloque {
-                            margin-top: 24px;
-                            margin-bottom: 28px;
-                            display: flex;
-                            justify-content: center;
-                            width: 100%;
-                        }
-                        .cot-firma-box {
-                            width: 280px;
-                            text-align: center;
-                            border-top: 1px solid #334155;
-                            padding-top: 8px;
-                            font-size: 12px;
-                            font-weight: bold;
-                            color: #0f172a;
-                        }
-                        .cot-firma-rol {
-                            margin-top: 3px;
-                            font-size: 10px;
-                            font-weight: bold;
-                            letter-spacing: 0.8px;
-                            color: #475569;
-                        }
-                        .no-print {
-                            text-align: center;
-                            margin-top: 18px;
-                        }
-                        @media print {
-                            html, body {
-                                background: #ffffff;
-                                width: 21.5cm;
-                                height: 27.9cm;
-                            }
-                            .page-wrapper {
-                                min-height: auto;
-                                padding: 0;
-                                display: block;
-                            }
-                            .hoja-cotizacion {
-                                width: 18.5cm;
-                                min-height: 24.9cm;
-                                height: 24.9cm;
-                                margin: 0 auto;
-                                padding: 12px 16px;
-                                box-shadow: none;
-                            }
-                            .no-print {
-                                display: none;
-                            }
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="page-wrapper">
-                        <div class="hoja-cotizacion">
-                            <div class="cot-superior">
-                                <div class="cot-header">
-                                    <div class="cot-header-izq">
-                                        <img src="${srcOsmo}" alt="Osmo" style="width: 4cm; height: 4.5cm; border-radius: 14px; object-fit: cover; border: 2px solid #0284c7; flex-shrink: 0;">
-                                        <div class="cot-header-texto">
-                                            <h1 style="margin: 0; color: #0369a1; font-size: 24px; font-weight: 900;">OSMOTEC, Los Amates</h1>
-                                            <p style="margin: 4px 0; font-size: 11px; color: #475569;">Segundo nivel del mercado frente al gimnasio municipal, Los Amates, Izabal</p>
-                                            <p style="margin: 4px 0; font-size: 11px; color: #64748b;">Tel. 45011153 • NIT: 53050290</p>
-                                        </div>
-                                    </div>
-                                    <div class="cot-header-der">
-                                        <h2 style="margin: 0; font-size: 20px; color: #0f172a;">COTIZACIÓN</h2>
-                                        <p style="margin: 4px 0; font-size: 13px; font-weight: bold; color: #0369a1;">No. ${numeroFormateado}</p>
-                                        <p style="margin: 4px 0; font-size: 12px; color: #64748b;">Fecha: ${escapeHtml(fecha)}</p>
-                                    </div>
-                                </div>
-
-                                <div class="cot-cliente-box">
-                                    <div><b>Cliente:</b> ${escapeHtml(nombreCliente)}</div>
-                                    <div><b>NIT:</b> ${escapeHtml(nitCliente)}</div>
-                                    <div><b>Teléfono:</b> ${escapeHtml(telCliente || '—')}</div>
-                                    <div class="cot-cliente-dir"><b>Dirección:</b> ${escapeHtml(dirCliente || '—')}</div>
-                                </div>
-
-                                <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px;">
-                                    <thead>
-                                        <tr style="background: #0f172a; color: white;">
-                                            <th style="padding: 8px; width: 8%;">No.</th>
-                                            <th style="padding: 8px; text-align: left;">Producto</th>
-                                            <th style="padding: 8px; width: 12%;">Cant.</th>
-                                            <th style="padding: 8px; text-align: right; width: 18%;">Precio Unit.</th>
-                                            <th style="padding: 8px; text-align: right; width: 18%;">Subtotal</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>${filas}</tbody>
-                                </table>
-
-                                <div style="text-align: right; font-size: 18px; font-weight: bold; color: #0369a1; margin-top: 8px;">
-                                    Total Estimado: Q${Number(total || 0).toFixed(2)}
-                                </div>
-                            </div>
-
-                            <div class="cot-pie-firma">
-                                <div class="cot-firma-bloque">
-                                    <div class="cot-firma-box">
-                                        <div>Juan Carlos Garcia Morales</div>
-                                        <div class="cot-firma-rol">PROPIETARIO</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="no-print">
-                            <button type="button" onclick="window.print()" style="background: #0284c7; color: white; border: none; padding: 10px 22px; font-weight: bold; border-radius: 8px; cursor: pointer;">🖨️ Imprimir Cotización (21.5 × 27.9 cm)</button>
-                        </div>
-                    </div>
-                    <script>
-                        window.addEventListener('load', function() {
-                            setTimeout(function() { window.print(); }, 200);
-                        });
-                    <\/script>
-                </body>
-                </html>
-            `;
-
-            abrirVentanaImpresion(htmlCotizacion, {
-                width: 850,
-                height: 750,
-                tituloFallback: `Cotización No. ${numeroFormateado}`
-            });
-        }
-
-        // ================= CIERRE DE CAJA DIARIO Y GASTOS OPERATIVOS =================
-        const gastoForm = document.getElementById('gastoForm');
-        gastoForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const monto = parseFloat(document.getElementById('montoGasto').value) || 0;
-            if (monto <= 0) {
-                alert('Ingrese un monto válido mayor a 0.');
-                return;
-            }
-            const fechaActual = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            try {
-                await db.collection('gastos_caja').add({
-                    categoria: document.getElementById('categoriaGasto').value,
-                    descripcion: document.getElementById('descripcionGasto').value.trim(),
-                    monto: monto,
-                    fecha: fechaActual,
-                    rawDate: new Date().toISOString()
-                });
-                alert('¡Salida de efectivo registrada en caja!');
-                gastoForm.reset();
-            } catch (err) {
-                console.error('Error al registrar gasto:', err);
-                alert('No se pudo registrar el gasto: ' + err.message);
-            }
-        });
-
-        db.collection('gastos_caja').orderBy('rawDate', 'desc').onSnapshot((snapshot) => {
-            todosLosGastosGlobal = [];
-            snapshot.forEach((doc) => {
-                todosLosGastosGlobal.push({ id: doc.id, ...doc.data() });
-            });
-            renderizarTablaGastos(todosLosGastosGlobal);
-            actualizarResumenCajaDiaria();
-            aplicarFiltroReportes();
-        });
-
-        function renderizarTablaGastos(gastos) {
-            const tabla = document.getElementById('tablaGastosCaja');
-            if (!tabla) return;
-            tabla.innerHTML = '';
-            if (gastos.length === 0) {
-                tabla.innerHTML = `<tr><td colspan="5" class="text-center p-4 text-slate-500">Sin gastos o salidas registradas.</td></tr>`;
-                return;
-            }
-            gastos.forEach(g => {
-                tabla.innerHTML += `
-                    <tr class="hover:bg-slate-900/60 border-b border-slate-800/40">
-                        <td class="p-2.5 text-slate-400">${escapeHtml(g.fecha)}</td>
-                        <td class="p-2.5 text-cyan-400 font-bold">${escapeHtml(g.categoria)}</td>
-                        <td class="p-2.5 text-slate-200">${escapeHtml(g.descripcion)}</td>
-                        <td class="p-2.5 font-bold text-rose-400">- Q. ${(g.monto || 0).toFixed(2)}</td>
-                        <td class="p-2.5 text-center">
-                            <button type="button" onclick="if(confirm('¿Eliminar este registro de gasto?')) db.collection('gastos_caja').doc('${g.id}').delete()" class="text-red-400 px-2 py-0.5 bg-red-950/50 border border-red-900/50 rounded">Eliminar</button>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
-
-        let ventasHoyTotalCache = 0;
-        let gastosHoyTotalCache = 0;
-
-        function actualizarResumenCajaDiaria() {
-            const hoyStr = new Date().toLocaleDateString();
-            const spanFecha = document.getElementById('fechaHoyCaja');
-            if (spanFecha) spanFecha.textContent = hoyStr;
-
-            ventasHoyTotalCache = todasLasVentasGlobal
-                .filter(v => v.fecha && v.fecha.includes(hoyStr))
-                .reduce((acc, v) => acc + (v.total || 0), 0);
-
-            gastosHoyTotalCache = todosLosGastosGlobal
-                .filter(g => g.fecha && g.fecha.includes(hoyStr))
-                .reduce((acc, g) => acc + (g.monto || 0), 0);
-
-            document.getElementById('cajaVentasHoy').textContent = `Q. ${ventasHoyTotalCache.toFixed(2)}`;
-            document.getElementById('cajaGastosHoy').textContent = `Q. ${gastosHoyTotalCache.toFixed(2)}`;
-            recalcularArqueoCaja();
-        }
-
-        function recalcularArqueoCaja() {
-            const fondo = parseFloat(document.getElementById('cajaFondoInicial')?.value) || 0;
-            const esperado = fondo + ventasHoyTotalCache - gastosHoyTotalCache;
-            document.getElementById('cajaEsperadoHoy').textContent = `Q. ${esperado.toFixed(2)}`;
-
-            const inputContado = document.getElementById('cajaEfectivoContado')?.value;
-            const divEstado = document.getElementById('cajaEstadoCuadre');
-            if (!divEstado) return;
-
-            if (inputContado === '' || inputContado === null) {
-                divEstado.className = "w-full bg-slate-900 border border-slate-800 rounded-xl p-2 text-xs font-bold text-slate-400 text-center";
-                divEstado.textContent = "Ingrese conteo físico";
-                return;
-            }
-
-            const contado = parseFloat(inputContado) || 0;
-            const diferencia = contado - esperado;
-
-            if (Math.abs(diferencia) < 0.01) {
-                divEstado.className = "w-full bg-emerald-950/80 border border-emerald-500/60 rounded-xl p-2 text-xs font-black text-emerald-400 text-center";
-                divEstado.textContent = "✅ CUADRE EXACTO (Q. 0.00)";
-            } else if (diferencia > 0) {
-                divEstado.className = "w-full bg-cyan-950/80 border border-cyan-500/60 rounded-xl p-2 text-xs font-black text-cyan-300 text-center";
-                divEstado.textContent = `➕ SOBRANTE: +Q. ${diferencia.toFixed(2)}`;
-            } else {
-                divEstado.className = "w-full bg-rose-950/80 border border-rose-500/60 rounded-xl p-2 text-xs font-black text-rose-400 text-center";
-                divEstado.textContent = `⚠️ FALTANTE: -Q. ${Math.abs(diferencia).toFixed(2)}`;
-            }
-        }
-
-        function imprimirCierreCajaPDF() {
-            const hoyStr = new Date().toLocaleDateString();
-            const horaStr = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            const fondo = parseFloat(document.getElementById('cajaFondoInicial')?.value) || 0;
-            const contado = parseFloat(document.getElementById('cajaEfectivoContado')?.value) || 0;
-            const esperado = fondo + ventasHoyTotalCache - gastosHoyTotalCache;
-            const diferencia = contado - esperado;
-
-            const gastosHoyLista = todosLosGastosGlobal.filter(g => g.fecha && g.fecha.includes(hoyStr));
-            let filasGastos = gastosHoyLista.length === 0
-                ? `<tr><td colspan="3" style="padding:8px; text-align:center; color:#64748b;">Sin gastos registrados hoy</td></tr>`
-                : gastosHoyLista.map(g => `
-                    <tr style="border-bottom:1px solid #e2e8f0;">
-                        <td style="padding:6px;">${escapeHtml(g.categoria)}</td>
-                        <td style="padding:6px;">${escapeHtml(g.descripcion)}</td>
-                        <td style="padding:6px; text-align:right; color:#e11d48; font-weight:bold;">-Q. ${Number(g.monto || 0).toFixed(2)}</td>
-                    </tr>
-                `).join('');
-
-            const htmlCierre = `
-                <!DOCTYPE html>
-                <html lang="es">
-                <head>
-                    <meta charset="UTF-8">
-                    <title>Cierre de Caja OSMOTEC - ${escapeHtml(hoyStr)}</title>
-                    <style>
-                        body { font-family: monospace; padding: 30px; color: #0f172a; }
-                        .box { border: 2px solid #0284c7; border-radius: 10px; padding: 20px; max-width: 550px; margin: 0 auto; }
-                        table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
-                        .row-summary { display: flex; justify-content: space-between; padding: 6px 0; font-size: 13px; border-bottom: 1px dashed #cbd5e1; }
-                        @media print { .no-print { display: none; } }
-                    </style>
-                </head>
-                <body>
-                    <div class="box">
-                        <h2 style="margin:0; text-align:center; color:#0369a1;">OSMOTEC - CIERRE DE CAJA</h2>
-                        <p style="text-align:center; font-size:11px; color:#475569;">Fecha: ${escapeHtml(hoyStr)} ${escapeHtml(horaStr)}</p>
-                        <hr>
-                        <div class="row-summary"><span>Fondo Inicial de Caja:</span><b>Q. ${fondo.toFixed(2)}</b></div>
-                        <div class="row-summary"><span>(+) Total Ventas del Día:</span><b style="color:#16a34a;">Q. ${ventasHoyTotalCache.toFixed(2)}</b></div>
-                        <div class="row-summary"><span>(-) Total Gastos / Salidas:</span><b style="color:#e11d48;">Q. ${gastosHoyTotalCache.toFixed(2)}</b></div>
-                        <div class="row-summary" style="font-size:15px; border-bottom:2px solid #0f172a;"><span><b>(=) Efectivo Esperado en Caja:</b></span><b>Q. ${esperado.toFixed(2)}</b></div>
-                        <div class="row-summary"><span>Efectivo Físico Contado:</span><b>Q. ${contado.toFixed(2)}</b></div>
-                        <div class="row-summary"><span>Diferencia (Arqueo):</span><b>${diferencia >= 0 ? '+' : ''}Q. ${diferencia.toFixed(2)}</b></div>
-                        <h4 style="margin-top:18px; margin-bottom:5px;">Detalle de Salidas / Gastos de Hoy:</h4>
-                        <table>
-                            <thead>
-                                <tr style="background:#f1f5f9; text-align:left;">
-                                    <th style="padding:6px;">Categoría</th>
-                                    <th style="padding:6px;">Detalle</th>
-                                    <th style="padding:6px; text-align:right;">Monto</th>
-                                </tr>
-                            </thead>
-                            <tbody>${filasGastos}</tbody>
-                        </table>
-                        <p style="text-align:center; font-size:10px; color:#64748b; margin-top:20px;">"Propiedad de OSMOTEC, Los Amates" 2026</p>
-                    </div>
-                    <div class="no-print" style="text-align:center; margin-top:20px;">
-                        <button type="button" onclick="window.print()" style="background:#0284c7; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer;">🖨️ Imprimir Comprobante</button>
-                    </div>
-                </body>
-                </html>
-            `;
-
-            abrirVentanaImpresion(htmlCierre, {
-                width: 700,
-                height: 650,
-                tituloFallback: 'Cierre de Caja OSMOTEC'
-            });
-        }
-
-        // ================= TIENDA: REPORTES & ANULACIÓN CON DEVOLUCIÓN DE STOCK =================
-        db.collection('ventas_tienda').orderBy('rawDate', 'desc').onSnapshot((snapshot) => {
-            todasLasVentasGlobal = [];
-            snapshot.forEach((doc) => {
-                todasLasVentasGlobal.push({ id: doc.id, ...doc.data() });
-            });
-            actualizarResumenCajaDiaria();
-            aplicarFiltroReportes();
-        });
-
-        async function anularVentaYDevolverStock(ventaId) {
-            if (!confirm('¿Desea anular esta venta y devolver los productos al inventario?')) {
-                return;
-            }
-
-            const ventaRef = db.collection('ventas_tienda').doc(ventaId);
-
-            try {
-                await db.runTransaction(async (transaction) => {
-                    const ventaDoc = await transaction.get(ventaRef);
-                    if (!ventaDoc.exists) {
-                        throw new Error('La venta ya no existe.');
-                    }
-
-                    const ventaData = ventaDoc.data();
-                    const productosVendidos = Array.isArray(ventaData.productos) ? ventaData.productos : [];
-
-                    const refsYDocs = [];
-                    for (const item of productosVendidos) {
-                        if (!item || !item.id) continue;
-                        const cantDevuelta = Number(item.cantidad) || 0;
-                        if (cantDevuelta <= 0) continue;
-
-                        const prodRef = db.collection('productos_tienda').doc(item.id);
-                        const prodDoc = await transaction.get(prodRef);
-                        refsYDocs.push({ prodRef, prodDoc, cantDevuelta });
-                    }
-
-                    for (const entry of refsYDocs) {
-                        if (entry.prodDoc.exists) {
-                            const stockActual = Number(entry.prodDoc.data().stock) || 0;
-                            transaction.update(entry.prodRef, {
-                                stock: stockActual + entry.cantDevuelta
-                            });
-                        }
-                    }
-
-                    transaction.delete(ventaRef);
-                });
-
-                alert('¡Venta anulada y stock devuelto al inventario con éxito!');
-            } catch (error) {
-                console.error('Error al anular venta:', error);
-                alert('No se pudo anular la venta: ' + error.message);
-            }
-        }
-
-        function enviarWhatsAppAgotadosReportes() {
-            let productosAgotados = todosLosProductosGlobal.filter(p => p.stock === 0);
-            if (productosAgotados.length === 0) {
-                alert('¡Excelente! No hay productos agotados.');
-                return;
-            }
-
-            let mensaje = `🚨 *REPORTE DE PRODUCTOS AGOTADOS - OSMOTEC TIENDA*\n\n`;
-            productosAgotados.forEach((p, index) => {
-                mensaje += `${index + 1}. *${p.nombre}* (Agotado)\n`;
-            });
-            mensaje += `\nSe requiere reabastecimiento urgente.`;
-
-            let urlWsp = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
-            window.open(urlWsp, '_blank');
-        }
-
-        function aplicarFiltroReportes() {
-            const filtro = document.getElementById('filtroPeriodoReporte').value;
-            const hoyStr = new Date().toLocaleDateString();
-            const mesActualStr = new Date().toISOString().slice(0, 7);
-
-            let ventasFiltradas = todasLasVentasGlobal.filter(v => {
-                if (filtro === 'dia') return v.fecha && v.fecha.includes(hoyStr);
-                if (filtro === 'mes') return v.rawDate && v.rawDate.startsWith(mesActualStr);
-                return true;
-            });
-
-            let gastosFiltrados = todosLosGastosGlobal.filter(g => {
-                if (filtro === 'dia') return g.fecha && g.fecha.includes(hoyStr);
-                if (filtro === 'mes') return g.rawDate && g.rawDate.startsWith(mesActualStr);
-                return true;
-            });
-
-            let totalIngresos = 0;
-            let totalGanancias = 0;
-            let totalGastos = gastosFiltrados.reduce((acc, g) => acc + (g.monto || 0), 0);
-
-            ventasFiltradas.forEach(v => {
-                totalIngresos += v.total || 0;
-                if (v.gananciaTotal !== undefined) {
-                    totalGanancias += v.gananciaTotal;
-                } else if (Array.isArray(v.productos)) {
-                    v.productos.forEach(p => {
-                        let costoItem = p.costo || 0;
-                        totalGanancias += (p.precio - costoItem) * p.cantidad;
-                    });
-                }
-            });
-
-            let utilidadReal = totalGanancias - totalGastos;
-
-            document.getElementById('reporteTotalIngresos').textContent = `Q. ${totalIngresos.toFixed(2)}`;
-            document.getElementById('reporteTotalGanancia').textContent = `Q. ${totalGanancias.toFixed(2)}`;
-            document.getElementById('reporteTotalGastos').textContent = `Q. ${totalGastos.toFixed(2)}`;
-            document.getElementById('reporteUtilidadReal').textContent = `Q. ${utilidadReal.toFixed(2)}`;
-            document.getElementById('reporteTotalVentas').textContent = ventasFiltradas.length;
-
-            renderizarReporteVentas(ventasFiltradas);
-        }
-
-        function renderizarReporteVentas(ventas) {
-            const tabla = document.getElementById('tablaReporteVentas');
-            tabla.innerHTML = '';
-            if (ventas.length === 0) { 
-                tabla.innerHTML = `<tr><td colspan="5" class="text-center p-4 text-slate-500">Sin ventas en este período.</td></tr>`; 
-                return; 
-            }
-
-            ventas.forEach(v => {
-                const prods = Array.isArray(v.productos) ? v.productos : [];
-                let detalleStr = prods.map(p => {
-                    let gananciaItem = (p.precio - (p.costo || 0)) * p.cantidad;
-                    return `<b>${p.cantidad}x</b> ${escapeHtml(p.nombre)} <span class="text-slate-500">(Ganancia: Q.${gananciaItem.toFixed(2)})</span>`;
-                }).join('<br>');
-
-                let gananciaVenta = v.gananciaTotal !== undefined ? v.gananciaTotal : prods.reduce((acc, p) => acc + ((p.precio - (p.costo || 0)) * p.cantidad), 0);
-                const cliTexto = v.clienteNombre ? `<div class="text-cyan-400 font-bold mt-0.5">👤 ${escapeHtml(v.clienteNombre)} (${escapeHtml(v.clienteNit || 'CF')})</div>` : '';
-
-                tabla.innerHTML += `
-                    <tr class="hover:bg-slate-900/60 align-top border-b border-slate-800/40 text-xs">
-                        <td class="p-3 text-slate-400">${escapeHtml(v.fecha)}${cliTexto}</td>
-                        <td class="p-3 font-medium text-slate-200 leading-relaxed">${detalleStr}</td>
-                        <td class="p-3 font-bold text-emerald-400">Q. ${(v.total || 0).toFixed(2)}</td>
-                        <td class="p-3 font-bold text-cyan-400">Q. ${gananciaVenta.toFixed(2)}</td>
-                        <td class="p-3 text-center">
-                            <button type="button" onclick="anularVentaYDevolverStock('${v.id}')" class="text-amber-300 text-xs px-2.5 py-1 bg-amber-950/60 hover:bg-amber-900/60 rounded-lg font-bold border border-amber-700/60 transition">↩️ Anular y Devolver</button>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
-
-        document.getElementById('buscarTienda').addEventListener('input', (e) => {
-            const txt = e.target.value.toLowerCase();
-            renderizarInventario(todosLosProductosGlobal.filter(p => (p.nombre || '').toLowerCase().includes(txt)));
-        });
-
-        document.getElementById('buscarReporteVentas').addEventListener('input', (e) => {
-            const txt = e.target.value.toLowerCase();
-            const filtro = document.getElementById('filtroPeriodoReporte').value;
-            const hoyStr = new Date().toLocaleDateString();
-            const mesActualStr = new Date().toISOString().slice(0, 7);
-
-            let ventasFiltradas = todasLasVentasGlobal.filter(v => {
-                if (filtro === 'dia') return v.fecha && v.fecha.includes(hoyStr);
-                if (filtro === 'mes') return v.rawDate && v.rawDate.startsWith(mesActualStr);
-                return true;
-            }).filter(v =>
-                (Array.isArray(v.productos) && v.productos.some(p => (p.nombre || '').toLowerCase().includes(txt))) ||
-                (v.clienteNombre || '').toLowerCase().includes(txt)
-            );
-
-            renderizarReporteVentas(ventasFiltradas);
-        });
-
-        // ================= FICHA / TICKET VISUAL DE TALLER =================
-        function descargarTicketPDF(cliente, whatsapp, tipo, marca, modelo, falla, accesorios, fecha, numeroOrden) {
-            const htmlTicket = `
-                <!DOCTYPE html>
-                <html lang="es">
-                <head>
-                    <meta charset="UTF-8">
-                    <title>Orden #${escapeHtml(numeroOrden)} - ${escapeHtml(cliente)}</title>
-                    <style>
-                        body { font-family: monospace; margin: 0; padding: 20px; background: #ffffff; color: #1e293b; }
-                        .ticket { width: 100%; max-width: 320px; margin: 0 auto; padding: 20px; border: 2px solid #0284c7; border-radius: 12px; box-sizing: border-box; }
-                        .header { text-align: center; border-bottom: 2px dashed #0284c7; padding-bottom: 12px; margin-bottom: 15px; }
-                        .header h1 { margin: 0; color: #0369a1; font-size: 18px; font-weight: 900; }
-                        .header p { margin: 3px 0; font-size: 10px; color: #64748b; }
-                        .content { font-size: 12px; line-height: 1.6; }
-                        .content p { margin: 6px 0; }
-                        .footer { text-align: center; margin-top: 20px; border-top: 1px dashed #cbd5e1; padding-top: 10px; font-size: 10px; color: #64748b; }
-                        @media print { body { padding: 0; } .no-print { display: none; } }
-                    </style>
-                </head>
-                <body>
-                    <div class="ticket">
-                        <div class="header">
-                            <h1>OSMOTEC</h1>
-                            <p style="font-size: 13px; font-weight: bold; color: #0369a1; margin-top: 5px;">ORDEN DE TALLER #${escapeHtml(numeroOrden)}</p>
-                            <p>Los Amates, Izabal • WhatsApp: 4501 1153</p>
-                        </div>
-                        <div class="content">
-                            <p><b>Fecha:</b> ${escapeHtml(fecha)}</p>
-                            <p><b>Cliente:</b> ${escapeHtml(cliente)}</p>
-                            <p><b>WhatsApp:</b> ${escapeHtml(whatsapp)}</p>
-                            <p><b>Equipo:</b> ${escapeHtml(tipo)} - ${escapeHtml(marca)} ${escapeHtml(modelo)}</p>
-                            <p><b>Falla/Reporte:</b> ${escapeHtml(falla)}</p>
-                            <p><b>Accesorios:</b> ${escapeHtml(accesorios)}</p>
-                        </div>
-                        <div class="footer">"Propiedad de OSMOTEC, Los Amates" 2026</div>
-                    </div>
-                    <div class="no-print" style="text-align: center; margin-top: 20px;">
-                        <button type="button" onclick="window.print()" style="background: #0284c7; color: white; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; font-family: monospace;">🖨️ Imprimir / Guardar</button>
-                    </div>
-                    <script>window.onload = function() { setTimeout(() => { window.print(); }, 300); };<\/script>
-                </body>
-                </html>
-            `;
-
-            abrirVentanaImpresion(htmlTicket, {
-                width: 400,
-                height: 600,
-                tituloFallback: `Orden #${numeroOrden}`
-            });
-        }
-
-        function poblarSelectGarantia() {
-            const sel = document.getElementById('selectEquipoGarantia');
-            const prevVal = sel.value;
-            sel.innerHTML = '<option value="">-- Seleccione --</option>';
-            todasLasOrdenesGlobal.forEach(o => {
-                sel.innerHTML += `<option value="${o.id}">#${o.numeroOrden || 1} - ${escapeHtml(o.marca)} ${escapeHtml(o.modelo)} (${escapeHtml(o.cliente)})</option>`;
-            });
-            if (prevVal) sel.value = prevVal;
-        }
-
-        function cargarDatosGarantia() {
-            const id = document.getElementById('selectEquipoGarantia').value;
-            const t = document.getElementById('infoTrabajoGarantia');
-            eqSeleccionadoGarantia = todasLasOrdenesGlobal.find(o => o.id === id) || null;
-            t.value = eqSeleccionadoGarantia ? `Orden: #${eqSeleccionadoGarantia.numeroOrden || 1}\nCliente: ${eqSeleccionadoGarantia.cliente}\nEquipo: ${eqSeleccionadoGarantia.marca} ${eqSeleccionadoGarantia.modelo}\nReporte: ${eqSeleccionadoGarantia.reporteFinal}` : '';
-        }
-
-        function generarQR() {
-            const id = document.getElementById('selectEquipoGarantia').value;
-            eqSeleccionadoGarantia = todasLasOrdenesGlobal.find(o => o.id === id) || null;
-            
-            if (!eqSeleccionadoGarantia) { 
-                alert('Por favor seleccione un equipo primero'); 
-                return; 
-            }
-            
-            const diasGarantia = document.getElementById('diasGarantia').value || '15';
-            const textoDias = `${diasGarantia} días`;
-            const contenedorQR = document.getElementById('qrcode');
-            contenedorQR.innerHTML = '';
-            
-            document.getElementById('qrInfoTexto').innerHTML = `<b>${escapeHtml(textoDias)}</b> • ${escapeHtml(eqSeleccionadoGarantia.marca)} ${escapeHtml(eqSeleccionadoGarantia.modelo)}<br>${escapeHtml(eqSeleccionadoGarantia.cliente)}`;
-            
-            const contenidoQR = URL_FACEBOOK_OSMOTEC;
-
-            try {
-                new QRCode(contenedorQR, { 
-                    text: contenidoQR, 
-                    width: 92, 
-                    height: 92,
-                    colorDark: "#000000",
-                    colorLight: "#ffffff",
-                    correctLevel: QRCode.CorrectLevel.M
-                });
-            } catch (e) {
-                console.error("Error detallado QR:", e);
-                alert('Error al generar el código QR.');
-            }
-        }
-
-        function imprimirEtiquetaQRModal() {
-            if (!eqSeleccionadoGarantia) { 
-                alert('Por favor seleccione y genere primero un equipo en garantía'); 
-                return; 
-            }
-
-            const diasGarantia = document.getElementById('diasGarantia').value || '15';
-            const clienteSeguro = eqSeleccionadoGarantia.cliente;
-            const equipoSeguro = `${eqSeleccionadoGarantia.marca} ${eqSeleccionadoGarantia.modelo}`.trim();
-            const contenidoQR = URL_FACEBOOK_OSMOTEC;
-
-            const htmlQR = `
-                <!DOCTYPE html>
-                <html lang="es">
-                <head>
-                    <meta charset="UTF-8">
-                    <title>Etiqueta QR - Garantía</title>
-                    <style>
-                        @page { size: auto; margin: 0mm; }
-                        body { font-family: monospace; background: #ffffff !important; color: #000000 !important; margin: 0; padding: 0; }
-                        .etiqueta {
-                            width: 4cm; height: 4cm; border: 1px dashed #000000; background: #ffffff;
-                            display: flex; flex-direction: column; align-items: center; justify-content: space-between; 
-                            padding: 3px 4px; box-sizing: border-box; text-align: center; position: absolute; top: 0; left: 0;
-                        }
-                        .header-etiqueta { font-size: 6.5px; font-weight: 900; line-height: 1.05; }
-                        .qr-box { width: 2.6cm; height: 2.6cm; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-                        .qr-box img, .qr-box canvas { width: 2.6cm !important; height: 2.6cm !important; }
-                        .siguenos-etiqueta { font-size: 6px; font-weight: 900; letter-spacing: 0.4px; line-height: 1; }
-                        .info-texto { font-size: 5.5px; line-height: 1.1; font-weight: bold; width: 100%; overflow: hidden; }
-                        .linea-dato { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
-                        .no-print { margin-top: 170px; text-align: center; }
-                        @media print { .no-print { display: none; } body { padding: 0; margin: 0; } }
-                    </style>
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script>
-                </head>
-                <body>
-                    <div class="etiqueta">
-                        <div class="header-etiqueta">OSMOTEC • GARANTÍA ${escapeHtml(diasGarantia)} DÍAS</div>
-                        <div id="qrImpresionModal" class="qr-box"></div>
-                        <div class="siguenos-etiqueta">¡SÍGUENOS!</div>
-                        <div class="info-texto">
-                            <div class="linea-dato">${escapeHtml(equipoSeguro)}</div>
-                            <div class="linea-dato">${escapeHtml(clienteSeguro)}</div>
-                        </div>
-                    </div>
-                    <div class="no-print">
-                        <button type="button" onclick="window.print()" style="background: #0284c7; color: white; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; font-family: monospace;">🖨️ Imprimir Etiqueta</button>
-                    </div>
-                    <script>
-                        window.onload = function() {
-                            new QRCode(document.getElementById("qrImpresionModal"), { 
-                                text: ${JSON.stringify(contenidoQR)}, 
-                                width: 98, 
-                                height: 98,
-                                colorDark: "#000000",
-                                colorLight: "#ffffff",
-                                correctLevel: QRCode.CorrectLevel.M
-                            });
-                            setTimeout(() => { window.print(); }, 400);
-                        };
-                    <\/script>
-                </body>
-                </html>
-            `;
-
-            const win = abrirVentanaImpresion(htmlQR, {
-                width: 400,
-                height: 500,
-                tituloFallback: 'Etiqueta QR Garantía OSMOTEC'
-            });
-
-            if (!win) {
-                const iframe = document.getElementById('frameImpresionFallback');
-                const doc = iframe && iframe.contentWindow && iframe.contentWindow.document;
-                const cont = doc && doc.getElementById('qrImpresionModal');
-                if (cont && typeof QRCode !== 'undefined') {
-                    cont.innerHTML = '';
-                    new QRCode(cont, {
-                        text: contenidoQR,
-                        width: 98,
-                        height: 98,
-                        colorDark: '#000000',
-                        colorLight: '#ffffff',
-                        correctLevel: QRCode.CorrectLevel.M
-                    });
-                }
-            }
-        }
-    </script>
-</body>
-</html>
+                iframe
